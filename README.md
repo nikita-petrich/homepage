@@ -39,14 +39,14 @@ public/assets/          Company / school logos
 ## Getting started
 
 ```bash
-npm install
-npm run dev      # http://localhost:3000
+pnpm install
+pnpm dev         # http://localhost:3000
 ```
 
 Build for production:
 
 ```bash
-npm run build && npm start
+pnpm build && pnpm start
 ```
 
 ## Notes on assets
