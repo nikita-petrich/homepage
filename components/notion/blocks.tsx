@@ -15,11 +15,13 @@ import { CactusOrangeIcon } from "./icons";
 export function Section({
   title,
   level = "h1",
+  id,
   className,
   children,
 }: {
   title: string;
   level?: "h1" | "h2";
+  id?: string;
   className?: string;
   children: React.ReactNode;
 }) {
@@ -30,7 +32,7 @@ export function Section({
       : "text-[1.375rem] font-semibold leading-[1.25] tracking-[-0.01em]";
 
   return (
-    <section className={cn("min-w-0", className)}>
+    <section id={id} className={cn("min-w-0 scroll-mt-20", className)}>
       <Heading className={headingClass}>{title}</Heading>
       <Separator className="mt-[7px] mb-[14px] bg-[var(--notion-divider)]" />
       {children}
