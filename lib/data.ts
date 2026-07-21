@@ -1,6 +1,6 @@
 /*
  * Content for the "Maya Zhang" résumé page, mirroring the source Notion page
- * (title, two-column layout, work history, education, projects & skills DBs).
+ * (cover, title, two-column layout, work history, education, projects & skills).
  */
 
 export type Span = { t: string; b?: boolean };
@@ -20,10 +20,9 @@ export type PillColor =
 
 export const profile = {
   name: "Maya Zhang",
-  // Hosted on Unsplash in the original page (external embed).
-  photo:
-    "https://images.unsplash.com/photo-1614644147798-f8c0fc9da7f6?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1000",
+  photo: "/assets/profile.jpg",
   photoAlt: "Maya Zhang",
+  cover: "/assets/cover.jpg",
 };
 
 export type InfoItem = { icon: string; text: string; href?: string };
@@ -63,7 +62,7 @@ export const intro: RichLine[] = [
     { t: " using various tools." },
   ],
   [
-    { t: "I've designed as well as developed more than " },
+    { t: " I've designed as well as developed more than " },
     { t: "10 websites and apps", b: true },
     { t: " end to end." },
   ],
@@ -83,8 +82,6 @@ export type ResumeEntry = {
   title: string;
   date: string;
   description: string;
-  // The source page colours some descriptions gray and leaves one default.
-  descGray: boolean;
 };
 
 export const work: ResumeEntry[] = [
@@ -98,19 +95,17 @@ export const work: ResumeEntry[] = [
     date: "June - September 2022",
     description:
       "Contributed to the design and improvement of user interfaces. Assisted in creating wireframes, prototypes, and user flows, while collaborating with cross-functional teams. Gained hands-on experience in user research and usability testing, enhancing skills in creating intuitive and engaging user experiences.",
-    descGray: true,
   },
   {
     logo: "/assets/coffee.png",
     logoAlt: "Coffee shop",
     logoWidth: 178,
     logoHeight: 201,
-    logoMax: 60,
+    logoMax: 62,
     title: "Junior Barista",
     date: "May - September 2020",
     description:
       "Handled customer orders, prepared coffee drinks, and maintained a clean environment. Gained knowledge of coffee beans and brewing methods, enhancing customer service skills in a fast-paced setting.",
-    descGray: false,
   },
 ];
 
@@ -125,12 +120,13 @@ export const education: ResumeEntry[] = [
     date: "September 2021 - September 2024",
     description:
       "Completed coursework in Human-Computer Interaction, Visual Communication, Prototyping, and Usability Testing. Led a capstone project to design a mobile app for local farmers' markets, focusing on improving user navigation and engagement. Additionally, developed an interactive prototype for an educational game as part of a team project, showcasing skills in wireframing, user research, and iterative design processes. Passionate about creating seamless and enjoyable user experiences.",
-    descGray: true,
   },
 ];
 
 export type Project = {
   name: string;
+  icon: string;
+  cover: string;
   start: string;
   end?: string;
   tags: { label: string; color: PillColor }[];
@@ -141,6 +137,8 @@ export type Project = {
 export const projects: Project[] = [
   {
     name: "Personal Website /SK",
+    icon: "/assets/proj-icon-personal.png",
+    cover: "/assets/proj-personal.jpg",
     start: "2024-05-01",
     end: "2024-05-22",
     tags: [{ label: "Design Assets", color: "red" }],
@@ -149,6 +147,8 @@ export const projects: Project[] = [
   },
   {
     name: "Bees Together Landing Page",
+    icon: "/assets/proj-icon-bees.png",
+    cover: "/assets/proj-bees.jpg",
     start: "2023-08-01",
     end: "2024-03-01",
     tags: [
@@ -162,6 +162,8 @@ export const projects: Project[] = [
   },
   {
     name: "Knitties eComm Website",
+    icon: "/assets/proj-icon-knitties.png",
+    cover: "/assets/proj-knitties.jpg",
     start: "2022-05-01",
     end: "2022-08-01",
     tags: [
@@ -173,15 +175,15 @@ export const projects: Project[] = [
   },
 ];
 
-export type Skill = { name: string; type: string; level: number };
+export type Skill = { name: string; type: string; level: number; icon: string };
 
 // Ordered by skill level descending, matching the "My Skills" gallery view.
 export const skills: Skill[] = [
-  { name: "Photoshop", type: "Design Tool", level: 0.9 },
-  { name: "Figma", type: "Design Tool", level: 0.8 },
-  { name: "Notion", type: "Project Management", level: 0.6 },
-  { name: "Framer", type: "Website Builder", level: 0.6 },
-  { name: "Webflow", type: "Website Builder", level: 0.4 },
-  { name: "Rive", type: "Animation", level: 0.3 },
-  { name: "CSS + Basic JS", type: "Front End", level: 0.1 },
+  { name: "Photoshop", type: "Design Tool", level: 0.9, icon: "/assets/skill-photoshop.png" },
+  { name: "Figma", type: "Design Tool", level: 0.8, icon: "/assets/skill-figma.png" },
+  { name: "Notion", type: "Project Management", level: 0.6, icon: "/assets/skill-notion.png" },
+  { name: "Framer", type: "Website Builder", level: 0.6, icon: "/assets/skill-framer.png" },
+  { name: "Webflow", type: "Website Builder", level: 0.4, icon: "/assets/skill-webflow.png" },
+  { name: "Rive", type: "Animation", level: 0.3, icon: "/assets/skill-rive.png" },
+  { name: "CSS + Basic JS", type: "Front End", level: 0.1, icon: "/assets/skill-css.png" },
 ];
