@@ -131,6 +131,9 @@ export type Project = {
   end?: string;
   tags: { label: string; color: PillColor }[];
   description: string;
+  // Long-form case study shown in the project popup (mocked content).
+  details: string[];
+  highlights: string[];
 };
 
 // Ordered by date descending, matching the "Case Studies" gallery view.
@@ -144,6 +147,16 @@ export const projects: Project[] = [
     tags: [{ label: "Design Assets", color: "red" }],
     description:
       "Designed a custom modern website for Sara Krissin, a local textile artist. Developed it using Webflow and added animations using Rive.",
+    details: [
+      "Sara Krissin is a Medellín-based textile artist whose tactile, colour-forward work needed a home online that felt as crafted as the pieces themselves. The brief was a portfolio that could grow with her practice while staying effortless for her to update.",
+      "I art-directed a calm, editorial layout in Figma, then built it in Webflow so Sara can manage her own collections through the CMS. Subtle Rive animations bring warmth to the hero and gallery transitions without ever getting in the way of the work.",
+    ],
+    highlights: [
+      "Editorial art direction and design system in Figma",
+      "Built and shipped in Webflow with a client-editable CMS",
+      "Hero and gallery micro-interactions authored in Rive",
+      "Fully responsive, optimised for large imagery",
+    ],
   },
   {
     name: "Bees Together Landing Page",
@@ -159,6 +172,16 @@ export const projects: Project[] = [
     ],
     description:
       "Designed and built a modern, user-friendly UI for a non-profit website dedicated to beekeeping. The design emphasizes clarity and accessibility, with intuitive navigation and engaging visuals to support the organization's mission and educate visitors.",
+    details: [
+      "Bees Together is a non-profit dedicated to urban beekeeping and pollinator education. They needed a landing page that could explain their mission clearly, drive volunteer sign-ups, and feel welcoming to a broad audience.",
+      "The design leans on generous whitespace, an accessible type scale, and honey-warm accents. Every section is structured around a single call to action, with short copy and friendly illustration doing the heavy lifting.",
+    ],
+    highlights: [
+      "Accessibility-first UI (WCAG AA contrast, keyboard friendly)",
+      "Clear information architecture with single-CTA sections",
+      "Custom illustration and iconography for the mission",
+      "Design and front-end build handed off with a style guide",
+    ],
   },
   {
     name: "Knitties eComm Website",
@@ -172,6 +195,16 @@ export const projects: Project[] = [
     ],
     description:
       "Designed a modern, user-friendly UI for an e-commerce website specializing in selling handknit beanies. The design features a minimalist aesthetic, intuitive navigation, and visually appealing product displays to enhance the shopping experience and drive sales.",
+    details: [
+      "Knitties is a small e-commerce brand selling hand-knit beanies. The goal was a shop that felt personal and minimal, letting the product photography lead while keeping the path to checkout short.",
+      "I designed a clean product grid, roomy product pages, and a distraction-free cart. The visual language stays quiet and neutral so the colourful beanies are always the hero of the page.",
+    ],
+    highlights: [
+      "Minimal, product-led e-commerce UI",
+      "Streamlined product and checkout flow",
+      "Reusable component library for future collections",
+      "Optimised product imagery and merchandising",
+    ],
   },
 ];
 
@@ -186,4 +219,17 @@ export const skills: Skill[] = [
   { name: "Webflow", type: "Website Builder", level: 0.4, icon: "/assets/skill-webflow.png" },
   { name: "Rive", type: "Animation", level: 0.3, icon: "/assets/skill-rive.png" },
   { name: "CSS + Basic JS", type: "Front End", level: 0.1, icon: "/assets/skill-css.png" },
+];
+
+// Headings for the floating table-of-contents navigation.
+export type TocItem = { id: string; label: string; level: 1 | 2 };
+
+export const sections: TocItem[] = [
+  { id: "contact", label: "Contact", level: 2 },
+  { id: "interests", label: "Interests", level: 2 },
+  { id: "languages", label: "Languages", level: 2 },
+  { id: "work-history", label: "Work History", level: 1 },
+  { id: "education", label: "Education", level: 1 },
+  { id: "projects", label: "Projects", level: 1 },
+  { id: "skills", label: "Skills", level: 1 },
 ];

@@ -9,7 +9,9 @@ import {
   RichText,
   Section,
 } from "@/components/notion/blocks";
-import { ProjectGallery, SkillsGallery } from "@/components/notion/galleries";
+import { SkillsGallery } from "@/components/notion/galleries";
+import { ProjectGallery } from "@/components/notion/projects";
+import { TableOfContents } from "@/components/notion/toc";
 import {
   contact,
   education,
@@ -17,6 +19,7 @@ import {
   intro,
   languages,
   profile,
+  sections,
   work,
 } from "@/lib/data";
 
@@ -63,7 +66,7 @@ export default function Page() {
               />
             </div>
 
-            <Section title="Contact" level="h2">
+            <Section title="Contact" level="h2" id="contact">
               <div className="flex flex-col">
                 {contact.map((item) => (
                   <InfoLine key={item.text} item={item} />
@@ -71,7 +74,7 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Interests" level="h2">
+            <Section title="Interests" level="h2" id="interests">
               <div className="flex flex-col">
                 {interests.map((item) => (
                   <InfoLine key={item.text} item={item} />
@@ -79,7 +82,7 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Languages" level="h2">
+            <Section title="Languages" level="h2" id="languages">
               <div className="flex flex-col">
                 {languages.map((item) => (
                   <InfoLine key={item.text} item={item} />
@@ -94,7 +97,7 @@ export default function Page() {
               <RichText lines={intro} />
             </Callout>
 
-            <Section title="Work History" level="h1">
+            <Section title="Work History" level="h1" id="work-history">
               <div className="flex flex-col gap-6">
                 {work.map((entry) => (
                   <ResumeItem key={entry.title} entry={entry} />
@@ -102,7 +105,7 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Education" level="h1">
+            <Section title="Education" level="h1" id="education">
               <div className="flex flex-col gap-6">
                 {education.map((entry) => (
                   <ResumeItem key={entry.title} entry={entry} />
@@ -110,16 +113,18 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Projects" level="h1">
+            <Section title="Projects" level="h1" id="projects">
               <ProjectGallery />
             </Section>
 
-            <Section title="Skills" level="h1">
+            <Section title="Skills" level="h1" id="skills">
               <SkillsGallery />
             </Section>
           </div>
         </div>
       </main>
+
+      <TableOfContents items={sections} />
     </div>
   );
 }
