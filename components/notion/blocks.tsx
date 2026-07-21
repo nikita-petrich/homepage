@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ArrowUpDown, ListFilter, Search } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -31,7 +32,7 @@ export function Section({
   return (
     <section className={cn("min-w-0", className)}>
       <Heading className={headingClass}>{title}</Heading>
-      <Separator className="mt-[6px] mb-[12px] bg-[var(--notion-divider)]" />
+      <Separator className="mt-[7px] mb-[14px] bg-[var(--notion-divider)]" />
       {children}
     </section>
   );
@@ -63,12 +64,12 @@ export function RichText({ lines }: { lines: RichLine[] }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Callout — gray rounded block with the cactus icon.                  */
+/*  Callout — white rounded block with a thin border + cactus icon.     */
 /* ------------------------------------------------------------------ */
 
 export function Callout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex gap-3 rounded-[4px] bg-[var(--notion-callout-bg)] px-4 py-4">
+    <div className="flex gap-3 rounded-[10px] border border-[rgba(55,53,47,0.16)] bg-white px-4 py-4">
       <div className="mt-[1px] shrink-0">
         <CactusOrangeIcon size={24} />
       </div>
@@ -125,15 +126,10 @@ export function ResumeItem({ entry }: { entry: ResumeEntry }) {
         <div className="text-[16px] font-semibold leading-[1.4]">
           {entry.title}
         </div>
-        <div className="mt-[1px] text-[14px] text-notion-gray italic">
+        <div className="mt-[2px] text-[14px] text-notion-gray italic">
           {entry.date}
         </div>
-        <p
-          className={cn(
-            "mt-[6px] text-[14px] leading-[1.55]",
-            entry.descGray ? "text-notion-gray" : "text-notion-text",
-          )}
-        >
+        <p className="mt-[8px] text-[14px] leading-[1.55] text-notion-gray">
           {entry.description}
         </p>
       </div>
@@ -183,12 +179,35 @@ export function SkillBar({ level }: { level: number }) {
   return (
     <div className="h-[6px] w-full overflow-hidden rounded-full bg-[rgba(55,53,47,0.1)]">
       <div
-        className="h-full rounded-full"
-        style={{
-          width: `${Math.round(level * 100)}%`,
-          backgroundColor: "var(--notion-blue)",
-        }}
+        className="h-full rounded-full bg-[#37352f]"
+        style={{ width: `${Math.round(level * 100)}%` }}
       />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Inline-database view toolbar (view tab + filter / sort / search).   */
+/* ------------------------------------------------------------------ */
+
+export function ViewTab({
+  label,
+  icon,
+}: {
+  label: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div className="mb-2 flex items-center justify-between">
+      <div className="inline-flex items-center gap-1.5 rounded-md bg-[#f1f1ef] px-2 py-[5px] text-[14px] font-medium">
+        <span className="flex h-4 w-4 items-center justify-center">{icon}</span>
+        {label}
+      </div>
+      <div className="flex items-center gap-3 text-notion-gray">
+        <ListFilter size={16} strokeWidth={1.9} />
+        <ArrowUpDown size={16} strokeWidth={1.9} className="text-[#2383e2]" />
+        <Search size={16} strokeWidth={1.9} />
+      </div>
     </div>
   );
 }
