@@ -74,10 +74,10 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
         ))}
       </nav>
 
-      {/* Collapsed dashes */}
+      {/* Collapsed dashes (Notion uses a uniform width, right-aligned) */}
       <div
         className={cn(
-          "flex flex-col items-end gap-2 py-3 pr-2 pl-6 transition-opacity duration-150",
+          "flex flex-col items-end gap-[9px] py-3 pr-[14px] pl-7 transition-opacity duration-150",
           open ? "opacity-0" : "opacity-100",
         )}
       >
@@ -85,11 +85,10 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
           <span
             key={item.id}
             className={cn(
-              "h-[2px] rounded-full transition-colors",
-              item.level === 1 ? "w-4" : "w-2.5",
+              "h-[2px] rounded-full transition-all duration-200",
               active === item.id
-                ? "bg-notion-text"
-                : "bg-[rgba(55,53,47,0.22)]",
+                ? "w-[15px] bg-notion-text"
+                : "w-3 bg-[rgba(55,53,47,0.18)]",
             )}
           />
         ))}

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { LayoutGrid, X } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { projects, type Project } from "@/lib/data";
 
 import { Tag, ViewTab } from "./blocks";
@@ -105,8 +106,32 @@ function ProjectModal({
   project: Project | null;
   onClose: () => void;
 }) {
+  // Keep the last project mounted through the exit transition.
+  const [shown, setShown] = useState<Project | null>(project);
+  const [entered, setEntered] = useState(false);
+
   useEffect(() => {
-    if (!project) return;
+    if (project) {
+      setShown(project);
+      // Double rAF so the browser paints the hidden state before the
+      // transition to the entered state (otherwise React batches and the
+      // enter animation is skipped).
+      let raf2 = 0;
+      const raf1 = requestAnimationFrame(() => {
+        raf2 = requestAnimationFrame(() => setEntered(true));
+      });
+      return () => {
+        cancelAnimationFrame(raf1);
+        cancelAnimationFrame(raf2);
+      };
+    }
+    setEntered(false);
+    const t = setTimeout(() => setShown(null), 240);
+    return () => clearTimeout(t);
+  }, [project]);
+
+  useEffect(() => {
+    if (!shown) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -117,20 +142,28 @@ function ProjectModal({
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
-  }, [project, onClose]);
+  }, [shown, onClose]);
 
-  if (!project) return null;
+  if (!shown) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-[2px] sm:p-8"
+      className={cn(
+        "fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-[2px] transition-opacity duration-200 ease-out sm:p-8",
+        entered ? "opacity-100" : "opacity-0",
+      )}
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label={project.name}
+      aria-label={shown.name}
     >
       <div
-        className="relative my-4 h-fit w-full max-w-[720px] overflow-hidden rounded-xl bg-white shadow-[rgba(15,15,15,0.2)_0px_16px_48px] sm:my-8"
+        className={cn(
+          "relative my-4 h-fit w-full max-w-[720px] overflow-hidden rounded-xl bg-white shadow-[rgba(15,15,15,0.2)_0px_16px_48px] transition-all duration-300 ease-out will-change-transform sm:my-8",
+          entered
+            ? "translate-y-0 scale-100 opacity-100"
+            : "translate-y-4 scale-[0.97] opacity-0",
+        )}
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -144,7 +177,7 @@ function ProjectModal({
 
         <div className="relative aspect-[16/8] w-full bg-[var(--notion-placeholder)]">
           <Image
-            src={project.cover}
+            src={shown.cover}
             alt=""
             fill
             sizes="720px"
@@ -155,29 +188,29 @@ function ProjectModal({
         <div className="px-6 py-7 sm:px-10 sm:py-9">
           <div className="flex items-center gap-2">
             <Image
-              src={project.icon}
+              src={shown.icon}
               alt=""
               width={28}
               height={28}
               className="h-7 w-7 shrink-0 object-contain"
             />
             <h2 className="text-[26px] leading-[1.2] font-bold tracking-[-0.01em]">
-              {project.name}
+              {shown.name}
             </h2>
           </div>
 
           <div className="mt-2 text-[13px] text-notion-gray">
-            {formatRange(project.start, project.end)}
+            {formatRange(shown.start, shown.end)}
           </div>
 
           <div className="mt-3 flex flex-wrap gap-[6px]">
-            {project.tags.map((t) => (
+            {shown.tags.map((t) => (
               <Tag key={t.label} label={t.label} color={t.color} />
             ))}
           </div>
 
           <div className="mt-6 space-y-4 text-[15px] leading-[1.7]">
-            {project.details.map((para, i) => (
+            {shown.details.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
           </div>
@@ -186,7 +219,7 @@ function ProjectModal({
             Highlights
           </h3>
           <ul className="space-y-2">
-            {project.highlights.map((h, i) => (
+            {shown.highlights.map((h, i) => (
               <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
                 <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[#37352f]" />
                 <span>{h}</span>
