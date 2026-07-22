@@ -14,11 +14,13 @@ import { CactusOrangeIcon } from "./icons";
 export function Section({
   title,
   level = "h1",
+  id,
   className,
   children,
 }: {
   title: string;
   level?: "h1" | "h2";
+  id?: string;
   className?: string;
   children: React.ReactNode;
 }) {
@@ -29,9 +31,9 @@ export function Section({
       : "text-[1.375rem] font-semibold leading-[1.25] tracking-[-0.01em]";
 
   return (
-    <section className={cn("min-w-0", className)}>
+    <section id={id} className={cn("min-w-0 scroll-mt-20", className)}>
       <Heading className={headingClass}>{title}</Heading>
-      <Separator className="mt-[6px] mb-[12px] bg-[var(--notion-divider)]" />
+      <Separator className="mt-[7px] mb-[14px] bg-[var(--notion-divider)]" />
       {children}
     </section>
   );
@@ -63,12 +65,12 @@ export function RichText({ lines }: { lines: RichLine[] }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Callout — gray rounded block with the cactus icon.                  */
+/*  Callout — white rounded block with a thin border + cactus icon.     */
 /* ------------------------------------------------------------------ */
 
 export function Callout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex gap-3 rounded-[4px] bg-[var(--notion-callout-bg)] px-4 py-4">
+    <div className="flex gap-3 rounded-[10px] border border-[rgba(55,53,47,0.16)] bg-white px-4 py-4">
       <div className="mt-[1px] shrink-0">
         <CactusOrangeIcon size={24} />
       </div>
@@ -125,15 +127,10 @@ export function ResumeItem({ entry }: { entry: ResumeEntry }) {
         <div className="text-[16px] font-semibold leading-[1.4]">
           {entry.title}
         </div>
-        <div className="mt-[1px] text-[14px] text-notion-gray italic">
+        <div className="mt-[2px] text-[14px] text-notion-gray italic">
           {entry.date}
         </div>
-        <p
-          className={cn(
-            "mt-[6px] text-[14px] leading-[1.55]",
-            entry.descGray ? "text-notion-gray" : "text-notion-text",
-          )}
-        >
+        <p className="mt-[8px] text-[14px] leading-[1.55] text-notion-gray">
           {entry.description}
         </p>
       </div>
@@ -183,12 +180,10 @@ export function SkillBar({ level }: { level: number }) {
   return (
     <div className="h-[6px] w-full overflow-hidden rounded-full bg-[rgba(55,53,47,0.1)]">
       <div
-        className="h-full rounded-full"
-        style={{
-          width: `${Math.round(level * 100)}%`,
-          backgroundColor: "var(--notion-blue)",
-        }}
+        className="h-full rounded-full bg-[#37352f]"
+        style={{ width: `${Math.round(level * 100)}%` }}
       />
     </div>
   );
 }
+

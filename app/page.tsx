@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { NotionTopBar } from "@/components/notion/topbar";
 import { CloudyOrangeIcon } from "@/components/notion/icons";
 import {
   Callout,
@@ -8,7 +9,10 @@ import {
   RichText,
   Section,
 } from "@/components/notion/blocks";
-import { ProjectGallery, SkillsGallery } from "@/components/notion/galleries";
+import { CookieBanner } from "@/components/notion/cookie-banner";
+import { SkillsGallery } from "@/components/notion/galleries";
+import { ProjectGallery } from "@/components/notion/projects";
+import { TableOfContents } from "@/components/notion/toc";
 import {
   contact,
   education,
@@ -16,90 +20,113 @@ import {
   intro,
   languages,
   profile,
+  sections,
   work,
 } from "@/lib/data";
 
 export default function Page() {
   return (
-    <main className="mx-auto w-full max-w-[900px] px-5 py-14 sm:px-10 sm:py-16">
-      {/* Page icon + title (Notion page chrome) */}
-      <CloudyOrangeIcon size={70} className="mb-3 -ml-[3px]" />
-      <h1 className="mb-9 text-[40px] leading-[1.15] font-bold tracking-[-0.02em]">
-        {profile.name}
-      </h1>
+    <div className="min-h-screen bg-white">
+      <NotionTopBar />
 
-      {/* Two-column layout */}
-      <div className="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-[15.25rem_minmax(0,1fr)]">
-        {/* Sidebar */}
-        <aside className="flex flex-col gap-7">
-          <div className="w-full overflow-hidden rounded-[6px] bg-[var(--notion-placeholder)]">
-            <Image
-              src={profile.photo}
-              alt={profile.photoAlt}
-              width={1000}
-              height={720}
-              priority
-              unoptimized
-              className="block h-auto w-full"
-            />
-          </div>
-
-          <Section title="Contact" level="h2">
-            <div className="flex flex-col">
-              {contact.map((item) => (
-                <InfoLine key={item.text} item={item} />
-              ))}
-            </div>
-          </Section>
-
-          <Section title="Interests" level="h2">
-            <div className="flex flex-col">
-              {interests.map((item) => (
-                <InfoLine key={item.text} item={item} />
-              ))}
-            </div>
-          </Section>
-
-          <Section title="Languages" level="h2">
-            <div className="flex flex-col">
-              {languages.map((item) => (
-                <InfoLine key={item.text} item={item} />
-              ))}
-            </div>
-          </Section>
-        </aside>
-
-        {/* Main column */}
-        <div className="flex min-w-0 flex-col gap-9">
-          <Callout>
-            <RichText lines={intro} />
-          </Callout>
-
-          <Section title="Work History" level="h1">
-            <div className="flex flex-col gap-5">
-              {work.map((entry) => (
-                <ResumeItem key={entry.title} entry={entry} />
-              ))}
-            </div>
-          </Section>
-
-          <Section title="Education" level="h1">
-            <div className="flex flex-col gap-5">
-              {education.map((entry) => (
-                <ResumeItem key={entry.title} entry={entry} />
-              ))}
-            </div>
-          </Section>
-
-          <Section title="Projects" level="h1">
-            <ProjectGallery />
-          </Section>
-
-          <Section title="Skills" level="h1">
-            <SkillsGallery />
-          </Section>
-        </div>
+      {/* Cover image (full-bleed) */}
+      <div className="relative h-[clamp(140px,15.5vw,240px)] w-full overflow-hidden">
+        <Image
+          src={profile.cover}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
       </div>
-    </main>
+
+      {/* Page body */}
+      <main className="mx-auto max-w-[960px] px-6 pb-28 sm:px-12">
+        {/* Page icon, overlapping the cover */}
+        <div className="relative z-10 -mt-[34px] mb-2 w-fit">
+          <CloudyOrangeIcon size={66} />
+        </div>
+
+        <h1 className="mb-8 text-[40px] leading-[1.15] font-bold tracking-[-0.02em]">
+          {profile.name}
+        </h1>
+
+        {/* Two-column layout */}
+        <div className="grid grid-cols-1 gap-x-[42px] gap-y-10 md:grid-cols-[210px_minmax(0,1fr)]">
+          {/* Sidebar */}
+          <aside className="flex flex-col gap-8">
+            <div className="overflow-hidden rounded-[8px]">
+              <Image
+                src={profile.photo}
+                alt={profile.photoAlt}
+                width={384}
+                height={488}
+                priority
+                className="h-auto w-full object-cover"
+              />
+            </div>
+
+            <Section title="Contact" level="h2" id="contact">
+              <div className="flex flex-col">
+                {contact.map((item) => (
+                  <InfoLine key={item.text} item={item} />
+                ))}
+              </div>
+            </Section>
+
+            <Section title="Interests" level="h2" id="interests">
+              <div className="flex flex-col">
+                {interests.map((item) => (
+                  <InfoLine key={item.text} item={item} />
+                ))}
+              </div>
+            </Section>
+
+            <Section title="Languages" level="h2" id="languages">
+              <div className="flex flex-col">
+                {languages.map((item) => (
+                  <InfoLine key={item.text} item={item} />
+                ))}
+              </div>
+            </Section>
+          </aside>
+
+          {/* Main column */}
+          <div className="flex min-w-0 flex-col gap-10">
+            <Callout>
+              <RichText lines={intro} />
+            </Callout>
+
+            <Section title="Work History" level="h1" id="work-history">
+              <div className="flex flex-col gap-6">
+                {work.map((entry) => (
+                  <ResumeItem key={entry.title} entry={entry} />
+                ))}
+              </div>
+            </Section>
+
+            <Section title="Education" level="h1" id="education">
+              <div className="flex flex-col gap-6">
+                {education.map((entry) => (
+                  <ResumeItem key={entry.title} entry={entry} />
+                ))}
+              </div>
+            </Section>
+
+            <Section title="Projects" level="h1" id="projects">
+              <ProjectGallery />
+            </Section>
+
+            <Section title="Skills" level="h1" id="skills">
+              <SkillsGallery />
+            </Section>
+          </div>
+        </div>
+      </main>
+
+      <TableOfContents items={sections} />
+      <CookieBanner />
+    </div>
   );
 }
