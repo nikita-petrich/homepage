@@ -19,7 +19,7 @@ export const profile = {
 export type CvFile = { href: string; label: string; flag: string; sub: string };
 export const cvFiles: CvFile[] = [
   { href: "/cv/CV_Nikita_Petrich_DE.pdf", label: "CV Deutsch", flag: "🇩🇪", sub: "PDF · 10 Seiten" },
-  { href: "/cv/CV_Nikita_Petrich_EN.pdf", label: "CV English", flag: "🇬🇧", sub: "PDF · 10 pages" },
+  { href: "/cv/CV_Nikita_Petrich_EN.pdf", label: "CV EN", flag: "EN", sub: "PDF · 10 pages" },
 ];
 
 export type InfoItem = { icon: string; text: string; href?: string };
@@ -28,7 +28,6 @@ export const contact: InfoItem[] = [
   { icon: "📞", text: "+49 15679088678", href: "tel:+4915679088678" },
   { icon: "✉️", text: "n.petrich@sequenz.io", href: "mailto:n.petrich@sequenz.io" },
   { icon: "🌐", text: "sequenz.io", href: "https://sequenz.io" },
-  { icon: "📍", text: "Remote · München (max. 1–2 Tage onsite)" },
 ];
 
 export type FactItem = { label: string; value: string };
@@ -38,13 +37,14 @@ export const eckdaten: FactItem[] = [
   { label: "Verfügbar", value: "ab sofort · Vollzeit" },
   { label: "Stundensatz", value: "80 €/h" },
   { label: "Qualifikation", value: "IHK-Fachinformatiker (AE)" },
+  { label: "Standort", value: "Remote · München (max. 1–2 Tage onsite)" },
 ];
 
 export type Language = { icon: string; text: string; sub: string };
 
 export const languages: Language[] = [
   { icon: "🇩🇪", text: "Deutsch", sub: "Muttersprache" },
-  { icon: "🇬🇧", text: "Englisch", sub: "B2 · US/EU-Remote" },
+  { icon: "EN", text: "Englisch", sub: "B2 · US/EU-Remote" },
 ];
 
 export const arbeitsweise: string[] = [

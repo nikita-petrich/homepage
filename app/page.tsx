@@ -1,29 +1,27 @@
-import { NotionTopBar } from "@/components/notion/topbar";
-import { CloudyOrangeIcon } from "@/components/notion/icons";
 import {
-  AccentTag,
-  Callout,
-  FactLine,
-  InfoLine,
-  LangLine,
-  RichText,
-  Section,
+    AccentTag,
+    Callout,
+    FactLine,
+    InfoLine,
+    LangLine,
+    RichText,
+    Section,
 } from "@/components/notion/blocks";
-import { CvDownload } from "@/components/notion/cv-download";
 import { CookieBanner } from "@/components/notion/cookie-banner";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
 import { TableOfContents } from "@/components/notion/toc";
+import { NotionTopBar } from "@/components/notion/topbar";
 import {
-  arbeitsweise,
-  contact,
-  eckdaten,
-  intro,
-  languages,
-  profile,
-  profileLinks,
-  schwerpunkt,
-  sections,
+    arbeitsweise,
+    contact,
+    eckdaten,
+    intro,
+    languages,
+    profile,
+    profileLinks,
+    schwerpunkt,
+    sections,
 } from "@/lib/data";
 
 export default function Page() {
@@ -38,18 +36,18 @@ export default function Page() {
       <main className="mx-auto max-w-[960px] px-6 pb-28 sm:px-12">
         {/* Page icon, overlapping the cover */}
         <div className="relative z-10 -mt-[34px] mb-2 w-fit drop-shadow-[0_2px_6px_rgba(0,0,0,0.12)]">
-          <CloudyOrangeIcon size={66} />
+          <img
+            src="/assets/CV%20-%20Optimierte%20Lesbarkeit-selection%20(1).png"
+            alt="Avatar"
+            className="h-[66px] w-[66px] object-contain"
+          />
         </div>
 
         <h1 className="text-[40px] leading-[1.15] font-bold tracking-[-0.02em]">
           {profile.name}
         </h1>
-        <div className="mt-1.5 text-[18px] font-semibold text-[var(--accent-o)]">
+        <div className="mt-1.5 mb-6 text-[18px] font-semibold text-[var(--accent-o)]">
           {profile.role}
-        </div>
-
-        <div className="mt-5 mb-9">
-          <CvDownload variant="hero" />
         </div>
 
         {/* Two-column layout */}
