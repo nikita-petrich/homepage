@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import type { FactItem, InfoItem, Language, RichLine } from "@/lib/data";
@@ -136,7 +137,7 @@ export function LangLine({ item }: { item: Language }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pills.                                                              */
+/*  Pills — all built on the shadcn <Badge> component.                  */
 /*  AccentTag — warm brown chip (focus areas, ways of working, card).   */
 /*  SkillTag   — neutral chip (skill items, project technologies).      */
 /* ------------------------------------------------------------------ */
@@ -149,21 +150,22 @@ export function AccentTag({
   size?: "sm" | "md";
 }) {
   return (
-    <span
+    <Badge
+      variant="accent"
       className={cn(
-        "rounded-[3px] bg-[#ece3d3] leading-[1.4] text-[#6f5b3e]",
-        size === "md" ? "px-[9px] py-[3px] text-[13px]" : "px-2 py-[2px] text-[12px]",
+        "whitespace-normal",
+        size === "md" ? "px-[9px] py-[3px] text-[13px]" : "text-[12px]",
       )}
     >
       {label}
-    </span>
+    </Badge>
   );
 }
 
 export function SkillTag({ label }: { label: string }) {
   return (
-    <span className="rounded-[3px] bg-[#f1f0ee] px-[7px] py-px text-[12px] leading-[18px] text-[#4a473f]">
+    <Badge variant="skill" className="px-[7px] py-px text-[12px] whitespace-normal">
       {label}
-    </span>
+    </Badge>
   );
 }
