@@ -1,48 +1,58 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
-import {
-  AlignLeft,
-  Calendar,
-  CaseSensitive,
-  LayoutGrid,
-  Tags,
-  X,
-} from "lucide-react";
+import { AlignLeft, Calendar, CaseSensitive, LayoutGrid, Tags, X } from "lucide-react";
 
-import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { projects, type Project } from "@/lib/data";
 
 import { DatabaseToolbar } from "./database-toolbar";
-import { Tag } from "./blocks";
+import { AccentTag, SkillTag } from "./blocks";
 
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const stripe =
+  "repeating-linear-gradient(135deg,#f2efe9 0 10px,#eae6dd 10px 20px)";
 
-function formatDate(iso: string) {
-  const [y, m, d] = iso.split("-").map(Number);
-  return `${MONTHS[m - 1]} ${d}, ${y}`;
+/* Cover: a real project image when available, else the striped placeholder
+   with a monospace caption (matching the source design). */
+function ProjectCover({
+  project,
+  className,
+  captionClass,
+  numBadge = false,
+}: {
+  project: Project;
+  className?: string;
+  captionClass?: string;
+  numBadge?: boolean;
+}) {
+  return (
+    <div
+      className={cn("relative w-full overflow-hidden", className)}
+      style={{ backgroundImage: stripe }}
+    >
+      {project.cover ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={project.cover}
+          alt={project.caption}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center p-3">
+          <span className={cn("text-center font-mono text-[#9a8f7c]", captionClass)}>
+            {project.caption}
+          </span>
+        </div>
+      )}
+      {numBadge && (
+        <div className="absolute top-2 left-2 flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#37352f] text-[12px] font-semibold text-white shadow-sm">
+          {project.num}
+        </div>
+      )}
+    </div>
+  );
 }
-
-function formatRange(start: string, end?: string) {
-  return end ? `${formatDate(start)} → ${formatDate(end)}` : formatDate(start);
-}
-
-const cardShadow = { boxShadow: "var(--notion-card-shadow)" } as const;
 
 /* Projects — "Case Studies" gallery; each card opens a detail popup. */
 export function ProjectGallery() {
@@ -55,12 +65,22 @@ export function ProjectGallery() {
     const list = projects.filter((p) =>
       !q
         ? true
-        : p.name.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q) ||
-          p.tags.some((t) => t.label.toLowerCase().includes(q)),
+        : (
+            p.name +
+            " " +
+            p.subtitle +
+            " " +
+            p.cat +
+            " " +
+            p.desc +
+            " " +
+            p.tech.join(" ")
+          )
+            .toLowerCase()
+            .includes(q),
     );
     return [...list].sort((a, b) => {
-      const cmp = a.start.localeCompare(b.start);
+      const cmp = a.sort.localeCompare(b.sort);
       return asc ? cmp : -cmp;
     });
   }, [query, asc]);
@@ -70,76 +90,55 @@ export function ProjectGallery() {
       <DatabaseToolbar
         viewLabel="Case Studies"
         viewIcon={<LayoutGrid size={15} strokeWidth={2} />}
-        sortProp="Date"
+        sortProp="Datum"
         sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
-        sortDirLabel={asc ? "Sort old → new" : "Sort new → old"}
+        sortDirLabel={asc ? "Älteste zuerst" : "Neueste zuerst"}
         onToggleSortDir={() => setAsc((v) => !v)}
         query={query}
         onQueryChange={setQuery}
         filterProps={[
           { label: "Name", icon: <CaseSensitive size={16} strokeWidth={1.9} /> },
-          { label: "Date", icon: <Calendar size={15} strokeWidth={1.9} /> },
-          {
-            label: "Description",
-            icon: <AlignLeft size={15} strokeWidth={1.9} />,
-          },
+          { label: "Datum", icon: <Calendar size={15} strokeWidth={1.9} /> },
+          { label: "Beschreibung", icon: <AlignLeft size={15} strokeWidth={1.9} /> },
           { label: "Tags", icon: <Tags size={15} strokeWidth={1.9} /> },
         ]}
       />
 
       {visible.length === 0 ? (
         <div className="rounded-lg border border-dashed border-[rgba(55,53,47,0.16)] px-4 py-10 text-center text-[14px] text-notion-gray">
-          No results.
+          Keine Treffer.
         </div>
       ) : (
         <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(240px,1fr))]">
           {visible.map((p) => (
-          <button
-            key={p.name}
-            type="button"
-            onClick={() => setSelected(p)}
-            className="h-full cursor-pointer text-left"
-          >
-            <Card
-              style={cardShadow}
-              className="h-full gap-0 overflow-hidden rounded-lg border-0 bg-white p-0 py-0 shadow-none transition-colors hover:bg-[rgba(55,53,47,0.03)]"
+            <button
+              key={p.num}
+              type="button"
+              onClick={() => setSelected(p)}
+              style={{ boxShadow: "var(--notion-card-shadow)" }}
+              className="h-full cursor-pointer overflow-hidden rounded-lg bg-white text-left transition-colors hover:bg-[rgba(55,53,47,0.02)]"
             >
-              <div className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--notion-placeholder)]">
-                <Image
-                  src={p.cover}
-                  alt=""
-                  fill
-                  sizes="(max-width: 768px) 100vw, 320px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex flex-col gap-[7px] p-[10px]">
-                <div className="flex items-center gap-1.5">
-                  <Image
-                    src={p.icon}
-                    alt=""
-                    width={18}
-                    height={18}
-                    className="h-[18px] w-[18px] shrink-0 object-contain"
-                  />
-                  <span className="text-[15px] leading-[1.3] font-semibold">
-                    {p.name}
-                  </span>
+              <ProjectCover
+                project={p}
+                className="aspect-[16/9]"
+                captionClass="text-[11px] leading-[1.4]"
+                numBadge
+              />
+              <div className="flex flex-col gap-[7px] p-[11px]">
+                <div className="text-[15px] leading-[1.3] font-semibold">
+                  {p.name}
                 </div>
-                <div className="text-[12px] text-notion-gray">
-                  {formatRange(p.start, p.end)}
-                </div>
+                <div className="text-[12px] text-notion-gray">{p.dateRange}</div>
                 <div className="flex flex-wrap gap-[6px]">
-                  {p.tags.map((t) => (
-                    <Tag key={t.label} label={t.label} color={t.color} />
+                  {p.cardTags.map((t) => (
+                    <AccentTag key={t} label={t} />
                   ))}
                 </div>
                 <p className="text-[13px] leading-[1.45] text-notion-gray">
-                  {p.description}
+                  {p.desc}
                 </p>
               </div>
-            </Card>
-          </button>
+            </button>
           ))}
         </div>
       )}
@@ -156,32 +155,9 @@ function ProjectModal({
   project: Project | null;
   onClose: () => void;
 }) {
-  // Keep the last project mounted through the exit transition.
-  const [shown, setShown] = useState<Project | null>(project);
-  const [entered, setEntered] = useState(false);
-
+  // Escape to close + lock body scroll while the modal is open.
   useEffect(() => {
-    if (project) {
-      setShown(project);
-      // Double rAF so the browser paints the hidden state before the
-      // transition to the entered state (otherwise React batches and the
-      // enter animation is skipped).
-      let raf2 = 0;
-      const raf1 = requestAnimationFrame(() => {
-        raf2 = requestAnimationFrame(() => setEntered(true));
-      });
-      return () => {
-        cancelAnimationFrame(raf1);
-        cancelAnimationFrame(raf2);
-      };
-    }
-    setEntered(false);
-    const t = setTimeout(() => setShown(null), 240);
-    return () => clearTimeout(t);
-  }, [project]);
-
-  useEffect(() => {
-    if (!shown) return;
+    if (!project) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -192,90 +168,103 @@ function ProjectModal({
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
-  }, [shown, onClose]);
+  }, [project, onClose]);
 
-  if (!shown) return null;
+  if (!project) return null;
 
   return (
     <div
-      className={cn(
-        "fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-[2px] transition-opacity duration-200 ease-out sm:p-8",
-        entered ? "opacity-100" : "opacity-0",
-      )}
+      className="fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-[2px] sm:p-6"
+      style={{ animation: "np-overlay-in 0.2s ease-out" }}
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label={shown.name}
+      aria-label={project.name}
     >
       <div
-        className={cn(
-          "relative my-4 h-fit w-full max-w-[720px] overflow-hidden rounded-xl bg-white shadow-[rgba(15,15,15,0.2)_0px_16px_48px] transition-all duration-300 ease-out will-change-transform sm:my-8",
-          entered
-            ? "translate-y-0 scale-100 opacity-100"
-            : "translate-y-4 scale-[0.97] opacity-0",
-        )}
+        className="relative my-4 h-fit w-full max-w-[720px] overflow-hidden rounded-xl bg-white shadow-[rgba(15,15,15,0.2)_0px_16px_48px] sm:my-8"
+        style={{ animation: "np-modal-in 0.28s ease-out" }}
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close"
+          aria-label="Schließen"
           className="absolute top-3 right-3 z-10 rounded-md bg-white/85 p-1.5 text-notion-gray backdrop-blur transition-colors hover:bg-white hover:text-notion-text"
         >
           <X size={18} />
         </button>
 
-        <div className="relative aspect-[16/8] w-full bg-[var(--notion-placeholder)]">
-          <Image
-            src={shown.cover}
-            alt=""
-            fill
-            sizes="720px"
-            className="object-cover"
-          />
-        </div>
+        <ProjectCover
+          project={project}
+          className="aspect-[16/8]"
+          captionClass="text-[13px]"
+        />
 
         <div className="px-6 py-7 sm:px-10 sm:py-9">
-          <div className="flex items-center gap-2">
-            <Image
-              src={shown.icon}
-              alt=""
-              width={28}
-              height={28}
-              className="h-7 w-7 shrink-0 object-contain"
-            />
+          <div className="text-[12px] font-semibold tracking-[0.06em] text-[var(--accent-o)] uppercase">
+            {project.cat}
+          </div>
+          <div className="mt-2 flex items-center gap-2.5">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#37352f] text-[13px] font-semibold text-white">
+              {project.num}
+            </span>
             <h2 className="text-[26px] leading-[1.2] font-bold tracking-[-0.01em]">
-              {shown.name}
+              {project.name}
             </h2>
           </div>
-
+          <div className="mt-1.5 text-[16px] font-semibold text-[#4a473f]">
+            {project.subtitle}
+          </div>
           <div className="mt-2 text-[13px] text-notion-gray">
-            {formatRange(shown.start, shown.end)}
+            {project.dateRange} · {project.role}
           </div>
 
-          <div className="mt-3 flex flex-wrap gap-[6px]">
-            {shown.tags.map((t) => (
-              <Tag key={t.label} label={t.label} color={t.color} />
+          <div className="mt-[18px] grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-5 gap-y-2.5 rounded-lg border border-[rgba(55,53,47,0.1)] bg-[#faf9f7] px-4 py-3.5">
+            {project.meta.map((m) => (
+              <div key={m.label} className="text-[13px] leading-[1.4]">
+                <span className="font-semibold text-[var(--accent-o)]">
+                  {m.label}:{" "}
+                </span>
+                <span className="text-[#4a473f]">{m.value}</span>
+              </div>
             ))}
           </div>
 
-          <div className="mt-6 space-y-4 text-[15px] leading-[1.7]">
-            {shown.details.map((para, i) => (
-              <p key={i}>{para}</p>
-            ))}
-          </div>
-
-          <h3 className="mt-7 mb-3 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-            Highlights
+          <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+            Aufgaben
           </h3>
-          <ul className="space-y-2">
-            {shown.highlights.map((h, i) => (
-              <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
-                <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[#37352f]" />
-                <span>{h}</span>
+          <ul className="flex flex-col gap-[9px]">
+            {project.aufgaben.map((a, i) => (
+              <li key={i} className="flex gap-2.5 text-[14px] leading-[1.55]">
+                <span className="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-[#37352f]" />
+                <span>{a}</span>
               </li>
             ))}
           </ul>
+
+          <div className="mt-[22px] rounded-lg border border-[rgba(55,53,47,0.1)] bg-[#faf6f0] p-4">
+            <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-[var(--accent-o)] uppercase">
+              Ergebnis
+            </h3>
+            <ul className="flex flex-col gap-2">
+              {project.ergebnis.map((e, i) => (
+                <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
+                  <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--accent-o)]" />
+                  <span className="text-[#4a473f]">{e}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+            Technologien
+          </h3>
+          <div className="flex flex-wrap gap-[6px]">
+            {project.tech.map((t) => (
+              <SkillTag key={t} label={t} />
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -20,11 +20,17 @@ export function CookieBanner() {
   });
 
   useEffect(() => {
+    let shouldShow = true;
     try {
-      if (!localStorage.getItem(STORAGE_KEY)) setVisible(true);
+      shouldShow = !localStorage.getItem(STORAGE_KEY);
     } catch {
-      setVisible(true);
+      shouldShow = true;
     }
+    if (!shouldShow) return;
+    // Defer the state update out of the effect body (avoids a synchronous
+    // cascading render) and reveal the banner on the next frame.
+    const id = requestAnimationFrame(() => setVisible(true));
+    return () => cancelAnimationFrame(id);
   }, []);
 
   const dismiss = (value: string) => {
@@ -51,35 +57,27 @@ export function CookieBanner() {
 
       <div className="flex items-center gap-3 rounded-xl bg-[#2a2e30] px-4 py-3 text-[14px] text-white shadow-[rgba(15,15,15,0.28)_0px_8px_28px]">
         <span className="flex-1 text-white/85">
-          Notion uses cookies. See{" "}
-          <a
-            href="https://www.notion.so/Cookie-Notice"
-            target="_blank"
-            rel="noreferrer"
-            className="underline underline-offset-2 hover:text-white"
-          >
-            Cookie Notice
-          </a>{" "}
-          for details.
+          Diese Website verwendet Cookies, um die Nutzung zu analysieren und die
+          Darstellung zu verbessern.
         </span>
         <button
           type="button"
           onClick={() => dismiss("all")}
           className="shrink-0 font-semibold transition-colors hover:text-white/75"
         >
-          Accept all
+          Alle akzeptieren
         </button>
         <button
           type="button"
           onClick={() => dismiss("none")}
           className="shrink-0 font-semibold transition-colors hover:text-white/75"
         >
-          Reject all
+          Ablehnen
         </button>
         <button
           type="button"
           onClick={() => setCustomize((v) => !v)}
-          aria-label="Customize cookies"
+          aria-label="Cookies anpassen"
           className="shrink-0 rounded p-1 transition-colors hover:bg-white/10"
         >
           <MoreHorizontal size={18} />
@@ -107,27 +105,27 @@ function CustomizePanel({
   }[] = [
     {
       key: "necessary",
-      title: "Strictly necessary",
-      desc: "Essential for the site to function. Always On.",
+      title: "Unbedingt erforderlich",
+      desc: "Notwendig für den Betrieb der Website. Immer aktiv.",
       on: true,
       disabled: true,
     },
     {
       key: "functional",
-      title: "Functional",
-      desc: "Used to remember preference selections and provide enhanced features.",
+      title: "Funktional",
+      desc: "Speichert Einstellungen und ermöglicht erweiterte Funktionen.",
       on: prefs.functional,
     },
     {
       key: "analytics",
-      title: "Analytics",
-      desc: "Used to measure usage and improve your experience.",
+      title: "Analyse",
+      desc: "Hilft, die Nutzung zu messen und die Website zu verbessern.",
       on: prefs.analytics,
     },
     {
       key: "marketing",
       title: "Marketing",
-      desc: "Used for targeted advertising.",
+      desc: "Wird für zielgerichtete Werbung verwendet.",
       on: prefs.marketing,
     },
   ];
@@ -136,14 +134,14 @@ function CustomizePanel({
     <div className="absolute right-0 bottom-full mb-2 w-[340px] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white shadow-[rgba(15,15,15,0.2)_0px_12px_34px]">
       <div className="flex items-center justify-between px-4 py-3">
         <span className="text-[15px] font-medium text-notion-text">
-          Customize cookies
+          Cookies anpassen
         </span>
         <button
           type="button"
           onClick={onDone}
           className="rounded-md border border-[#2383e2] px-3 py-1 text-[14px] font-medium text-[#2383e2] transition-colors hover:bg-[#2383e2]/5"
         >
-          Done
+          Fertig
         </button>
       </div>
 
