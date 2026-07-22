@@ -66,7 +66,7 @@ export function DatabaseToolbar({
               onBlur={() => {
                 if (!query) setSearchOpen(false);
               }}
-              placeholder="Type to search..."
+              placeholder="Suchen…"
               className="w-[140px] bg-transparent text-[14px] text-notion-text placeholder:text-notion-gray focus:outline-none sm:w-[190px]"
             />
             <button

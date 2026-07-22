@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Maya Zhang",
+  title: "Nikita Petrich — Senior Full-Stack & AI Engineer",
   description:
-    "Recent graduate in Interaction Design with hands-on experience from Zapier and various side-projects.",
+    "Freiberuflicher Senior Full-Stack & AI Engineer mit Schwerpunkt LLM-Integration, RAG und KI-gestützter Automatisierung. Über 7 Jahre Erfahrung in LegalTech, HealthTech, E-Commerce, EdTech und Logistik.",
 };
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
+    <html lang="de" className={`${inter.variable} antialiased`}>
       <body>{children}</body>
     </html>
   );

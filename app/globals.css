@@ -7,6 +7,9 @@
 */
 
 :root {
+  /* Accent (orange) used for the page icon, links and highlights. */
+  --accent-o: #e1852e;
+
   /* --- Notion palette --- */
   --notion-text: #37352f;
   --notion-text-gray: #787774;
@@ -114,4 +117,24 @@ a.notion-link {
   text-decoration: underline;
   text-decoration-color: rgba(55, 53, 47, 0.2);
   text-underline-offset: 2px;
+}
+
+/* Project detail popup enter animations. */
+@keyframes np-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes np-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
