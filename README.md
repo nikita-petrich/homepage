@@ -68,9 +68,8 @@ projects and skills). The CV PDFs are generated separately and committed under
 
 ### Profile photo
 
-The sidebar shows an “NP” monogram placeholder. To use a real photo, drop an
-image at `public/assets/profile.jpg` and swap the monogram block in
-`app/page.tsx` for an `<img src="/assets/profile.jpg" …/>`.
+The sidebar photo is `public/assets/profile.jpg`. Replace that file to change
+the photo (it is rendered `object-cover` in a `1 / 1.1` frame).
 
 ### Project cover images
 

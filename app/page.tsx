@@ -56,16 +56,14 @@ export default function Page() {
         <div className="grid grid-cols-1 gap-x-[42px] gap-y-10 md:grid-cols-[210px_minmax(0,1fr)]">
           {/* Sidebar */}
           <aside className="flex min-w-0 flex-col gap-8">
-            {/* Profile photo — replace the monogram with a real photo by
-                dropping /public/assets/profile.jpg in and swapping this block
-                for a <img src="/assets/profile.jpg" …/>. */}
-            <div className="flex aspect-[1/1.1] w-full flex-col items-center justify-center gap-1 rounded-[8px] bg-[#eceded]">
-              <span className="text-[52px] leading-none font-bold tracking-[1px] text-[var(--accent-o)]">
-                NP
-              </span>
-              <span className="text-[10px] tracking-[0.12em] text-[#9a958c] uppercase">
-                Foto
-              </span>
+            {/* Profile photo */}
+            <div className="aspect-[1/1.1] w-full overflow-hidden rounded-[8px] bg-[#eceded]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/profile.jpg"
+                alt="Nikita Petrich"
+                className="h-full w-full object-cover object-top"
+              />
             </div>
 
             <Section title="Kontakt" level="h2" id="kontakt">
