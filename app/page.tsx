@@ -9,6 +9,7 @@ import {
   RichText,
   Section,
 } from "@/components/notion/blocks";
+import { CookieBanner } from "@/components/notion/cookie-banner";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
 import { TableOfContents } from "@/components/notion/toc";
@@ -125,6 +126,7 @@ export default function Page() {
       </main>
 
       <TableOfContents items={sections} />
+      <CookieBanner />
     </div>
   );
 }

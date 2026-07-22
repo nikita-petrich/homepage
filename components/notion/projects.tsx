@@ -1,14 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { LayoutGrid, X } from "lucide-react";
+import {
+  AlignLeft,
+  Calendar,
+  CaseSensitive,
+  LayoutGrid,
+  Tags,
+  X,
+} from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { projects, type Project } from "@/lib/data";
 
-import { Tag, ViewTab } from "./blocks";
+import { DatabaseToolbar } from "./database-toolbar";
+import { Tag } from "./blocks";
 
 const MONTHS = [
   "January",
@@ -39,12 +47,53 @@ const cardShadow = { boxShadow: "var(--notion-card-shadow)" } as const;
 /* Projects — "Case Studies" gallery; each card opens a detail popup. */
 export function ProjectGallery() {
   const [selected, setSelected] = useState<Project | null>(null);
+  const [asc, setAsc] = useState(false); // false = new → old (default)
+  const [query, setQuery] = useState("");
+
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const list = projects.filter((p) =>
+      !q
+        ? true
+        : p.name.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q) ||
+          p.tags.some((t) => t.label.toLowerCase().includes(q)),
+    );
+    return [...list].sort((a, b) => {
+      const cmp = a.start.localeCompare(b.start);
+      return asc ? cmp : -cmp;
+    });
+  }, [query, asc]);
 
   return (
     <>
-      <ViewTab label="Case Studies" icon={<LayoutGrid size={15} strokeWidth={2} />} />
-      <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(240px,1fr))]">
-        {projects.map((p) => (
+      <DatabaseToolbar
+        viewLabel="Case Studies"
+        viewIcon={<LayoutGrid size={15} strokeWidth={2} />}
+        sortProp="Date"
+        sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
+        sortDirLabel={asc ? "Sort old → new" : "Sort new → old"}
+        onToggleSortDir={() => setAsc((v) => !v)}
+        query={query}
+        onQueryChange={setQuery}
+        filterProps={[
+          { label: "Name", icon: <CaseSensitive size={16} strokeWidth={1.9} /> },
+          { label: "Date", icon: <Calendar size={15} strokeWidth={1.9} /> },
+          {
+            label: "Description",
+            icon: <AlignLeft size={15} strokeWidth={1.9} />,
+          },
+          { label: "Tags", icon: <Tags size={15} strokeWidth={1.9} /> },
+        ]}
+      />
+
+      {visible.length === 0 ? (
+        <div className="rounded-lg border border-dashed border-[rgba(55,53,47,0.16)] px-4 py-10 text-center text-[14px] text-notion-gray">
+          No results.
+        </div>
+      ) : (
+        <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(240px,1fr))]">
+          {visible.map((p) => (
           <button
             key={p.name}
             type="button"
@@ -91,8 +140,9 @@ export function ProjectGallery() {
               </div>
             </Card>
           </button>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       <ProjectModal project={selected} onClose={() => setSelected(null)} />
     </>
