@@ -154,7 +154,8 @@ export const projects: Project[] = [
     num: "01", name: "BESCHEIDKLAR", subtitle: "KI-gestützte LegalTech-SaaS-Plattform",
     cat: "LegalTech / GovTech", role: "Gründer & CTO",
     dateRange: "04/2025 – heute · 15 Monate", sort: "2025-04",
-    caption: "KI-Vorprüfungs-Dashboard für Bescheide", cardTags: ["LegalTech", "KI · RAG"],
+    caption: "KI-Vorprüfungs-Dashboard für Bescheide",
+    cover: "/assets/projects/proj-01.jpg", cardTags: ["LegalTech", "KI · RAG"],
     desc: "Zweiseitige LegalTech-SaaS-Plattform, die KI-gestützte Dokumentenanalyse (Azure OpenAI) mit einem regionalen Lizenzmodell für Anwaltskanzleien verbindet.",
     meta: [
       { label: "Rolle", value: "Gründer & CTO" },
@@ -182,7 +183,8 @@ export const projects: Project[] = [
     num: "02", name: "Manifest OS", subtitle: "KI-gestützte Einwanderungsplattform",
     cat: "LegalTech / Immigration", role: "Full-Stack Engineer (KI-Feature-Integration)",
     dateRange: "12/2025 – 04/2026 · 5 Monate", sort: "2025-12",
-    caption: "B2X-Portal — Fallübersicht", cardTags: ["LegalTech", "KI-Features"],
+    caption: "B2X-Portal — Fallübersicht",
+    cover: "/assets/projects/proj-02.jpg", cardTags: ["LegalTech", "KI-Features"],
     desc: "KI-Feature-Integration in einer etablierten US-Einwanderungsplattform (~60 Mio. USD Bewertung) mit über 3.000 Kunden.",
     meta: [
       { label: "Rolle", value: "Full-Stack Engineer" },
@@ -210,7 +212,8 @@ export const projects: Project[] = [
     num: "03", name: "AITOI", subtitle: "Interaktives IoT-Spielzeug (MVP)",
     cat: "IoT / Consumer Electronics", role: "Frontend Engineer",
     dateRange: "08/2025 – 09/2025 · 2 Monate", sort: "2025-08",
-    caption: "PWA WLAN-Onboarding Flow", cardTags: ["IoT", "PWA"],
+    caption: "PWA WLAN-Onboarding Flow",
+    cover: "/assets/projects/proj-03.jpg", cardTags: ["IoT", "PWA"],
     desc: "PWA-Frontend für ein vernetztes KI-Spielzeug: WLAN-Onboarding per QR-Code-Scan, Gerätekopplung und Echtzeit-Synchronisation.",
     meta: [
       { label: "Rolle", value: "Frontend Engineer" },
@@ -237,7 +240,8 @@ export const projects: Project[] = [
     num: "04", name: "DiNo", subtitle: "Digitales Notariat",
     cat: "LegalTech / Notariat", role: "Frontend Engineer",
     dateRange: "01/2025 – 05/2025 · 5 Monate", sort: "2025-01",
-    caption: "Mandantenportal — Vorgangsübersicht", cardTags: ["LegalTech", "Frontend"],
+    caption: "Mandantenportal — Vorgangsübersicht",
+    cover: "/assets/projects/proj-04.jpg", cardTags: ["LegalTech", "Frontend"],
     desc: "Frontend zur Digitalisierung von Notarprozessen mit Fokus auf klare, nachvollziehbare Nutzerführung – Mandanten- und Notarportal.",
     meta: [
       { label: "Rolle", value: "Frontend Engineer" },
@@ -264,7 +268,8 @@ export const projects: Project[] = [
     num: "05", name: "AccountingOS", subtitle: "GoBD-konformes Buchhaltungs- & Lagersystem",
     cat: "Handel & Kfz-Gewerbe", role: "Sole Developer · Full-Stack & AI",
     dateRange: "01/2024 – 12/2024 · 12 Monate · lfd. Wartung", sort: "2024-01",
-    caption: "Lagerverwaltung & Rechnungsmodul", cardTags: ["Warenwirtschaft", "Full-Stack"],
+    caption: "Lagerverwaltung & Rechnungsmodul",
+    cover: "/assets/projects/proj-05.jpg", cardTags: ["Warenwirtschaft", "Full-Stack"],
     desc: "GoBD-konformes Buchhaltungs- und Lagersystem mit resilientem Daten-Synchronisationsservice für Lieferanten-Kataloge (bis 20 Mio. CSV-Zeilen).",
     meta: [
       { label: "Rolle", value: "Sole Developer · Full-Stack & AI" },
@@ -292,7 +297,8 @@ export const projects: Project[] = [
     num: "06", name: "LKW-Tourverwaltung", subtitle: "Tourenplanung mit Echtzeit-Tracking",
     cat: "Logistik & Transport", role: "Sole Developer · Full-Stack & AI",
     dateRange: "02/2021 – 05/2023 · 2 J. 4 Mon. · lfd. Wartung", sort: "2021-02",
-    caption: "Tourenplanung mit Echtzeit-Tracking", cardTags: ["Logistik", "Full-Stack"],
+    caption: "Tourenplanung mit Echtzeit-Tracking",
+    cover: "/assets/projects/proj-06.jpg", cardTags: ["Logistik", "Full-Stack"],
     desc: "LKW-Tourverwaltungssystem zur effizienten Steuerung und Optimierung der Tourenplanung mit Echtzeit-Tracking und revisionssicherer Archivführung.",
     meta: [
       { label: "Rolle", value: "Sole Developer · Full-Stack & AI" },
@@ -320,7 +326,8 @@ export const projects: Project[] = [
     num: "07", name: "XU Navigator", subtitle: "Enterprise-Lernplattform",
     cat: "EdTech / E-Learning", role: "Full-Stack Engineer",
     dateRange: "05/2020 – 02/2023 · 2 J. 10 Mon.", sort: "2020-05",
-    caption: "Kursverwaltung & Zertifikats-Engine", cardTags: ["EdTech", "Microservices"],
+    caption: "Kursverwaltung & Zertifikats-Engine",
+    cover: "/assets/projects/proj-07.jpg", cardTags: ["EdTech", "Microservices"],
     desc: "Skalierbare Microservice-Lernplattform für Unternehmensmitarbeitende – im Einsatz bei Konzernen wie Daimler, VW und ThyssenKrupp.",
     meta: [
       { label: "Rolle", value: "Full-Stack Engineer" },
@@ -348,7 +355,8 @@ export const projects: Project[] = [
     num: "08", name: "Medizingeräte-MS", subtitle: "Managementsystem für Medizingeräte",
     cat: "HealthTech / Medizintechnik", role: "Full-Stack Engineer",
     dateRange: "01/2019 – 05/2020 · 1 J. 5 Mon.", sort: "2019-01",
-    caption: "Geräte- & Wartungshistorie-Übersicht", cardTags: ["HealthTech", ".NET"],
+    caption: "Geräte- & Wartungshistorie-Übersicht",
+    cover: "/assets/projects/proj-08.jpg", cardTags: ["HealthTech", ".NET"],
     desc: "Mandantenfähige Software zur Verwaltung medizinischer Geräte über mehrere Krankenhäuser – Werkzeug für Techniker zur Wartung und Reparatur.",
     meta: [
       { label: "Rolle", value: "Full-Stack Engineer" },
