@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ArrowUpDown, ListFilter, Search } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -188,28 +187,3 @@ export function SkillBar({ level }: { level: number }) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Inline-database view toolbar (view tab + filter / sort / search).   */
-/* ------------------------------------------------------------------ */
-
-export function ViewTab({
-  label,
-  icon,
-}: {
-  label: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <div className="mb-2 flex items-center justify-between">
-      <div className="inline-flex items-center gap-1.5 rounded-md bg-[#f1f1ef] px-2 py-[5px] text-[14px] font-medium">
-        <span className="flex h-4 w-4 items-center justify-center">{icon}</span>
-        {label}
-      </div>
-      <div className="flex items-center gap-3 text-notion-gray">
-        <ListFilter size={16} strokeWidth={1.9} />
-        <ArrowUpDown size={16} strokeWidth={1.9} className="text-[#2383e2]" />
-        <Search size={16} strokeWidth={1.9} />
-      </div>
-    </div>
-  );
-}
