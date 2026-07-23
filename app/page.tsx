@@ -7,6 +7,7 @@ import {
     RichText,
     Section,
 } from "@/components/notion/blocks";
+import { CertificateGallery } from "@/components/notion/certificates";
 import { CookieBanner } from "@/components/notion/cookie-banner";
 import { CoverBanner } from "@/components/notion/cover-banner";
 import { SkillsGallery } from "@/components/notion/galleries";
@@ -132,6 +133,10 @@ export default function Page() {
 
             <Section title="Skills & Fähigkeiten" level="h1" id="skills">
               <SkillsGallery />
+            </Section>
+
+            <Section title="Zertifikate" level="h1" id="zertifikate">
+              <CertificateGallery />
             </Section>
           </div>
         </div>
