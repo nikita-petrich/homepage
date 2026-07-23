@@ -8,6 +8,7 @@ import {
     Section,
 } from "@/components/notion/blocks";
 import { CookieBanner } from "@/components/notion/cookie-banner";
+import { CoverBanner } from "@/components/notion/cover-banner";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
 import { TableOfContents } from "@/components/notion/toc";
@@ -29,8 +30,8 @@ export default function Page() {
     <div className="min-h-screen bg-white">
       <NotionTopBar />
 
-      {/* Cover band (gradient, full-bleed) */}
-      <div className="h-[clamp(140px,15.5vw,220px)] w-full bg-[linear-gradient(180deg,#dcdddf_0%,#c9cacc_100%)]" />
+      {/* Cover band — LinkedIn-style banner, full-bleed */}
+      <CoverBanner />
 
       {/* Page body */}
       <main className="mx-auto max-w-[960px] px-6 pb-28 sm:px-12">
@@ -41,13 +42,6 @@ export default function Page() {
             alt="Avatar"
             className="h-[66px] w-[66px] object-contain"
           />
-        </div>
-
-        <h1 className="text-[40px] leading-[1.15] font-bold tracking-[-0.02em]">
-          {profile.name}
-        </h1>
-        <div className="mt-1.5 mb-6 text-[18px] font-semibold text-[var(--accent-o)]">
-          {profile.role}
         </div>
 
         {/* Two-column layout */}

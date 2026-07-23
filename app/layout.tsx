@@ -16,12 +16,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  /** @modal parallel-route slot — renders intercepted project dialogs. */
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="de" className={`${inter.variable} antialiased`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        {modal}
+      </body>
     </html>
   );
 }
