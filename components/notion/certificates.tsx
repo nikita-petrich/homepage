@@ -17,8 +17,10 @@ import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag } from "./blocks";
 import { bannerBg } from "./cover-banner";
 
-/* Public PDF path for a certificate — the permanent, shareable URL. */
-export const certHref = (c: Certificate) => `/zertifikate/${c.slug}.pdf`;
+/* Permanent, shareable link for a certificate: the self-hosted PDF at
+   /zertifikate/<slug>.pdf, or an official external URL when not yet hosted. */
+export const certHref = (c: Certificate) =>
+  c.externalUrl ?? `/zertifikate/${c.slug}.pdf`;
 
 /* Per-platform pill styling (Notion select colours). */
 const issuerPill: Record<Certificate["issuer"], string> = {
@@ -113,7 +115,7 @@ export function CertificateGallery() {
               href={certHref(c)}
               target="_blank"
               rel="noreferrer"
-              aria-label={`Zertifikat „${c.title}" (${c.issuer}) als PDF öffnen`}
+              aria-label={`Zertifikat „${c.title}" (${c.issuer}) öffnen`}
               style={{ boxShadow: "var(--notion-card-shadow)" }}
               className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-white text-left transition-colors hover:bg-[rgba(55,53,47,0.02)]"
             >
@@ -136,7 +138,7 @@ export function CertificateGallery() {
                 </div>
                 <div className="flex items-center gap-1.5 pt-1 text-[12px] font-medium text-[var(--accent-o)]">
                   <ExternalLink size={13} strokeWidth={2} />
-                  PDF ansehen
+                  {c.externalUrl ? `Auf ${c.issuer} ansehen` : "PDF ansehen"}
                 </div>
               </div>
             </a>

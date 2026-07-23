@@ -390,35 +390,39 @@ export const skills: SkillCategory[] = [
   { num: "12", name: "Tooling", items: ["Git", "GitHub", "GitLab", "VS Code", "Visual Studio", "Azure DevOps", "Jira", "Linear", "Postman", "Figma", "Bluedot", "Amplitude"] },
 ];
 
-/* ------------------------------------------------------------------ */
-/*  Certificates — course completions, each served as a PDF from        */
-/*  /public/zertifikate. The public URL /zertifikate/<slug>.pdf is a     */
-/*  permanent, shareable link — never change an existing slug.           */
-/* ------------------------------------------------------------------ */
-
+/* Course certificates, each served as a PDF from /public/zertifikate. The
+   public URL /zertifikate/<slug>.pdf is a permanent, shareable link. */
 export type Certificate = {
   /** Stable URL slug — the PDF lives at /zertifikate/<slug>.pdf forever. */
   slug: string;
-  /** Course / certificate title. */
   title: string;
-  /** Issuing learning platform. */
   issuer: "Scrimba" | "Code with Mosh" | "Udemy";
-  /** Human-readable completion date (de-DE). */
   date: string;
   /** ISO completion date, used for sorting (newest first). */
   sort: string;
-  /** Scope of the course, e.g. "8,2 Std · 142 Lektionen". */
+  /** Scope, e.g. "8,2 Std · 142 Lektionen". */
   detail?: string;
-  /** Category label, shown as an accent tag. */
   cat: string;
-  /** Extra card tags. */
   tags: string[];
-  /** Public verification link at the issuer, when one exists. */
   verifyUrl?: string;
+  /** Official URL for certificates not (yet) self-hosted as a PDF. */
+  externalUrl?: string;
 };
 
 /* Ordered newest first by default (mirrors the projects gallery). */
 export const certificates: Certificate[] = [
+  {
+    slug: "ai-for-developers-github-copilot",
+    title: "AI For Developers With GitHub Copilot, Cursor AI & ChatGPT",
+    issuer: "Udemy",
+    date: "Dezember 2025",
+    sort: "2025-12-08",
+    detail: "5,5 Std",
+    cat: "KI / AI",
+    tags: ["GitHub Copilot", "Cursor AI"],
+    externalUrl:
+      "https://www.udemy.com/certificate/UC-00859d2d-a91d-40bd-8ea8-cae70ce1c5da/",
+  },
   {
     slug: "build-ai-powered-apps",
     title: "Build AI-Powered Apps",
