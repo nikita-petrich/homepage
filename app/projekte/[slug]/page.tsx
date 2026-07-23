@@ -5,8 +5,6 @@ import { projects } from "@/lib/data";
 
 import { StandaloneProjectDialog } from "./standalone";
 
-/* Pre-render one static page per project so every /projekte/<slug> is a real,
-   crawlable URL. New projects are picked up automatically from lib/data.ts. */
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
@@ -25,8 +23,6 @@ export async function generateMetadata({
   };
 }
 
-/* Standalone project page — served on a hard load / refresh / shared link,
-   when the modal interception does not run. */
 export default async function ProjectPage({
   params,
 }: {

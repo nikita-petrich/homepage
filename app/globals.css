@@ -1,87 +1,24 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-
-/*
-  Notion "Maya Zhang" replica — design tokens.
-  Colours are lifted from Notion's own light theme so the page reads 1:1.
-*/
 
 :root {
-  /* Accent (orange) used for the page icon, links and highlights. */
   --accent-o: #e1852e;
 
-  /* --- Notion palette --- */
   --notion-text: #37352f;
   --notion-text-gray: #787774;
   --notion-bg: #ffffff;
   --notion-divider: rgba(55, 53, 47, 0.16);
-  --notion-callout-bg: #f1f1ef;
-  --notion-card-bg: #ffffff;
-  --notion-card-border: rgba(15, 15, 15, 0.1);
   --notion-card-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
     rgba(15, 15, 15, 0.1) 0px 2px 4px;
-  --notion-placeholder: #f1f0ee;
-  --notion-blue: #2383e2;
 
-  /* Notion select / multi-select pill backgrounds (light) */
-  --pill-default: #e3e2e0;
-  --pill-gray: #e3e2e0;
-  --pill-brown: #eee0da;
-  --pill-orange: #fadec9;
-  --pill-yellow: #fdecc8;
-  --pill-green: #dbeddb;
-  --pill-blue: #d3e5ef;
-  --pill-purple: #e8deee;
-  --pill-pink: #f5e0e9;
-  --pill-red: #ffe2dd;
-  --pill-text: #37352f;
-
-  /* --- shadcn/ui tokens (mapped onto the Notion palette) --- */
   --radius: 0.5rem;
-  --background: #ffffff;
-  --foreground: #37352f;
-  --card: #ffffff;
-  --card-foreground: #37352f;
-  --popover: #ffffff;
-  --popover-foreground: #37352f;
-  --primary: #37352f;
-  --primary-foreground: #ffffff;
-  --secondary: #f1f1ef;
-  --secondary-foreground: #37352f;
-  --muted: #f7f6f3;
-  --muted-foreground: #787774;
-  --accent: #f1f1ef;
-  --accent-foreground: #37352f;
-  --destructive: #eb5757;
   --border: rgba(55, 53, 47, 0.16);
-  --input: rgba(55, 53, 47, 0.16);
-  --ring: #b9b9b7;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
   --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
   --color-notion-text: var(--notion-text);
   --color-notion-gray: var(--notion-text-gray);
 
-  --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
@@ -112,11 +49,6 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-a.notion-link {
-  text-decoration: underline;
-  text-decoration-color: rgba(55, 53, 47, 0.2);
-  text-underline-offset: 2px;
 }
 
 /* Project detail popup enter animations. */

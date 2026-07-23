@@ -1,10 +1,3 @@
-/*
- * Content for Nikita Petrich's résumé homepage — a Notion-style page mirroring
- * the design template (cover, title, two-column layout with contact / key facts
- * / languages / focus sidebar and an about callout, project case studies and a
- * skills database in the main column). All copy is sourced from the CV.
- */
-
 export type Span = { t: string; b?: boolean };
 export type RichLine = Span[];
 
@@ -15,7 +8,6 @@ export const profile = {
   accent: "#e1852e",
 };
 
-/* Downloadable CV files (generated PDFs, served from /public/cv). */
 export type CvFile = { href: string; label: string; flag: string; sub: string };
 export const cvFiles: CvFile[] = [
   { href: "/cv/CV_Nikita_Petrich_DE.pdf", label: "CV Deutsch", flag: "/assets/flags/de.svg", sub: "PDF · 10 Seiten" },
@@ -64,7 +56,6 @@ export const profileLinks: ProfileLink[] = [
   { label: "Malt", href: "https://www.malt.de" },
 ];
 
-/* About-me callout — bold segments preserved from the source page. */
 export const intro: RichLine[] = [
   [
     { t: "Ich bin freiberuflicher " },
@@ -150,7 +141,6 @@ export type Project = {
   tech: string[];
 };
 
-/* Case studies — ordered newest first by default. */
 export const projects: Project[] = [
   {
     num: "01", slug: "bescheidklar", name: "BESCHEIDKLAR", subtitle: "KI-gestützte LegalTech-SaaS-Plattform",
@@ -400,7 +390,6 @@ export const skills: SkillCategory[] = [
   { num: "12", name: "Tooling", items: ["Git", "GitHub", "GitLab", "VS Code", "Visual Studio", "Azure DevOps", "Jira", "Linear", "Postman", "Figma", "Bluedot", "Amplitude"] },
 ];
 
-/* Headings for the floating table-of-contents navigation. */
 export type TocItem = { id: string; label: string; level: 1 | 2 };
 
 export const sections: TocItem[] = [

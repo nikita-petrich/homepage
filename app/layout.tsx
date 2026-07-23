@@ -19,7 +19,6 @@ export default function RootLayout({
   modal,
 }: Readonly<{
   children: React.ReactNode;
-  /** @modal parallel-route slot — renders intercepted project dialogs. */
   modal: React.ReactNode;
 }>) {
   return (

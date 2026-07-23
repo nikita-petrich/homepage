@@ -5,10 +5,6 @@ import type { FactItem, InfoItem, Language, RichLine } from "@/lib/data";
 
 import { CactusOrangeIcon } from "./icons";
 
-/* ------------------------------------------------------------------ */
-/*  Section: a Notion heading followed by a full-width divider block.   */
-/* ------------------------------------------------------------------ */
-
 export function Section({
   title,
   level = "h1",
@@ -37,10 +33,6 @@ export function Section({
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Rich text — preserves bold spans from the source callout.           */
-/* ------------------------------------------------------------------ */
-
 export function RichText({ lines }: { lines: RichLine[] }) {
   return (
     <>
@@ -61,10 +53,6 @@ export function RichText({ lines }: { lines: RichLine[] }) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Callout — white rounded block with a thin border + cactus icon.     */
-/* ------------------------------------------------------------------ */
-
 export function Callout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex gap-3 rounded-[10px] border border-[rgba(55,53,47,0.16)] bg-white px-4 py-4">
@@ -75,10 +63,6 @@ export function Callout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/*  Info line — emoji + bold text (contact list).                       */
-/* ------------------------------------------------------------------ */
 
 export function InfoLine({ item }: { item: InfoItem }) {
   const isExternal = item.href?.startsWith("http");
@@ -103,10 +87,6 @@ export function InfoLine({ item }: { item: InfoItem }) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Key-facts line — small uppercase label over a bold value.           */
-/* ------------------------------------------------------------------ */
-
 export function FactLine({ item }: { item: FactItem }) {
   return (
     <div className="text-[15px] leading-[1.4]">
@@ -117,10 +97,6 @@ export function FactLine({ item }: { item: FactItem }) {
     </div>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/*  Language line — flag + language, muted proficiency note.            */
-/* ------------------------------------------------------------------ */
 
 export function LangLine({ item }: { item: Language }) {
   return (
@@ -138,12 +114,6 @@ export function LangLine({ item }: { item: Language }) {
     </div>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/*  Pills — all built on the shadcn <Badge> component.                  */
-/*  AccentTag — warm brown chip (focus areas, ways of working, card).   */
-/*  SkillTag   — neutral chip (skill items, project technologies).      */
-/* ------------------------------------------------------------------ */
 
 export function AccentTag({
   label,

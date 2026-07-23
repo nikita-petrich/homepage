@@ -6,13 +6,6 @@ import { ChevronDown, Download, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { cvFiles } from "@/lib/data";
 
-/**
- * "CV herunterladen" button that opens a small menu to pick the language
- * (Deutsch / English) — both served as PDF from /public/cv.
- *
- * variant "hero"    — prominent, accent-outlined pill used in the page header.
- * variant "topbar"  — compact solid button that sits in the sticky top bar.
- */
 export function CvDownload({
   variant = "hero",
   className,
@@ -60,7 +53,7 @@ export function CvDownload({
         <Download size={isTopbar ? 15 : 17} strokeWidth={2} />
         <span className={isTopbar ? "hidden sm:inline" : undefined}>CV</span>
         <span className={isTopbar ? "hidden md:inline" : undefined}>
-          {isTopbar ? " herunterladen" : " herunterladen"}
+          {" herunterladen"}
         </span>
         <ChevronDown
           size={isTopbar ? 14 : 16}
