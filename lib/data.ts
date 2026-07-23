@@ -18,8 +18,8 @@ export const profile = {
 /* Downloadable CV files (generated PDFs, served from /public/cv). */
 export type CvFile = { href: string; label: string; flag: string; sub: string };
 export const cvFiles: CvFile[] = [
-  { href: "/cv/CV_Nikita_Petrich_DE.pdf", label: "CV Deutsch", flag: "🇩🇪", sub: "PDF · 10 Seiten" },
-  { href: "/cv/CV_Nikita_Petrich_EN.pdf", label: "CV EN", flag: "EN", sub: "PDF · 10 pages" },
+  { href: "/cv/CV_Nikita_Petrich_DE.pdf", label: "CV Deutsch", flag: "/assets/flags/de.svg", sub: "PDF · 10 Seiten" },
+  { href: "/cv/CV_Nikita_Petrich_EN.pdf", label: "CV EN", flag: "/assets/flags/us.svg", sub: "PDF · 10 pages" },
 ];
 
 export type InfoItem = { icon: string; text: string; href?: string };
@@ -27,7 +27,7 @@ export type InfoItem = { icon: string; text: string; href?: string };
 export const contact: InfoItem[] = [
   { icon: "📞", text: "+49 15679088678", href: "tel:+4915679088678" },
   { icon: "✉️", text: "n.petrich@sequenz.io", href: "mailto:n.petrich@sequenz.io" },
-  { icon: "🌐", text: "sequenz.io", href: "https://sequenz.io" },
+  { icon: "🌐", text: "https://sequenz.io", href: "https://sequenz.io" },
 ];
 
 export type FactItem = { label: string; value: string };
@@ -40,11 +40,11 @@ export const eckdaten: FactItem[] = [
   { label: "Standort", value: "Remote · München (max. 1–2 Tage onsite)" },
 ];
 
-export type Language = { icon: string; text: string; sub: string };
+export type Language = { flag: string; text: string; sub: string };
 
 export const languages: Language[] = [
-  { icon: "🇩🇪", text: "Deutsch", sub: "Muttersprache" },
-  { icon: "EN", text: "Englisch", sub: "B2 · US/EU-Remote" },
+  { flag: "/assets/flags/de.svg", text: "Deutsch", sub: "Muttersprache" },
+  { flag: "/assets/flags/us.svg", text: "Englisch", sub: "B2 · US/EU-Remote" },
 ];
 
 export const arbeitsweise: string[] = [
@@ -131,6 +131,8 @@ export const schwerpunkt: string[] = [
 export type ProjectMeta = { label: string; value: string };
 export type Project = {
   num: string;
+  /** Stable URL slug — never change an existing one; it is a permanent route. */
+  slug: string;
   name: string;
   subtitle: string;
   cat: string;
@@ -151,7 +153,7 @@ export type Project = {
 /* Case studies — ordered newest first by default. */
 export const projects: Project[] = [
   {
-    num: "01", name: "BESCHEIDKLAR", subtitle: "KI-gestützte LegalTech-SaaS-Plattform",
+    num: "01", slug: "bescheidklar", name: "BESCHEIDKLAR", subtitle: "KI-gestützte LegalTech-SaaS-Plattform",
     cat: "LegalTech / GovTech", role: "Gründer & CTO",
     dateRange: "04/2025 – heute · 15 Monate", sort: "2025-04",
     caption: "KI-Vorprüfungs-Dashboard für Bescheide",
@@ -180,7 +182,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Python", "Next.js", "React", "FastAPI", "LLM-Integration", "OpenAI API", "Azure OpenAI", "RAG", "Prompt Engineering", "Embeddings", "pgvector", "OCR", "LangChain", "PostgreSQL", "Redis", "Tailwind CSS", "shadcn/ui", "Stripe", "JWT", "OAuth 2.0", "Docker", "GitHub Actions", "CI/CD", "Hetzner", "Microservices", "EU AI Act", "Clean Architecture", "DSGVO by Design"],
   },
   {
-    num: "02", name: "Manifest OS", subtitle: "KI-gestützte Einwanderungsplattform",
+    num: "02", slug: "manifest-os", name: "Manifest OS", subtitle: "KI-gestützte Einwanderungsplattform",
     cat: "LegalTech / Immigration", role: "Full-Stack Engineer (KI-Feature-Integration)",
     dateRange: "12/2025 – 04/2026 · 5 Monate", sort: "2025-12",
     caption: "B2X-Portal — Fallübersicht",
@@ -209,7 +211,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Python", "Next.js", "React", "NestJS", "Node.js", "Fastify", "REST API", "Webhooks", "BullMQ", "RabbitMQ", "LLM-Integration", "OpenAI API", "Anthropic Claude API", "RAG", "Embeddings", "OCR", "Amplitude", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "better-auth", "JWT", "Docker", "GCP", "GitHub Actions", "CI/CD", "Claude Code", "Cursor AI", "Code Rabbit", "Linear", "Playwright", "Microservices", "Event-Driven Architecture", "Clean Architecture"],
   },
   {
-    num: "03", name: "AITOI", subtitle: "Interaktives IoT-Spielzeug (MVP)",
+    num: "03", slug: "aitoi", name: "AITOI", subtitle: "Interaktives IoT-Spielzeug (MVP)",
     cat: "IoT / Consumer Electronics", role: "Frontend Engineer",
     dateRange: "08/2025 – 09/2025 · 2 Monate", sort: "2025-08",
     caption: "PWA WLAN-Onboarding Flow",
@@ -237,7 +239,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Next.js", "React", "PWA", "Responsive Design", "Design System", "Figma", "TanStack Query", "React Hook Form", "WebSockets", "Device-Pairing", "Supabase", "Supabase Realtime", "Row Level Security", "PostgreSQL", "Tailwind CSS", "shadcn/ui", "JWT", "Docker", "CI/CD", "GitHub Actions", "Vitest", "MVP-Entwicklung", "Clean Architecture"],
   },
   {
-    num: "04", name: "DiNo", subtitle: "Digitales Notariat",
+    num: "04", slug: "dino", name: "DiNo", subtitle: "Digitales Notariat",
     cat: "LegalTech / Notariat", role: "Frontend Engineer",
     dateRange: "01/2025 – 05/2025 · 5 Monate", sort: "2025-01",
     caption: "Mandantenportal — Vorgangsübersicht",
@@ -265,7 +267,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "React", "Python", "Flask", "REST API / OpenAPI", "MariaDB", "MySQL", "Redux", "React Router", "React Hook Form", "Material UI (MUI)", "SPA", "Mandantenportal", "Digitale Aktenführung", "JWT", "OAuth 2.0", "RBAC", "DSGVO-Compliance", "Docker", "Nginx", "GitLab", "Clean Architecture"],
   },
   {
-    num: "05", name: "AccountingOS", subtitle: "GoBD-konformes Buchhaltungs- & Lagersystem",
+    num: "05", slug: "accounting-os", name: "AccountingOS", subtitle: "GoBD-konformes Buchhaltungs- & Lagersystem",
     cat: "Handel & Kfz-Gewerbe", role: "Sole Developer · Full-Stack & AI",
     dateRange: "01/2024 – 12/2024 · 12 Monate · lfd. Wartung", sort: "2024-01",
     caption: "Lagerverwaltung & Rechnungsmodul",
@@ -294,7 +296,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "Daten-Synchronisation", "CSV-Verarbeitung", "Message Queues", "Caching", "MariaDB", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "Tailwind CSS", "Warenwirtschaft", "ERP", "GoBD", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Hetzner", "Microservices", "Clean Architecture"],
   },
   {
-    num: "06", name: "LKW-Tourverwaltung", subtitle: "Tourenplanung mit Echtzeit-Tracking",
+    num: "06", slug: "lkw-tourverwaltung", name: "LKW-Tourverwaltung", subtitle: "Tourenplanung mit Echtzeit-Tracking",
     cat: "Logistik & Transport", role: "Sole Developer · Full-Stack & AI",
     dateRange: "02/2021 – 05/2023 · 2 J. 4 Mon. · lfd. Wartung", sort: "2021-02",
     caption: "Tourenplanung mit Echtzeit-Tracking",
@@ -323,7 +325,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "PostgreSQL", "Redis", "MikroORM", "React Router", "Tailwind CSS", "SPA", "Tourenplanung / Routenoptimierung", "Echtzeit-Tracking", "PDF-Generierung", "DOCX-Generierung", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Nginx", "Microservices", "Clean Architecture"],
   },
   {
-    num: "07", name: "XU Navigator", subtitle: "Enterprise-Lernplattform",
+    num: "07", slug: "xu-navigator", name: "XU Navigator", subtitle: "Enterprise-Lernplattform",
     cat: "EdTech / E-Learning", role: "Full-Stack Engineer",
     dateRange: "05/2020 – 02/2023 · 2 J. 10 Mon.", sort: "2020-05",
     caption: "Kursverwaltung & Zertifikats-Engine",
@@ -352,7 +354,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Angular", "Node.js", "NestJS", "Express.js", "REST API", "GraphQL", "MongoDB", "Mongoose", "NgRx", "RxJS", "Angular Material", "SCSS", "Azure", "Azure DevOps", "Azure App Service", "Azure Blob Storage", "Docker", "CI/CD", "JWT", "OAuth 2.0", "SSO", "LMS", "Video-Streaming", "Microservices", "Clean Architecture"],
   },
   {
-    num: "08", name: "Medizingeräte-MS", subtitle: "Managementsystem für Medizingeräte",
+    num: "08", slug: "medizingeraete-ms", name: "Medizingeräte-MS", subtitle: "Managementsystem für Medizingeräte",
     cat: "HealthTech / Medizintechnik", role: "Full-Stack Engineer",
     dateRange: "01/2019 – 05/2020 · 1 J. 5 Mon.", sort: "2019-01",
     caption: "Geräte- & Wartungshistorie-Übersicht",

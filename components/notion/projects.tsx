@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { AlignLeft, Calendar, CaseSensitive, LayoutGrid, Tags, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -8,6 +9,7 @@ import { projects, type Project } from "@/lib/data";
 
 import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag, SkillTag } from "./blocks";
+import { GitCodeMotif, bannerBg } from "./cover-banner";
 
 const stripe =
   "repeating-linear-gradient(135deg,#f2efe9 0 10px,#eae6dd 10px 20px)";
@@ -54,9 +56,12 @@ function ProjectCover({
   );
 }
 
-/* Projects — "Case Studies" gallery; each card opens a detail popup. */
+/* Projects — "Case Studies" gallery. Each card links to /projekte/<slug>; on
+   the home page that click is intercepted (app/@modal/(.)projekte/[slug]) and
+   opens as a modal overlay, while a direct hit / refresh renders the standalone
+   page. The slug is a permanent route — new projects never shift an existing
+   one. */
 export function ProjectGallery() {
-  const [selected, setSelected] = useState<Project | null>(null);
   const [asc, setAsc] = useState(false); // false = new → old (default)
   const [query, setQuery] = useState("");
 
@@ -111,10 +116,10 @@ export function ProjectGallery() {
       ) : (
         <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(240px,1fr))]">
           {visible.map((p) => (
-            <button
+            <Link
               key={p.num}
-              type="button"
-              onClick={() => setSelected(p)}
+              href={`/projekte/${p.slug}`}
+              scroll={false}
               style={{ boxShadow: "var(--notion-card-shadow)" }}
               className="h-full cursor-pointer overflow-hidden rounded-lg bg-white text-left transition-colors hover:bg-[rgba(55,53,47,0.02)]"
             >
@@ -138,17 +143,18 @@ export function ProjectGallery() {
                   {p.desc}
                 </p>
               </div>
-            </button>
+            </Link>
           ))}
         </div>
       )}
-
-      <ProjectModal project={selected} onClose={() => setSelected(null)} />
     </>
   );
 }
 
-function ProjectModal({
+/* Project detail dialog. Rendered by the intercepting modal route (overlaying
+   the home page) and by the standalone /projekte/<slug> page; each supplies its
+   own onClose (router.back() vs. router.push("/")). */
+export function ProjectModal({
   project,
   onClose,
 }: {
@@ -195,11 +201,22 @@ function ProjectModal({
           <X size={18} />
         </button>
 
-        <ProjectCover
-          project={project}
-          className="aspect-[16/8]"
-          captionClass="text-[13px]"
-        />
+        {project.cover ? (
+          <ProjectCover
+            project={project}
+            className="aspect-[16/8]"
+            captionClass="text-[13px]"
+          />
+        ) : (
+          /* No project image — mirror the site cover's banner motif. */
+          <div
+            className="relative flex aspect-[16/8] w-full items-center overflow-hidden px-8 sm:px-12"
+            style={{ backgroundImage: bannerBg }}
+          >
+            <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
+            <GitCodeMotif className="text-[clamp(13px,2.6vw,20px)]" />
+          </div>
+        )}
 
         <div className="px-6 py-7 sm:px-10 sm:py-9">
           <div className="text-[12px] font-semibold tracking-[0.06em] text-[var(--accent-o)] uppercase">
@@ -220,13 +237,15 @@ function ProjectModal({
             {project.dateRange} · {project.role}
           </div>
 
-          <div className="mt-[18px] grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-x-5 gap-y-2.5 rounded-lg border border-[rgba(55,53,47,0.1)] bg-[#faf9f7] px-4 py-3.5">
+          <div className="mt-[18px] grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[rgba(55,53,47,0.1)] bg-[rgba(55,53,47,0.09)] sm:grid-cols-3">
             {project.meta.map((m) => (
-              <div key={m.label} className="text-[13px] leading-[1.4]">
-                <span className="font-semibold text-[var(--accent-o)]">
-                  {m.label}:{" "}
-                </span>
-                <span className="text-[#4a473f]">{m.value}</span>
+              <div key={m.label} className="bg-[#faf9f7] px-3.5 py-2.5">
+                <div className="text-[10px] font-semibold tracking-[0.06em] text-notion-gray uppercase">
+                  {m.label}
+                </div>
+                <div className="mt-1 text-[13px] leading-[1.35] text-[#37352f]">
+                  {m.value}
+                </div>
               </div>
             ))}
           </div>

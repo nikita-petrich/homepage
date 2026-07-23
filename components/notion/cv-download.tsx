@@ -90,11 +90,15 @@ export function CvDownload({
               className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-[rgba(55,53,47,0.06)]"
             >
               <span
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-[18px]"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md"
                 style={{ background: "color-mix(in srgb, var(--accent-o) 12%, transparent)" }}
                 aria-hidden
               >
-                {f.flag}
+                <img
+                  src={f.flag}
+                  alt=""
+                  className="h-[18px] w-auto rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+                />
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[14px] font-semibold text-notion-text">

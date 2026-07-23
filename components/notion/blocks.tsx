@@ -124,10 +124,13 @@ export function FactLine({ item }: { item: FactItem }) {
 
 export function LangLine({ item }: { item: Language }) {
   return (
-    <div className="flex items-start gap-[8px] py-[3px] text-[15px] leading-[1.5]">
-      <span className="shrink-0" aria-hidden>
-        {item.icon}
-      </span>
+    <div className="flex items-center gap-[8px] py-[3px] text-[15px] leading-[1.5]">
+      <img
+        src={item.flag}
+        alt=""
+        aria-hidden
+        className="h-[15px] w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+      />
       <span>
         <span className="font-semibold">{item.text}</span>
         <span className="text-notion-gray"> — {item.sub}</span>
