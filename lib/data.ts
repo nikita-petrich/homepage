@@ -390,6 +390,102 @@ export const skills: SkillCategory[] = [
   { num: "12", name: "Tooling", items: ["Git", "GitHub", "GitLab", "VS Code", "Visual Studio", "Azure DevOps", "Jira", "Linear", "Postman", "Figma", "Bluedot", "Amplitude"] },
 ];
 
+/* Course certificates, each served as a PDF from /public/zertifikate. The
+   public URL /zertifikate/<slug>.pdf is a permanent, shareable link. */
+export type Certificate = {
+  /** Stable URL slug — the PDF lives at /zertifikate/<slug>.pdf forever. */
+  slug: string;
+  title: string;
+  issuer: "Scrimba" | "Code with Mosh" | "Udemy";
+  date: string;
+  /** ISO completion date, used for sorting (newest first). */
+  sort: string;
+  /** Scope, e.g. "8,2 Std · 142 Lektionen". */
+  detail?: string;
+  cat: string;
+  tags: string[];
+  verifyUrl?: string;
+  /** Official URL for certificates not (yet) self-hosted as a PDF. */
+  externalUrl?: string;
+};
+
+/* Ordered newest first by default (mirrors the projects gallery). */
+export const certificates: Certificate[] = [
+  {
+    slug: "ai-for-developers-github-copilot",
+    title: "AI For Developers With GitHub Copilot, Cursor AI & ChatGPT",
+    issuer: "Udemy",
+    date: "Dezember 2025",
+    sort: "2025-12-08",
+    detail: "5,5 Std",
+    cat: "KI / AI",
+    tags: ["GitHub Copilot", "Cursor AI"],
+    externalUrl:
+      "https://www.udemy.com/certificate/UC-00859d2d-a91d-40bd-8ea8-cae70ce1c5da/",
+  },
+  {
+    slug: "build-ai-powered-apps",
+    title: "Build AI-Powered Apps",
+    issuer: "Code with Mosh",
+    date: "Dezember 2025",
+    sort: "2025-12-07",
+    cat: "KI / AI",
+    tags: ["LLM", "OpenAI API"],
+  },
+  {
+    slug: "angular-real-world-guide",
+    title: "Angular Real World Guide — Build Angular & Firebase Apps",
+    issuer: "Udemy",
+    date: "November 2025",
+    sort: "2025-11-13",
+    detail: "10,5 Std",
+    cat: "Frontend",
+    tags: ["Angular", "Firebase"],
+    verifyUrl:
+      "https://www.udemy.com/certificate/UC-057de643-09eb-4285-86cb-dae81086f54f/",
+  },
+  {
+    slug: "the-ai-engineer-path",
+    title: "The AI Engineer Path",
+    issuer: "Scrimba",
+    date: "Juni 2025",
+    sort: "2025-06-14",
+    detail: "8,2 Std · 142 Lektionen",
+    cat: "KI / AI",
+    tags: ["AI Engineering", "RAG"],
+  },
+  {
+    slug: "learn-python",
+    title: "Learn Python",
+    issuer: "Scrimba",
+    date: "Juni 2025",
+    sort: "2025-06-12",
+    detail: "5,6 Std · 62 Lektionen",
+    cat: "Python",
+    tags: ["Grundlagen"],
+  },
+  {
+    slug: "learn-accessible-web-design",
+    title: "Learn Accessible Web Design",
+    issuer: "Scrimba",
+    date: "Juni 2025",
+    sort: "2025-06-11",
+    detail: "1,6 Std · 28 Lektionen",
+    cat: "Accessibility",
+    tags: ["WCAG", "Barrierefreiheit"],
+  },
+  {
+    slug: "complete-python-mastery",
+    title: "Complete Python Mastery",
+    issuer: "Code with Mosh",
+    date: "Juni 2025",
+    sort: "2025-06-02",
+    cat: "Python",
+    tags: ["OOP"],
+  },
+];
+
+/* Headings for the floating table-of-contents navigation. */
 export type TocItem = { id: string; label: string; level: 1 | 2 };
 
 export const sections: TocItem[] = [
@@ -399,4 +495,5 @@ export const sections: TocItem[] = [
   { id: "schwerpunkt", label: "Schwerpunkt", level: 1 },
   { id: "projekte", label: "Projekte", level: 1 },
   { id: "skills", label: "Skills", level: 1 },
+  { id: "zertifikate", label: "Zertifikate", level: 1 },
 ];
