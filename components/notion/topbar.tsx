@@ -1,7 +1,6 @@
 import { profile } from "@/lib/data";
 import { CvDownload } from "./cv-download";
 
-/* Sticky published-page top bar: name + CV download + "book a call" CTA. */
 export function NotionTopBar() {
   return (
     <header className="sticky top-0 z-30 flex h-11 items-center justify-between border-b border-[rgba(55,53,47,0.09)] bg-white/95 px-3 backdrop-blur-sm sm:px-4">

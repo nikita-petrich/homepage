@@ -5,12 +5,6 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { TocItem } from "@/lib/data";
 
-/**
- * Notion-style floating table of contents.
- * Stays pinned to the right edge, shows a dash per heading, and expands into a
- * panel of section titles on hover. Clicking a title smooth-scrolls to it and
- * the current section stays highlighted while scrolling.
- */
 export function TableOfContents({ items }: { items: TocItem[] }) {
   const [active, setActive] = useState<string>(items[0]?.id ?? "");
   const [open, setOpen] = useState(false);
@@ -46,7 +40,6 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      {/* Hover panel with all section titles */}
       <nav
         className={cn(
           "absolute top-1/2 right-2 min-w-[190px] -translate-y-1/2 rounded-lg border border-[rgba(55,53,47,0.12)] bg-white p-1.5 shadow-[rgba(15,15,15,0.08)_0px_4px_16px] transition-all duration-150",
@@ -74,7 +67,6 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
         ))}
       </nav>
 
-      {/* Collapsed dashes (Notion uses a uniform width, right-aligned) */}
       <div
         className={cn(
           "flex flex-col items-end gap-[9px] py-3 pr-[14px] pl-7 transition-opacity duration-150",

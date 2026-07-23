@@ -9,7 +9,6 @@ const STORAGE_KEY = "notion-cookie-consent";
 
 type Prefs = { functional: boolean; analytics: boolean; marketing: boolean };
 
-/* Notion's cookie-consent bar with its "Customize cookies" panel. */
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [customize, setCustomize] = useState(false);
@@ -27,8 +26,7 @@ export function CookieBanner() {
       shouldShow = true;
     }
     if (!shouldShow) return;
-    // Defer the state update out of the effect body (avoids a synchronous
-    // cascading render) and reveal the banner on the next frame.
+    // Reveal on the next frame, deferring the update out of the effect body.
     const id = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(id);
   }, []);

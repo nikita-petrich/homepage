@@ -14,8 +14,6 @@ import { GitCodeMotif, bannerBg } from "./cover-banner";
 const stripe =
   "repeating-linear-gradient(135deg,#f2efe9 0 10px,#eae6dd 10px 20px)";
 
-/* Cover: a real project image when available, else the striped placeholder
-   with a monospace caption (matching the source design). */
 function ProjectCover({
   project,
   className,
@@ -56,13 +54,8 @@ function ProjectCover({
   );
 }
 
-/* Projects — "Case Studies" gallery. Each card links to /projekte/<slug>; on
-   the home page that click is intercepted (app/@modal/(.)projekte/[slug]) and
-   opens as a modal overlay, while a direct hit / refresh renders the standalone
-   page. The slug is a permanent route — new projects never shift an existing
-   one. */
 export function ProjectGallery() {
-  const [asc, setAsc] = useState(false); // false = new → old (default)
+  const [asc, setAsc] = useState(false); // false = newest first
   const [query, setQuery] = useState("");
 
   const visible = useMemo(() => {
@@ -151,9 +144,8 @@ export function ProjectGallery() {
   );
 }
 
-/* Project detail dialog. Rendered by the intercepting modal route (overlaying
-   the home page) and by the standalone /projekte/<slug> page; each supplies its
-   own onClose (router.back() vs. router.push("/")). */
+/* Shared by the intercepting modal route and the standalone page, which each
+   pass their own onClose. */
 export function ProjectModal({
   project,
   onClose,
@@ -208,7 +200,6 @@ export function ProjectModal({
             captionClass="text-[13px]"
           />
         ) : (
-          /* No project image — mirror the site cover's banner motif. */
           <div
             className="relative flex aspect-[16/8] w-full items-center overflow-hidden px-8 sm:px-12"
             style={{ backgroundImage: bannerBg }}

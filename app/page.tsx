@@ -30,12 +30,9 @@ export default function Page() {
     <div className="min-h-screen bg-white">
       <NotionTopBar />
 
-      {/* Cover band — LinkedIn-style banner, full-bleed */}
       <CoverBanner />
 
-      {/* Page body */}
       <main className="mx-auto max-w-[960px] px-6 pb-28 sm:px-12">
-        {/* Page icon, overlapping the cover */}
         <div className="relative z-10 -mt-[34px] mb-2 w-fit drop-shadow-[0_2px_6px_rgba(0,0,0,0.12)]">
           <img
             src="/assets/CV%20-%20Optimierte%20Lesbarkeit-selection%20(1).png"
@@ -44,11 +41,8 @@ export default function Page() {
           />
         </div>
 
-        {/* Two-column layout */}
         <div className="grid grid-cols-1 gap-x-[42px] gap-y-10 md:grid-cols-[210px_minmax(0,1fr)]">
-          {/* Sidebar */}
           <aside className="flex min-w-0 flex-col gap-8">
-            {/* Profile photo */}
             <div className="aspect-[1/1.1] w-full overflow-hidden rounded-[8px] bg-[#eceded]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -107,7 +101,6 @@ export default function Page() {
             </Section>
           </aside>
 
-          {/* Main column */}
           <div className="flex min-w-0 flex-col gap-10">
             <Callout>
               <RichText lines={intro} />
