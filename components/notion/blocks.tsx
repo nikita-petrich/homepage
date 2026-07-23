@@ -1,9 +1,7 @@
-import Image from "next/image";
-
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import type { InfoItem, PillColor, ResumeEntry, RichLine } from "@/lib/data";
+import type { FactItem, InfoItem, Language, RichLine } from "@/lib/data";
 
 import { CactusOrangeIcon } from "./icons";
 
@@ -47,7 +45,7 @@ export function RichText({ lines }: { lines: RichLine[] }) {
   return (
     <>
       {lines.map((line, i) => (
-        <span key={i}>
+        <p key={i} className={i < lines.length - 1 ? "mb-[10px]" : undefined}>
           {line.map((span, j) =>
             span.b ? (
               <strong key={j} className="font-semibold">
@@ -57,8 +55,7 @@ export function RichText({ lines }: { lines: RichLine[] }) {
               <span key={j}>{span.t}</span>
             ),
           )}
-          {i < lines.length - 1 && <br />}
-        </span>
+        </p>
       ))}
     </>
   );
@@ -74,19 +71,19 @@ export function Callout({ children }: { children: React.ReactNode }) {
       <div className="mt-[1px] shrink-0">
         <CactusOrangeIcon size={24} />
       </div>
-      <div className="text-[15px] leading-[1.6]">{children}</div>
+      <div className="text-[15px] leading-[1.65]">{children}</div>
     </div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  Info line — emoji + bold text (contact / interests / languages).    */
+/*  Info line — emoji + bold text (contact list).                       */
 /* ------------------------------------------------------------------ */
 
 export function InfoLine({ item }: { item: InfoItem }) {
   const isExternal = item.href?.startsWith("http");
   return (
-    <div className="flex items-start gap-[7px] py-[3px] text-[15px] leading-[1.5]">
+    <div className="flex items-start gap-[8px] py-[3px] text-[15px] leading-[1.5]">
       <span className="shrink-0 leading-[1.5]" aria-hidden>
         {item.icon}
       </span>
@@ -107,83 +104,71 @@ export function InfoLine({ item }: { item: InfoItem }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Resume entry — logo column + title / date / description.            */
+/*  Key-facts line — small uppercase label over a bold value.           */
 /* ------------------------------------------------------------------ */
 
-export function ResumeItem({ entry }: { entry: ResumeEntry }) {
+export function FactLine({ item }: { item: FactItem }) {
   return (
-    <div className="grid grid-cols-[88px_minmax(0,1fr)] items-start gap-x-4">
-      <div className="pt-[4px]">
-        <Image
-          src={entry.logo}
-          alt={entry.logoAlt}
-          width={entry.logoWidth}
-          height={entry.logoHeight}
-          className="h-auto w-full object-contain object-left-top"
-          style={{ maxWidth: entry.logoMax }}
-        />
+    <div className="text-[15px] leading-[1.4]">
+      <div className="text-[12px] tracking-[0.04em] text-notion-gray uppercase">
+        {item.label}
       </div>
-      <div className="min-w-0">
-        <div className="text-[16px] font-semibold leading-[1.4]">
-          {entry.title}
-        </div>
-        <div className="mt-[2px] text-[14px] text-notion-gray italic">
-          {entry.date}
-        </div>
-        <p className="mt-[8px] text-[14px] leading-[1.55] text-notion-gray">
-          {entry.description}
-        </p>
-      </div>
+      <div className="font-semibold">{item.value}</div>
     </div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  Notion select / multi-select pill.                                  */
+/*  Language line — flag + language, muted proficiency note.            */
 /* ------------------------------------------------------------------ */
 
-const PILL_BG: Record<PillColor, string> = {
-  default: "var(--pill-default)",
-  gray: "var(--pill-gray)",
-  brown: "var(--pill-brown)",
-  orange: "var(--pill-orange)",
-  yellow: "var(--pill-yellow)",
-  green: "var(--pill-green)",
-  blue: "var(--pill-blue)",
-  purple: "var(--pill-purple)",
-  pink: "var(--pill-pink)",
-  red: "var(--pill-red)",
-};
+export function LangLine({ item }: { item: Language }) {
+  return (
+    <div className="flex items-center gap-[8px] py-[3px] text-[15px] leading-[1.5]">
+      <img
+        src={item.flag}
+        alt=""
+        aria-hidden
+        className="h-[15px] w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+      />
+      <span>
+        <span className="font-semibold">{item.text}</span>
+        <span className="text-notion-gray"> — {item.sub}</span>
+      </span>
+    </div>
+  );
+}
 
-export function Tag({
+/* ------------------------------------------------------------------ */
+/*  Pills — all built on the shadcn <Badge> component.                  */
+/*  AccentTag — warm brown chip (focus areas, ways of working, card).   */
+/*  SkillTag   — neutral chip (skill items, project technologies).      */
+/* ------------------------------------------------------------------ */
+
+export function AccentTag({
   label,
-  color = "default",
+  size = "sm",
 }: {
   label: string;
-  color?: PillColor;
+  size?: "sm" | "md";
 }) {
   return (
     <Badge
-      className="h-[18px] rounded-[3px] border-0 px-[7px] py-0 text-[12px] leading-[18px] font-normal"
-      style={{ backgroundColor: PILL_BG[color], color: "var(--pill-text)" }}
+      variant="accent"
+      className={cn(
+        "whitespace-normal",
+        size === "md" ? "px-[9px] py-[3px] text-[13px]" : "text-[12px]",
+      )}
     >
       {label}
     </Badge>
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Skill level bar (Notion "bar" number format, value hidden).         */
-/* ------------------------------------------------------------------ */
-
-export function SkillBar({ level }: { level: number }) {
+export function SkillTag({ label }: { label: string }) {
   return (
-    <div className="h-[6px] w-full overflow-hidden rounded-full bg-[rgba(55,53,47,0.1)]">
-      <div
-        className="h-full rounded-full bg-[#37352f]"
-        style={{ width: `${Math.round(level * 100)}%` }}
-      />
-    </div>
+    <Badge variant="skill" className="px-[7px] py-px text-[12px] whitespace-normal">
+      {label}
+    </Badge>
   );
 }
-

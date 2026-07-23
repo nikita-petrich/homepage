@@ -17,6 +17,11 @@ const badgeVariants = cva(
           "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90",
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        // Notion-style content pills used across the résumé.
+        accent:
+          "rounded-[3px] border-transparent bg-[#ece3d3] font-normal text-[#6f5b3e] [a&]:hover:bg-[#e6dac6]",
+        skill:
+          "rounded-[3px] border-transparent bg-[#f1f0ee] font-normal text-[#4a473f] [a&]:hover:bg-[#e9e7e3]",
       },
     },
     defaultVariants: {

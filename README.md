@@ -1,22 +1,31 @@
-# Maya Zhang — Notion résumé replica
+# Nikita Petrich — Homepage
 
-A pixel-faithful 1:1 rebuild of the "Maya Zhang" Notion page, implemented as a
-standalone web app with **Next.js**, **Tailwind CSS** and **shadcn/ui**.
+A Notion-style résumé homepage for **Nikita Petrich**, Senior Full-Stack & AI
+Engineer, built with **Next.js**, **Tailwind CSS** and **shadcn/ui**.
 
-The layout mirrors the source Notion page exactly: the published-site top bar,
-a full-width cover, the page icon overlapping it, the title, and a two-column
-body (photo / contact / interests / languages sidebar and a main column with an
-intro callout, work history, education, plus the *Projects* and *Skills*
-database galleries with their view toolbars).
+The page mirrors a published Notion layout: a sticky top bar, a full-width
+cover, the page icon overlapping it, the title, and a two-column body — a
+sidebar (photo, contact, key facts, languages, ways of working, profiles) and a
+main column with an about callout, focus areas, project case studies and a
+skills database with search / sort.
+
+## CV download
+
+The top bar and the page header each expose a **CV herunterladen** button that
+opens a menu to download the CV as a PDF in two languages:
+
+- 🇩🇪 `public/cv/CV_Nikita_Petrich_DE.pdf`
+- 🇬🇧 `public/cv/CV_Nikita_Petrich_EN.pdf`
+
+Both are 10-page, letter-size documents (header + project overview, a skills
+page, and one page per project). They are static assets served from `/public`.
 
 ## Tech stack
 
-- [Next.js 16](https://nextjs.org/) (App Router, TypeScript)
+- [Next.js 16](https://nextjs.org/) (App Router, TypeScript, Turbopack)
 - [Tailwind CSS v4](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/) primitives (`Card`, `Badge`, `Separator`,
-  `Avatar`)
-- Notion's own light-theme colours (`#37352f` text, callout grays, select-pill
-  colours) captured as CSS variables in `app/globals.css`.
+- [shadcn/ui](https://ui.shadcn.com/) primitives
+- Notion's light-theme colours captured as CSS variables in `app/globals.css`
 
 ## Project structure
 
@@ -24,40 +33,46 @@ database galleries with their view toolbars).
 app/
   layout.tsx            Root layout, Inter font, metadata
   page.tsx              Page composition (icon, title, two columns)
-  globals.css           Notion + shadcn design tokens
+  globals.css           Design tokens + popup animations
 components/
   ui/                   shadcn/ui primitives
   notion/
-    icons.tsx           Hand-drawn stand-ins for Notion's illustrated icons
-    blocks.tsx          Section, Callout, RichText, InfoLine, ResumeItem, Tag, SkillBar
-    galleries.tsx       Projects & Skills gallery views
+    icons.tsx           Page + callout icons
+    blocks.tsx          Section, Callout, RichText, InfoLine, FactLine, LangLine, tags
+    cv-download.tsx     "CV herunterladen" language menu (DE / EN PDF)
+    topbar.tsx          Sticky top bar (name, CV download, "book a call")
+    projects.tsx        Case-study gallery + detail popups
+    galleries.tsx       Skills database (searchable category cards)
+    toc.tsx             Floating table of contents
+    cookie-banner.tsx   Cookie-consent bar
 lib/
   data.ts               All page content (typed)
   utils.ts              cn() helper
-public/assets/          Company / school logos
+public/
+  cv/                   Downloadable CV PDFs (DE / EN)
 ```
 
 ## Getting started
 
 ```bash
 pnpm install
-pnpm dev         # http://localhost:3000
-```
-
-Build for production:
-
-```bash
+pnpm dev          # http://localhost:3000
 pnpm build && pnpm start
 ```
 
-## Notes on assets
+## Content
 
-All bitmap assets live in `public/assets/` and are served locally (the app is
-fully self-contained):
+All page copy lives in `lib/data.ts` (contact, key facts, languages, focus,
+projects and skills). The CV PDFs are generated separately and committed under
+`public/cv/`.
 
-- **Cover, profile photo, project covers and app/skill icons** were captured
-  from the source page and cropped to size.
-- **Illustrated icons** — Notion's `cloudy_orange` page icon and
-  `cactus_orange` callout icon are recreated as inline SVGs in the matching
-  tint (`components/notion/icons.tsx`).
-- **Top-bar / toolbar glyphs** use [lucide-react](https://lucide.dev/).
+### Profile photo
+
+The sidebar photo is `public/assets/profile.jpg`. Replace that file to change
+the photo (it is rendered `object-cover` in a `1 / 1.1` frame).
+
+### Project cover images
+
+Each project supports an optional `cover` image (see the `Project` type in
+`lib/data.ts`). When set to a path under `/public`, the card and popup show that
+image; otherwise a striped placeholder with the caption is rendered.

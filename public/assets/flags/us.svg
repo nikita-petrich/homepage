@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1235 650" width="1235" height="650" role="img" aria-label="Flagge der Vereinigten Staaten">
+  <!-- 13 stripes: 7 red on a white field -->
+  <rect width="1235" height="650" fill="#B22234"/>
+  <g fill="#FFFFFF">
+    <rect y="50" width="1235" height="50"/>
+    <rect y="150" width="1235" height="50"/>
+    <rect y="250" width="1235" height="50"/>
+    <rect y="350" width="1235" height="50"/>
+    <rect y="450" width="1235" height="50"/>
+    <rect y="550" width="1235" height="50"/>
+  </g>
+  <!-- Union: 0.4 of length x 7 stripes tall -->
+  <rect width="494" height="350" fill="#3C3B6E"/>
+  <!-- 50 stars, 9 rows (6-5-6-5…) built from one master star -->
+  <g fill="#FFFFFF">
+    <g id="s18">
+      <g id="s9">
+        <g id="s5">
+          <g id="s4">
+            <path id="s" d="M41.17,15 52.92,51.18 22.15,28.82H60.19L29.41,51.18z"/>
+            <use href="#s" y="70"/>
+            <use href="#s" y="140"/>
+            <use href="#s" y="210"/>
+          </g>
+          <use href="#s" y="280"/>
+        </g>
+        <use href="#s4" x="41.17" y="35"/>
+      </g>
+      <use href="#s9" x="82.33"/>
+    </g>
+    <use href="#s18" x="164.67"/>
+    <use href="#s9" x="329.33"/>
+    <use href="#s5" x="411.67"/>
+  </g>
+</svg>
