@@ -28,7 +28,6 @@ type Props = {
   filterProps: FilterProp[];
 };
 
-/* Interactive inline-database toolbar: view tab + filter / sort / search. */
 export function DatabaseToolbar({
   viewLabel,
   viewIcon,

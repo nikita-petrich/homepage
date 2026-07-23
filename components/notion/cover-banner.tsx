@@ -1,14 +1,8 @@
 import { cn } from "@/lib/utils";
 import { profile } from "@/lib/data";
 
-/* Warm cream gradient shared by every banner surface. */
 export const bannerBg =
   "linear-gradient(100deg, #ecefe8 0%, #f5f3ee 58%, #f1eee7 100%)";
-
-/* ------------------------------------------------------------------ */
-/*  GitCodeMotif — the git-style code snippet, reusable across banners. */
-/*  Sizes are em-based, so a single font-size on the parent scales it.  */
-/* ------------------------------------------------------------------ */
 
 export function GitCodeMotif({ className }: { className?: string }) {
   return (
@@ -30,12 +24,6 @@ export function GitCodeMotif({ className }: { className?: string }) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  CoverBanner — full-bleed hero recreating the LinkedIn banner.       */
-/*  Left: a git-style code snippet. Right: name, role, focus pills and  */
-/*  contact. Everything scales fluidly to keep the banner's 4:1 feel.   */
-/* ------------------------------------------------------------------ */
-
 const bannerTags = [
   "LLM-Integration",
   "RAG",
@@ -51,14 +39,11 @@ export function CoverBanner() {
       className="relative w-full overflow-hidden"
       style={{ backgroundImage: bannerBg }}
     >
-      {/* Orange accent bar on the far-left edge */}
       <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
 
       <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-[clamp(20px,4vw,72px)] px-[clamp(28px,6vw,110px)] py-[clamp(12px,2.1vw,28px)]">
-        {/* Left — code snippet (hidden on very small screens) */}
         <GitCodeMotif className="hidden shrink-0 text-[clamp(11px,1.05vw,18px)] sm:flex" />
 
-        {/* Right — identity block */}
         <div className="flex min-w-0 flex-col items-end text-right">
           <div className="text-[clamp(11px,1vw,17px)] font-semibold tracking-[0.18em] text-[var(--accent-o)] uppercase">
             Freiberuflich · Remote · Munich

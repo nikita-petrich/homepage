@@ -9,7 +9,6 @@ import { SkillTag } from "./blocks";
 
 const cardShadow = { boxShadow: "var(--notion-card-shadow)" } as const;
 
-/* Skills — "Meine Skills" gallery with a live search across categories. */
 export function SkillsGallery() {
   const [query, setQuery] = useState("");
 
