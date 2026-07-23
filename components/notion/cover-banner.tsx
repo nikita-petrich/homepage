@@ -54,9 +54,9 @@ export function CoverBanner() {
       {/* Orange accent bar on the far-left edge */}
       <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
 
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-[clamp(20px,4vw,72px)] px-[clamp(28px,6vw,110px)] py-[clamp(18px,3vw,40px)]">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-[clamp(20px,4vw,72px)] px-[clamp(28px,6vw,110px)] py-[clamp(12px,2.1vw,28px)]">
         {/* Left — code snippet (hidden on very small screens) */}
-        <GitCodeMotif className="hidden shrink-0 text-[clamp(13px,1.5vw,26px)] sm:flex" />
+        <GitCodeMotif className="hidden shrink-0 text-[clamp(11px,1.05vw,18px)] sm:flex" />
 
         {/* Right — identity block */}
         <div className="flex min-w-0 flex-col items-end text-right">
@@ -64,15 +64,15 @@ export function CoverBanner() {
             Freiberuflich · Remote · Munich
           </div>
 
-          <h2 className="mt-[0.32em] text-[clamp(30px,4.6vw,78px)] leading-[1.04] font-bold tracking-[-0.02em] text-[#2b2925]">
+          <h2 className="mt-[0.32em] text-[clamp(22px,3.2vw,55px)] leading-[1.04] font-bold tracking-[-0.02em] text-[#2b2925]">
             {profile.name}
           </h2>
 
-          <div className="mt-[0.12em] text-[clamp(15px,1.9vw,33px)] leading-tight font-semibold text-[#3a382f]">
+          <div className="mt-[0.12em] text-[clamp(12px,1.3vw,23px)] leading-tight font-semibold text-[#3a382f]">
             {profile.role}
           </div>
 
-          <div className="mt-[clamp(12px,1.7vw,26px)] flex flex-wrap justify-end gap-[clamp(6px,0.65vw,12px)]">
+          <div className="mt-[clamp(8px,1.2vw,18px)] flex flex-wrap justify-end gap-[clamp(6px,0.65vw,12px)]">
             {bannerTags.map((t) => (
               <span
                 key={t}
@@ -83,7 +83,7 @@ export function CoverBanner() {
             ))}
           </div>
 
-          <div className="mt-[clamp(14px,1.8vw,28px)] text-[clamp(13px,1.15vw,21px)] font-bold text-[#2b2925]">
+          <div className="mt-[clamp(10px,1.25vw,20px)] text-[clamp(13px,1.15vw,21px)] font-bold text-[#2b2925]">
             https://sequenz.io
           </div>
           <div className="mt-[0.2em] text-[clamp(12px,1vw,18px)] text-[#9b978d]">
