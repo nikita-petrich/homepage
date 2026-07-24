@@ -292,7 +292,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "Daten-Synchronisation", "CSV-Verarbeitung", "Message Queues", "Caching", "MariaDB", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "Tailwind CSS", "Warenwirtschaft", "ERP", "GoBD", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Hetzner", "Microservices", "Clean Architecture"],
   },
   {
-    num: "06", slug: "lkw-tourverwaltung", name: "LKW-Tourverwaltung", company: "CDH Stephanus", companyUrl: "https://cdh-stephanus.org", subtitle: "Tourenplanung mit Echtzeit-Tracking",
+    num: "06", slug: "lkw-tourverwaltung", name: "LadeTrans", company: "CDH Stephanus", companyUrl: "https://cdh-stephanus.org", subtitle: "LKW-Tourverwaltungssystem",
     cat: "Logistik & Transport", role: "Sole Developer · Full-Stack & AI",
     dateRange: "02/2021 – 05/2023 · 2 J. 4 Mon. · lfd. Wartung", sort: "2021-02",
     caption: "Tourenplanung mit Echtzeit-Tracking",

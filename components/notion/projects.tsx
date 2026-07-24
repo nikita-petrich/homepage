@@ -127,6 +127,9 @@ export function ProjectGallery() {
                 <div className="text-[15px] leading-[1.3] font-semibold">
                   {p.name}
                 </div>
+                <div className="text-[13px] leading-[1.4] text-[#4a473f]">
+                  {p.subtitle}
+                </div>
                 {p.company ? (
                   <CompanyLine
                     name={p.company}
@@ -136,14 +139,11 @@ export function ProjectGallery() {
                   />
                 ) : null}
                 <div className="text-[12px] text-notion-gray">{p.dateRange}</div>
-                <div className="flex flex-wrap gap-[6px]">
+                <div className="mt-auto flex flex-wrap gap-[6px] pt-0.5">
                   {p.cardTags.map((t) => (
                     <AccentTag key={t} label={t} />
                   ))}
                 </div>
-                <p className="text-[13px] leading-[1.45] text-notion-gray">
-                  {p.desc}
-                </p>
               </div>
             </Link>
           ))}
