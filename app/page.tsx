@@ -12,6 +12,7 @@ import { CookieBanner } from "@/components/notion/cookie-banner";
 import { CoverBanner } from "@/components/notion/cover-banner";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
+import { ReferenceGallery } from "@/components/notion/references";
 import { TableOfContents } from "@/components/notion/toc";
 import { NotionTopBar } from "@/components/notion/topbar";
 import {
@@ -36,7 +37,7 @@ export default function Page() {
       <main className="mx-auto max-w-[960px] px-6 pb-28 sm:px-12">
         <div className="relative z-10 -mt-[34px] mb-2 w-fit drop-shadow-[0_2px_6px_rgba(0,0,0,0.12)]">
           <img
-            src="/assets/CV%20-%20Optimierte%20Lesbarkeit-selection%20(1).png"
+            src="/assets/avatar.png"
             alt="Avatar"
             className="h-[66px] w-[66px] object-contain"
           />
@@ -109,7 +110,7 @@ export default function Page() {
                 Sie planen ein KI-Vorhaben oder ein Produkt, das zuverlässig
                 laufen muss?{" "}
                 <a
-                  href={profile.calendly}
+                  href={profile.booking}
                   target="_blank"
                   rel="noreferrer"
                   className="underline underline-offset-2"
@@ -129,6 +130,15 @@ export default function Page() {
 
             <Section title="Projekte" level="h1" id="projekte">
               <ProjectGallery />
+            </Section>
+
+            <Section title="Referenzen" level="h1" id="referenzen">
+              <p className="mb-4 text-[14px] leading-[1.6] text-notion-gray">
+                Was Kund:innen und Kolleg:innen über die Zusammenarbeit sagen.
+                Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt)
+                nachprüfbar.
+              </p>
+              <ReferenceGallery />
             </Section>
 
             <Section title="Skills & Fähigkeiten" level="h1" id="skills">

@@ -41,7 +41,7 @@ export function CoverBanner() {
     >
       <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
 
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-[clamp(20px,4vw,72px)] px-[clamp(28px,6vw,110px)] py-[clamp(12px,2.1vw,28px)]">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-[clamp(20px,4vw,72px)] px-[clamp(28px,6vw,110px)] py-[clamp(5px,0.85vw,13px)]">
         <GitCodeMotif className="hidden shrink-0 text-[clamp(11px,1.05vw,18px)] sm:flex" />
 
         <div className="flex min-w-0 flex-col items-end text-right">
@@ -49,7 +49,7 @@ export function CoverBanner() {
             Freiberuflich · Remote · Munich
           </div>
 
-          <h2 className="mt-[0.32em] text-[clamp(22px,3.2vw,55px)] leading-[1.04] font-bold tracking-[-0.02em] text-[#2b2925]">
+          <h2 className="mt-[0.16em] text-[clamp(22px,3.2vw,55px)] leading-[1.04] font-bold tracking-[-0.02em] text-[#2b2925]">
             {profile.name}
           </h2>
 
@@ -57,7 +57,7 @@ export function CoverBanner() {
             {profile.role}
           </div>
 
-          <div className="mt-[clamp(8px,1.2vw,18px)] flex flex-wrap justify-end gap-[clamp(6px,0.65vw,12px)]">
+          <div className="mt-[clamp(5px,0.7vw,10px)] flex flex-wrap justify-end gap-[clamp(6px,0.65vw,12px)]">
             {bannerTags.map((t) => (
               <span
                 key={t}
@@ -68,7 +68,7 @@ export function CoverBanner() {
             ))}
           </div>
 
-          <div className="mt-[clamp(10px,1.25vw,20px)] text-[clamp(13px,1.15vw,21px)] font-bold text-[#2b2925]">
+          <div className="mt-[clamp(6px,0.75vw,12px)] text-[clamp(13px,1.15vw,21px)] font-bold text-[#2b2925]">
             https://sequenz.io
           </div>
           <div className="mt-[0.2em] text-[clamp(12px,1vw,18px)] text-[#9b978d]">
