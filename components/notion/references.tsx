@@ -116,10 +116,6 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
             {r.project}
           </span>
         </div>
-        <div className="flex items-center gap-1.5 pt-0.5 text-[12px] font-medium text-[var(--accent-o)]">
-          <ArrowUpRight size={13} strokeWidth={2} />
-          Referenz ansehen
-        </div>
       </div>
     </Link>
   );
