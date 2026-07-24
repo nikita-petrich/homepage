@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 /**
  * Programmatically generated favicon.
  *
- * Mirrors the on-page avatar (`public/assets/CV - …-selection (1).png`): a
+ * Mirrors the on-page avatar (`public/assets/avatar.png`): a
  * rounded terracotta tile with white `</>` code brackets, drawn as crisp SVG
  * so it stays sharp at every size instead of reusing the tiny raster asset.
  * Uses the site accent colour (`--accent-o`, #e1852e).

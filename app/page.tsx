@@ -37,7 +37,7 @@ export default function Page() {
       <main className="mx-auto max-w-[960px] px-6 pb-28 sm:px-12">
         <div className="relative z-10 -mt-[34px] mb-2 w-fit drop-shadow-[0_2px_6px_rgba(0,0,0,0.12)]">
           <img
-            src="/assets/CV%20-%20Optimierte%20Lesbarkeit-selection%20(1).png"
+            src="/assets/avatar.png"
             alt="Avatar"
             className="h-[66px] w-[66px] object-contain"
           />
@@ -110,7 +110,7 @@ export default function Page() {
                 Sie planen ein KI-Vorhaben oder ein Produkt, das zuverlässig
                 laufen muss?{" "}
                 <a
-                  href={profile.calendly}
+                  href={profile.booking}
                   target="_blank"
                   rel="noreferrer"
                   className="underline underline-offset-2"

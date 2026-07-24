@@ -39,8 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# python (CV build tooling in scripts/cv)
-__pycache__/
-*.pyc
-scripts/cv/*.html
