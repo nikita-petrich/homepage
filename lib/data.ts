@@ -511,8 +511,6 @@ export type Reference = {
   role: string;
   /** Company or organisation the recommender represents. */
   company?: string;
-  /** Recommender's own LinkedIn profile URL — links their name/source tag. */
-  linkedin?: string;
   /** Relationship to Nikita, e.g. "Kunde", "ehem. Kollege". */
   relation: string;
   /** Slug of the related case study (links to /projekte/<slug>). */
