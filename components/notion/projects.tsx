@@ -2,13 +2,14 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { AlignLeft, Calendar, CaseSensitive, LayoutGrid, Tags, X } from "lucide-react";
+import { AlignLeft, ArrowUpRight, Calendar, CaseSensitive, LayoutGrid, Quote, Tags, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { projects, type Project } from "@/lib/data";
+import { projects, references, type Project } from "@/lib/data";
 
 import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag, SkillTag } from "./blocks";
+import { CompanyLine } from "./company-line";
 import { GitCodeMotif, bannerBg } from "./cover-banner";
 
 const stripe =
@@ -122,19 +123,27 @@ export function ProjectGallery() {
                 captionClass="text-[11px] leading-[1.4]"
                 numBadge
               />
-              <div className="flex flex-col gap-[7px] p-[11px]">
+              <div className="flex flex-col gap-[6px] p-[11px]">
                 <div className="text-[15px] leading-[1.3] font-semibold">
                   {p.name}
                 </div>
+                <div className="text-[13px] leading-[1.4] text-[#4a473f]">
+                  {p.subtitle}
+                </div>
+                {p.company ? (
+                  <CompanyLine
+                    name={p.company}
+                    href={p.companyUrl}
+                    inCard
+                    className="text-[12px]"
+                  />
+                ) : null}
                 <div className="text-[12px] text-notion-gray">{p.dateRange}</div>
-                <div className="flex flex-wrap gap-[6px]">
+                <div className="mt-auto flex flex-wrap gap-[6px] pt-0.5">
                   {p.cardTags.map((t) => (
                     <AccentTag key={t} label={t} />
                   ))}
                 </div>
-                <p className="text-[13px] leading-[1.45] text-notion-gray">
-                  {p.desc}
-                </p>
               </div>
             </Link>
           ))}
@@ -169,6 +178,8 @@ export function ProjectModal({
   }, [project, onClose]);
 
   if (!project) return null;
+
+  const projectRefs = references.filter((r) => r.projectSlug === project.slug);
 
   return (
     <div
@@ -224,6 +235,13 @@ export function ProjectModal({
           <div className="mt-1.5 text-[16px] font-semibold text-[#4a473f]">
             {project.subtitle}
           </div>
+          {project.company ? (
+            <CompanyLine
+              name={project.company}
+              href={project.companyUrl}
+              className="mt-1.5 text-[13px]"
+            />
+          ) : null}
           <div className="mt-2 text-[13px] text-notion-gray">
             {project.dateRange} · {project.role}
           </div>
@@ -266,6 +284,29 @@ export function ProjectModal({
               ))}
             </ul>
           </div>
+
+          {projectRefs.length > 0 && (
+            <>
+              <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+                {projectRefs.length > 1 ? "Referenzen" : "Referenz"}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {projectRefs.map((r) => (
+                  <Link
+                    key={r.slug}
+                    href={`/referenzen/${r.slug}`}
+                    scroll={false}
+                    aria-label={`Referenz von ${r.name} ansehen`}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-[rgba(225,133,46,0.35)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-o)] transition-colors hover:bg-[#f6ede1]"
+                  >
+                    <Quote size={13} strokeWidth={2} className="shrink-0" />
+                    <span>{r.name}</span>
+                    <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
+                  </Link>
+                ))}
+              </div>
+            </>
+          )}
 
           <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
             Technologien

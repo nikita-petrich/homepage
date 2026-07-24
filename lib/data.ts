@@ -1,10 +1,12 @@
+import referencesData from "./references.json";
+
 export type Span = { t: string; b?: boolean };
 export type RichLine = Span[];
 
 export const profile = {
   name: "Nikita Petrich",
   role: "Senior Full-Stack & AI Engineer",
-  calendly: "https://calendly.com/nikita-petrich/30min",
+  booking: "https://calendar.notion.so/meet/petrichnikita/erstgespraech-30-min",
   accent: "#e1852e",
 };
 
@@ -125,6 +127,10 @@ export type Project = {
   /** Stable URL slug — never change an existing one; it is a permanent route. */
   slug: string;
   name: string;
+  /** Client / company the project was for ("Eigenprodukt" for own products). */
+  company?: string;
+  /** Company/product website; makes the company name a link when set. */
+  companyUrl?: string;
   subtitle: string;
   cat: string;
   role: string;
@@ -143,11 +149,11 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    num: "01", slug: "bescheidklar", name: "BESCHEIDKLAR", subtitle: "KI-gestützte LegalTech-SaaS-Plattform",
+    num: "01", slug: "bescheidklar", name: "BESCHEIDKLAR", company: "Eigenprodukt", companyUrl: "https://bescheidklar.de", subtitle: "KI-gestützte LegalTech-SaaS-Plattform",
     cat: "LegalTech / GovTech", role: "Gründer & CTO",
     dateRange: "04/2025 – heute · 15 Monate", sort: "2025-04",
     caption: "KI-Vorprüfungs-Dashboard für Bescheide",
-    cover: "/assets/projects/proj-01.jpg", cardTags: ["LegalTech", "KI · RAG"],
+    cover: "/assets/projects/bescheidklar.jpg", cardTags: ["LegalTech", "KI · RAG"],
     desc: "Zweiseitige LegalTech-SaaS-Plattform, die KI-gestützte Dokumentenanalyse (Azure OpenAI) mit einem regionalen Lizenzmodell für Anwaltskanzleien verbindet.",
     meta: [
       { label: "Rolle", value: "Gründer & CTO" },
@@ -172,11 +178,11 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Python", "Next.js", "React", "FastAPI", "LLM-Integration", "OpenAI API", "Azure OpenAI", "RAG", "Prompt Engineering", "Embeddings", "pgvector", "OCR", "LangChain", "PostgreSQL", "Redis", "Tailwind CSS", "shadcn/ui", "Stripe", "JWT", "OAuth 2.0", "Docker", "GitHub Actions", "CI/CD", "Hetzner", "Microservices", "EU AI Act", "Clean Architecture", "DSGVO by Design"],
   },
   {
-    num: "02", slug: "manifest-os", name: "Manifest OS", subtitle: "KI-gestützte Einwanderungsplattform",
+    num: "02", slug: "manifest-os", name: "Manifest OS", company: "Manifest Law", companyUrl: "https://manifestlaw.com", subtitle: "KI-gestützte Einwanderungsplattform",
     cat: "LegalTech / Immigration", role: "Full-Stack Engineer (KI-Feature-Integration)",
     dateRange: "12/2025 – 04/2026 · 5 Monate", sort: "2025-12",
     caption: "B2X-Portal — Fallübersicht",
-    cover: "/assets/projects/proj-02.jpg", cardTags: ["LegalTech", "KI-Features"],
+    cover: "/assets/projects/manifest-os.jpg", cardTags: ["LegalTech", "KI-Features"],
     desc: "KI-Feature-Integration in einer etablierten US-Einwanderungsplattform (~60 Mio. USD Bewertung) mit über 3.000 Kunden.",
     meta: [
       { label: "Rolle", value: "Full-Stack Engineer" },
@@ -201,11 +207,11 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Python", "Next.js", "React", "NestJS", "Node.js", "Fastify", "REST API", "Webhooks", "BullMQ", "RabbitMQ", "LLM-Integration", "OpenAI API", "Anthropic Claude API", "RAG", "Embeddings", "OCR", "Amplitude", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "better-auth", "JWT", "Docker", "GCP", "GitHub Actions", "CI/CD", "Claude Code", "Cursor AI", "Code Rabbit", "Linear", "Playwright", "Microservices", "Event-Driven Architecture", "Clean Architecture"],
   },
   {
-    num: "03", slug: "aitoi", name: "AITOI", subtitle: "Interaktives IoT-Spielzeug (MVP)",
+    num: "03", slug: "aitoi", name: "AITOI", company: "AITOI", subtitle: "Interaktives IoT-Spielzeug (MVP)",
     cat: "IoT / Consumer Electronics", role: "Frontend Engineer",
     dateRange: "08/2025 – 09/2025 · 2 Monate", sort: "2025-08",
     caption: "PWA WLAN-Onboarding Flow",
-    cover: "/assets/projects/proj-03.jpg", cardTags: ["IoT", "PWA"],
+    cover: "/assets/projects/aitoi.jpg", cardTags: ["IoT", "PWA"],
     desc: "PWA-Frontend für ein vernetztes KI-Spielzeug: WLAN-Onboarding per QR-Code-Scan, Gerätekopplung und Echtzeit-Synchronisation.",
     meta: [
       { label: "Rolle", value: "Frontend Engineer" },
@@ -229,11 +235,11 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Next.js", "React", "PWA", "Responsive Design", "Design System", "Figma", "TanStack Query", "React Hook Form", "WebSockets", "Device-Pairing", "Supabase", "Supabase Realtime", "Row Level Security", "PostgreSQL", "Tailwind CSS", "shadcn/ui", "JWT", "Docker", "CI/CD", "GitHub Actions", "Vitest", "MVP-Entwicklung", "Clean Architecture"],
   },
   {
-    num: "04", slug: "dino", name: "DiNo", subtitle: "Digitales Notariat",
+    num: "04", slug: "dino", name: "DiNo", company: "LeXtorByte UG", companyUrl: "https://digitales-notariat.de", subtitle: "Digitales Notariat",
     cat: "LegalTech / Notariat", role: "Frontend Engineer",
     dateRange: "01/2025 – 05/2025 · 5 Monate", sort: "2025-01",
     caption: "Mandantenportal — Vorgangsübersicht",
-    cover: "/assets/projects/proj-04.jpg", cardTags: ["LegalTech", "Frontend"],
+    cover: "/assets/projects/dino.jpg", cardTags: ["LegalTech", "Frontend"],
     desc: "Frontend zur Digitalisierung von Notarprozessen mit Fokus auf klare, nachvollziehbare Nutzerführung – Mandanten- und Notarportal.",
     meta: [
       { label: "Rolle", value: "Frontend Engineer" },
@@ -257,11 +263,11 @@ export const projects: Project[] = [
     tech: ["TypeScript", "React", "Python", "Flask", "REST API / OpenAPI", "MariaDB", "MySQL", "Redux", "React Router", "React Hook Form", "Material UI (MUI)", "SPA", "Mandantenportal", "Digitale Aktenführung", "JWT", "OAuth 2.0", "RBAC", "DSGVO-Compliance", "Docker", "Nginx", "GitLab", "Clean Architecture"],
   },
   {
-    num: "05", slug: "accounting-os", name: "AccountingOS", subtitle: "GoBD-konformes Buchhaltungs- & Lagersystem",
+    num: "05", slug: "accounting-os", name: "AccountingOS", company: "HD Autoservice", subtitle: "GoBD-konformes Buchhaltungs- & Lagersystem",
     cat: "Handel & Kfz-Gewerbe", role: "Sole Developer · Full-Stack & AI",
     dateRange: "01/2024 – 12/2024 · 12 Monate · lfd. Wartung", sort: "2024-01",
     caption: "Lagerverwaltung & Rechnungsmodul",
-    cover: "/assets/projects/proj-05.jpg", cardTags: ["Warenwirtschaft", "Full-Stack"],
+    cover: "/assets/projects/accounting-os.jpg", cardTags: ["Warenwirtschaft", "Full-Stack"],
     desc: "GoBD-konformes Buchhaltungs- und Lagersystem mit resilientem Daten-Synchronisationsservice für Lieferanten-Kataloge (bis 20 Mio. CSV-Zeilen).",
     meta: [
       { label: "Rolle", value: "Sole Developer · Full-Stack & AI" },
@@ -286,11 +292,11 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "Daten-Synchronisation", "CSV-Verarbeitung", "Message Queues", "Caching", "MariaDB", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "Tailwind CSS", "Warenwirtschaft", "ERP", "GoBD", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Hetzner", "Microservices", "Clean Architecture"],
   },
   {
-    num: "06", slug: "lkw-tourverwaltung", name: "LKW-Tourverwaltung", subtitle: "Tourenplanung mit Echtzeit-Tracking",
+    num: "06", slug: "lkw-tourverwaltung", name: "LadeTrans", company: "CDH Stephanus", companyUrl: "https://cdh-stephanus.org", subtitle: "LKW-Tourverwaltungssystem",
     cat: "Logistik & Transport", role: "Sole Developer · Full-Stack & AI",
     dateRange: "02/2021 – 05/2023 · 2 J. 4 Mon. · lfd. Wartung", sort: "2021-02",
     caption: "Tourenplanung mit Echtzeit-Tracking",
-    cover: "/assets/projects/proj-06.jpg", cardTags: ["Logistik", "Full-Stack"],
+    cover: "/assets/projects/lkw-tourverwaltung.jpg", cardTags: ["Logistik", "Full-Stack"],
     desc: "LKW-Tourverwaltungssystem zur effizienten Steuerung und Optimierung der Tourenplanung mit Echtzeit-Tracking und revisionssicherer Archivführung.",
     meta: [
       { label: "Rolle", value: "Sole Developer · Full-Stack & AI" },
@@ -315,11 +321,11 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "PostgreSQL", "Redis", "MikroORM", "React Router", "Tailwind CSS", "SPA", "Tourenplanung / Routenoptimierung", "Echtzeit-Tracking", "PDF-Generierung", "DOCX-Generierung", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Nginx", "Microservices", "Clean Architecture"],
   },
   {
-    num: "07", slug: "xu-navigator", name: "XU Navigator", subtitle: "Enterprise-Lernplattform",
+    num: "07", slug: "xu-navigator", name: "XU Navigator", company: "XU Group", companyUrl: "https://xu.de", subtitle: "Enterprise-Lernplattform",
     cat: "EdTech / E-Learning", role: "Full-Stack Engineer",
     dateRange: "05/2020 – 02/2023 · 2 J. 10 Mon.", sort: "2020-05",
     caption: "Kursverwaltung & Zertifikats-Engine",
-    cover: "/assets/projects/proj-07.jpg", cardTags: ["EdTech", "Microservices"],
+    cover: "/assets/projects/xu-navigator.jpg", cardTags: ["EdTech", "Microservices"],
     desc: "Skalierbare Microservice-Lernplattform für Unternehmensmitarbeitende – im Einsatz bei Konzernen wie Daimler, VW und ThyssenKrupp.",
     meta: [
       { label: "Rolle", value: "Full-Stack Engineer" },
@@ -344,11 +350,11 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Angular", "Node.js", "NestJS", "Express.js", "REST API", "GraphQL", "MongoDB", "Mongoose", "NgRx", "RxJS", "Angular Material", "SCSS", "Azure", "Azure DevOps", "Azure App Service", "Azure Blob Storage", "Docker", "CI/CD", "JWT", "OAuth 2.0", "SSO", "LMS", "Video-Streaming", "Microservices", "Clean Architecture"],
   },
   {
-    num: "08", slug: "medizingeraete-ms", name: "Medizingeräte-MS", subtitle: "Managementsystem für Medizingeräte",
+    num: "08", slug: "medizingeraete-ms", name: "Medizingeräte-MS", company: "Krankenhauskette (anonymisiert)", subtitle: "Managementsystem für Medizingeräte",
     cat: "HealthTech / Medizintechnik", role: "Full-Stack Engineer",
     dateRange: "01/2019 – 05/2020 · 1 J. 5 Mon.", sort: "2019-01",
     caption: "Geräte- & Wartungshistorie-Übersicht",
-    cover: "/assets/projects/proj-08.jpg", cardTags: ["HealthTech", ".NET"],
+    cover: "/assets/projects/medizingeraete-ms.jpg", cardTags: ["HealthTech", ".NET"],
     desc: "Mandantenfähige Software zur Verwaltung medizinischer Geräte über mehrere Krankenhäuser – Werkzeug für Techniker zur Wartung und Reparatur.",
     meta: [
       { label: "Rolle", value: "Full-Stack Engineer" },
@@ -485,6 +491,52 @@ export const certificates: Certificate[] = [
   },
 ];
 
+/* Client & colleague references. Each has a stable slug so it can be linked
+   from anywhere (e.g. the PDF CV) via /referenzen/<slug>; the slug is a
+   permanent route and must never change once published. Projects without a
+   (published) reference simply have no entry here. */
+export type ReferenceSource = "LinkedIn" | "Malt";
+
+/* Where a testimonial can be verified — rendered as a linked tag on each card.
+   Both point at Nikita's own public profiles (his received recommendations).
+   Sourced from lib/references.json so the website and the PDF CV stay in sync. */
+export const referenceSources: Record<
+  ReferenceSource,
+  { label: string; href: string }
+> = referencesData.sources as Record<
+  ReferenceSource,
+  { label: string; href: string }
+>;
+
+export type Reference = {
+  /** Stable slug — the reference lives at /referenzen/<slug> forever. */
+  slug: string;
+  name: string;
+  role: string;
+  /** Company or organisation the recommender represents. */
+  company?: string;
+  /** Company website; makes the company name a link when set. */
+  companyUrl?: string;
+  /** Relationship to Nikita, e.g. "Kunde", "ehem. Kollege". */
+  relation: string;
+  /** Slug of the related case study (links to /projekte/<slug>). */
+  projectSlug?: string;
+  /** Human-readable project label shown on the card. */
+  project: string;
+  /** Verifiable sources; each renders as an outbound tag. */
+  sources: ReferenceSource[];
+  /** ISO date for sorting (newest first), mirroring the related project. */
+  sort: string;
+  /** Full testimonial, shown on the website. */
+  quote: string;
+  /** Condensed pull-quote for the compact PDF CV listing. */
+  short: string;
+};
+
+/* Ordered newest first, mirroring the projects gallery. Content lives in
+   lib/references.json so the website and the PDF CV share one source. */
+export const references: Reference[] = referencesData.references as Reference[];
+
 /* Headings for the floating table-of-contents navigation. */
 export type TocItem = { id: string; label: string; level: 1 | 2 };
 
@@ -494,6 +546,7 @@ export const sections: TocItem[] = [
   { id: "arbeitsweise", label: "Arbeitsweise", level: 2 },
   { id: "schwerpunkt", label: "Schwerpunkt", level: 1 },
   { id: "projekte", label: "Projekte", level: 1 },
+  { id: "referenzen", label: "Referenzen", level: 1 },
   { id: "skills", label: "Skills", level: 1 },
   { id: "zertifikate", label: "Zertifikate", level: 1 },
 ];
