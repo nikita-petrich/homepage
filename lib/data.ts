@@ -176,7 +176,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Python", "Next.js", "React", "FastAPI", "LLM-Integration", "OpenAI API", "Azure OpenAI", "RAG", "Prompt Engineering", "Embeddings", "pgvector", "OCR", "LangChain", "PostgreSQL", "Redis", "Tailwind CSS", "shadcn/ui", "Stripe", "JWT", "OAuth 2.0", "Docker", "GitHub Actions", "CI/CD", "Hetzner", "Microservices", "EU AI Act", "Clean Architecture", "DSGVO by Design"],
   },
   {
-    num: "02", slug: "manifest-os", name: "Manifest OS", company: "Manifest", subtitle: "KI-gestützte Einwanderungsplattform",
+    num: "02", slug: "manifest-os", name: "Manifest OS", company: "Manifest Law", subtitle: "KI-gestützte Einwanderungsplattform",
     cat: "LegalTech / Immigration", role: "Full-Stack Engineer (KI-Feature-Integration)",
     dateRange: "12/2025 – 04/2026 · 5 Monate", sort: "2025-12",
     caption: "B2X-Portal — Fallübersicht",
