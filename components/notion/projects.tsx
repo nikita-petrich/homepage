@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { AlignLeft, ArrowUpRight, Calendar, CaseSensitive, LayoutGrid, Quote, Tags, X } from "lucide-react";
+import { AlignLeft, ArrowUpRight, Building2, Calendar, CaseSensitive, LayoutGrid, Quote, Tags, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { projects, references, type Project } from "@/lib/data";
@@ -122,10 +122,16 @@ export function ProjectGallery() {
                 captionClass="text-[11px] leading-[1.4]"
                 numBadge
               />
-              <div className="flex flex-col gap-[7px] p-[11px]">
+              <div className="flex flex-col gap-[6px] p-[11px]">
                 <div className="text-[15px] leading-[1.3] font-semibold">
                   {p.name}
                 </div>
+                {p.company ? (
+                  <div className="flex items-center gap-1 text-[12px] font-medium text-[#6f5b3e]">
+                    <Building2 size={12} strokeWidth={2} className="shrink-0" />
+                    <span className="line-clamp-1">{p.company}</span>
+                  </div>
+                ) : null}
                 <div className="text-[12px] text-notion-gray">{p.dateRange}</div>
                 <div className="flex flex-wrap gap-[6px]">
                   {p.cardTags.map((t) => (
@@ -226,6 +232,12 @@ export function ProjectModal({
           <div className="mt-1.5 text-[16px] font-semibold text-[#4a473f]">
             {project.subtitle}
           </div>
+          {project.company ? (
+            <div className="mt-1.5 flex items-center gap-1.5 text-[13px] font-medium text-[#6f5b3e]">
+              <Building2 size={13} strokeWidth={2} className="shrink-0" />
+              {project.company}
+            </div>
+          ) : null}
           <div className="mt-2 text-[13px] text-notion-gray">
             {project.dateRange} · {project.role}
           </div>

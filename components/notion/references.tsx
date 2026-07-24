@@ -72,10 +72,10 @@ function ReferenceCover({ reference: r }: { reference: Reference }) {
         ))}
       </span>
 
-      <div className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center">
-        <Quote size={22} strokeWidth={1.8} className="text-[var(--accent-o)]" />
-        <span className="line-clamp-2 text-[15px] leading-tight font-bold text-[#5f574a]">
-          {r.company ?? "Empfehlung"}
+      <div className="flex h-full flex-col items-center justify-center gap-1.5 px-3 text-center">
+        <Quote size={28} strokeWidth={1.7} className="text-[var(--accent-o)]" />
+        <span className="text-[10px] font-semibold tracking-[0.14em] text-[#9a8f7c] uppercase">
+          Empfehlung
         </span>
       </div>
     </div>
@@ -96,7 +96,14 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
       <ReferenceCover reference={r} />
       <div className="flex flex-1 flex-col gap-[6px] p-[11px]">
         <div className="text-[15px] leading-[1.3] font-semibold">{r.name}</div>
-        <div className="line-clamp-1 text-[12px] text-notion-gray">{r.role}</div>
+        {r.company ? (
+          <div className="flex items-center gap-1 text-[12px] font-medium text-[#6f5b3e]">
+            <Building2 size={12} strokeWidth={2} className="shrink-0" />
+            <span className="line-clamp-1">{r.company}</span>
+          </div>
+        ) : (
+          <div className="line-clamp-1 text-[12px] text-notion-gray">{r.role}</div>
+        )}
         <p className="line-clamp-3 text-[13px] leading-[1.5] text-notion-gray">
           {`„${r.quote}"`}
         </p>
