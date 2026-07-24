@@ -487,9 +487,9 @@ export const certificates: Certificate[] = [
   },
 ];
 
-/* Client & colleague references. Each has a stable anchor slug so it can be
-   linked from anywhere (e.g. the PDF CV) via /#referenz-<slug>; the slug is a
-   permanent fragment and must never change once published. Projects without a
+/* Client & colleague references. Each has a stable slug so it can be linked
+   from anywhere (e.g. the PDF CV) via /referenzen/<slug>; the slug is a
+   permanent route and must never change once published. Projects without a
    (published) reference simply have no entry here. */
 export type ReferenceSource = "LinkedIn" | "Malt";
 
@@ -505,7 +505,7 @@ export const referenceSources: Record<
 >;
 
 export type Reference = {
-  /** Stable anchor slug — the card lives at /#referenz-<slug> forever. */
+  /** Stable slug — the reference lives at /referenzen/<slug> forever. */
   slug: string;
   name: string;
   role: string;
