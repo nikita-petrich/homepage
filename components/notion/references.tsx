@@ -31,21 +31,40 @@ function initials(name: string) {
     .join("");
 }
 
-/* Outbound, verifiable-source tag (LinkedIn / Malt). */
-function SourceTag({ source }: { source: Reference["sources"][number] }) {
-  const s = referenceSources[source];
+/* LinkedIn brand glyph (lucide dropped its brand icons). */
+function LinkedinGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
+      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+    </svg>
+  );
+}
+
+/* Outbound, verifiable-source tag. The LinkedIn tag points at the recommender's
+   own profile when known, otherwise at Nikita's collected recommendations. */
+function SourceTag({ label, href }: { label: string; href: string }) {
+  const isLinkedin = label === "LinkedIn";
   return (
     <a
-      href={s.href}
+      href={href}
       target="_blank"
       rel="noreferrer"
-      aria-label={`Referenz auf ${s.label} ansehen`}
+      aria-label={`${label}-Profil öffnen`}
       className="inline-flex items-center gap-1 rounded-[4px] bg-[#f1f0ee] px-[7px] py-px text-[12px] font-medium text-[#4a473f] transition-colors hover:bg-[rgba(55,53,47,0.1)]"
     >
-      {s.label}
+      {isLinkedin ? (
+        <LinkedinGlyph className="h-[11px] w-[11px] text-[#0a66c2]" />
+      ) : null}
+      {label}
       <ExternalLink size={11} strokeWidth={2} className="opacity-70" />
     </a>
   );
+}
+
+/* LinkedIn tag → the recommender's profile if we have it, else Nikita's. */
+function sourceHref(r: Reference, source: Reference["sources"][number]) {
+  if (source === "LinkedIn" && r.linkedin) return r.linkedin;
+  return referenceSources[source].href;
 }
 
 function ReferenceCard({ reference: r }: { reference: Reference }) {
@@ -75,9 +94,22 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
             {initials(r.name)}
           </span>
           <div className="min-w-0">
-            <div className="text-[15px] font-semibold text-notion-text">
-              {r.name}
-            </div>
+            {r.linkedin ? (
+              <a
+                href={r.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`LinkedIn-Profil von ${r.name} öffnen`}
+                className="group/name inline-flex items-center gap-1 text-[15px] font-semibold text-notion-text transition-colors hover:text-[#0a66c2]"
+              >
+                {r.name}
+                <LinkedinGlyph className="h-[13px] w-[13px] text-[#0a66c2] opacity-0 transition-opacity group-hover/name:opacity-100" />
+              </a>
+            ) : (
+              <div className="text-[15px] font-semibold text-notion-text">
+                {r.name}
+              </div>
+            )}
             <div className="text-[13px] leading-[1.4] text-notion-gray">
               {r.role}
               {r.company ? (
@@ -109,7 +141,11 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
         <span className="ml-auto flex items-center gap-1.5">
           <span className="text-[12px] text-notion-gray">Quelle:</span>
           {r.sources.map((s) => (
-            <SourceTag key={s} source={s} />
+            <SourceTag
+              key={s}
+              label={referenceSources[s].label}
+              href={sourceHref(r, s)}
+            />
           ))}
         </span>
       </div>

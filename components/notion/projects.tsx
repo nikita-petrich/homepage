@@ -2,10 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { AlignLeft, Calendar, CaseSensitive, LayoutGrid, Tags, X } from "lucide-react";
+import { AlignLeft, ArrowUpRight, Calendar, CaseSensitive, LayoutGrid, Quote, Tags, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { projects, type Project } from "@/lib/data";
+import { projects, references, type Project } from "@/lib/data";
 
 import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag, SkillTag } from "./blocks";
@@ -170,6 +170,8 @@ export function ProjectModal({
 
   if (!project) return null;
 
+  const projectRefs = references.filter((r) => r.projectSlug === project.slug);
+
   return (
     <div
       className="fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-[2px] sm:p-6"
@@ -266,6 +268,28 @@ export function ProjectModal({
               ))}
             </ul>
           </div>
+
+          {projectRefs.length > 0 && (
+            <>
+              <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+                {projectRefs.length > 1 ? "Referenzen" : "Referenz"}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {projectRefs.map((r) => (
+                  <a
+                    key={r.slug}
+                    href={`/#referenz-${r.slug}`}
+                    aria-label={`Referenz von ${r.name} ansehen`}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-[rgba(225,133,46,0.35)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-o)] transition-colors hover:bg-[#f6ede1]"
+                  >
+                    <Quote size={13} strokeWidth={2} className="shrink-0" />
+                    <span>{r.name}</span>
+                    <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
 
           <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
             Technologien
