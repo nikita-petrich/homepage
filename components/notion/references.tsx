@@ -198,17 +198,19 @@ export function ReferenceModal({
         </div>
 
         <div className="px-6 py-7 sm:px-8">
-          <Quote
-            size={26}
-            strokeWidth={1.8}
-            className="mb-3 text-[var(--accent-o)]"
-            aria-hidden
-          />
-          <blockquote className="text-[15px] leading-[1.7] whitespace-pre-line text-[#37352f]">
-            {r.quote}
-          </blockquote>
+          <figure className="relative overflow-hidden rounded-xl border border-[rgba(225,133,46,0.16)] bg-[#faf7f2] px-6 pt-11 pb-6 sm:px-7">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute top-1 left-4 font-serif text-[86px] leading-none text-[color-mix(in_srgb,var(--accent-o)_22%,transparent)] select-none"
+            >
+              &ldquo;
+            </span>
+            <blockquote className="relative text-[16px] leading-[1.75] text-[#37352f]">
+              {r.quote}
+            </blockquote>
+          </figure>
 
-          <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[rgba(55,53,47,0.09)] pt-4">
+          <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 pt-1">
             <AccentTag label={r.relation} />
             {r.projectSlug ? (
               <Link
