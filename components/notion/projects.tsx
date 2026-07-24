@@ -2,13 +2,14 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { AlignLeft, ArrowUpRight, Building2, Calendar, CaseSensitive, LayoutGrid, Quote, Tags, X } from "lucide-react";
+import { AlignLeft, ArrowUpRight, Calendar, CaseSensitive, LayoutGrid, Quote, Tags, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { projects, references, type Project } from "@/lib/data";
 
 import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag, SkillTag } from "./blocks";
+import { CompanyLine } from "./company-line";
 import { GitCodeMotif, bannerBg } from "./cover-banner";
 
 const stripe =
@@ -127,10 +128,12 @@ export function ProjectGallery() {
                   {p.name}
                 </div>
                 {p.company ? (
-                  <div className="flex items-center gap-1 text-[12px] font-medium text-[#6f5b3e]">
-                    <Building2 size={12} strokeWidth={2} className="shrink-0" />
-                    <span className="line-clamp-1">{p.company}</span>
-                  </div>
+                  <CompanyLine
+                    name={p.company}
+                    href={p.companyUrl}
+                    inCard
+                    className="text-[12px]"
+                  />
                 ) : null}
                 <div className="text-[12px] text-notion-gray">{p.dateRange}</div>
                 <div className="flex flex-wrap gap-[6px]">
@@ -233,10 +236,11 @@ export function ProjectModal({
             {project.subtitle}
           </div>
           {project.company ? (
-            <div className="mt-1.5 flex items-center gap-1.5 text-[13px] font-medium text-[#6f5b3e]">
-              <Building2 size={13} strokeWidth={2} className="shrink-0" />
-              {project.company}
-            </div>
+            <CompanyLine
+              name={project.company}
+              href={project.companyUrl}
+              className="mt-1.5 text-[13px]"
+            />
           ) : null}
           <div className="mt-2 text-[13px] text-notion-gray">
             {project.dateRange} · {project.role}

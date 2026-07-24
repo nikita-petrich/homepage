@@ -129,6 +129,8 @@ export type Project = {
   name: string;
   /** Client / company the project was for ("Eigenprodukt" for own products). */
   company?: string;
+  /** Company/product website; makes the company name a link when set. */
+  companyUrl?: string;
   subtitle: string;
   cat: string;
   role: string;
@@ -147,7 +149,7 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    num: "01", slug: "bescheidklar", name: "BESCHEIDKLAR", company: "Eigenprodukt", subtitle: "KI-gestützte LegalTech-SaaS-Plattform",
+    num: "01", slug: "bescheidklar", name: "BESCHEIDKLAR", company: "Eigenprodukt", companyUrl: "https://bescheidklar.de", subtitle: "KI-gestützte LegalTech-SaaS-Plattform",
     cat: "LegalTech / GovTech", role: "Gründer & CTO",
     dateRange: "04/2025 – heute · 15 Monate", sort: "2025-04",
     caption: "KI-Vorprüfungs-Dashboard für Bescheide",
@@ -176,7 +178,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Python", "Next.js", "React", "FastAPI", "LLM-Integration", "OpenAI API", "Azure OpenAI", "RAG", "Prompt Engineering", "Embeddings", "pgvector", "OCR", "LangChain", "PostgreSQL", "Redis", "Tailwind CSS", "shadcn/ui", "Stripe", "JWT", "OAuth 2.0", "Docker", "GitHub Actions", "CI/CD", "Hetzner", "Microservices", "EU AI Act", "Clean Architecture", "DSGVO by Design"],
   },
   {
-    num: "02", slug: "manifest-os", name: "Manifest OS", company: "Manifest Law", subtitle: "KI-gestützte Einwanderungsplattform",
+    num: "02", slug: "manifest-os", name: "Manifest OS", company: "Manifest Law", companyUrl: "https://manifestlaw.com", subtitle: "KI-gestützte Einwanderungsplattform",
     cat: "LegalTech / Immigration", role: "Full-Stack Engineer (KI-Feature-Integration)",
     dateRange: "12/2025 – 04/2026 · 5 Monate", sort: "2025-12",
     caption: "B2X-Portal — Fallübersicht",
@@ -233,7 +235,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Next.js", "React", "PWA", "Responsive Design", "Design System", "Figma", "TanStack Query", "React Hook Form", "WebSockets", "Device-Pairing", "Supabase", "Supabase Realtime", "Row Level Security", "PostgreSQL", "Tailwind CSS", "shadcn/ui", "JWT", "Docker", "CI/CD", "GitHub Actions", "Vitest", "MVP-Entwicklung", "Clean Architecture"],
   },
   {
-    num: "04", slug: "dino", name: "DiNo", company: "LeXtorByte UG", subtitle: "Digitales Notariat",
+    num: "04", slug: "dino", name: "DiNo", company: "LeXtorByte UG", companyUrl: "https://digitales-notariat.de", subtitle: "Digitales Notariat",
     cat: "LegalTech / Notariat", role: "Frontend Engineer",
     dateRange: "01/2025 – 05/2025 · 5 Monate", sort: "2025-01",
     caption: "Mandantenportal — Vorgangsübersicht",
@@ -290,7 +292,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "Daten-Synchronisation", "CSV-Verarbeitung", "Message Queues", "Caching", "MariaDB", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "Tailwind CSS", "Warenwirtschaft", "ERP", "GoBD", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Hetzner", "Microservices", "Clean Architecture"],
   },
   {
-    num: "06", slug: "lkw-tourverwaltung", name: "LKW-Tourverwaltung", company: "CDH Stephanus", subtitle: "Tourenplanung mit Echtzeit-Tracking",
+    num: "06", slug: "lkw-tourverwaltung", name: "LKW-Tourverwaltung", company: "CDH Stephanus", companyUrl: "https://cdh-stephanus.org", subtitle: "Tourenplanung mit Echtzeit-Tracking",
     cat: "Logistik & Transport", role: "Sole Developer · Full-Stack & AI",
     dateRange: "02/2021 – 05/2023 · 2 J. 4 Mon. · lfd. Wartung", sort: "2021-02",
     caption: "Tourenplanung mit Echtzeit-Tracking",
@@ -319,7 +321,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "PostgreSQL", "Redis", "MikroORM", "React Router", "Tailwind CSS", "SPA", "Tourenplanung / Routenoptimierung", "Echtzeit-Tracking", "PDF-Generierung", "DOCX-Generierung", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Nginx", "Microservices", "Clean Architecture"],
   },
   {
-    num: "07", slug: "xu-navigator", name: "XU Navigator", company: "XU Group", subtitle: "Enterprise-Lernplattform",
+    num: "07", slug: "xu-navigator", name: "XU Navigator", company: "XU Group", companyUrl: "https://xu.de", subtitle: "Enterprise-Lernplattform",
     cat: "EdTech / E-Learning", role: "Full-Stack Engineer",
     dateRange: "05/2020 – 02/2023 · 2 J. 10 Mon.", sort: "2020-05",
     caption: "Kursverwaltung & Zertifikats-Engine",
@@ -513,6 +515,8 @@ export type Reference = {
   role: string;
   /** Company or organisation the recommender represents. */
   company?: string;
+  /** Company website; makes the company name a link when set. */
+  companyUrl?: string;
   /** Relationship to Nikita, e.g. "Kunde", "ehem. Kollege". */
   relation: string;
   /** Slug of the related case study (links to /projekte/<slug>). */

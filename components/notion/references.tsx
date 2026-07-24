@@ -18,6 +18,7 @@ import { references, referenceSources, type Reference } from "@/lib/data";
 
 import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag } from "./blocks";
+import { CompanyLine } from "./company-line";
 import { bannerBg } from "./cover-banner";
 
 /* Stable, shareable URL for a single testimonial. Mirrors the projects route,
@@ -97,10 +98,12 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
       <div className="flex flex-1 flex-col gap-[6px] p-[11px]">
         <div className="text-[15px] leading-[1.3] font-semibold">{r.name}</div>
         {r.company ? (
-          <div className="flex items-center gap-1 text-[12px] font-medium text-[#6f5b3e]">
-            <Building2 size={12} strokeWidth={2} className="shrink-0" />
-            <span className="line-clamp-1">{r.company}</span>
-          </div>
+          <CompanyLine
+            name={r.company}
+            href={r.companyUrl}
+            inCard
+            className="text-[12px]"
+          />
         ) : (
           <div className="line-clamp-1 text-[12px] text-notion-gray">{r.role}</div>
         )}
@@ -182,14 +185,17 @@ export function ReferenceModal({
             <h2 className="text-[20px] leading-[1.2] font-bold tracking-[-0.01em]">
               {r.name}
             </h2>
-            <div className="mt-1 text-[13px] leading-[1.45] text-[#4a473f]">
-              {r.role}
+            <div className="mt-1 flex flex-wrap items-center gap-1 text-[13px] leading-[1.45] text-[#4a473f]">
+              <span>{r.role}</span>
               {r.company ? (
-                <span className="inline-flex items-center gap-1">
-                  {" · "}
-                  <Building2 size={12} strokeWidth={2} className="inline shrink-0" />
-                  {r.company}
-                </span>
+                <>
+                  <span aria-hidden>·</span>
+                  <CompanyLine
+                    name={r.company}
+                    href={r.companyUrl}
+                    className="text-[13px]"
+                  />
+                </>
               ) : null}
             </div>
           </div>
