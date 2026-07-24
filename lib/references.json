@@ -1,0 +1,86 @@
+{
+  "sources": {
+    "LinkedIn": { "label": "LinkedIn", "href": "https://linkedin.com/in/nikita-petrich" },
+    "Malt": { "label": "Malt", "href": "https://www.malt.de" }
+  },
+  "references": [
+    {
+      "slug": "suraj-kakar",
+      "name": "Suraj Kakar",
+      "role": "Executive Director, Private Markets Distribution & Capital Raising",
+      "company": "AITOI",
+      "relation": "Kunde",
+      "projectSlug": "aitoi",
+      "project": "AITOI — KI-Spielzeug (Setup-App & PWA-Dashboard)",
+      "sources": ["LinkedIn", "Malt"],
+      "sort": "2025-08",
+      "quote": "Wir sind äußerst zufrieden mit der Arbeit von Nikita Petrich als freiberuflicher Entwickler! Er hat unser KI-Spielzeug-Projekt maßgeblich unterstützt und dabei eine klare, sichere und skalierbare Lösung umgesetzt. Nikita entwickelte eine Next.js-App zur einfachen Einrichtung des Spielzeugs sowie eine Next.js Progressive Web Application (PWA) für das Dashboard, über das Eltern die Spielsessions ihrer Kinder nachverfolgen, filtern und analysieren können. Für die Umsetzung setzte er modernste Technologien ein, darunter React, Next.js 15, Tailwind CSS, shadcn, Supabase, Docker, sowie CI/CD-Pipelines und Unit-Tests, um die Qualität, Sicherheit und Zuverlässigkeit der Anwendungen sicherzustellen. Wir schätzen besonders Nikitas Professionalität, sein technisches Know-how und seinen durchdachten Ansatz – wir würden jederzeit wieder mit ihm zusammenarbeiten und können ihn uneingeschränkt empfehlen.",
+      "short": "Wir sind äußerst zufrieden mit der Arbeit von Nikita Petrich als freiberuflicher Entwickler! Er hat unser KI-Spielzeug-Projekt maßgeblich unterstützt und dabei eine klare, sichere und skalierbare Lösung umgesetzt … Wir würden jederzeit wieder mit ihm zusammenarbeiten und können ihn uneingeschränkt empfehlen."
+    },
+    {
+      "slug": "daniel-kmiotek",
+      "name": "Daniel Kmiotek",
+      "role": "Geschäftsführer",
+      "company": "LeXtorByte UG (haftungsbeschränkt)",
+      "relation": "Kunde",
+      "projectSlug": "dino",
+      "project": "DiNo — Digitales Notariat",
+      "sources": ["Malt"],
+      "sort": "2025-01",
+      "quote": "Wir arbeiten nun seit drei Monaten mit Nikita zusammen. Seine Leistung und sein Engagement übertreffen deutlich die Erwartungen an einen Freelancer. Er unterstützt uns bei der Entwicklung einer Notarhilfssoftware und erarbeitet schnell sowie zuverlässig die Anforderungen im Frontend (React TS). Darüber hinaus verbessert er durch Eigeninitiative die Qualität des Quellcodes und trägt maßgeblich zur Qualitätssicherung der Software bei. Wir arbeiten sehr gerne mit Nikita zusammen und empfehlen ihn uneingeschränkt weiter. Er ist eine ausgezeichnete Wahl, wenn es darum geht, Frontend-Lösungen sauber und benutzerfreundlich umzusetzen.",
+      "short": "Seine Leistung und sein Engagement übertreffen deutlich die Erwartungen an einen Freelancer … Durch Eigeninitiative verbessert er die Qualität des Quellcodes und trägt maßgeblich zur Qualitätssicherung bei. Wir empfehlen ihn uneingeschränkt weiter."
+    },
+    {
+      "slug": "harry-diwert",
+      "name": "Harry Diwert",
+      "role": "Geschäftsführer",
+      "company": "HD Autoservice, Pulverbeschichtung & Fahrzeugteilehandel",
+      "relation": "Kunde",
+      "projectSlug": "accounting-os",
+      "project": "AccountingOS — ERP- & Warenwirtschaftssystem",
+      "sources": ["Malt"],
+      "sort": "2024-01",
+      "quote": "Ich möchte Nikita Petrich uneingeschränkt für seine hervorragende Arbeit als Full Stack Developer empfehlen. Er hat für unser Unternehmen ein maßgeschneidertes ERP-System entwickelt, das unsere Geschäftsprozesse erheblich optimiert hat. Hervorzuhebende Punkte: Technische Expertise: Nikita hat mit Technologien wie React, NestJS, GraphQL und MariaDB ein leistungsstarkes und benutzerfreundliches ERP-System geschaffen, das perfekt auf unsere Anforderungen zugeschnitten ist. Effizientes Inventarmanagement: Die von ihm implementierte Lösung ermöglicht eine präzise Echtzeit-Verfolgung unserer Lagerbestände, was unsere Effizienz deutlich gesteigert hat. Rechnungsstellung: Die Funktion zur Generierung von PDF-Rechnungen hat unsere Arbeitsabläufe beschleunigt und Fehler minimiert. Professionelle Zusammenarbeit: Nikita hat uns durch klare Kommunikation, proaktive Vorschläge und eine sorgfältige Schulung während der Implementierung überzeugt. Zuverlässiger Support: Auch nach Projektabschluss steht er uns für Fragen und Anpassungen stets zur Verfügung. Nikita kombiniert technisches Know-how mit einer lösungsorientierten Arbeitsweise und einem hohen Maß an Professionalität. Wir sind begeistert von seiner Arbeit und können ihn jedem Unternehmen empfehlen, das nach individuellen Softwarelösungen sucht. Vielen Dank für die großartige Zusammenarbeit!",
+      "short": "Nikita hat für unser Unternehmen ein maßgeschneidertes ERP-System entwickelt, das unsere Geschäftsprozesse erheblich optimiert hat … Wir sind begeistert von seiner Arbeit und können ihn jedem Unternehmen empfehlen, das nach individuellen Softwarelösungen sucht."
+    },
+    {
+      "slug": "ahmed-buraa-hameed",
+      "name": "Ahmed Buraa Hameed",
+      "role": "Senior Full Stack Engineer",
+      "company": "XU Group",
+      "relation": "Kunde / ehem. Kollege",
+      "projectSlug": "xu-navigator",
+      "project": "XU Navigator",
+      "sources": ["Malt", "LinkedIn"],
+      "sort": "2023-02",
+      "quote": "I am happy to confirm that we have contracted Nikita from July 2021, to February 2023. Nikita was responsible for developing the front-end and the back-end of the platform. Nikita worked independently on our platform and helped us provide the best UI/UX experience due to his experience in the Front-end field. We got to know Nikita as a competent, friendly and engaged person. We believe that Nikita has a tremendous amount of potential and would be an outstanding addition to the team. I would have no reservations about hiring him again and I am confident in recommending Nikita for employment or external support as a contractor.",
+      "short": "Nikita worked independently on our platform and helped us provide the best UI/UX experience due to his experience in the Front-end field … I would have no reservations about hiring him again and I am confident in recommending Nikita as a contractor."
+    },
+    {
+      "slug": "behdad-tabrizi",
+      "name": "Behdad Tabrizi",
+      "role": "Full-Stack Developer",
+      "company": "XU Group",
+      "relation": "ehem. Kollege",
+      "projectSlug": "xu-navigator",
+      "project": "XU Navigator",
+      "sources": ["LinkedIn"],
+      "sort": "2023-02",
+      "quote": "Hiermit möchte ich Nikita Petrich eine positive Referenz für seine Mitarbeit im gemeinsamen Projekt für die XU Group aussprechen. Während unserer Zusammenarbeit war Nikita als Full-Stack-Entwickler mit Fokus auf Angular im Frontend und NestJS im Backend tätig. In dieser Rolle hat er stets durch sein technisches Know-how, seine Zuverlässigkeit und seine strukturierte Arbeitsweise überzeugt. Besonders hervorzuheben ist seine Fähigkeit, komplexe Anforderungen schnell zu erfassen und in effiziente, saubere Lösungen umzusetzen. Nikita war nicht nur fachlich ein starker Teamplayer, sondern auch menschlich eine Bereicherung für das Projekt. Die Kommunikation mit ihm war stets offen, konstruktiv und zielorientiert. Ich kann Nikita weiterempfehlen und bin überzeugt, dass er auch in zukünftigen Projekten eine wertvolle Unterstützung sein wird.",
+      "short": "Nikita hat stets durch sein technisches Know-how, seine Zuverlässigkeit und seine strukturierte Arbeitsweise überzeugt … Er war nicht nur fachlich ein starker Teamplayer, sondern auch menschlich eine Bereicherung für das Projekt."
+    },
+    {
+      "slug": "serghei-granici",
+      "name": "Serghei Granici",
+      "role": "Senior UI/UX Designer & Fullstack Developer",
+      "company": "XU Group",
+      "relation": "ehem. Kollege",
+      "projectSlug": "xu-navigator",
+      "project": "XU Navigator",
+      "sources": ["LinkedIn"],
+      "sort": "2023-02",
+      "quote": "Ich habe mit Nikita bei deroso zusammengearbeitet und kann ihn als hervorragenden Entwickler und Kollegen empfehlen. Er arbeitet sehr strukturiert, lösungsorientiert und hat ein gutes Auge für Details. Nikita ist nicht nur technisch stark, sondern auch kommunikativ und teamorientiert – mit ihm zu arbeiten macht einfach Spaß. Ich wünsche ihm weiterhin viel Erfolg mit seiner Selbstständigkeit und bin sicher, dass seine Kunden in guten Händen sind.",
+      "short": "Ich kann ihn als hervorragenden Entwickler und Kollegen empfehlen. Er arbeitet sehr strukturiert, lösungsorientiert und hat ein gutes Auge für Details … mit ihm zu arbeiten macht einfach Spaß."
+    }
+  ]
+}

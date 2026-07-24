@@ -12,6 +12,7 @@ import { CookieBanner } from "@/components/notion/cookie-banner";
 import { CoverBanner } from "@/components/notion/cover-banner";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
+import { ReferenceGallery } from "@/components/notion/references";
 import { TableOfContents } from "@/components/notion/toc";
 import { NotionTopBar } from "@/components/notion/topbar";
 import {
@@ -129,6 +130,15 @@ export default function Page() {
 
             <Section title="Projekte" level="h1" id="projekte">
               <ProjectGallery />
+            </Section>
+
+            <Section title="Referenzen" level="h1" id="referenzen">
+              <p className="mb-4 text-[14px] leading-[1.6] text-notion-gray">
+                Was Kund:innen und Kolleg:innen über die Zusammenarbeit sagen.
+                Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt)
+                nachprüfbar.
+              </p>
+              <ReferenceGallery />
             </Section>
 
             <Section title="Skills & Fähigkeiten" level="h1" id="skills">

@@ -1,3 +1,5 @@
+import referencesData from "./references.json";
+
 export type Span = { t: string; b?: boolean };
 export type RichLine = Span[];
 
@@ -10,7 +12,7 @@ export const profile = {
 
 export type CvFile = { href: string; label: string; flag: string; sub: string };
 export const cvFiles: CvFile[] = [
-  { href: "/cv/CV_Nikita_Petrich_DE.pdf", label: "CV Deutsch", flag: "/assets/flags/de.svg", sub: "PDF · 10 Seiten" },
+  { href: "/cv/CV_Nikita_Petrich_DE.pdf", label: "CV Deutsch", flag: "/assets/flags/de.svg", sub: "PDF · 11 Seiten" },
   { href: "/cv/CV_Nikita_Petrich_EN.pdf", label: "CV EN", flag: "/assets/flags/us.svg", sub: "PDF · 10 pages" },
 ];
 
@@ -485,6 +487,50 @@ export const certificates: Certificate[] = [
   },
 ];
 
+/* Client & colleague references. Each has a stable anchor slug so it can be
+   linked from anywhere (e.g. the PDF CV) via /#referenz-<slug>; the slug is a
+   permanent fragment and must never change once published. Projects without a
+   (published) reference simply have no entry here. */
+export type ReferenceSource = "LinkedIn" | "Malt";
+
+/* Where a testimonial can be verified — rendered as a linked tag on each card.
+   Both point at Nikita's own public profiles (his received recommendations).
+   Sourced from lib/references.json so the website and the PDF CV stay in sync. */
+export const referenceSources: Record<
+  ReferenceSource,
+  { label: string; href: string }
+> = referencesData.sources as Record<
+  ReferenceSource,
+  { label: string; href: string }
+>;
+
+export type Reference = {
+  /** Stable anchor slug — the card lives at /#referenz-<slug> forever. */
+  slug: string;
+  name: string;
+  role: string;
+  /** Company or organisation the recommender represents. */
+  company?: string;
+  /** Relationship to Nikita, e.g. "Kunde", "ehem. Kollege". */
+  relation: string;
+  /** Slug of the related case study (links to /projekte/<slug>). */
+  projectSlug?: string;
+  /** Human-readable project label shown on the card. */
+  project: string;
+  /** Verifiable sources; each renders as an outbound tag. */
+  sources: ReferenceSource[];
+  /** ISO date for sorting (newest first), mirroring the related project. */
+  sort: string;
+  /** Full testimonial, shown on the website. */
+  quote: string;
+  /** Condensed pull-quote for the compact PDF CV listing. */
+  short: string;
+};
+
+/* Ordered newest first, mirroring the projects gallery. Content lives in
+   lib/references.json so the website and the PDF CV share one source. */
+export const references: Reference[] = referencesData.references as Reference[];
+
 /* Headings for the floating table-of-contents navigation. */
 export type TocItem = { id: string; label: string; level: 1 | 2 };
 
@@ -494,6 +540,7 @@ export const sections: TocItem[] = [
   { id: "arbeitsweise", label: "Arbeitsweise", level: 2 },
   { id: "schwerpunkt", label: "Schwerpunkt", level: 1 },
   { id: "projekte", label: "Projekte", level: 1 },
+  { id: "referenzen", label: "Referenzen", level: 1 },
   { id: "skills", label: "Skills", level: 1 },
   { id: "zertifikate", label: "Zertifikate", level: 1 },
 ];
