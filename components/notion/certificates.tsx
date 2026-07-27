@@ -120,9 +120,35 @@ export function CertificateGallery() {
                       <AccentTag key={t} label={t} />
                     ))}
                 </div>
-                <div className="flex items-center gap-1.5 pt-1 text-[12px] font-medium text-[var(--accent-text)]">
-                  <ExternalLink size={13} strokeWidth={2} />
-                  {c.externalUrl ? `Auf ${c.issuer} ansehen` : "PDF ansehen"}
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-[12px] font-medium text-[var(--accent-text)]">
+                  <span className="flex items-center gap-1.5">
+                    <ExternalLink size={13} strokeWidth={2} />
+                    {c.externalUrl ? `Auf ${c.issuer} ansehen` : "PDF ansehen"}
+                  </span>
+                  {c.verifyUrl && !c.externalUrl ? (
+                    <span
+                      role="link"
+                      tabIndex={0}
+                      aria-label={`Zertifikat auf ${c.issuer} verifizieren`}
+                      data-analytics-event="certificate_verify_click"
+                      data-analytics-prop-slug={c.slug}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open(c.verifyUrl, "_blank", "noopener,noreferrer");
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          window.open(c.verifyUrl, "_blank", "noopener,noreferrer");
+                        }
+                      }}
+                      className="relative z-[1] cursor-pointer hover:underline"
+                    >
+                      Verifizieren
+                    </span>
+                  ) : null}
                 </div>
               </div>
             </a>

@@ -19,10 +19,6 @@ import { bannerBg } from "./cover-banner";
 import { EmptyState, GalleryGrid, useGallery } from "./gallery";
 import { ModalShell } from "./modal-shell";
 
-/* Stable, shareable URL for a single testimonial. Mirrors the projects route,
-   so a link (e.g. from the PDF CV) opens the full reference dialog. */
-export const referenceHref = (r: Reference) => `/referenzen/${r.slug}`;
-
 /* Two-letter monogram for the recommender avatar (e.g. "Suraj Kakar" → "SK"). */
 function initials(name: string) {
   return name
@@ -111,7 +107,7 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
           <div className="line-clamp-1 text-[12px] text-notion-gray">{r.role}</div>
         )}
         <p className="line-clamp-3 text-[13px] leading-[1.5] text-notion-gray">
-          {`„${r.quote}"`}
+          {`„${r.quote}“`}
         </p>
         <div className="mt-auto flex flex-wrap items-center gap-[6px] pt-1">
           <AccentTag label={r.relation} />
