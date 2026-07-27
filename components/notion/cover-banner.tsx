@@ -6,7 +6,11 @@ export const bannerBg =
 
 export function GitCodeMotif({ className }: { className?: string }) {
   return (
-    <div className={cn("flex flex-col gap-[0.75em] font-mono leading-none", className)}>
+    // Decorative "code diff" art — hidden from assistive technology.
+    <div
+      aria-hidden
+      className={cn("flex flex-col gap-[0.75em] font-mono leading-none", className)}
+    >
       <div className="text-[#3f9142]">
         <span className="text-[#3f9142]/70">+ </span>
         ai.integrate(llm, rag)
@@ -19,7 +23,7 @@ export function GitCodeMotif({ className }: { className?: string }) {
         <span className="text-[#c0553d]/70">- </span>
         legacy.manual()
       </div>
-      <div className="pl-[1.6em] text-[#a7a399]">git commit -m &quot;prod&quot;</div>
+      <div className="pl-[1.6em] text-[#67655f]">git commit -m &quot;prod&quot;</div>
     </div>
   );
 }
@@ -45,13 +49,13 @@ export function CoverBanner() {
         <GitCodeMotif className="hidden shrink-0 text-[clamp(11px,1.05vw,18px)] sm:flex" />
 
         <div className="flex min-w-0 flex-col items-end text-right">
-          <div className="text-[clamp(11px,1vw,17px)] font-semibold tracking-[0.18em] text-[var(--accent-o)] uppercase">
+          <div className="text-[clamp(11px,1vw,17px)] font-semibold tracking-[0.18em] text-[var(--accent-text)] uppercase">
             Freiberuflich · Remote · Munich
           </div>
 
-          <h2 className="mt-[0.16em] text-[clamp(22px,3.2vw,55px)] leading-[1.04] font-bold tracking-[-0.02em] text-[#2b2925]">
+          <h1 className="mt-[0.16em] text-[clamp(22px,3.2vw,55px)] leading-[1.04] font-bold tracking-[-0.02em] text-[#2b2925]">
             {profile.name}
-          </h2>
+          </h1>
 
           <div className="mt-[0.12em] text-[clamp(12px,1.3vw,23px)] leading-tight font-semibold text-[#3a382f]">
             {profile.role}
@@ -71,7 +75,7 @@ export function CoverBanner() {
           <div className="mt-[clamp(6px,0.75vw,12px)] text-[clamp(13px,1.15vw,21px)] font-bold text-[#2b2925]">
             https://sequenz.io
           </div>
-          <div className="mt-[0.2em] text-[clamp(12px,1vw,18px)] text-[#9b978d]">
+          <div className="mt-[0.2em] text-[clamp(12px,1vw,18px)] text-[#67655f]">
             n.petrich@sequenz.io
           </div>
         </div>

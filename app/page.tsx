@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import {
     AccentTag,
     Callout,
@@ -37,25 +39,29 @@ export default function Page() {
 
       <main className="mx-auto max-w-[960px] px-6 pb-28 sm:px-12">
         <div className="relative z-10 -mt-[34px] mb-2 w-fit drop-shadow-[0_2px_6px_rgba(0,0,0,0.12)]">
-          <img
+          <Image
             src="/assets/avatar.png"
-            alt="Avatar"
+            alt=""
+            width={66}
+            height={66}
             className="h-[66px] w-[66px] object-contain"
           />
         </div>
 
         <div className="grid grid-cols-1 gap-x-[42px] gap-y-10 md:grid-cols-[210px_minmax(0,1fr)]">
           <aside className="flex min-w-0 flex-col gap-8">
-            <div className="aspect-[1/1.1] w-full overflow-hidden rounded-[8px] bg-[#eceded]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative aspect-[1/1.1] w-full overflow-hidden rounded-[8px] bg-[#eceded]">
+              <Image
                 src="/assets/profile.jpg"
                 alt="Nikita Petrich"
-                className="h-full w-full object-cover object-top"
+                fill
+                sizes="(max-width: 768px) 100vw, 210px"
+                priority
+                className="object-cover object-top"
               />
             </div>
 
-            <Section title="Kontakt" level="h2" id="kontakt">
+            <Section title="Kontakt" level="h3" id="kontakt">
               <div className="flex flex-col">
                 {contact.map((item) => (
                   <InfoLine key={item.text} item={item} />
@@ -63,7 +69,7 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Eckdaten" level="h2" id="eckdaten">
+            <Section title="Eckdaten" level="h3" id="eckdaten">
               <div className="flex flex-col gap-2.5">
                 {eckdaten.map((item) => (
                   <FactLine key={item.label} item={item} />
@@ -71,7 +77,7 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Sprachen" level="h2" id="sprachen">
+            <Section title="Sprachen" level="h3" id="sprachen">
               <div className="flex flex-col">
                 {languages.map((item) => (
                   <LangLine key={item.text} item={item} />
@@ -79,7 +85,7 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Arbeitsweise" level="h2" id="arbeitsweise">
+            <Section title="Arbeitsweise" level="h3" id="arbeitsweise">
               <div className="flex flex-wrap gap-1.5">
                 {arbeitsweise.map((a) => (
                   <AccentTag key={a} label={a} />
@@ -87,7 +93,7 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Profile" level="h2">
+            <Section title="Profile" level="h3">
               <div className="flex flex-wrap gap-x-3.5 gap-y-1.5">
                 {profileLinks.map((p) => (
                   <a
@@ -98,7 +104,7 @@ export default function Page() {
                     data-analytics-event="outbound_click"
                     data-analytics-prop-link-label={p.label}
                     data-analytics-prop-target-domain={domainOf(p.href)}
-                    className="text-[14px] font-semibold text-[var(--accent-o)] hover:underline"
+                    className="text-[14px] font-semibold text-[var(--accent-text)] hover:underline"
                   >
                     {p.label}
                   </a>
@@ -110,7 +116,7 @@ export default function Page() {
           <div className="flex min-w-0 flex-col gap-10">
             <Callout>
               <RichText lines={intro} />
-              <p className="mt-3 font-semibold text-[var(--accent-o)]">
+              <p className="mt-3 font-semibold text-[var(--accent-text)]">
                 Sie planen ein KI-Vorhaben oder ein Produkt, das zuverlässig
                 laufen muss?{" "}
                 <a
@@ -127,7 +133,7 @@ export default function Page() {
               <CvDownload variant="hero" className="mt-4" />
             </Callout>
 
-            <Section title="Schwerpunkt" level="h1" id="schwerpunkt">
+            <Section title="Schwerpunkt" level="h2" id="schwerpunkt">
               <div className="flex flex-wrap gap-1.5">
                 {schwerpunkt.map((t) => (
                   <AccentTag key={t} label={t} size="md" />
@@ -135,11 +141,11 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Projekte" level="h1" id="projekte">
+            <Section title="Projekte" level="h2" id="projekte">
               <ProjectGallery />
             </Section>
 
-            <Section title="Referenzen" level="h1" id="referenzen">
+            <Section title="Referenzen" level="h2" id="referenzen">
               <p className="mb-4 text-[14px] leading-[1.6] text-notion-gray">
                 Was Kund:innen und Kolleg:innen über die Zusammenarbeit sagen.
                 Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt)
@@ -148,11 +154,11 @@ export default function Page() {
               <ReferenceGallery />
             </Section>
 
-            <Section title="Skills & Fähigkeiten" level="h1" id="skills">
+            <Section title="Skills & Fähigkeiten" level="h2" id="skills">
               <SkillsGallery />
             </Section>
 
-            <Section title="Zertifikate" level="h1" id="zertifikate">
+            <Section title="Zertifikate" level="h2" id="zertifikate">
               <CertificateGallery />
             </Section>
           </div>
