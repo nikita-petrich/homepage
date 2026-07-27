@@ -1,16 +1,23 @@
-"use client";
-
-import { useParams, useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { projects } from "@/lib/data";
-import { ProjectModal } from "@/components/notion/projects";
+
+import { InterceptedProjectDialog } from "./dialog";
+
+export function generateStaticParams() {
+  return projects.map((p) => ({ slug: p.slug }));
+}
 
 /* Intercepts a card click on the home page and shows the project as a modal;
    a hard load or refresh falls through to the standalone page instead. */
-export default function InterceptedProjectDialog() {
-  const router = useRouter();
-  const { slug } = useParams<{ slug: string }>();
-  const project = projects.find((p) => p.slug === slug) ?? null;
+export default async function InterceptedProjectPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const project = projects.find((p) => p.slug === slug);
+  if (!project) notFound();
 
-  return <ProjectModal project={project} onClose={() => router.back()} />;
+  return <InterceptedProjectDialog project={project} />;
 }
