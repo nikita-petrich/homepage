@@ -7,8 +7,8 @@ import {
     RichText,
     Section,
 } from "@/components/notion/blocks";
+import { domainOf } from "@/lib/analytics/track";
 import { CertificateGallery } from "@/components/notion/certificates";
-import { CookieBanner } from "@/components/notion/cookie-banner";
 import { CoverBanner } from "@/components/notion/cover-banner";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
@@ -93,7 +93,10 @@ export default function Page() {
                     key={p.label}
                     href={p.href}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
+                    data-analytics-event="outbound_click"
+                    data-analytics-prop-link-label={p.label}
+                    data-analytics-prop-target-domain={domainOf(p.href)}
                     className="text-[14px] font-semibold text-[var(--accent-o)] hover:underline"
                   >
                     {p.label}
@@ -112,7 +115,9 @@ export default function Page() {
                 <a
                   href={profile.booking}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
+                  data-analytics-event="booking_click"
+                  data-analytics-prop-placement="intro_callout"
                   className="underline underline-offset-2"
                 >
                   Buchen Sie ein kostenloses Erstgespräch.
@@ -153,7 +158,6 @@ export default function Page() {
       </main>
 
       <TableOfContents items={sections} />
-      <CookieBanner />
     </div>
   );
 }

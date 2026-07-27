@@ -66,6 +66,11 @@ export function Callout({ children }: { children: React.ReactNode }) {
 
 export function InfoLine({ item }: { item: InfoItem }) {
   const isExternal = item.href?.startsWith("http");
+  const contactType = item.href?.startsWith("tel:")
+    ? "phone"
+    : item.href?.startsWith("mailto:")
+      ? "email"
+      : "website";
   return (
     <div className="flex items-start gap-[8px] py-[3px] text-[15px] leading-[1.5]">
       <span className="shrink-0 leading-[1.5]" aria-hidden>
@@ -76,7 +81,9 @@ export function InfoLine({ item }: { item: InfoItem }) {
           href={item.href}
           className="font-semibold break-words hover:underline"
           target={isExternal ? "_blank" : undefined}
-          rel={isExternal ? "noreferrer" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          data-analytics-event="contact_click"
+          data-analytics-prop-type={contactType}
         >
           {item.text}
         </a>

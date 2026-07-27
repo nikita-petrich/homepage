@@ -6,6 +6,7 @@ import { AlignLeft, ArrowUpRight, Calendar, CaseSensitive, LayoutGrid, Quote, Ta
 
 import { cn } from "@/lib/utils";
 import { projects, references, type Project } from "@/lib/data";
+import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
 import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag, SkillTag } from "./blocks";
@@ -84,6 +85,8 @@ export function ProjectGallery() {
     });
   }, [query, asc]);
 
+  useSearchTracking("projects", query, visible.length);
+
   return (
     <>
       <DatabaseToolbar
@@ -114,6 +117,9 @@ export function ProjectGallery() {
               key={p.num}
               href={`/projekte/${p.slug}`}
               scroll={false}
+              data-analytics-event="project_open"
+              data-analytics-prop-slug={p.slug}
+              data-analytics-prop-source="gallery"
               style={{ boxShadow: "var(--notion-card-shadow)" }}
               className="h-full cursor-pointer overflow-hidden rounded-lg bg-white text-left transition-colors hover:bg-[rgba(55,53,47,0.02)]"
             >
@@ -296,6 +302,9 @@ export function ProjectModal({
                     key={r.slug}
                     href={`/referenzen/${r.slug}`}
                     scroll={false}
+                    data-analytics-event="reference_open"
+                    data-analytics-prop-slug={r.slug}
+                    data-analytics-prop-source="project_modal"
                     aria-label={`Referenz von ${r.name} ansehen`}
                     className="inline-flex items-center gap-1.5 rounded-md border border-[rgba(225,133,46,0.35)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-o)] transition-colors hover:bg-[#f6ede1]"
                   >

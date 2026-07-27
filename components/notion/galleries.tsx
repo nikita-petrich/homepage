@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Search, Star } from "lucide-react";
 
 import { skills } from "@/lib/data";
+import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
 import { SkillTag } from "./blocks";
 
@@ -22,6 +23,8 @@ export function SkillsGallery() {
       }))
       .filter((c) => c.name.toLowerCase().includes(q) || c.items.length > 0);
   }, [query]);
+
+  useSearchTracking("skills", query, visible.length);
 
   return (
     <>
