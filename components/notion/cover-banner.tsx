@@ -50,7 +50,7 @@ export function CoverBanner() {
 
         <div className="flex min-w-0 flex-col items-end text-right">
           <div className="text-[clamp(11px,1vw,17px)] font-semibold tracking-[0.18em] text-[var(--accent-text)] uppercase">
-            Freiberuflich · Remote · Munich
+            Freiberuflich · Remote · München
           </div>
 
           <h1 className="mt-[0.16em] text-[clamp(22px,3.2vw,55px)] leading-[1.04] font-bold tracking-[-0.02em] text-[#2b2925]">

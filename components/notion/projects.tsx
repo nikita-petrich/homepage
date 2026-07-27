@@ -135,6 +135,28 @@ export function ProjectGallery() {
   );
 }
 
+/* Meta values that are bare domains/URLs (e.g. "bescheidklar.de",
+   "github.com/…") become clickable outbound links instead of dead text. */
+const DOMAIN_RE = /^[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/i;
+
+function MetaValue({ value }: { value: string }) {
+  if (!DOMAIN_RE.test(value.trim())) return <>{value}</>;
+  const href = `https://${value.trim()}`;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-analytics-event="outbound_click"
+      data-analytics-prop-target-domain={value.trim().split("/")[0] ?? ""}
+      data-analytics-prop-link-label="project_meta"
+      className="underline underline-offset-2 hover:text-[var(--accent-text)]"
+    >
+      {value}
+    </a>
+  );
+}
+
 /* Shared by the intercepting modal route and the standalone page, which each
    pass their own onClose. */
 export function ProjectModal({
@@ -198,7 +220,7 @@ export function ProjectModal({
                   {m.label}
                 </div>
                 <div className="mt-1 text-[13px] leading-[1.35] text-[#37352f]">
-                  {m.value}
+                  <MetaValue value={m.value} />
                 </div>
               </div>
             ))}
