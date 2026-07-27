@@ -54,8 +54,8 @@ export const profileLinks: ProfileLink[] = [
   { label: "Website", href: "https://sequenz.io" },
   { label: "LinkedIn", href: "https://linkedin.com/in/nikita-petrich" },
   { label: "GitHub", href: "https://github.com/nikita-petrich" },
-  { label: "freelancermap", href: "https://www.freelancermap.de" },
-  { label: "Malt", href: "https://www.malt.de" },
+  { label: "freelancermap", href: "https://www.freelancermap.de/profil/nikita-petrich" },
+  { label: "Malt", href: "https://www.malt.de/profile/nikitapetrich" },
 ];
 
 export const intro: RichLine[] = [
