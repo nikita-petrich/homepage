@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import { references, referenceSources, type Reference } from "@/lib/data";
+import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
 import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag } from "./blocks";
@@ -41,8 +42,10 @@ function SourceTag({ source }: { source: Reference["sources"][number] }) {
     <a
       href={s.href}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
+      data-analytics-event="reference_source_click"
+      data-analytics-prop-source={s.label}
       aria-label={`Referenz auf ${s.label} ansehen`}
       className="inline-flex items-center gap-1 rounded-[4px] bg-[#f1f0ee] px-[7px] py-px text-[12px] font-medium text-[#4a473f] transition-colors hover:bg-[rgba(55,53,47,0.1)]"
     >
@@ -90,6 +93,9 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
     <Link
       href={`/referenzen/${r.slug}`}
       scroll={false}
+      data-analytics-event="reference_open"
+      data-analytics-prop-slug={r.slug}
+      data-analytics-prop-source="gallery"
       aria-label={`Referenz von ${r.name} öffnen`}
       style={{ boxShadow: "var(--notion-card-shadow)" }}
       className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-white text-left transition-colors hover:bg-[rgba(55,53,47,0.02)]"
@@ -214,6 +220,9 @@ export function ReferenceModal({
               <Link
                 href={`/projekte/${r.projectSlug}`}
                 scroll={false}
+                data-analytics-event="project_open"
+                data-analytics-prop-slug={r.projectSlug}
+                data-analytics-prop-source="reference_modal"
                 className="inline-flex items-center gap-1 rounded-[4px] bg-[#f1f0ee] px-[7px] py-px text-[12px] font-medium text-[#4a473f] transition-colors hover:bg-[rgba(55,53,47,0.1)]"
               >
                 {r.project}
@@ -256,6 +265,8 @@ export function ReferenceGallery() {
       return asc ? cmp : -cmp;
     });
   }, [query, asc]);
+
+  useSearchTracking("references", query, visible.length);
 
   return (
     <>

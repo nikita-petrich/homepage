@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
+import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
+import { CookieBanner } from "@/components/notion/cookie-banner";
+import { Footer } from "@/components/notion/footer";
+
 import "./globals.css";
 
 const inter = Inter({
@@ -25,7 +30,10 @@ export default function RootLayout({
     <html lang="de" className={`${inter.variable} antialiased`}>
       <body>
         {children}
+        <Footer />
         {modal}
+        <CookieBanner />
+        <AnalyticsProvider />
       </body>
     </html>
   );

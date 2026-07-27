@@ -3,6 +3,7 @@
 import { Building2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { domainOf, track } from "@/lib/analytics/track";
 
 /* Company name with a building icon. When `href` is set the name is a link to
    the company website. Inside a clickable card (`inCard`) it renders as a
@@ -33,7 +34,10 @@ export function CompanyLine({
   if (!href) return <span className={base}>{content}</span>;
 
   if (inCard) {
-    const open = () => window.open(href, "_blank", "noopener,noreferrer");
+    const open = () => {
+      track("outbound_click", { target_domain: domainOf(href), link_label: name });
+      window.open(href, "_blank", "noopener,noreferrer");
+    };
     return (
       <span
         role="link"
@@ -62,7 +66,10 @@ export function CompanyLine({
     <a
       href={href}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
+      data-analytics-event="outbound_click"
+      data-analytics-prop-target-domain={domainOf(href)}
+      data-analytics-prop-link-label={name}
       className={cn(base, "hover:underline")}
     >
       {content}

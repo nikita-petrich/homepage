@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import type { TocItem } from "@/lib/data";
+import { track } from "@/lib/analytics/track";
 
 export function TableOfContents({ items }: { items: TocItem[] }) {
   const [active, setActive] = useState<string>(items[0]?.id ?? "");
@@ -30,6 +31,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
+    track("toc_navigate", { section_id: id });
     const y = el.getBoundingClientRect().top + window.scrollY - 72;
     window.scrollTo({ top: y, behavior: "smooth" });
   };

@@ -17,7 +17,9 @@ export function NotionTopBar() {
         <a
           href={profile.booking}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
+          data-analytics-event="booking_click"
+          data-analytics-prop-placement="topbar"
           className="rounded-md bg-[var(--accent-o)] px-2.5 py-1.5 text-[13px] font-medium text-white shadow-sm transition-colors hover:brightness-95"
         >
           Erstgespräch buchen

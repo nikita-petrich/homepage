@@ -12,6 +12,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { certificates, type Certificate } from "@/lib/data";
+import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
 import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag } from "./blocks";
@@ -84,6 +85,8 @@ export function CertificateGallery() {
     });
   }, [query, asc]);
 
+  useSearchTracking("certificates", query, visible.length);
+
   return (
     <>
       <DatabaseToolbar
@@ -114,8 +117,12 @@ export function CertificateGallery() {
               key={c.slug}
               href={certHref(c)}
               target="_blank"
-              rel="noreferrer"
-              aria-label={`Zertifikat „${c.title}" (${c.issuer}) öffnen`}
+              rel="noopener noreferrer"
+              data-analytics-event="certificate_open"
+              data-analytics-prop-slug={c.slug}
+              data-analytics-prop-issuer={c.issuer}
+              data-analytics-prop-target={c.externalUrl ? "external" : "pdf"}
+              aria-label={`Zertifikat „${c.title}“ (${c.issuer}) öffnen`}
               style={{ boxShadow: "var(--notion-card-shadow)" }}
               className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-white text-left transition-colors hover:bg-[rgba(55,53,47,0.02)]"
             >

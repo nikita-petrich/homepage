@@ -41,7 +41,8 @@ export function CvDownload({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-haspopup="menu"
+        data-analytics-event="cv_menu_open"
+        data-analytics-prop-placement={variant}
         aria-expanded={open}
         className={cn(
           "inline-flex items-center gap-1.5 font-medium transition-colors",
@@ -64,7 +65,6 @@ export function CvDownload({
 
       {open && (
         <div
-          role="menu"
           className={cn(
             "absolute z-50 mt-2 w-[248px] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white p-1.5 shadow-[rgba(15,15,15,0.16)_0px_8px_28px]",
             isTopbar ? "right-0" : "left-0",
@@ -78,7 +78,9 @@ export function CvDownload({
               key={f.href}
               href={f.href}
               download
-              role="menuitem"
+              data-analytics-event="cv_download"
+              data-analytics-prop-cv-lang={f.href.includes("_DE") ? "de" : "en"}
+              data-analytics-prop-placement={variant}
               onClick={() => setOpen(false)}
               className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-[rgba(55,53,47,0.06)]"
             >
