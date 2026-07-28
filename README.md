@@ -95,6 +95,13 @@ Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_UMAMI_WEBSITE_ID` and
 variables the site runs with analytics fully disabled. Details and the legal
 rationale: `docs/TRACKING-KONZEPT.md`.
 
+## Deployment
+
+Every push to `main` builds the Docker image (standalone Next.js output),
+pushes it to GHCR and restarts the stack (website + Umami + Postgres) on the
+VPS via SSH. One-time setup, reverse-proxy targets and required GitHub
+secrets/variables: [`deploy/README.md`](./deploy/README.md).
+
 ## Content
 
 All page copy lives in `lib/data.ts` (contact, key facts, languages, focus,

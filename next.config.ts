@@ -23,6 +23,8 @@ const csp = `
   .trim();
 
 const nextConfig: NextConfig = {
+  // Self-contained build for the Docker image (deploy/docker-compose.yml).
+  output: "standalone",
   poweredByHeader: false,
   async headers() {
     return [

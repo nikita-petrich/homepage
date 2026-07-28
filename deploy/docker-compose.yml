@@ -1,0 +1,63 @@
+name: homepage
+
+# Expects an external Docker network "proxy" that your reverse proxy is
+# attached to (create once: `docker network create proxy`, then
+# `docker network connect proxy <reverse-proxy-container>`).
+#
+# Reverse-proxy targets inside that network:
+#   Website:         http://homepage:3000
+#   Umami-Dashboard: http://umami:3000   (z. B. stats.<domain>, optional)
+#
+# The Umami collect endpoint needs NO public exposure — the website proxies
+# it first-party via /api/a → http://umami:3000 on the internal network.
+
+services:
+  homepage:
+    image: ghcr.io/nikita-petrich/homepage:latest
+    restart: unless-stopped
+    environment:
+      UMAMI_ORIGIN: http://umami:3000
+    depends_on:
+      - umami
+    networks:
+      - proxy
+      - internal
+
+  umami:
+    image: docker.umami.is/umami-software/umami:postgresql-latest
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD}@umami-db:5432/umami
+      DATABASE_TYPE: postgresql
+      APP_SECRET: ${UMAMI_APP_SECRET}
+    depends_on:
+      umami-db:
+        condition: service_healthy
+    networks:
+      - proxy
+      - internal
+
+  umami-db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD}
+    volumes:
+      - umami-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U umami -d umami"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+
+networks:
+  proxy:
+    external: true
+  internal:
+
+volumes:
+  umami-db:
