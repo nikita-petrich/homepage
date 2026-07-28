@@ -61,6 +61,19 @@ jobs:
           scp -i ~/.ssh/id_ed25519 deploy/docker-compose.yml \
             "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:$DEPLOY_PATH/docker-compose.yml"
 
+      # The compose .env is rendered from GitHub Secrets on every deploy —
+      # nothing secret is maintained by hand on the server.
+      - name: Write server .env from secrets
+        run: |
+          printf 'UMAMI_DB_PASSWORD=%s\nUMAMI_APP_SECRET=%s\n' \
+            '${{ secrets.UMAMI_DB_PASSWORD }}' \
+            '${{ secrets.UMAMI_APP_SECRET }}' > server.env
+          scp -i ~/.ssh/id_ed25519 server.env \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:$DEPLOY_PATH/.env"
+          ssh -i ~/.ssh/id_ed25519 "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" \
+            "chmod 600 $DEPLOY_PATH/.env"
+          rm server.env
+
       - name: Pull and restart services
         run: |
           ssh -i ~/.ssh/id_ed25519 "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" \
