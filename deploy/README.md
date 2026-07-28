@@ -6,14 +6,20 @@ Secrets) auf den VPS und startet die Services per SSH neu
 (`.github/workflows/deploy.yml`). Stack: Website (Next.js standalone) +
 selbst gehostetes Umami + Postgres — siehe `docker-compose.yml`.
 
-Auf dem Server wird nichts Geheimes von Hand gepflegt — alle Secrets leben
-in GitHub (Settings → Secrets and variables → Actions).
+Auf dem Server wird nichts Geheimes von Hand gepflegt — alle Secrets und
+Variablen leben im GitHub-**Environment `prod`**. Der Code liegt auf dem VPS
+unter `/opt/stacks/homepage`.
 
 ## Einmalige Einrichtung
 
 ### 1. Im GitHub-Repo
 
-**Secrets:**
+Settings → Environments → **New environment** → Name `prod`. Dort anlegen
+(beide Deploy-Jobs referenzieren `environment: prod` — Repo-weite Secrets
+funktionieren ebenfalls, das Environment ist aber die eine Quelle der
+Wahrheit und erlaubt später Protection Rules):
+
+**Environment Secrets:**
 
 | Name | Inhalt |
 |---|---|
@@ -23,12 +29,12 @@ in GitHub (Settings → Secrets and variables → Actions).
 | `UMAMI_DB_PASSWORD` | z. B. `openssl rand -hex 16` |
 | `UMAMI_APP_SECRET` | z. B. `openssl rand -hex 32` |
 
-**Variables:**
+**Environment Variables:**
 
 | Name | Inhalt |
 |---|---|
 | `UMAMI_WEBSITE_ID` | Website-ID aus dem Umami-Dashboard (siehe Schritt 3) |
-| `DEPLOY_PATH` | optional, Standard `~/homepage` |
+| `DEPLOY_PATH` | optional, Standard `/opt/stacks/homepage` |
 
 Hinweis: `UMAMI_WEBSITE_ID` ist bewusst eine *Variable*, kein Secret — die
 ID steht ohnehin öffentlich im ausgelieferten HTML.
@@ -36,6 +42,10 @@ ID steht ohnehin öffentlich im ausgelieferten HTML.
 ### 2. Auf dem VPS
 
 ```bash
+# Stack-Verzeichnis anlegen und dem Deploy-User übertragen
+sudo mkdir -p /opt/stacks/homepage
+sudo chown <deploy-user>:<deploy-user> /opt/stacks/homepage
+
 # Gemeinsames Netz für den Reverse Proxy (falls noch nicht vorhanden)
 docker network create proxy
 docker network connect proxy <name-des-reverse-proxy-containers>
