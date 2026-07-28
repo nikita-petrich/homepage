@@ -42,15 +42,13 @@ einzige Quelle der Wahrheit ist das GitHub-Environment `prod`.
 | Container | Zweck | Netze |
 |---|---|---|
 | `homepage` | die Website (Port 3000 im Container) | `edge` + `internal` |
-| `umami` | Analytics-Dashboard und Collect-API | nur `internal`, Dashboard auf `127.0.0.1:3001` |
+| `umami` | Analytics-Dashboard und Collect-API | `edge` + `internal` |
 | `umami-db` | PostgreSQL für Umami (Volume `umami-db`) | nur `internal` |
 
-Nur die Website hängt im externen Netz `edge`, in dem auch dein Reverse Proxy
-und n8n laufen — dadurch erreicht der Proxy sie über ihren Namen. Umami und
-die Datenbank sind aus dem Internet gar nicht erreichbar: Sie liegen nur im
-selbst angelegten Netz `internal`. Das Dashboard ist zusätzlich an
-`127.0.0.1:3001` des VPS gebunden und damit ausschließlich über einen
-SSH-Tunnel zugänglich (siehe Teil C).
+`edge` ist das bestehende externe Netz, in dem auch dein Reverse Proxy und
+n8n laufen — dadurch erreicht der Proxy die Container über ihre Namen. Die
+Datenbank hängt nur im selbst angelegten Netz `internal` und ist damit aus
+dem Internet nicht erreichbar.
 
 Die Messdaten der Besucher gehen **nie direkt an Umami**: Der Browser spricht
 ausschließlich
@@ -222,8 +220,8 @@ wachsen — der Rest (Ports, Volume, `FORCE_HTTPS`, `RESOLVER_ADDRESS`, Netz
 
 ```yaml
 environment:
-  ALLOWED_DOMAINS: "(www|n8n)\\.sequenz\\.io|^sequenz\\.io$"
-  SITES: "sequenz.io=homepage:3000; www.sequenz.io=homepage:3000; n8n.sequenz.io=n8n:5678"
+  ALLOWED_DOMAINS: "(www|n8n|stats)\\.sequenz\\.io|^sequenz\\.io$"
+  SITES: "sequenz.io=homepage:3000; www.sequenz.io=homepage:3000; stats.sequenz.io=umami:3000; n8n.sequenz.io=n8n:5678"
   FORCE_HTTPS: "true"
   RESOLVER_ADDRESS: "127.0.0.11"
 ```
@@ -234,21 +232,21 @@ Was die beiden Variablen bedeuten:
 
 - **`ALLOWED_DOMAINS`** ist ein **Regex**, kein Komma-Liste — nur passende
   Hostnamen bekommen automatisch ein Let's-Encrypt-Zertifikat. Das Muster
-  oben erlaubt genau `sequenz.io`, `www.sequenz.io` und `n8n.sequenz.io`.
-  Wenn du es dir einfacher machen willst und alle Subdomains zulassen
-  möchtest, geht auch `([a-z0-9-]+\\.)?sequenz\\.io` — die explizite Variante
-  ist aber sicherer, weil dann niemand über eine fremde Subdomain
-  Zertifikatsanfragen auslösen kann.
+  oben erlaubt genau `sequenz.io`, `www.sequenz.io`, `stats.sequenz.io` und
+  `n8n.sequenz.io`. Wenn du es dir einfacher machen willst und alle
+  Subdomains zulassen möchtest, geht auch `([a-z0-9-]+\\.)?sequenz\\.io` —
+  die explizite Variante ist aber sicherer, weil dann niemand über eine
+  fremde Subdomain Zertifikatsanfragen auslösen kann.
 - **`SITES`** ist die Weiterleitungstabelle im Format `domain=ziel;
-  domain=ziel`. `homepage` ist der Container-Name aus
-  `deploy/docker-compose.yml`; Docker löst ihn im Netz `edge` automatisch per
+  domain=ziel`. `homepage` und `umami` sind die Container-Namen aus
+  `deploy/docker-compose.yml`; Docker löst sie im Netz `edge` automatisch per
   DNS auf (dafür steht dein `RESOLVER_ADDRESS: 127.0.0.11` — das ist Dockers
   eingebauter DNS-Server). Dein bestehender n8n-Eintrag bleibt einfach
   stehen.
 
-**Voraussetzung DNS:** Die A-Records für `sequenz.io` und `www.sequenz.io`
-müssen auf die IP des VPS zeigen, sonst kann Let's Encrypt kein Zertifikat
-ausstellen. `n8n.sequenz.io` hast du ja bereits.
+**Voraussetzung DNS:** Die A-Records für `sequenz.io`, `www.sequenz.io` und
+`stats.sequenz.io` müssen auf die IP des VPS zeigen, sonst kann Let's Encrypt
+kein Zertifikat ausstellen. `n8n.sequenz.io` hast du ja bereits.
 
 **Zu `www`:** Der Proxy leitet `www.sequenz.io` an denselben Container weiter;
 die App antwortet darauf mit einer permanenten Weiterleitung (HTTP 308) auf
@@ -271,15 +269,10 @@ Hinweis:
    ist.
 2. `https://sequenz.io` aufrufen — die Seite läuft. Die Messung ist noch
    aus, weil `UMAMI_WEBSITE_ID` leer ist. Das ist erwartet.
-3. Dashboard per SSH-Tunnel öffnen — auf deinem Rechner:
-
-   ```bash
-   ssh -L 3001:127.0.0.1:3001 deployuser@DEINE-VPS-IP
-   ```
-
-   Das Terminal offen lassen und im Browser `http://localhost:3001` aufrufen.
-   Login **`admin`** / **`umami`** → **Passwort sofort ändern** (oben rechts →
-   Profile → Change password).
+3. `https://stats.sequenz.io` aufrufen → Login **`admin`** / **`umami`** →
+   **Passwort sofort ändern** (oben rechts → Profile → Change password).
+   Das ist wichtig: Die Seite ist öffentlich erreichbar, die
+   Standard-Zugangsdaten sind allgemein bekannt.
 4. Dort **Settings → Websites → Add website**: Name `sequenz.io`, Domain
    `sequenz.io`. Nach dem Speichern die **Website ID** kopieren (eine UUID
    wie `b4f2c1a8-…`).
@@ -295,16 +288,7 @@ Hinweis:
 
 ## Teil C — Betrieb
 
-**Statistiken ansehen:** Das Umami-Dashboard hat bewusst keine öffentliche
-Adresse. Zugriff per SSH-Tunnel:
-
-```bash
-ssh -L 3001:127.0.0.1:3001 deployuser@DEINE-VPS-IP
-```
-
-Terminal offen lassen, im Browser `http://localhost:3001` öffnen. Nach dem
-Schließen der SSH-Verbindung ist das Dashboard wieder unerreichbar — auch für
-alle anderen im Internet.
+**Statistiken ansehen:** `https://stats.sequenz.io` im Browser öffnen.
 
 **Normales Update:** Änderung committen, nach `main` pushen — fertig. Der
 Deploy läuft automatisch.
