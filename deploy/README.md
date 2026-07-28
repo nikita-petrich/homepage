@@ -220,8 +220,8 @@ wachsen — der Rest (Ports, Volume, `FORCE_HTTPS`, `RESOLVER_ADDRESS`, Netz
 
 ```yaml
 environment:
-  ALLOWED_DOMAINS: "(n8n|stats)\\.sequenz\\.io|^sequenz\\.io$"
-  SITES: "sequenz.io=homepage:3000; stats.sequenz.io=umami:3000; n8n.sequenz.io=n8n:5678"
+  ALLOWED_DOMAINS: "(www|n8n|stats)\\.sequenz\\.io|^sequenz\\.io$"
+  SITES: "sequenz.io=homepage:3000; www.sequenz.io=homepage:3000; stats.sequenz.io=umami:3000; n8n.sequenz.io=n8n:5678"
   FORCE_HTTPS: "true"
   RESOLVER_ADDRESS: "127.0.0.11"
 ```
@@ -244,13 +244,16 @@ Was die beiden Variablen bedeuten:
   eingebauter DNS-Server). Dein bestehender n8n-Eintrag bleibt einfach
   stehen.
 
-**Voraussetzung DNS:** Die A-Records für `sequenz.io` **und**
+**Voraussetzung DNS:** Die A-Records für `sequenz.io`, `www.sequenz.io` und
 `stats.sequenz.io` müssen auf die IP des VPS zeigen, sonst kann Let's Encrypt
 kein Zertifikat ausstellen. `n8n.sequenz.io` hast du ja bereits.
 
-Falls du zusätzlich `www.sequenz.io` bedienen willst, nimm sie in beide
-Variablen mit auf (`www.sequenz.io=homepage:3000`) — die Seite selbst setzt
-keine Weiterleitung von `www` auf die Hauptdomain.
+**Zu `www`:** Der Proxy leitet `www.sequenz.io` an denselben Container weiter;
+die App antwortet darauf mit einer permanenten Weiterleitung (HTTP 308) auf
+`https://sequenz.io` — inklusive Pfad, `www.sequenz.io/projekte/aitoi` landet
+also auf `sequenz.io/projekte/aitoi`. So bleibt genau eine kanonische URL,
+was Duplicate Content bei Suchmaschinen vermeidet (konfiguriert über
+`redirects()` in `next.config.ts`).
 
 Zwei Hinweise:
 
