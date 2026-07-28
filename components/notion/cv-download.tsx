@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { ChevronDown, Download, FileText } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -41,13 +42,14 @@ export function CvDownload({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-haspopup="menu"
+        data-analytics-event="cv_menu_open"
+        data-analytics-prop-placement={variant}
         aria-expanded={open}
         className={cn(
           "inline-flex items-center gap-1.5 font-medium transition-colors",
           isTopbar
-            ? "rounded-md border border-[var(--accent-o)] px-2.5 py-1.5 text-[13px] text-[var(--accent-o)] hover:bg-[color-mix(in_srgb,var(--accent-o)_10%,transparent)]"
-            : "rounded-lg bg-[var(--accent-o)] px-4 py-2.5 text-[14px] text-white shadow-sm hover:brightness-95",
+            ? "rounded-md border border-[var(--accent-text)] px-2.5 py-1.5 text-[13px] text-[var(--accent-text)] hover:bg-[color-mix(in_srgb,var(--accent-o)_10%,transparent)]"
+            : "rounded-lg bg-[var(--accent-text)] px-4 py-2.5 text-[14px] text-white shadow-sm hover:brightness-95",
         )}
       >
         <Download size={isTopbar ? 15 : 17} strokeWidth={2} />
@@ -64,7 +66,6 @@ export function CvDownload({
 
       {open && (
         <div
-          role="menu"
           className={cn(
             "absolute z-50 mt-2 w-[248px] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white p-1.5 shadow-[rgba(15,15,15,0.16)_0px_8px_28px]",
             isTopbar ? "right-0" : "left-0",
@@ -78,7 +79,9 @@ export function CvDownload({
               key={f.href}
               href={f.href}
               download
-              role="menuitem"
+              data-analytics-event="cv_download"
+              data-analytics-prop-cv-lang={f.href.includes("_DE") ? "de" : "en"}
+              data-analytics-prop-placement={variant}
               onClick={() => setOpen(false)}
               className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-[rgba(55,53,47,0.06)]"
             >
@@ -87,9 +90,12 @@ export function CvDownload({
                 style={{ background: "color-mix(in srgb, var(--accent-o) 12%, transparent)" }}
                 aria-hidden
               >
-                <img
+                <Image
                   src={f.flag}
                   alt=""
+                  width={24}
+                  height={18}
+                  unoptimized
                   className="h-[18px] w-auto rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
                 />
               </span>

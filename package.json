@@ -7,16 +7,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-separator": "^1.1.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.25.0",
-    "next": "16.2.10",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "next": "16.2.11",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
@@ -25,7 +26,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.10",
+    "eslint-config-next": "16.2.11",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

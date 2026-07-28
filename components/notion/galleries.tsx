@@ -4,8 +4,10 @@ import { useMemo, useState } from "react";
 import { Search, Star } from "lucide-react";
 
 import { skills } from "@/lib/data";
+import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
 import { SkillTag } from "./blocks";
+import { EmptyState, GalleryGrid } from "./gallery";
 
 const cardShadow = { boxShadow: "var(--notion-card-shadow)" } as const;
 
@@ -22,6 +24,8 @@ export function SkillsGallery() {
       }))
       .filter((c) => c.name.toLowerCase().includes(q) || c.items.length > 0);
   }, [query]);
+
+  useSearchTracking("skills", query, visible.length);
 
   return (
     <>
@@ -43,11 +47,9 @@ export function SkillsGallery() {
       </div>
 
       {visible.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-[rgba(55,53,47,0.16)] px-4 py-10 text-center text-[14px] text-notion-gray">
-          Keine Treffer.
-        </div>
+        <EmptyState />
       ) : (
-        <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(280px,1fr))]">
+        <GalleryGrid wide>
           {visible.map((cat) => (
             <div
               key={cat.num}
@@ -56,7 +58,7 @@ export function SkillsGallery() {
             >
               <div className="flex flex-col gap-[11px] p-[13px]">
                 <div className="flex items-center gap-[9px]">
-                  <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-md bg-[var(--accent-o)] text-[11px] font-bold text-white">
+                  <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-md bg-[var(--accent-text)] text-[11px] font-bold text-white">
                     {cat.num}
                   </span>
                   <span className="text-[15px] leading-[1.3] font-semibold">
@@ -71,7 +73,7 @@ export function SkillsGallery() {
               </div>
             </div>
           ))}
-        </div>
+        </GalleryGrid>
       )}
     </>
   );

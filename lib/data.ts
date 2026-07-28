@@ -54,8 +54,8 @@ export const profileLinks: ProfileLink[] = [
   { label: "Website", href: "https://sequenz.io" },
   { label: "LinkedIn", href: "https://linkedin.com/in/nikita-petrich" },
   { label: "GitHub", href: "https://github.com/nikita-petrich" },
-  { label: "freelancermap", href: "https://www.freelancermap.de" },
-  { label: "Malt", href: "https://www.malt.de" },
+  { label: "freelancermap", href: "https://www.freelancermap.de/profil/nikita-petrich" },
+  { label: "Malt", href: "https://www.malt.de/profile/nikitapetrich" },
 ];
 
 export const intro: RichLine[] = [
@@ -151,7 +151,7 @@ export const projects: Project[] = [
   {
     num: "01", slug: "bescheidklar", name: "BESCHEIDKLAR", company: "Eigenprodukt", companyUrl: "https://bescheidklar.de", subtitle: "KI-gestützte LegalTech-SaaS-Plattform",
     cat: "LegalTech / GovTech", role: "Gründer & CTO",
-    dateRange: "04/2025 – heute · 15 Monate", sort: "2025-04",
+    dateRange: "04/2025 – heute", sort: "2025-04",
     caption: "KI-Vorprüfungs-Dashboard für Bescheide",
     cover: "/assets/projects/bescheidklar.jpg", cardTags: ["LegalTech", "KI · RAG"],
     desc: "Zweiseitige LegalTech-SaaS-Plattform, die KI-gestützte Dokumentenanalyse (Azure OpenAI) mit einem regionalen Lizenzmodell für Anwaltskanzleien verbindet.",
@@ -534,14 +534,38 @@ export type Reference = {
 };
 
 /* Ordered newest first, mirroring the projects gallery. Content lives in
-   lib/references.json so the website and the PDF CV share one source. */
-export const references: Reference[] = referencesData.references as Reference[];
+   lib/references.json so the website and the PDF CV share one source.
+
+   The JSON import is unchecked by TypeScript, so validate it at module load —
+   a typo in the JSON then fails the build (generateStaticParams) instead of
+   crashing in the browser. */
+function assertReferences(data: unknown): Reference[] {
+  if (!Array.isArray(data)) throw new Error("references.json: kein Array");
+  const projectSlugs = new Set(projects.map((p) => p.slug));
+  for (const r of data as Reference[]) {
+    if (!r.slug || !r.name || !r.role || !r.relation || !r.project || !r.sort || !r.quote || !r.short) {
+      throw new Error(`references.json: Pflichtfeld fehlt bei "${r.slug ?? "?"}"`);
+    }
+    for (const s of r.sources) {
+      if (!(s in referenceSources)) {
+        throw new Error(`references.json: unbekannte Quelle "${s}" bei "${r.slug}"`);
+      }
+    }
+    if (r.projectSlug && !projectSlugs.has(r.projectSlug)) {
+      throw new Error(`references.json: unbekannter projectSlug "${r.projectSlug}" bei "${r.slug}"`);
+    }
+  }
+  return data as Reference[];
+}
+
+export const references: Reference[] = assertReferences(referencesData.references);
 
 /* Headings for the floating table-of-contents navigation. */
 export type TocItem = { id: string; label: string; level: 1 | 2 };
 
 export const sections: TocItem[] = [
   { id: "kontakt", label: "Kontakt", level: 2 },
+  { id: "eckdaten", label: "Eckdaten", level: 2 },
   { id: "sprachen", label: "Sprachen", level: 2 },
   { id: "arbeitsweise", label: "Arbeitsweise", level: 2 },
   { id: "schwerpunkt", label: "Schwerpunkt", level: 1 },
