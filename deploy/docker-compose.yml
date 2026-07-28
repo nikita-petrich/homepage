@@ -1,10 +1,10 @@
 name: homepage
 
-# Joins the existing reverse-proxy network (nikita-petrich/reverse-proxy,
-# valian/docker-nginx-auto-ssl). That proxy creates the network itself, so it
-# is "external" here — the name below must match the proxy's network name.
+# Joins the existing external "edge" network that the reverse proxy
+# (nikita-petrich/reverse-proxy, valian/docker-nginx-auto-ssl) runs on, so it
+# can resolve these containers by name.
 #
-# SITES entries for the proxy (service names are DNS names in that network):
+# Matching entries in the proxy's SITES variable:
 #   sequenz.io=homepage:3000
 #   stats.sequenz.io=umami:3000     (dashboard; optional)
 #
@@ -14,17 +14,19 @@ name: homepage
 services:
   homepage:
     image: ghcr.io/nikita-petrich/homepage:latest
+    container_name: homepage
     restart: unless-stopped
     environment:
       UMAMI_ORIGIN: http://umami:3000
     depends_on:
       - umami
     networks:
-      - proxy
+      - edge
       - internal
 
   umami:
     image: docker.umami.is/umami-software/umami:postgresql-latest
+    container_name: umami
     restart: unless-stopped
     environment:
       DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD}@umami-db:5432/umami
@@ -34,11 +36,12 @@ services:
       umami-db:
         condition: service_healthy
     networks:
-      - proxy
+      - edge
       - internal
 
   umami-db:
     image: postgres:16-alpine
+    container_name: umami-db
     restart: unless-stopped
     environment:
       POSTGRES_DB: umami
@@ -55,7 +58,7 @@ services:
       - internal
 
 networks:
-  proxy:
+  edge:
     external: true
   internal:
 
