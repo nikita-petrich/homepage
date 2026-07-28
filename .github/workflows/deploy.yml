@@ -16,6 +16,9 @@ permissions:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    # Secrets/variables live in the "prod" environment; the build job needs it
+    # too because UMAMI_WEBSITE_ID is read at image build time.
+    environment: prod
     steps:
       - uses: actions/checkout@v4
 
@@ -42,8 +45,9 @@ jobs:
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
+    environment: prod
     env:
-      DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '~/homepage' }}
+      DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '/opt/stacks/homepage' }}
     steps:
       - uses: actions/checkout@v4
 
