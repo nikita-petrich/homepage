@@ -41,9 +41,14 @@ einzige Quelle der Wahrheit ist das GitHub-Environment `prod`.
 
 | Container | Zweck | Netze |
 |---|---|---|
-| `homepage` | die Website (Port 3000 im Container) | Proxy-Netz + `internal` |
-| `umami` | Analytics-Dashboard und Collect-API | Proxy-Netz + `internal` |
+| `homepage` | die Website (Port 3000 im Container) | `edge` + `internal` |
+| `umami` | Analytics-Dashboard und Collect-API | `edge` + `internal` |
 | `umami-db` | PostgreSQL für Umami (Volume `umami-db`) | nur `internal` |
+
+`edge` ist das bestehende externe Netz, in dem auch dein Reverse Proxy und
+n8n laufen — dadurch erreicht der Proxy die Container einfach über ihre
+Namen. `internal` wird von diesem Stack selbst angelegt und ist nur für die
+Datenbankverbindung da.
 
 Die Datenbank ist von außen nicht erreichbar. Die Messdaten der Besucher
 gehen **nie direkt an Umami**: Der Browser spricht ausschließlich
@@ -183,26 +188,17 @@ sudo usermod -aG docker deployuser
 sudo mkdir -p /opt/stacks/homepage
 sudo chown deployuser:deployuser /opt/stacks/homepage
 
-# 4c. Prüfen, wie das Netz deines Reverse Proxys heißt
-docker network ls
+# 4c. Prüfen, dass das externe Netz "edge" existiert
+docker network ls | grep edge
 ```
 
-**Zum Netz:** Dein Reverse Proxy
-([nikita-petrich/reverse-proxy](https://github.com/nikita-petrich/reverse-proxy))
-legt sein Netz selbst an — in der Vorlage heißt es `example-net`. Dieser
-Stack erwartet ein Netz namens **`proxy`**. Du hast zwei Möglichkeiten:
-
-- **Empfohlen:** In deinem Reverse-Proxy-`compose.yml` das Netz in `proxy`
-  umbenennen (`networks: proxy: name: proxy`, und unter dem `nginx`-Service
-  `networks: - proxy`), dann `docker compose up -d`. Ein Name für alle
-  künftigen Stacks.
-- **Alternativ:** In `deploy/docker-compose.yml` dieses Repos unten unter
-  `networks:` den Namen `proxy` durch deinen bestehenden Netznamen ersetzen.
-
-Falls das Netz noch gar nicht existiert:
+Der Stack hängt sich in das bestehende Netz **`edge`**, in dem dein Reverse
+Proxy ([nikita-petrich/reverse-proxy](https://github.com/nikita-petrich/reverse-proxy))
+und n8n bereits laufen. Es ist dort als `external: true` deklariert, wird also
+außerhalb der Compose-Dateien verwaltet. Falls es wider Erwarten fehlt:
 
 ```bash
-docker network create proxy
+docker network create edge
 ```
 
 Wenn dein GHCR-Package privat bleiben soll, muss sich der VPS einmalig an der
@@ -216,31 +212,51 @@ Machst du das Package öffentlich (GitHub → Packages → homepage → Package
 settings → Change visibility → Public), entfällt der Login. Für eine
 Portfolio-Website ist beides vertretbar.
 
-### Schritt 5: Reverse Proxy konfigurieren
+### Schritt 5: Reverse Proxy erweitern
 
-In deinem `reverse-proxy/compose.yml` die beiden Variablen ergänzen:
+In deinem `reverse-proxy/compose.yml` müssen nur die zwei Domain-Variablen
+wachsen — der Rest (Ports, Volume, `FORCE_HTTPS`, `RESOLVER_ADDRESS`, Netz
+`edge`) bleibt unverändert:
 
 ```yaml
 environment:
-  ALLOWED_DOMAINS: "(sequenz.io|stats.sequenz.io)"
-  SITES: "sequenz.io=homepage:3000; stats.sequenz.io=umami:3000"
+  ALLOWED_DOMAINS: "(n8n|stats)\\.sequenz\\.io|^sequenz\\.io$"
+  SITES: "sequenz.io=homepage:3000; stats.sequenz.io=umami:3000; n8n.sequenz.io=n8n:5678"
+  FORCE_HTTPS: "true"
+  RESOLVER_ADDRESS: "127.0.0.11"
 ```
 
-`ALLOWED_DOMAINS` ist ein Regex-Muster: Nur passende Domains bekommen ein
-Let's-Encrypt-Zertifikat. `SITES` ist die Weiterleitungstabelle im Format
-`domain=ziel; domain=ziel` — `homepage` und `umami` sind dabei die
-Container-Namen, die Docker im gemeinsamen Netz automatisch als DNS-Namen
-auflöst. Danach `docker compose up -d` im Reverse-Proxy-Verzeichnis.
+Dann im Reverse-Proxy-Verzeichnis `docker compose up -d`.
 
-Voraussetzung: Die DNS-A-Records für `sequenz.io` und `stats.sequenz.io`
-zeigen auf die IP des VPS — sonst kann Let's Encrypt kein Zertifikat
-ausstellen.
+Was die beiden Variablen bedeuten:
+
+- **`ALLOWED_DOMAINS`** ist ein **Regex**, kein Komma-Liste — nur passende
+  Hostnamen bekommen automatisch ein Let's-Encrypt-Zertifikat. Das Muster
+  oben erlaubt genau `n8n.sequenz.io`, `stats.sequenz.io` und die
+  Hauptdomain `sequenz.io`. Wenn du es dir einfacher machen willst und alle
+  Subdomains zulassen möchtest, geht auch `([a-z0-9-]+\\.)?sequenz\\.io` —
+  die explizite Variante ist aber sicherer, weil dann niemand über eine
+  fremde Subdomain Zertifikatsanfragen auslösen kann.
+- **`SITES`** ist die Weiterleitungstabelle im Format `domain=ziel;
+  domain=ziel`. `homepage` und `umami` sind die Container-Namen aus
+  `deploy/docker-compose.yml`; Docker löst sie im Netz `edge` automatisch per
+  DNS auf (dafür steht dein `RESOLVER_ADDRESS: 127.0.0.11` — das ist Dockers
+  eingebauter DNS-Server). Dein bestehender n8n-Eintrag bleibt einfach
+  stehen.
+
+**Voraussetzung DNS:** Die A-Records für `sequenz.io` **und**
+`stats.sequenz.io` müssen auf die IP des VPS zeigen, sonst kann Let's Encrypt
+kein Zertifikat ausstellen. `n8n.sequenz.io` hast du ja bereits.
+
+Falls du zusätzlich `www.sequenz.io` bedienen willst, nimm sie in beide
+Variablen mit auf (`www.sequenz.io=homepage:3000`) — die Seite selbst setzt
+keine Weiterleitung von `www` auf die Hauptdomain.
 
 Zwei Hinweise:
 
 - Das Umami-Dashboard unter `stats.sequenz.io` ist **optional**. Die Messung
-  funktioniert auch ohne, du kämst dann nur nicht an die Auswertung — richte
-  es also ruhig ein.
+  läuft auch ohne (sie geht ja über `sequenz.io/api/a`), du kämst dann nur
+  nicht an die Auswertung — richte es also ruhig ein.
 - **Datenschutz:** Die Datenschutzerklärung sagt zu, dass Server-Logs gekürzt
   und nach spätestens 7 Tagen gelöscht werden. Konfiguriere die Access-Logs
   des Proxys entsprechend (IP-Kürzung, Rotation ≤ 7 Tage).
@@ -292,7 +308,7 @@ Passwort nicht automatisch für eine bereits bestehende Datenbank — du musst
 es dort zusätzlich setzen:
 
 ```bash
-docker exec -it homepage-umami-db-1 \
+docker exec -it umami-db \
   psql -U umami -c "ALTER USER umami WITH PASSWORD 'neuer-wert';"
 ```
 
@@ -300,7 +316,7 @@ docker exec -it homepage-umami-db-1 \
 musst du nur die Analytics-Datenbank:
 
 ```bash
-docker exec homepage-umami-db-1 pg_dump -U umami umami > umami-backup-$(date +%F).sql
+docker exec umami-db pg_dump -U umami umami > umami-backup-$(date +%F).sql
 ```
 
 **Wenn etwas nicht läuft:**
@@ -309,6 +325,7 @@ docker exec homepage-umami-db-1 pg_dump -U umami umami > umami-backup-$(date +%F
 |---|---|
 | Deploy scheitert bei „Set up SSH" | `VPS_SSH_KEY` unvollständig kopiert (BEGIN/END-Zeilen fehlen) oder `VPS_HOST` falsch |
 | Deploy scheitert bei „Pull and restart" | Deploy-User nicht in der `docker`-Gruppe, oder GHCR-Login fehlt bei privatem Package |
-| `docker compose up` meldet „network proxy not found" | Netzname stimmt nicht mit dem des Reverse Proxys überein (Schritt 4c) |
+| `docker compose up` meldet „network edge not found" | Das externe Netz `edge` existiert nicht — `docker network create edge` (Schritt 4c) |
+| Proxy meldet 502 für sequenz.io | Container `homepage` läuft nicht, oder der `SITES`-Eintrag zeigt auf den falschen Namen/Port (`homepage:3000`) |
 | Seite lädt, aber keine Events in Umami | `UMAMI_WEBSITE_ID` gesetzt, aber kein neuer Deploy gelaufen (Schritt 6.6) |
 | Umami-Container startet nicht | `UMAMI_DB_PASSWORD` nach dem ersten Start geändert, ohne es in Postgres nachzuziehen |
