@@ -1,15 +1,16 @@
 name: homepage
 
-# Joins the existing external "edge" network that the reverse proxy
-# (nikita-petrich/reverse-proxy, valian/docker-nginx-auto-ssl) runs on, so it
-# can resolve these containers by name.
+# Only the website is published: it joins the existing external "edge"
+# network that the reverse proxy (nikita-petrich/reverse-proxy,
+# valian/docker-nginx-auto-ssl) runs on.
 #
-# Matching entries in the proxy's SITES variable:
-#   sequenz.io=homepage:3000
-#   stats.sequenz.io=umami:3000     (dashboard; optional)
+# Matching entry in the proxy's SITES variable:
+#   sequenz.io=homepage:3000; www.sequenz.io=homepage:3000
 #
-# The Umami collect endpoint needs NO public exposure — the website proxies
-# it first-party via /api/a → http://umami:3000 on the internal network.
+# Umami has NO public endpoint at all: the website forwards measurements
+# first-party via /api/a → http://umami:3000 on the internal network, and the
+# dashboard is bound to 127.0.0.1 on the host — reachable through an SSH
+# tunnel only (see deploy/README.md).
 
 services:
   homepage:
@@ -32,11 +33,14 @@ services:
       DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD}@umami-db:5432/umami
       DATABASE_TYPE: postgresql
       APP_SECRET: ${UMAMI_APP_SECRET}
+    # Dashboard on the host loopback only — no public exposure. Reach it via
+    # `ssh -L 3001:127.0.0.1:3001 <user>@<vps>` → http://localhost:3001
+    ports:
+      - "127.0.0.1:3001:3000"
     depends_on:
       umami-db:
         condition: service_healthy
     networks:
-      - edge
       - internal
 
   umami-db:
