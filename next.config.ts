@@ -26,6 +26,18 @@ const nextConfig: NextConfig = {
   // Self-contained build for the Docker image (deploy/docker-compose.yml).
   output: "standalone",
   poweredByHeader: false,
+  async redirects() {
+    return [
+      // www → apex, so the site has exactly one canonical URL (matches
+      // metadataBase and avoids duplicate content in search engines).
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.sequenz.io" }],
+        destination: "https://sequenz.io/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
