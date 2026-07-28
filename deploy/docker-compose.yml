@@ -1,12 +1,12 @@
 name: homepage
 
-# Expects an external Docker network "proxy" that your reverse proxy is
-# attached to (create once: `docker network create proxy`, then
-# `docker network connect proxy <reverse-proxy-container>`).
+# Joins the existing reverse-proxy network (nikita-petrich/reverse-proxy,
+# valian/docker-nginx-auto-ssl). That proxy creates the network itself, so it
+# is "external" here — the name below must match the proxy's network name.
 #
-# Reverse-proxy targets inside that network:
-#   Website:         http://homepage:3000
-#   Umami-Dashboard: http://umami:3000   (z. B. stats.<domain>, optional)
+# SITES entries for the proxy (service names are DNS names in that network):
+#   sequenz.io=homepage:3000
+#   stats.sequenz.io=umami:3000     (dashboard; optional)
 #
 # The Umami collect endpoint needs NO public exposure — the website proxies
 # it first-party via /api/a → http://umami:3000 on the internal network.
