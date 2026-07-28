@@ -1,44 +1,67 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { MoreHorizontal } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import {
+  OPEN_CONSENT_EVENT,
+  readConsent,
+  writeConsent,
+} from "@/lib/analytics/consent";
+import { track } from "@/lib/analytics/track";
 
-const STORAGE_KEY = "notion-cookie-consent";
-
-type Prefs = { functional: boolean; analytics: boolean; marketing: boolean };
-
+/* Privacy banner. This site tracks cookieless and anonymous (stage 1, no
+   consent required — see lib/analytics/consent.ts), so this banner INFORMS
+   and offers an opt-out; it does not beg for consent it doesn't need. It
+   re-opens via the footer's "Datenschutz-Einstellungen" button so a choice
+   can be changed at any time. */
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [customize, setCustomize] = useState(false);
-  const [prefs, setPrefs] = useState<Prefs>({
-    functional: false,
-    analytics: false,
-    marketing: false,
-  });
+  const [statistics, setStatistics] = useState(true);
 
   useEffect(() => {
-    let shouldShow = true;
-    try {
-      shouldShow = !localStorage.getItem(STORAGE_KEY);
-    } catch {
-      shouldShow = true;
-    }
-    if (!shouldShow) return;
-    // Reveal on the next frame, deferring the update out of the effect body.
-    const id = requestAnimationFrame(() => setVisible(true));
+    // Defer state updates to the next frame, out of the effect body.
+    const id = requestAnimationFrame(() => {
+      const stored = readConsent();
+      if (!stored) {
+        setVisible(true);
+        track("consent_banner_shown");
+      } else {
+        setStatistics(stored.statistics);
+      }
+    });
     return () => cancelAnimationFrame(id);
   }, []);
 
-  const dismiss = (value: string) => {
-    try {
-      localStorage.setItem(STORAGE_KEY, value);
-    } catch {
-      /* ignore */
+  // Footer "Datenschutz-Einstellungen" re-opens the banner with the stored
+  // choice pre-filled (withdrawal must be as easy as the original decision).
+  useEffect(() => {
+    const onOpen = () => {
+      const stored = readConsent();
+      setStatistics(stored ? stored.statistics : true);
+      setVisible(true);
+      setCustomize(true);
+    };
+    window.addEventListener(OPEN_CONSENT_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_CONSENT_EVENT, onOpen);
+  }, []);
+
+  const save = (stats: boolean, decision: string) => {
+    const before = readConsent()?.statistics !== false;
+    if (stats) {
+      track("consent_decision", { decision });
     }
+    writeConsent({ statistics: stats });
     setVisible(false);
     setCustomize(false);
+    // The Umami script may already be running with auto-tracking; a reload is
+    // the only reliable way to stop it after an opt-out.
+    if (before && !stats && window.umami) {
+      window.location.reload();
+    }
   };
 
   if (!visible) return null;
@@ -47,36 +70,43 @@ export function CookieBanner() {
     <div className="fixed bottom-4 left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-[620px] -translate-x-1/2">
       {customize && (
         <CustomizePanel
-          prefs={prefs}
-          setPrefs={setPrefs}
-          onDone={() => dismiss("customized")}
+          statistics={statistics}
+          onToggleStatistics={() => setStatistics((v) => !v)}
+          onDone={() => save(statistics, "customized")}
         />
       )}
 
       <div className="flex items-center gap-3 rounded-xl bg-[#2a2e30] px-4 py-3 text-[14px] text-white shadow-[rgba(15,15,15,0.28)_0px_8px_28px]">
         <span className="flex-1 text-white/85">
-          Diese Website verwendet Cookies, um die Nutzung zu analysieren und die
-          Darstellung zu verbessern.
+          Diese Website misst die Nutzung cookielos und anonym — ohne Cookies
+          und ohne Wiedererkennung.{" "}
+          <Link
+            href="/datenschutz"
+            className="underline underline-offset-2 hover:text-white"
+          >
+            Details
+          </Link>
         </span>
         <button
           type="button"
-          onClick={() => dismiss("all")}
-          className="shrink-0 font-semibold transition-colors hover:text-white/75"
+          onClick={() => save(true, "ok")}
+          className="shrink-0 cursor-pointer font-semibold transition-colors hover:text-white/75"
         >
-          Alle akzeptieren
+          OK
         </button>
         <button
           type="button"
-          onClick={() => dismiss("none")}
-          className="shrink-0 font-semibold transition-colors hover:text-white/75"
+          onClick={() => save(false, "opt_out")}
+          className="shrink-0 cursor-pointer font-semibold transition-colors hover:text-white/75"
         >
           Ablehnen
         </button>
         <button
           type="button"
           onClick={() => setCustomize((v) => !v)}
-          aria-label="Cookies anpassen"
-          className="shrink-0 rounded p-1 transition-colors hover:bg-white/10"
+          aria-label="Datenschutz-Einstellungen anpassen"
+          aria-expanded={customize}
+          className="shrink-0 cursor-pointer rounded p-1 transition-colors hover:bg-white/10"
         >
           <MoreHorizontal size={18} />
         </button>
@@ -86,45 +116,30 @@ export function CookieBanner() {
 }
 
 function CustomizePanel({
-  prefs,
-  setPrefs,
+  statistics,
+  onToggleStatistics,
   onDone,
 }: {
-  prefs: Prefs;
-  setPrefs: (updater: (p: Prefs) => Prefs) => void;
+  statistics: boolean;
+  onToggleStatistics: () => void;
   onDone: () => void;
 }) {
-  const rows: {
-    key: keyof Prefs | "necessary";
-    title: string;
-    desc: string;
-    on: boolean;
-    disabled?: boolean;
-  }[] = [
+  const rows = [
     {
       key: "necessary",
       title: "Unbedingt erforderlich",
-      desc: "Notwendig für den Betrieb der Website. Immer aktiv.",
+      desc: "Speichert ausschließlich Ihre hier getroffene Entscheidung. Immer aktiv.",
       on: true,
       disabled: true,
+      onToggle: undefined as (() => void) | undefined,
     },
     {
-      key: "functional",
-      title: "Funktional",
-      desc: "Speichert Einstellungen und ermöglicht erweiterte Funktionen.",
-      on: prefs.functional,
-    },
-    {
-      key: "analytics",
-      title: "Analyse",
-      desc: "Hilft, die Nutzung zu messen und die Website zu verbessern.",
-      on: prefs.analytics,
-    },
-    {
-      key: "marketing",
-      title: "Marketing",
-      desc: "Wird für zielgerichtete Werbung verwendet.",
-      on: prefs.marketing,
+      key: "statistics",
+      title: "Anonyme Statistik",
+      desc: "Cookielose, anonyme Messung von Seitenaufrufen und Klicks — ohne Wiedererkennung, ohne Speicherung auf Ihrem Gerät. Kann hier jederzeit deaktiviert werden.",
+      on: statistics,
+      disabled: false,
+      onToggle: onToggleStatistics,
     },
   ];
 
@@ -132,12 +147,12 @@ function CustomizePanel({
     <div className="absolute right-0 bottom-full mb-2 w-[340px] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white shadow-[rgba(15,15,15,0.2)_0px_12px_34px]">
       <div className="flex items-center justify-between px-4 py-3">
         <span className="text-[15px] font-medium text-notion-text">
-          Cookies anpassen
+          Datenschutz-Einstellungen
         </span>
         <button
           type="button"
           onClick={onDone}
-          className="rounded-md border border-[#2383e2] px-3 py-1 text-[14px] font-medium text-[#2383e2] transition-colors hover:bg-[#2383e2]/5"
+          className="cursor-pointer rounded-md border border-[#2383e2] px-3 py-1 text-[14px] font-medium text-[#2383e2] transition-colors hover:bg-[#2383e2]/5"
         >
           Fertig
         </button>
@@ -163,11 +178,8 @@ function CustomizePanel({
             <Toggle
               on={row.on}
               disabled={row.disabled}
-              onClick={() => {
-                if (row.disabled || row.key === "necessary") return;
-                const key = row.key;
-                setPrefs((p) => ({ ...p, [key]: !p[key] }));
-              }}
+              label={row.title}
+              onClick={row.onToggle}
             />
           </div>
         ))}
@@ -179,18 +191,22 @@ function CustomizePanel({
 function Toggle({
   on,
   disabled,
+  label,
   onClick,
 }: {
   on: boolean;
   disabled?: boolean;
+  label: string;
   onClick?: () => void;
 }) {
   return (
     <button
       type="button"
+      role="switch"
       onClick={onClick}
       disabled={disabled}
-      aria-pressed={on}
+      aria-checked={on}
+      aria-label={label}
       className={cn(
         "relative mt-1 h-[18px] w-[30px] shrink-0 rounded-full transition-colors",
         on ? "bg-[#2383e2]" : "bg-[rgba(55,53,47,0.22)]",

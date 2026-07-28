@@ -1,29 +1,23 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ArrowUpRight,
-  Building2,
   Calendar,
-  CaseSensitive,
   ExternalLink,
   MessagesSquare,
   Quote,
-  Tags,
-  X,
 } from "lucide-react";
 
 import { references, referenceSources, type Reference } from "@/lib/data";
+import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
 import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag } from "./blocks";
 import { CompanyLine } from "./company-line";
 import { bannerBg } from "./cover-banner";
-
-/* Stable, shareable URL for a single testimonial. Mirrors the projects route,
-   so a link (e.g. from the PDF CV) opens the full reference dialog. */
-export const referenceHref = (r: Reference) => `/referenzen/${r.slug}`;
+import { EmptyState, GalleryGrid, useGallery } from "./gallery";
+import { ModalShell } from "./modal-shell";
 
 /* Two-letter monogram for the recommender avatar (e.g. "Suraj Kakar" → "SK"). */
 function initials(name: string) {
@@ -41,8 +35,10 @@ function SourceTag({ source }: { source: Reference["sources"][number] }) {
     <a
       href={s.href}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
+      data-analytics-event="reference_source_click"
+      data-analytics-prop-source={s.label}
       aria-label={`Referenz auf ${s.label} ansehen`}
       className="inline-flex items-center gap-1 rounded-[4px] bg-[#f1f0ee] px-[7px] py-px text-[12px] font-medium text-[#4a473f] transition-colors hover:bg-[rgba(55,53,47,0.1)]"
     >
@@ -75,7 +71,7 @@ function ReferenceCover({ reference: r }: { reference: Reference }) {
 
       <div className="flex h-full flex-col items-center justify-center gap-1.5 px-3 text-center">
         <Quote size={28} strokeWidth={1.7} className="text-[var(--accent-o)]" />
-        <span className="text-[10px] font-semibold tracking-[0.14em] text-[#9a8f7c] uppercase">
+        <span className="text-[10px] font-semibold tracking-[0.14em] text-[#6b614e] uppercase">
           Empfehlung
         </span>
       </div>
@@ -90,6 +86,9 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
     <Link
       href={`/referenzen/${r.slug}`}
       scroll={false}
+      data-analytics-event="reference_open"
+      data-analytics-prop-slug={r.slug}
+      data-analytics-prop-source="gallery"
       aria-label={`Referenz von ${r.name} öffnen`}
       style={{ boxShadow: "var(--notion-card-shadow)" }}
       className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-white text-left transition-colors hover:bg-[rgba(55,53,47,0.02)]"
@@ -108,7 +107,7 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
           <div className="line-clamp-1 text-[12px] text-notion-gray">{r.role}</div>
         )}
         <p className="line-clamp-3 text-[13px] leading-[1.5] text-notion-gray">
-          {`„${r.quote}"`}
+          {`„${r.quote}“`}
         </p>
         <div className="mt-auto flex flex-wrap items-center gap-[6px] pt-1">
           <AccentTag label={r.relation} />
@@ -127,48 +126,16 @@ export function ReferenceModal({
   reference: r,
   onClose,
 }: {
-  reference: Reference | null;
+  reference: Reference;
   onClose: () => void;
 }) {
-  useEffect(() => {
-    if (!r) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
-    };
-  }, [r, onClose]);
-
-  if (!r) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-[2px] sm:p-6"
-      style={{ animation: "np-overlay-in 0.2s ease-out" }}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={`Referenz von ${r.name}`}
+    <ModalShell
+      label={`Referenz von ${r.name}`}
+      onClose={onClose}
+      maxWidthClass="max-w-[640px]"
     >
-      <div
-        className="relative my-4 h-fit w-full max-w-[640px] overflow-hidden rounded-xl bg-white shadow-[rgba(15,15,15,0.2)_0px_16px_48px] sm:my-8"
-        style={{ animation: "np-modal-in 0.28s ease-out" }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Schließen"
-          className="absolute top-3 right-3 z-10 rounded-md bg-white/85 p-1.5 text-notion-gray backdrop-blur transition-colors hover:bg-white hover:text-notion-text"
-        >
-          <X size={18} />
-        </button>
-
+      <>
         <div
           className="relative flex items-center gap-4 overflow-hidden px-6 py-6 sm:px-8"
           style={{ backgroundImage: bannerBg }}
@@ -214,6 +181,9 @@ export function ReferenceModal({
               <Link
                 href={`/projekte/${r.projectSlug}`}
                 scroll={false}
+                data-analytics-event="project_open"
+                data-analytics-prop-slug={r.projectSlug}
+                data-analytics-prop-source="reference_modal"
                 className="inline-flex items-center gap-1 rounded-[4px] bg-[#f1f0ee] px-[7px] py-px text-[12px] font-medium text-[#4a473f] transition-colors hover:bg-[rgba(55,53,47,0.1)]"
               >
                 {r.project}
@@ -230,32 +200,26 @@ export function ReferenceModal({
             </span>
           </div>
         </div>
-      </div>
-    </div>
+      </>
+    </ModalShell>
   );
 }
 
 /* Referenzen — testimonials shown as a card gallery after the projects,
    mirroring their size and behaviour: a clamped preview per card, full text in
    the dialog. Each card has a permanent URL (/referenzen/<slug>). */
-export function ReferenceGallery() {
-  const [asc, setAsc] = useState(false); // false = newest first (default)
-  const [query, setQuery] = useState("");
+const referenceSearchText = (r: Reference) =>
+  `${r.name} ${r.role} ${r.company ?? ""} ${r.project} ${r.quote}`;
+const referenceSortKey = (r: Reference) => r.sort;
 
-  const visible = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    const list = references.filter((r) =>
-      !q
-        ? true
-        : (r.name + " " + r.role + " " + (r.company ?? "") + " " + r.project + " " + r.quote)
-            .toLowerCase()
-            .includes(q),
-    );
-    return [...list].sort((a, b) => {
-      const cmp = a.sort.localeCompare(b.sort);
-      return asc ? cmp : -cmp;
-    });
-  }, [query, asc]);
+export function ReferenceGallery() {
+  const { query, setQuery, sortDirLabel, toggleSort, visible } = useGallery(
+    references,
+    referenceSearchText,
+    referenceSortKey,
+  );
+
+  useSearchTracking("references", query, visible.length);
 
   return (
     <>
@@ -264,28 +228,20 @@ export function ReferenceGallery() {
         viewIcon={<MessagesSquare size={15} strokeWidth={2} />}
         sortProp="Datum"
         sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
-        sortDirLabel={asc ? "Älteste zuerst" : "Neueste zuerst"}
-        onToggleSortDir={() => setAsc((v) => !v)}
+        sortDirLabel={sortDirLabel}
+        onToggleSortDir={toggleSort}
         query={query}
         onQueryChange={setQuery}
-        filterProps={[
-          { label: "Name", icon: <CaseSensitive size={16} strokeWidth={1.9} /> },
-          { label: "Firma", icon: <Building2 size={15} strokeWidth={1.9} /> },
-          { label: "Projekt", icon: <Tags size={15} strokeWidth={1.9} /> },
-          { label: "Datum", icon: <Calendar size={15} strokeWidth={1.9} /> },
-        ]}
       />
 
       {visible.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-[rgba(55,53,47,0.16)] px-4 py-10 text-center text-[14px] text-notion-gray">
-          Keine Treffer.
-        </div>
+        <EmptyState />
       ) : (
-        <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(240px,1fr))]">
+        <GalleryGrid>
           {visible.map((r) => (
             <ReferenceCard key={r.slug} reference={r} />
           ))}
-        </div>
+        </GalleryGrid>
       )}
     </>
   );

@@ -1,14 +1,24 @@
 @import "tailwindcss";
 
 :root {
+  /* Decorative accent (bars, icons, large graphics) — NOT for normal text on
+     white and NOT as background under white text: 2.8:1 fails WCAG AA. */
   --accent-o: #e1852e;
+  /* Text-safe accent: ≥4.5:1 as text on white AND on the warm banner
+     backgrounds, and under white text as a button background. */
+  --accent-text: #9d5417;
 
   --notion-text: #37352f;
-  --notion-text-gray: #787774;
+  --notion-text-gray: #6f6d68; /* ≥4.5:1 on white (was #787774 at 4.48:1) */
   --notion-bg: #ffffff;
   --notion-divider: rgba(55, 53, 47, 0.16);
   --notion-card-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
     rgba(15, 15, 15, 0.1) 0px 2px 4px;
+
+  /* Notion select colours for the certificate issuer pills. */
+  --pill-green: #dbeddb;
+  --pill-blue: #d3e5ef;
+  --pill-purple: #e8deee;
 
   --radius: 0.5rem;
   --border: rgba(55, 53, 47, 0.16);

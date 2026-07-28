@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -5,22 +7,24 @@ import type { FactItem, InfoItem, Language, RichLine } from "@/lib/data";
 
 import { CactusOrangeIcon } from "./icons";
 
+/* The page's single h1 is the name in the cover banner; main sections are h2,
+   sidebar sections h3. Visual sizes are independent of the semantic level. */
 export function Section({
   title,
-  level = "h1",
+  level = "h2",
   id,
   className,
   children,
 }: {
   title: string;
-  level?: "h1" | "h2";
+  level?: "h2" | "h3";
   id?: string;
   className?: string;
   children: React.ReactNode;
 }) {
   const Heading = level;
   const headingClass =
-    level === "h1"
+    level === "h2"
       ? "text-[1.75rem] font-semibold leading-[1.25] tracking-[-0.01em]"
       : "text-[1.375rem] font-semibold leading-[1.25] tracking-[-0.01em]";
 
@@ -66,6 +70,11 @@ export function Callout({ children }: { children: React.ReactNode }) {
 
 export function InfoLine({ item }: { item: InfoItem }) {
   const isExternal = item.href?.startsWith("http");
+  const contactType = item.href?.startsWith("tel:")
+    ? "phone"
+    : item.href?.startsWith("mailto:")
+      ? "email"
+      : "website";
   return (
     <div className="flex items-start gap-[8px] py-[3px] text-[15px] leading-[1.5]">
       <span className="shrink-0 leading-[1.5]" aria-hidden>
@@ -76,7 +85,9 @@ export function InfoLine({ item }: { item: InfoItem }) {
           href={item.href}
           className="font-semibold break-words hover:underline"
           target={isExternal ? "_blank" : undefined}
-          rel={isExternal ? "noreferrer" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          data-analytics-event="contact_click"
+          data-analytics-prop-type={contactType}
         >
           {item.text}
         </a>
@@ -101,10 +112,14 @@ export function FactLine({ item }: { item: FactItem }) {
 export function LangLine({ item }: { item: Language }) {
   return (
     <div className="flex items-center gap-[8px] py-[3px] text-[15px] leading-[1.5]">
-      <img
+      {/* SVG flags are served as-is — the optimizer adds nothing for vectors. */}
+      <Image
         src={item.flag}
         alt=""
         aria-hidden
+        width={20}
+        height={15}
+        unoptimized
         className="h-[15px] w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
       />
       <span>

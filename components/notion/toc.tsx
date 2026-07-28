@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import type { TocItem } from "@/lib/data";
+import { track } from "@/lib/analytics/track";
 
 export function TableOfContents({ items }: { items: TocItem[] }) {
   const [active, setActive] = useState<string>(items[0]?.id ?? "");
@@ -30,6 +31,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
+    track("toc_navigate", { section_id: id });
     const y = el.getBoundingClientRect().top + window.scrollY - 72;
     window.scrollTo({ top: y, behavior: "smooth" });
   };
@@ -39,7 +41,22 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
       className="fixed top-1/2 right-0 z-40 hidden -translate-y-1/2 md:block"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
+      onFocusCapture={() => setOpen(true)}
+      onBlurCapture={(e) => {
+        // Close only when focus leaves the whole widget (keyboard access).
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+          setOpen(false);
+        }
+      }}
     >
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className="sr-only focus:not-sr-only focus:absolute focus:top-1/2 focus:right-2 focus:z-50 focus:-translate-y-1/2 focus:rounded-md focus:bg-white focus:px-2 focus:py-1 focus:text-[12px] focus:shadow-md"
+      >
+        Inhaltsverzeichnis
+      </button>
       <nav
         className={cn(
           "absolute top-1/2 right-2 min-w-[190px] -translate-y-1/2 rounded-lg border border-[rgba(55,53,47,0.12)] bg-white p-1.5 shadow-[rgba(15,15,15,0.08)_0px_4px_16px] transition-all duration-150",
@@ -47,7 +64,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
             ? "visible translate-x-0 opacity-100"
             : "invisible translate-x-1 opacity-0",
         )}
-        aria-label="Table of contents"
+        aria-label="Inhaltsverzeichnis"
       >
         {items.map((item) => (
           <button
@@ -68,6 +85,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
       </nav>
 
       <div
+        aria-hidden
         className={cn(
           "flex flex-col items-end gap-[9px] py-3 pr-[14px] pl-7 transition-opacity duration-150",
           open ? "opacity-0" : "opacity-100",

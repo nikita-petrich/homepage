@@ -17,8 +17,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
   if (!project) return {};
+  // The "· Nikita Petrich" suffix comes from the root layout's title.template.
   return {
-    title: `${project.name} — ${project.subtitle} · Nikita Petrich`,
+    title: `${project.name} — ${project.subtitle}`,
     description: project.desc,
   };
 }

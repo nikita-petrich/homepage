@@ -17,8 +17,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const reference = references.find((r) => r.slug === slug);
   if (!reference) return {};
+  // The "· Nikita Petrich" suffix comes from the root layout's title.template.
   return {
-    title: `Referenz von ${reference.name} · Nikita Petrich`,
+    title: `Referenz von ${reference.name}`,
     description: `${reference.name} (${reference.role}) über die Zusammenarbeit mit Nikita Petrich.`,
   };
 }

@@ -1,16 +1,23 @@
-"use client";
-
-import { useParams, useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { references } from "@/lib/data";
-import { ReferenceModal } from "@/components/notion/references";
 
-/* Intercepts a reference card click on the home page and shows the testimonial
-   as a modal; a hard load or refresh falls through to the standalone page. */
-export default function InterceptedReferenceDialog() {
-  const router = useRouter();
-  const { slug } = useParams<{ slug: string }>();
-  const reference = references.find((r) => r.slug === slug) ?? null;
+import { InterceptedReferenceDialog } from "./dialog";
 
-  return <ReferenceModal reference={reference} onClose={() => router.back()} />;
+export function generateStaticParams() {
+  return references.map((r) => ({ slug: r.slug }));
+}
+
+/* Intercepts a card click on the home page and shows the reference as a
+   modal; a hard load or refresh falls through to the standalone page. */
+export default async function InterceptedReferencePage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const reference = references.find((r) => r.slug === slug);
+  if (!reference) notFound();
+
+  return <InterceptedReferenceDialog reference={reference} />;
 }

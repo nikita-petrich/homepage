@@ -1,16 +1,19 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { AlignLeft, ArrowUpRight, Calendar, CaseSensitive, LayoutGrid, Quote, Tags, X } from "lucide-react";
+import { ArrowUpRight, Calendar, LayoutGrid, Quote } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { projects, references, type Project } from "@/lib/data";
+import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
 import { DatabaseToolbar } from "./database-toolbar";
 import { AccentTag, SkillTag } from "./blocks";
 import { CompanyLine } from "./company-line";
 import { GitCodeMotif, bannerBg } from "./cover-banner";
+import { EmptyState, GalleryGrid, useGallery } from "./gallery";
+import { ModalShell } from "./modal-shell";
 
 const stripe =
   "repeating-linear-gradient(135deg,#f2efe9 0 10px,#eae6dd 10px 20px)";
@@ -32,16 +35,16 @@ function ProjectCover({
       style={{ backgroundImage: stripe }}
     >
       {project.cover ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={project.cover}
           alt={project.caption}
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px"
+          className="object-cover"
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center p-3">
-          <span className={cn("text-center font-mono text-[#9a8f7c]", captionClass)}>
+          <span className={cn("text-center font-mono text-[#6b614e]", captionClass)}>
             {project.caption}
           </span>
         </div>
@@ -55,34 +58,18 @@ function ProjectCover({
   );
 }
 
-export function ProjectGallery() {
-  const [asc, setAsc] = useState(false); // false = newest first
-  const [query, setQuery] = useState("");
+const projectSearchText = (p: Project) =>
+  `${p.name} ${p.subtitle} ${p.cat} ${p.desc} ${p.tech.join(" ")}`;
+const projectSortKey = (p: Project) => p.sort;
 
-  const visible = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    const list = projects.filter((p) =>
-      !q
-        ? true
-        : (
-            p.name +
-            " " +
-            p.subtitle +
-            " " +
-            p.cat +
-            " " +
-            p.desc +
-            " " +
-            p.tech.join(" ")
-          )
-            .toLowerCase()
-            .includes(q),
-    );
-    return [...list].sort((a, b) => {
-      const cmp = a.sort.localeCompare(b.sort);
-      return asc ? cmp : -cmp;
-    });
-  }, [query, asc]);
+export function ProjectGallery() {
+  const { query, setQuery, sortDirLabel, toggleSort, visible } = useGallery(
+    projects,
+    projectSearchText,
+    projectSortKey,
+  );
+
+  useSearchTracking("projects", query, visible.length);
 
   return (
     <>
@@ -91,29 +78,24 @@ export function ProjectGallery() {
         viewIcon={<LayoutGrid size={15} strokeWidth={2} />}
         sortProp="Datum"
         sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
-        sortDirLabel={asc ? "Älteste zuerst" : "Neueste zuerst"}
-        onToggleSortDir={() => setAsc((v) => !v)}
+        sortDirLabel={sortDirLabel}
+        onToggleSortDir={toggleSort}
         query={query}
         onQueryChange={setQuery}
-        filterProps={[
-          { label: "Name", icon: <CaseSensitive size={16} strokeWidth={1.9} /> },
-          { label: "Datum", icon: <Calendar size={15} strokeWidth={1.9} /> },
-          { label: "Beschreibung", icon: <AlignLeft size={15} strokeWidth={1.9} /> },
-          { label: "Tags", icon: <Tags size={15} strokeWidth={1.9} /> },
-        ]}
       />
 
       {visible.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-[rgba(55,53,47,0.16)] px-4 py-10 text-center text-[14px] text-notion-gray">
-          Keine Treffer.
-        </div>
+        <EmptyState />
       ) : (
-        <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(240px,1fr))]">
+        <GalleryGrid>
           {visible.map((p) => (
             <Link
               key={p.num}
               href={`/projekte/${p.slug}`}
               scroll={false}
+              data-analytics-event="project_open"
+              data-analytics-prop-slug={p.slug}
+              data-analytics-prop-source="gallery"
               style={{ boxShadow: "var(--notion-card-shadow)" }}
               className="h-full cursor-pointer overflow-hidden rounded-lg bg-white text-left transition-colors hover:bg-[rgba(55,53,47,0.02)]"
             >
@@ -147,9 +129,31 @@ export function ProjectGallery() {
               </div>
             </Link>
           ))}
-        </div>
+        </GalleryGrid>
       )}
     </>
+  );
+}
+
+/* Meta values that are bare domains/URLs (e.g. "bescheidklar.de",
+   "github.com/…") become clickable outbound links instead of dead text. */
+const DOMAIN_RE = /^[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/i;
+
+function MetaValue({ value }: { value: string }) {
+  if (!DOMAIN_RE.test(value.trim())) return <>{value}</>;
+  const href = `https://${value.trim()}`;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-analytics-event="outbound_click"
+      data-analytics-prop-target-domain={value.trim().split("/")[0] ?? ""}
+      data-analytics-prop-link-label="project_meta"
+      className="underline underline-offset-2 hover:text-[var(--accent-text)]"
+    >
+      {value}
+    </a>
   );
 }
 
@@ -159,51 +163,14 @@ export function ProjectModal({
   project,
   onClose,
 }: {
-  project: Project | null;
+  project: Project;
   onClose: () => void;
 }) {
-  // Escape to close + lock body scroll while the modal is open.
-  useEffect(() => {
-    if (!project) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
-    };
-  }, [project, onClose]);
-
-  if (!project) return null;
-
   const projectRefs = references.filter((r) => r.projectSlug === project.slug);
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-[2px] sm:p-6"
-      style={{ animation: "np-overlay-in 0.2s ease-out" }}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={project.name}
-    >
-      <div
-        className="relative my-4 h-fit w-full max-w-[720px] overflow-hidden rounded-xl bg-white shadow-[rgba(15,15,15,0.2)_0px_16px_48px] sm:my-8"
-        style={{ animation: "np-modal-in 0.28s ease-out" }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Schließen"
-          className="absolute top-3 right-3 z-10 rounded-md bg-white/85 p-1.5 text-notion-gray backdrop-blur transition-colors hover:bg-white hover:text-notion-text"
-        >
-          <X size={18} />
-        </button>
-
+    <ModalShell label={project.name} onClose={onClose}>
+      <>
         {project.cover ? (
           <ProjectCover
             project={project}
@@ -221,7 +188,7 @@ export function ProjectModal({
         )}
 
         <div className="px-6 py-7 sm:px-10 sm:py-9">
-          <div className="text-[12px] font-semibold tracking-[0.06em] text-[var(--accent-o)] uppercase">
+          <div className="text-[12px] font-semibold tracking-[0.06em] text-[var(--accent-text)] uppercase">
             {project.cat}
           </div>
           <div className="mt-2 flex items-center gap-2.5">
@@ -253,7 +220,7 @@ export function ProjectModal({
                   {m.label}
                 </div>
                 <div className="mt-1 text-[13px] leading-[1.35] text-[#37352f]">
-                  {m.value}
+                  <MetaValue value={m.value} />
                 </div>
               </div>
             ))}
@@ -272,7 +239,7 @@ export function ProjectModal({
           </ul>
 
           <div className="mt-[22px] rounded-lg border border-[rgba(55,53,47,0.1)] bg-[#faf6f0] p-4">
-            <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-[var(--accent-o)] uppercase">
+            <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-[var(--accent-text)] uppercase">
               Ergebnis
             </h3>
             <ul className="flex flex-col gap-2">
@@ -296,8 +263,11 @@ export function ProjectModal({
                     key={r.slug}
                     href={`/referenzen/${r.slug}`}
                     scroll={false}
+                    data-analytics-event="reference_open"
+                    data-analytics-prop-slug={r.slug}
+                    data-analytics-prop-source="project_modal"
                     aria-label={`Referenz von ${r.name} ansehen`}
-                    className="inline-flex items-center gap-1.5 rounded-md border border-[rgba(225,133,46,0.35)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-o)] transition-colors hover:bg-[#f6ede1]"
+                    className="inline-flex items-center gap-1.5 rounded-md border border-[rgba(225,133,46,0.35)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[#f6ede1]"
                   >
                     <Quote size={13} strokeWidth={2} className="shrink-0" />
                     <span>{r.name}</span>
@@ -317,7 +287,7 @@ export function ProjectModal({
             ))}
           </div>
         </div>
-      </div>
-    </div>
+      </>
+    </ModalShell>
   );
 }
