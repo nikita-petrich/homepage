@@ -46,6 +46,12 @@ export default function DatenschutzPage() {
 
       <LegalSection title="3. Hosting und Server-Logfiles">
         <p>
+          Diese Website wird bei der netcup GmbH, Emmy-Noether-Straße 10,
+          76131 Karlsruhe, Deutschland gehostet; Serverstandort ist Nürnberg
+          (Deutschland). Mit netcup besteht ein Auftragsverarbeitungsvertrag
+          nach Art. 28 DSGVO.
+        </p>
+        <p>
           Beim Aufruf dieser Website verarbeitet der Webserver automatisch
           Informationen, die Ihr Browser übermittelt (insbesondere IP-Adresse,
           Datum und Uhrzeit des Zugriffs, aufgerufene Seite, Referrer-URL,
@@ -53,9 +59,7 @@ export default function DatenschutzPage() {
           Sicherstellung eines störungsfreien Betriebs und der Sicherheit der
           Website (Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO). Die Logdaten
           werden nach spätestens 7 Tagen gelöscht und nicht mit anderen
-          Datenquellen zusammengeführt. Die Website wird bei einem
-          Hosting-Dienstleister in der EU betrieben; mit diesem besteht, soweit
-          erforderlich, ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO.
+          Datenquellen zusammengeführt.
         </p>
       </LegalSection>
 
