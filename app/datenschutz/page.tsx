@@ -68,17 +68,23 @@ export default function DatenschutzPage() {
           Diese Website misst ihre Nutzung mit einer selbst gehosteten Instanz
           der Open-Source-Software Umami auf einem Server in der EU. Die Messung
           ist bewusst datensparsam ausgestaltet: Es werden{" "}
-          <strong>keine Cookies</strong> gesetzt, es wird{" "}
-          <strong>nichts auf Ihrem Endgerät gespeichert oder ausgelesen</strong>{" "}
-          und Ihre IP-Adresse wird <strong>nicht gespeichert</strong> (die
-          Messdaten laufen über einen eigenen Endpunkt dieser Website, der die
-          IP-Adresse nicht an die Statistik-Software weitergibt). Eine
-          Wiedererkennung über mehrere Besuche hinweg findet nicht statt.
+          <strong>keine Cookies</strong> gesetzt und es wird{" "}
+          <strong>nichts auf Ihrem Endgerät gespeichert oder ausgelesen</strong>.
+          Ihre IP-Adresse wird ausschließlich flüchtig verarbeitet, um daraus
+          das Herkunftsland und die Region abzuleiten sowie einen Kennwert zu
+          bilden, der Ihren Besuch von anderen unterscheidbar macht; dieser
+          Kennwert wird aus IP-Adresse, Browserkennung und einem{" "}
+          <strong>täglich wechselnden Zufallswert</strong> gebildet. Die
+          IP-Adresse selbst wird <strong>nicht gespeichert</strong>, und durch
+          den täglichen Wechsel ist eine Wiedererkennung über mehrere Tage
+          hinweg ausgeschlossen.
         </p>
         <p>
-          Erfasst werden aggregierte Ereignisse wie Seitenaufrufe, geklickte
-          Schaltflächen (z.&nbsp;B. CV-Download, Terminbuchung), Scroll-Tiefe
-          und ungefähre Verweildauer — ohne Bezug zu Ihrer Person.
+          Erfasst werden aggregierte Angaben wie Seitenaufrufe, Herkunftsland
+          und -region, Browser, Betriebssystem, Gerätetyp und
+          Bildschirmauflösung, die verweisende Seite sowie Ereignisse wie
+          geklickte Schaltflächen (z.&nbsp;B. CV-Download, Terminbuchung),
+          Scroll-Tiefe und ungefähre Verweildauer — ohne Bezug zu Ihrer Person.
           Suchtexteingaben werden nicht im Klartext erfasst. Rechtsgrundlage ist
           Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der
           Reichweitenmessung und Verbesserung des Angebots); § 25 TDDDG findet
