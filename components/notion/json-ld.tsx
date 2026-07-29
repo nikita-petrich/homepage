@@ -1,4 +1,14 @@
-import { contact, profile, profileLinks } from "@/lib/data";
+import { contact, profile, profileLinks, skills } from "@/lib/data";
+
+/* Every skill the page shows, as schema.org topics. Categories 01–16 are
+   subject matter; "17 — Rollen & Profil" is left out because roles, languages
+   and location are not things a person "knows about" (jobTitle/address above
+   already carry that). Postman appears in two categories, hence the Set. */
+const knowsAbout = [
+  ...new Set(
+    skills.filter((c) => c.name !== "Rollen & Profil").flatMap((c) => c.items),
+  ),
+];
 
 /* schema.org Person markup for search engines (pattern from the bundled
    guide node_modules/next/dist/docs/01-app/02-guides/json-ld.md — the
@@ -22,15 +32,7 @@ export function PersonJsonLd() {
     sameAs: profileLinks
       .filter((p) => p.href.startsWith("http"))
       .map((p) => p.href),
-    knowsAbout: [
-      "LLM-Integration",
-      "RAG",
-      "KI-gestützte Automatisierung",
-      "TypeScript",
-      "Python",
-      "Next.js",
-      "Clean Architecture",
-    ],
+    knowsAbout,
   };
 
   return (
