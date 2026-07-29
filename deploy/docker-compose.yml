@@ -26,13 +26,16 @@ services:
       - internal
 
   umami:
-    # NOTE: floating tag — a website deploy can pull a new Umami version as a
-    # side effect (open dashboard tabs then fail with "Failed to find Server
-    # Action" until reloaded). Pinning is still wanted, but needs a reference
-    # that actually resolves: "postgresql-v3.2.0" does not exist in this
-    # registry. Pin by digest instead, read off the running container with
-    #   docker inspect --format '{{index .RepoDigests 0}}' umami
-    image: docker.umami.is/umami-software/umami:postgresql-latest
+    # Pinned by digest on purpose: a floating tag lets a website deploy pull a
+    # new Umami version as a side effect (open dashboard tabs then fail with
+    # "Failed to find Server Action" until reloaded).
+    #
+    # A digest rather than a version tag because Umami published no numbered
+    # tag for this build — postgresql-3.0.0 is seven months older, so it would
+    # be a downgrade. Read the digest off the running container to move it:
+    #   docker image inspect --format '{{index .RepoDigests 0}}' \
+    #     "$(docker inspect --format '{{.Image}}' umami)"
+    image: docker.umami.is/umami-software/umami@sha256:8edfe4beaef13f9d1300619fa264ef250a3688df9cc54d24ca830ca31cb475ec
     container_name: umami
     restart: unless-stopped
     environment:
