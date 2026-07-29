@@ -220,7 +220,7 @@ wachsen — der Rest (Ports, Volume, `FORCE_HTTPS`, `RESOLVER_ADDRESS`, Netz
 
 ```yaml
 environment:
-  ALLOWED_DOMAINS: "(www|n8n|stats)\\.sequenz\\.io|^sequenz\\.io$"
+  ALLOWED_DOMAINS: "(www.|n8n.|stats.)?sequenz.io"
   SITES: "sequenz.io=homepage:3000; www.sequenz.io=homepage:3000; stats.sequenz.io=umami:3000; n8n.sequenz.io=n8n:5678"
   FORCE_HTTPS: "true"
   RESOLVER_ADDRESS: "127.0.0.11"
@@ -230,13 +230,18 @@ Dann im Reverse-Proxy-Verzeichnis `docker compose up -d`.
 
 Was die beiden Variablen bedeuten:
 
-- **`ALLOWED_DOMAINS`** ist ein **Regex**, kein Komma-Liste — nur passende
+- **`ALLOWED_DOMAINS`** ist ein **Regex**, keine Komma-Liste — nur passende
   Hostnamen bekommen automatisch ein Let's-Encrypt-Zertifikat. Das Muster
-  oben erlaubt genau `sequenz.io`, `www.sequenz.io`, `stats.sequenz.io` und
-  `n8n.sequenz.io`. Wenn du es dir einfacher machen willst und alle
-  Subdomains zulassen möchtest, geht auch `([a-z0-9-]+\\.)?sequenz\\.io` —
-  die explizite Variante ist aber sicherer, weil dann niemand über eine
-  fremde Subdomain Zertifikatsanfragen auslösen kann.
+  oben erlaubt `sequenz.io`, `www.sequenz.io`, `stats.sequenz.io` und
+  `n8n.sequenz.io`.
+
+  > **Wichtig: keine Backslashes verwenden.** Der Wert wird im Image in ein
+  > Lua-Skript eingesetzt, und `\.` ist in Lua keine gültige Escape-Sequenz —
+  > der Container startet dann in einer Endlosschleife neu. Punkte bleiben
+  > deshalb unescaped (sie matchen als „beliebiges Zeichen", was hier
+  > unkritisch ist); genauso machen es die offiziellen Beispiele des Images.
+  > Auch ein `$` am Ende vermeiden: Docker Compose interpretiert `$` als
+  > Variablen-Präfix.
 - **`SITES`** ist die Weiterleitungstabelle im Format `domain=ziel;
   domain=ziel`. `homepage` und `umami` sind die Container-Namen aus
   `deploy/docker-compose.yml`; Docker löst sie im Netz `edge` automatisch per
