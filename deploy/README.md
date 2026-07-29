@@ -221,7 +221,7 @@ wachsen — der Rest (Ports, Volume, `FORCE_HTTPS`, `RESOLVER_ADDRESS`, Netz
 ```yaml
 environment:
   ALLOWED_DOMAINS: "(www.|n8n.|stats.)?sequenz.io"
-  SITES: "sequenz.io=homepage:3000; www.sequenz.io=homepage:3000; stats.sequenz.io=umami:3000; n8n.sequenz.io=n8n:5678"
+  SITES: "sequenz.io=homepage:3000;www.sequenz.io=homepage:3000;stats.sequenz.io=umami:3000;n8n.sequenz.io=n8n:5678"
   FORCE_HTTPS: "true"
   RESOLVER_ADDRESS: "127.0.0.11"
 ```
@@ -242,8 +242,18 @@ Was die beiden Variablen bedeuten:
   > unkritisch ist); genauso machen es die offiziellen Beispiele des Images.
   > Auch ein `$` am Ende vermeiden: Docker Compose interpretiert `$` als
   > Variablen-Präfix.
-- **`SITES`** ist die Weiterleitungstabelle im Format `domain=ziel;
-  domain=ziel`. `homepage` und `umami` sind die Container-Namen aus
+- **`SITES`** ist die Weiterleitungstabelle im Format
+  `domain=ziel;domain=ziel`.
+
+  > **Wichtig: keine Leerzeichen nach den Semikolons.** Der Entrypoint des
+  > Images trennt nur an `;` und trimmt nicht; ein führendes Leerzeichen
+  > landet im Servernamen, und das Schreiben der Config-Datei scheitert dann
+  > an einer „ambiguous redirect" in Bash. Betroffene Einträge werden
+  > stillschweigend übersprungen — es bleibt nur der erste Eintrag übrig, der
+  > damit zum Default-Server für *alle* Domains wird (Symptom: jede Subdomain
+  > zeigt dieselbe Seite).
+
+  `homepage` und `umami` sind die Container-Namen aus
   `deploy/docker-compose.yml`; Docker löst sie im Netz `edge` automatisch per
   DNS auf (dafür steht dein `RESOLVER_ADDRESS: 127.0.0.11` — das ist Dockers
   eingebauter DNS-Server). Dein bestehender n8n-Eintrag bleibt einfach
