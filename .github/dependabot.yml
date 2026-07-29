@@ -10,6 +10,13 @@ updates:
           - minor
           - patch
     open-pull-requests-limit: 5
+    ignore:
+      # @types/node tracks the Node runtime (node:22-alpine in the Dockerfile,
+      # node-version: 22 in CI). A major bump here would describe APIs the
+      # runtime does not have, and typecheck would not catch it. Move this
+      # deliberately when the runtime moves.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
