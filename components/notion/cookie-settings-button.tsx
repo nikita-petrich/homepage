@@ -10,7 +10,7 @@ export function CookieSettingsButton() {
     <button
       type="button"
       onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))}
-      className="cursor-pointer hover:underline"
+      className="cursor-pointer py-1 hover:underline"
     >
       Datenschutz-Einstellungen
     </button>
