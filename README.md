@@ -82,7 +82,9 @@ public/
   assets/               Photos, avatar, flags, project covers
     zertifikate/        Pre-rendered certificate previews (generated)
 scripts/
-  certificate-previews.mjs  PDF first page → WebP preview (poppler + cwebp)
+  certificate-previews.mjs      PDF first page → WebP page + tile crop
+  certificate-image-to-pdf.mjs  Certificate image → PDF container
+  lib/png.mjs                   Minimal PNG reader shared by both
 ```
 
 ## Getting started
@@ -148,16 +150,35 @@ instead of a PDF and show a branded placeholder instead of a preview.
 To add a certificate:
 
 1. Commit the PDF as `public/zertifikate/<slug>.pdf`.
-2. Generate the gallery preview — the first PDF page as WebP, white margins
-   trimmed. Needs `poppler-utils` and `webp` installed (`pdftoppm`, `cwebp`);
-   the output is committed, so the website build itself needs neither:
+
+   Only have the certificate as an image, say a screenshot of the issuer's
+   certificate page? Wrap it in a PDF first. The pixels are embedded unchanged
+   (verified as a pixel-identical round-trip), so the result is a container
+   around the original document rather than a re-typeset copy:
+
+   ```bash
+   node scripts/certificate-image-to-pdf.mjs bild.png <slug>
+   ```
+
+2. Generate the two previews — the whole first page for the dialog, plus a crop
+   to the tile's 4/3 for the gallery. Needs `poppler-utils` and `webp`
+   installed (`pdftoppm`, `cwebp`); the output is committed, so the website
+   build itself needs neither:
 
    ```bash
    node scripts/certificate-previews.mjs
    ```
 
 3. Add the entry to `certificates` in `lib/data.ts`, including
-   `preview: "/assets/zertifikate/<slug>.webp"`.
+   `preview: "/assets/zertifikate/<slug>.webp"` and
+   `tilePreview: "/assets/zertifikate/<slug>-tile.webp"`.
 
-The slug drives the routes, the PDF URL and the preview filename, so all four
+The slug drives the routes, the PDF URL and both preview filenames, so they all
 stay in sync by construction.
+
+Why two crops: a tile filled edge to edge has to be cropped, but the dialog
+should show the document complete. The tile crop is found by edge energy rather
+than by trimming a uniform border — Scrimba prints onto a full-bleed A4
+gradient where the text sits in a band in the middle and there is no border to
+trim, so measuring where the ink actually is keeps the name, course title and
+hours in frame while the page's empty colour and its footer fall outside it.
