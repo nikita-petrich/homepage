@@ -533,7 +533,7 @@ export type Reference = {
   companyUrl?: string;
   /** Relationship to Nikita, e.g. "Kunde", "Projektteam". */
   relation: string;
-  /** Slug of the related case study (links to /projekte/<slug>). */
+  /** Slug of the related project (links to /projekte/<slug>). */
   projectSlug?: string;
   /** Human-readable project label shown on the card. */
   project: string;
@@ -575,7 +575,7 @@ function assertReferences(data: unknown): Reference[] {
 export const references: Reference[] = assertReferences(referencesData.references);
 
 /* All published references for one project, in the order of references.json
-   (newest first). One source for the case-study dialog, the per-project
+   (newest first). One source for the project dialog, the per-project
    listing route (/projekte/<slug>/referenzen) and the sitemap. */
 export const referencesForProject = (projectSlug: string): Reference[] =>
   references.filter((r) => r.projectSlug === projectSlug);
