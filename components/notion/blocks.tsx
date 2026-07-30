@@ -120,7 +120,8 @@ export function LangLine({ item }: { item: Language }) {
         width={20}
         height={15}
         unoptimized
-        className="h-[15px] w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+        style={{ height: 15, width: "auto" }}
+        className="shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
       />
       <span>
         <span className="font-semibold">{item.text}</span>
