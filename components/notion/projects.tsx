@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight, Calendar, LayoutGrid, Quote } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { projects, references, type Project } from "@/lib/data";
+import { projects, referencesForProject, type Project } from "@/lib/data";
 import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
 import { DatabaseToolbar } from "./database-toolbar";
@@ -171,7 +171,7 @@ export function ProjectModal({
   project: Project;
   onClose: () => void;
 }) {
-  const projectRefs = references.filter((r) => r.projectSlug === project.slug);
+  const projectRefs = referencesForProject(project.slug);
 
   return (
     <ModalShell label={project.name} onClose={onClose}>
@@ -279,6 +279,22 @@ export function ProjectModal({
                     <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
                   </Link>
                 ))}
+                {/* Every testimonial of this project on one shareable URL —
+                    only worth its own link once there is more than one. */}
+                {projectRefs.length > 1 && (
+                  <Link
+                    href={`/projekte/${project.slug}/referenzen`}
+                    scroll={false}
+                    data-analytics-event="project_references_open"
+                    data-analytics-prop-slug={project.slug}
+                    data-analytics-prop-source="project_modal"
+                    aria-label={`Alle ${projectRefs.length} Referenzen zu ${project.name} ansehen`}
+                    className="inline-flex items-center gap-1.5 rounded-md bg-[#f1f0ee] px-2.5 py-1 text-[13px] font-medium text-[#4a473f] transition-colors hover:bg-[rgba(55,53,47,0.1)]"
+                  >
+                    <span>Alle {projectRefs.length} ansehen</span>
+                    <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
+                  </Link>
+                )}
               </div>
             </>
           )}

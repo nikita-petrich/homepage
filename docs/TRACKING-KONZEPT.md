@@ -63,7 +63,8 @@ Abgeleitet aus den tatsächlich vorhandenen Komponenten. Namenskonvention: `snak
 | `booking_click` | Klick auf `href={profile.booking}` → `calendar.notion.so` (topbar.tsx:17–19 „Erstgespräch buchen“ und page.tsx:112–118 Callout-Link) | `placement: "topbar" \| "intro_callout"` | **Nein** — *Hinweis:* Der Klick führt zu Notion (US-Anbieter); das ist ein Outbound-Link, kein eigenes Tracking. In die Datenschutzerklärung gehört ein Hinweis auf den externen Buchungsdienst. |
 | `project_open` | Navigation auf Projekt-Karte: `href={/projekte/${p.slug}}` (projects.tsx:115) | `slug` (stabil, data.ts:127), `source: "gallery"` | **Nein** |
 | `project_reference_click` | Referenz-Chip im Projekt-Modal (projects.tsx:294–306) | `project_slug`, `reference_slug` | **Nein** |
-| `reference_open` | Karte `href={/referenzen/${r.slug}}` (references.tsx:91) | `slug` | **Nein** |
+| `project_references_open` | „Alle N ansehen“ im Projekt-Modal: `href={/projekte/${project.slug}/referenzen}` (projects.tsx) | `slug` (Projekt-Slug), `source: "project_modal"` | **Nein** |
+| `reference_open` | Karte `href={/referenzen/${r.slug}}` (references.tsx:91) | `slug`, `source: "gallery" \| "project_modal" \| "project_references"` | **Nein** |
 | `reference_source_click` | `SourceTag` Outbound zu LinkedIn/Malt (references.tsx:41–47) | `source: "LinkedIn" \| "Malt"`, `reference_slug` | **Nein** |
 | `certificate_open` | Karte `href={certHref(c)} target="_blank"` (certificates.tsx:112–117) | `slug`, `target: "pdf" \| "external"`, `issuer` | **Nein** |
 | `skills_search` | Debounced (≥ 800 ms Pause) auf `onChange={(e) => setQuery(e.target.value)}` (galleries.tsx:36–37) | `query_length`, `result_count`, `matched_categories` (nur Werte aus der festen Liste `skills[].name`, data.ts:390–408) — **niemals der Roh-Query** | **Nein** (gerade *weil* kein Klartext) |

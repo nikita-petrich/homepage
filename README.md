@@ -44,6 +44,7 @@ app/
   impressum/            Anbieterkennzeichnung (§ 5 DDG)
   datenschutz/          Datenschutzerklärung (Art. 13 DSGVO)
   projekte/[slug]/      Standalone case-study dialogs (SSG)
+    referenzen/         All testimonials of one project on one URL (SSG)
   referenzen/[slug]/    Standalone testimonial dialogs (SSG)
   @modal/               Intercepting modal routes for both (SSG)
   api/a/[...path]/      First-party Umami proxy (strips client IPs)
