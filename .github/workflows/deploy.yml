@@ -79,7 +79,13 @@ jobs:
             "chmod 600 /opt/stacks/homepage/.env"
           rm server.env
 
+      # The GHCR package is PUBLIC, so the VPS pulls the image anonymously and
+      # must never stay logged in to ghcr.io. `docker logout` first clears any
+      # stale login token left in the VPS's shared Docker credential store
+      # (e.g. by another stack's deploy): an *expired* token makes the registry
+      # answer "denied" even for a public image, whereas no token pulls fine.
+      # `|| true` keeps the step green when nothing was logged in.
       - name: Pull and restart services
         run: |
           ssh -i ~/.ssh/id_ed25519 "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
-            "cd /opt/stacks/homepage && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f"
+            "docker logout ghcr.io || true && cd /opt/stacks/homepage && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f"
