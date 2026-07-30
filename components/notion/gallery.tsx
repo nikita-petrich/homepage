@@ -47,6 +47,19 @@ export function EmptyState() {
   );
 }
 
+/* Table-view wrapper shared by the card galleries: rounded card shadow,
+   horizontal scroll on narrow viewports instead of squeezing columns. */
+export function TableShell({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{ boxShadow: "var(--notion-card-shadow)" }}
+      className="overflow-hidden rounded-lg bg-white"
+    >
+      <div className="overflow-x-auto">{children}</div>
+    </div>
+  );
+}
+
 export function GalleryGrid({
   wide = false,
   children,
