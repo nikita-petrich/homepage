@@ -13,9 +13,9 @@ import { bannerBg } from "./cover-banner";
 import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
 
 /* Permanent, shareable link for a certificate: the self-hosted PDF at
-   /zertifikate/<slug>.pdf, or an official external URL when not yet hosted. */
+   /certificates/<slug>.pdf, or an official external URL when not yet hosted. */
 export const certHref = (c: Certificate) =>
-  c.externalUrl ?? `/zertifikate/${c.slug}.pdf`;
+  c.externalUrl ?? `/certificates/${c.slug}.pdf`;
 
 /* Per-platform pill styling (Notion select colours). */
 const issuerPill: Record<Certificate["issuer"], string> = {
@@ -58,7 +58,7 @@ function CertificateCover({ cert }: { cert: Certificate }) {
 }
 
 /* Certificates — "Nachweise" gallery. Each card opens the certificate PDF in a
-   new tab via its permanent URL (/zertifikate/<slug>.pdf); the slug never
+   new tab via its permanent URL (/certificates/<slug>.pdf); the slug never
    changes, so a shared link stays valid forever. */
 const certificateSearchText = (c: Certificate) =>
   `${c.title} ${c.issuer} ${c.cat} ${c.tags.join(" ")}`;

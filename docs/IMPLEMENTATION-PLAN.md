@@ -1,6 +1,6 @@
 # Umsetzungsplan: Rechtssicherer Produktivbetrieb + detailliertes Nutzer-Tracking
 
-**Grundlage:** [`AUDIT-REPORT.md`](./AUDIT-REPORT.md) (Findings R-/S-/N-/A-/C-…) und [`TRACKING-KONZEPT.md`](./TRACKING-KONZEPT.md) (vollständiges Tracking-Design).
+**Grundlage:** [`AUDIT-REPORT.md`](./AUDIT-REPORT.md) (Findings R-/S-/N-/A-/C-…) und [`TRACKING-CONCEPT.md`](./TRACKING-CONCEPT.md) (vollständiges Tracking-Design).
 **Arbeitsprozess:** strukturiert über [bradtraversy/ai-blueprint](https://github.com/bradtraversy/ai-blueprint) — siehe Abschnitt „Arbeitsprozess mit ai-blueprint" unten.
 
 ---
@@ -22,9 +22,9 @@
 
 | # | Schritt | Dateien | Aufwand |
 |---|---|---|---|
-| 1.1 | **Footer-Komponente** mit Links „Impressum · Datenschutz · Cookie-Einstellungen" in `app/layout.tsx` einhängen (erscheint damit auf allen Routen inkl. `/projekte/*`, `/referenzen/*`) | `components/notion/footer.tsx`, `app/layout.tsx` | S |
-| 1.2 | **Impressum-Seite** im Seiten-Design. Pflichtangaben (Freiberufler): Name, ladungsfähige Anschrift, E-Mail + Telefon, USt-IdNr. (falls vorhanden; bei § 19 UStG entfällt sie), VSBG-Hinweis. `robots`-Meta bleibt indexierbar | `app/impressum/page.tsx` | S |
-| 1.3 | **Datenschutzerklärungs-Seite**: Verantwortlicher; Hosting/Server-Logs (Art. 6 lit. f, Speicherdauer, AVV-Hinweis auf Hoster); Kontaktaufnahme; **Terminbuchung via Notion** (calendar.notion.so, Drittlandtransfer, DPF-Status prüfen); **Referenzen/Testimonials** (Rechtsgrundlage, Widerruf); Betroffenenrechte Art. 15–21, 77; Hinweis „Fonts lokal gehostet, keine Verbindung zu Google" | `app/datenschutz/page.tsx` | M |
+| 1.1 | **Footer-Komponente** mit Links „Impressum · Datenschutz · Cookie-Einstellungen" in `app/layout.tsx` einhängen (erscheint damit auf allen Routen inkl. `/projects/*`, `/references/*`) | `components/notion/footer.tsx`, `app/layout.tsx` | S |
+| 1.2 | **Impressum-Seite** im Seiten-Design. Pflichtangaben (Freiberufler): Name, ladungsfähige Anschrift, E-Mail + Telefon, USt-IdNr. (falls vorhanden; bei § 19 UStG entfällt sie), VSBG-Hinweis. `robots`-Meta bleibt indexierbar | `app/imprint/page.tsx` | S |
+| 1.3 | **Datenschutzerklärungs-Seite**: Verantwortlicher; Hosting/Server-Logs (Art. 6 lit. f, Speicherdauer, AVV-Hinweis auf Hoster); Kontaktaufnahme; **Terminbuchung via Notion** (calendar.notion.so, Drittlandtransfer, DPF-Status prüfen); **Referenzen/Testimonials** (Rechtsgrundlage, Widerruf); Betroffenenrechte Art. 15–21, 77; Hinweis „Fonts lokal gehostet, keine Verbindung zu Google" | `app/privacy/page.tsx` | M |
 | 1.4 | **Cookie-Banner stilllegen** (Interimszustand bis Phase 2): Banner entfernen oder Text auf die Wahrheit reduzieren — keine Schein-Toggles. *Alternativ Phase 2 direkt anschließen und den Banner in einem Zug echt machen.* | `components/notion/cookie-banner.tsx`, `app/page.tsx` | S |
 | 1.5 | **Einwilligungen der 6 Referenzgeber** einholen/bestätigen (E-Mail genügt) und **außerhalb des Repos** archivieren (Art. 7 Abs. 1). Entfernungsprozess festhalten: bei Widerruf Eintrag aus `lib/references.json` löschen → Route liefert 404; „never change/never remove"-Kommentar in `lib/data.ts` relativieren | organisatorisch + `lib/data.ts` | M (Zuarbeit) |
 | 1.6 | **CV-PDFs prüfen**: enthaltene Referenz-Zitate/Kundennennungen müssen von 1.5 gedeckt sein | `public/cv/` | S (Zuarbeit) |
@@ -35,7 +35,7 @@
 
 ## Phase 2 — Consent-Architektur + Tracking Stufe 1 (P0/P1, ~2–3 Tage)
 
-> Setzt das [`TRACKING-KONZEPT.md`](./TRACKING-KONZEPT.md) um (dort: vollständige Begründung, Code-Skizzen, Event-Taxonomie). Erledigt R-03 (Teil 2), R-07, A-10.
+> Setzt das [`TRACKING-CONCEPT.md`](./TRACKING-CONCEPT.md) um (dort: vollständige Begründung, Code-Skizzen, Event-Taxonomie). Erledigt R-03 (Teil 2), R-07, A-10.
 
 **Tool-Entscheidung (Empfehlung aus dem Konzept):** **Selbst gehostetes Umami** (Docker + Postgres, z. B. auf Hetzner — passt zum vorhandenen Stack). Cookielos by default, Visitor-Hash mit täglich rotierendem Salt → einwilligungsfrei nutzbar, kein AVV, keine Drittlandsprüfung, keine Lizenzkosten, deklaratives Event-Tracking. Alternativen und Kriterien: Konzept, Abschnitt 2.
 
@@ -158,8 +158,8 @@ npx create-ai-blueprint@latest --claude                                # 2. inst
 - [x] 1. **Notion-Resume-Seite** - Layout, Projekte, Skills-Datenbank, CV-Download DE/EN
 
 ## Rechtliches & Tracking
-- [ ] 2. **Impressum** - statische Route /impressum + Footer, Pflichtangaben Freiberufler
-- [ ] 3. **Datenschutzerklärung** - Route /datenschutz, verlinkt aus Footer und Cookie-Banner
+- [ ] 2. **Impressum** - statische Route /imprint + Footer, Pflichtangaben Freiberufler
+- [ ] 3. **Datenschutzerklärung** - Route /privacy, verlinkt aus Footer und Cookie-Banner
 - [ ] 4. **Consent-Gate + Tracking Stufe 1** - echter Consent-State, Umami self-hosted, track()-Utility
 - [ ] 5. **Security-Härtung** - Next 16.2.11, Overrides, CI/Dependabot, Header, Fehlerseiten
 - [ ] 6. **SEO/OG** - metadataBase, opengraph-image, sitemap, robots, Profil-Links
@@ -170,7 +170,7 @@ npx create-ai-blueprint@latest --claude                                # 2. inst
 
 ```markdown
 ### F-01 [P1] open - Fehlendes Impressum (R-01)
-- Fundort: app/ (keine Route /impressum), kein Footer
+- Fundort: app/ (keine Route /imprint), kein Footer
 - Vorschlag: Feature 2 im build-plan
 
 ### F-02 [P1] open - Fehlende Datenschutzerklärung (R-02)
