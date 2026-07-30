@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 
 import { LegalPage, LegalSection } from "@/components/notion/legal";
 import { CookieSettingsButton } from "@/components/notion/cookie-settings-button";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Datenschutzerklärung",
   description:
     "Informationen zur Verarbeitung personenbezogener Daten auf dieser Website gemäß Art. 13 DSGVO.",
-};
+  path: "/datenschutz",
+});
 
 /* NOTE: Der Abschnitt "Hosting" nennt bewusst noch keinen konkreten Anbieter —
    beim Deployment den Hosting-Dienstleister (Name, Sitz, AVV) eintragen. */

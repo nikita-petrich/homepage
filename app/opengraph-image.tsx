@@ -1,11 +1,15 @@
 import { ImageResponse } from "next/og";
 
-/* Social-share card (LinkedIn, WhatsApp, Slack …), generated at build time in
-   the cover-banner design: warm gradient, accent bar, name, role, domain. */
+import { ogImageAlt, ogImageContentType, ogImageSize } from "@/lib/metadata";
 
-export const alt = "Nikita Petrich — Senior Full-Stack & AI Engineer";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+/* Social-share card (LinkedIn, WhatsApp, Slack …), generated at build time in
+   the cover-banner design: warm gradient, accent bar, name, role, domain.
+   Alt text and dimensions come from lib/metadata.ts, which also hands them to
+   the routes that build their own openGraph block. */
+
+export const alt = ogImageAlt;
+export const size = ogImageSize;
+export const contentType = ogImageContentType;
 
 export default function Image() {
   return new ImageResponse(

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { projects } from "@/lib/data";
+import { pageMetadata } from "@/lib/metadata";
 
 import { StandaloneProjectDialog } from "./standalone";
 
@@ -18,10 +19,11 @@ export async function generateMetadata({
   const project = projects.find((p) => p.slug === slug);
   if (!project) return {};
   // The "· Nikita Petrich" suffix comes from the root layout's title.template.
-  return {
+  return pageMetadata({
     title: `${project.name} — ${project.subtitle}`,
     description: project.desc,
-  };
+    path: `/projekte/${project.slug}`,
+  });
 }
 
 export default async function ProjectPage({
