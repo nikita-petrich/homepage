@@ -4,19 +4,24 @@
    from public/zertifikate like every other certificate and gets the same tile
    preview and "open in a new tab" behaviour.
  *
- *   node scripts/certificate-image-to-pdf.mjs <bild.png> <slug>
+ *   node scripts/certificate-image-to-pdf.mjs <bild.jpg|bild.png> <slug>
  *   node scripts/certificate-previews.mjs        # then generate the previews
  *
- * The image is embedded unchanged: its pixels are re-deflated into the PDF as a
- * FlateDecode image, never re-typeset and never lossily re-encoded. The PDF is
- * therefore a container around the original document, not a reconstruction of
- * it. The page takes the image's own aspect ratio, sized so its longer side
- * matches A4's, which keeps the page a sensible print size without adding
- * white bands around the certificate.
+ * The image is embedded unchanged — never re-typeset and never lossily
+ * re-encoded, so the PDF is a container around the original document rather
+ * than a reconstruction of it:
  *
- * PNG only (8-bit RGB or RGBA, non-interlaced — what screenshots produce), with
- * nothing but node:zlib: the certificate assets are generated once and
- * committed, so the website build must not gain a dependency for them. */
+ *   JPEG  the file's own bytes become the image stream (/DCTDecode), so the
+ *         result is byte-for-byte the picture that went in
+ *   PNG   the pixels are re-deflated (/FlateDecode), which is lossless too
+ *
+ * The page takes the image's own aspect ratio, sized so its longer side matches
+ * A4's: a sensible print size, and no white bands around the certificate.
+ *
+ * Accepts baseline JPEG (grayscale or colour) and 8-bit RGB/RGBA PNG — what
+ * issuers hand out and what screenshots produce — using nothing but node:zlib:
+ * the certificate assets are generated once and committed, so the website build
+ * must not gain a dependency for them. */
 
 import { deflateSync } from "node:zlib";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -45,21 +50,89 @@ if (!/^[a-z0-9-]+$/.test(slug)) {
   process.exit(1);
 }
 
-const { width, height, channels, pixels } = decodePng(readFileSync(imagePath));
-
-/* Drop the alpha channel if there is one: a certificate is opaque, and PDF
-   would need a separate soft-mask object for it. */
-let rgb = pixels;
-if (channels === 4) {
-  rgb = Buffer.alloc(width * height * 3);
-  for (let i = 0, o = 0; i < pixels.length; i += 4, o += 3) {
-    rgb[o] = pixels[i];
-    rgb[o + 1] = pixels[i + 1];
-    rgb[o + 2] = pixels[i + 2];
+/* Reads a JPEG's frame header: walk the marker segments to the start-of-frame,
+   which carries the size and the number of colour components. Everything else
+   in the file is left alone, because the file itself becomes the PDF stream. */
+function readJpeg(buf) {
+  let pos = 2;
+  while (pos < buf.length - 1) {
+    if (buf[pos] !== 0xff) {
+      pos++;
+      continue;
+    }
+    const marker = buf[pos + 1];
+    // Markers that stand alone, without a length or a payload.
+    if (marker === 0xd8 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) {
+      pos += 2;
+      continue;
+    }
+    const length = buf.readUInt16BE(pos + 2);
+    const isFrame =
+      marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker);
+    if (isFrame) {
+      if (marker !== 0xc0 && marker !== 0xc1) {
+        throw new Error(
+          "nur Baseline-JPEG wird unterstützt (die Datei ist progressiv oder " +
+            "arithmetisch kodiert) — bitte als PNG exportieren",
+        );
+      }
+      const precision = buf[pos + 4];
+      const components = buf[pos + 9];
+      const space = { 1: "/DeviceGray", 3: "/DeviceRGB" }[components];
+      if (precision !== 8 || !space) {
+        throw new Error(
+          `unerwartetes JPEG-Format (${precision} bit, ${components} Komponenten)` +
+            " — bitte als PNG exportieren",
+        );
+      }
+      return {
+        width: buf.readUInt16BE(pos + 7),
+        height: buf.readUInt16BE(pos + 5),
+        colorSpace: space,
+        filter: "/DCTDecode",
+        stream: buf,
+      };
+    }
+    pos += 2 + length;
   }
+  throw new Error("kein JPEG-Bildkopf gefunden");
 }
 
-const image = deflateSync(rgb, { level: 9 });
+/* Decodes a PNG and re-deflates its pixels for the PDF. The alpha channel is
+   dropped if there is one: a certificate is opaque, and keeping it would mean
+   writing a separate soft-mask object. */
+function readPng(buf) {
+  const { width, height, channels, pixels } = decodePng(buf);
+  let rgb = pixels;
+  if (channels === 4) {
+    rgb = Buffer.alloc(width * height * 3);
+    for (let i = 0, o = 0; i < pixels.length; i += 4, o += 3) {
+      rgb[o] = pixels[i];
+      rgb[o + 1] = pixels[i + 1];
+      rgb[o + 2] = pixels[i + 2];
+    }
+  }
+  return {
+    width,
+    height,
+    colorSpace: "/DeviceRGB",
+    filter: "/FlateDecode",
+    stream: deflateSync(rgb, { level: 9 }),
+  };
+}
+
+const source = readFileSync(imagePath);
+const isJpeg = source[0] === 0xff && source[1] === 0xd8;
+
+let width, height, colorSpace, filter, image;
+try {
+  ({ width, height, colorSpace, filter, stream: image } = isJpeg
+    ? readJpeg(source)
+    : readPng(source));
+} catch (error) {
+  console.error(`${basename(imagePath)}: ${error.message}`);
+  process.exit(1);
+}
 
 const scale = LONG_SIDE_PT / Math.max(width, height);
 const pageW = +(width * scale).toFixed(2);
@@ -80,7 +153,7 @@ const objects = [
   Buffer.concat([
     Buffer.from(
       `<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} ` +
-        `/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode ` +
+        `/ColorSpace ${colorSpace} /BitsPerComponent 8 /Filter ${filter} ` +
         `/Length ${image.length} >>\nstream\n`,
       "latin1",
     ),
@@ -126,7 +199,7 @@ const pdf = Buffer.concat(parts);
 writeFileSync(out, pdf);
 
 console.log(
-  `${basename(imagePath)}: ${width}×${height} px → ${out} ` +
+  `${basename(imagePath)}: ${width}×${height} px, ${filter.slice(1)} → ${out} ` +
     `(${pageW}×${pageH} pt, ${Math.round(pdf.length / 1024)} kB)`,
 );
 console.log("Danach: node scripts/certificate-previews.mjs");
