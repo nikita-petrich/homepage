@@ -1,15 +1,16 @@
 "use client";
 
-import { Award, Calendar, ExternalLink, GraduationCap } from "lucide-react";
+import { useState } from "react";
+import { Award, Calendar, ExternalLink } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { certificates, type Certificate } from "@/lib/data";
 import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
-import { DatabaseToolbar } from "./database-toolbar";
+import { DatabaseToolbar, type GalleryView } from "./database-toolbar";
 import { AccentTag } from "./blocks";
 import { bannerBg } from "./cover-banner";
-import { EmptyState, GalleryGrid, useGallery } from "./gallery";
+import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
 
 /* Permanent, shareable link for a certificate: the self-hosted PDF at
    /zertifikate/<slug>.pdf, or an official external URL when not yet hosted. */
@@ -63,7 +64,72 @@ const certificateSearchText = (c: Certificate) =>
   `${c.title} ${c.issuer} ${c.cat} ${c.tags.join(" ")}`;
 const certificateSortKey = (c: Certificate) => c.sort;
 
+/* Table view: same target (PDF/external, new tab) and analytics as the
+   gallery cards. */
+const CERTIFICATE_COLS =
+  "grid-cols-[minmax(200px,1.8fr)_minmax(120px,0.9fr)_minmax(100px,0.7fr)_minmax(140px,1.1fr)_28px]";
+
+function CertificateTable({ certificates: rows }: { certificates: Certificate[] }) {
+  return (
+    <TableShell>
+      <div className="min-w-[720px]">
+        <div
+          className={cn(
+            "grid gap-3 border-b border-[rgba(55,53,47,0.09)] px-3 py-2 text-[12px] font-medium text-notion-gray",
+            CERTIFICATE_COLS,
+          )}
+        >
+          <div>Titel</div>
+          <div>Aussteller</div>
+          <div>Datum</div>
+          <div>Kategorie</div>
+          <div />
+        </div>
+        {rows.map((c) => (
+          <a
+            key={c.slug}
+            href={certHref(c)}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-analytics-event="certificate_open"
+            data-analytics-prop-slug={c.slug}
+            data-analytics-prop-issuer={c.issuer}
+            data-analytics-prop-target={c.externalUrl ? "external" : "pdf"}
+            aria-label={`Zertifikat „${c.title}“ (${c.issuer}) öffnen`}
+            className={cn(
+              "grid items-center gap-3 border-b border-[rgba(55,53,47,0.06)] px-3 py-2.5 text-[13px] transition-colors last:border-0 hover:bg-[rgba(55,53,47,0.02)]",
+              CERTIFICATE_COLS,
+            )}
+          >
+            <div className="truncate font-medium">{c.title}</div>
+            <div className="min-w-0">
+              <span
+                className={cn(
+                  "rounded-[4px] px-[7px] py-[2px] text-[11px] font-semibold",
+                  issuerPill[c.issuer],
+                )}
+              >
+                {c.issuer}
+              </span>
+            </div>
+            <div className="truncate text-notion-gray">{c.date}</div>
+            <div className="min-w-0">
+              <AccentTag label={c.cat} />
+            </div>
+            <ExternalLink
+              size={14}
+              strokeWidth={2}
+              className="text-notion-gray"
+            />
+          </a>
+        ))}
+      </div>
+    </TableShell>
+  );
+}
+
 export function CertificateGallery() {
+  const [view, setView] = useState<GalleryView>("gallery");
   const { query, setQuery, sortDirLabel, toggleSort, visible } = useGallery(
     certificates,
     certificateSearchText,
@@ -75,8 +141,8 @@ export function CertificateGallery() {
   return (
     <>
       <DatabaseToolbar
-        viewLabel="Nachweise"
-        viewIcon={<GraduationCap size={15} strokeWidth={2} />}
+        view={view}
+        onViewChange={setView}
         sortProp="Datum"
         sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
         sortDirLabel={sortDirLabel}
@@ -87,6 +153,8 @@ export function CertificateGallery() {
 
       {visible.length === 0 ? (
         <EmptyState />
+      ) : view === "table" ? (
+        <CertificateTable certificates={visible} />
       ) : (
         <GalleryGrid>
           {visible.map((c) => (

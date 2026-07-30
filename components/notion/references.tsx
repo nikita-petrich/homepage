@@ -1,22 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   ArrowUpRight,
   Calendar,
   ExternalLink,
-  MessagesSquare,
   Quote,
 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import { references, referenceSources, type Reference } from "@/lib/data";
 import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
-import { DatabaseToolbar } from "./database-toolbar";
+import { DatabaseToolbar, type GalleryView } from "./database-toolbar";
 import { AccentTag } from "./blocks";
 import { CompanyLine } from "./company-line";
 import { bannerBg } from "./cover-banner";
-import { EmptyState, GalleryGrid, useGallery } from "./gallery";
+import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
 import { ModalShell } from "./modal-shell";
 
 /* Two-letter monogram for the recommender avatar (e.g. "Suraj Kakar" → "SK"). */
@@ -212,7 +213,56 @@ const referenceSearchText = (r: Reference) =>
   `${r.name} ${r.role} ${r.company ?? ""} ${r.project} ${r.quote}`;
 const referenceSortKey = (r: Reference) => r.sort;
 
+/* Table view: same row target/analytics as the gallery cards. */
+const REFERENCE_COLS =
+  "grid-cols-[minmax(160px,1.3fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(110px,0.9fr)_minmax(140px,1.2fr)]";
+
+function ReferenceTable({ references: rows }: { references: Reference[] }) {
+  return (
+    <TableShell>
+      <div className="min-w-[720px]">
+        <div
+          className={cn(
+            "grid gap-3 border-b border-[rgba(55,53,47,0.09)] px-3 py-2 text-[12px] font-medium text-notion-gray",
+            REFERENCE_COLS,
+          )}
+        >
+          <div>Name</div>
+          <div>Rolle</div>
+          <div>Firma</div>
+          <div>Bezug</div>
+          <div>Projekt</div>
+        </div>
+        {rows.map((r) => (
+          <Link
+            key={r.slug}
+            href={`/referenzen/${r.slug}`}
+            scroll={false}
+            data-analytics-event="reference_open"
+            data-analytics-prop-slug={r.slug}
+            data-analytics-prop-source="table"
+            aria-label={`Referenz von ${r.name} öffnen`}
+            className={cn(
+              "grid items-center gap-3 border-b border-[rgba(55,53,47,0.06)] px-3 py-2.5 text-[13px] transition-colors last:border-0 hover:bg-[rgba(55,53,47,0.02)]",
+              REFERENCE_COLS,
+            )}
+          >
+            <div className="truncate font-medium">{r.name}</div>
+            <div className="truncate text-notion-gray">{r.role}</div>
+            <div className="truncate text-notion-gray">{r.company ?? "—"}</div>
+            <div className="min-w-0">
+              <AccentTag label={r.relation} />
+            </div>
+            <div className="truncate text-notion-gray">{r.project}</div>
+          </Link>
+        ))}
+      </div>
+    </TableShell>
+  );
+}
+
 export function ReferenceGallery() {
+  const [view, setView] = useState<GalleryView>("gallery");
   const { query, setQuery, sortDirLabel, toggleSort, visible } = useGallery(
     references,
     referenceSearchText,
@@ -224,8 +274,8 @@ export function ReferenceGallery() {
   return (
     <>
       <DatabaseToolbar
-        viewLabel="Empfehlungen"
-        viewIcon={<MessagesSquare size={15} strokeWidth={2} />}
+        view={view}
+        onViewChange={setView}
         sortProp="Datum"
         sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
         sortDirLabel={sortDirLabel}
@@ -236,6 +286,8 @@ export function ReferenceGallery() {
 
       {visible.length === 0 ? (
         <EmptyState />
+      ) : view === "table" ? (
+        <ReferenceTable references={visible} />
       ) : (
         <GalleryGrid>
           {visible.map((r) => (

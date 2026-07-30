@@ -1,18 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Calendar, LayoutGrid, Quote } from "lucide-react";
+import { ArrowUpRight, Calendar, Quote } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { projects, references, type Project } from "@/lib/data";
 import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
-import { DatabaseToolbar } from "./database-toolbar";
+import { DatabaseToolbar, type GalleryView } from "./database-toolbar";
 import { AccentTag, SkillTag } from "./blocks";
 import { CompanyLine } from "./company-line";
 import { GitCodeMotif, bannerBg } from "./cover-banner";
-import { EmptyState, GalleryGrid, useGallery } from "./gallery";
+import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
 import { ModalShell } from "./modal-shell";
 
 const stripe =
@@ -67,7 +68,69 @@ const projectSearchText = (p: Project) =>
     .join(" ")}`;
 const projectSortKey = (p: Project) => p.sort;
 
+/* Table view: same row target/analytics as the gallery cards, laid out as a
+   CSS grid so cells stay simple <Link> children (no <a> inside <table>). */
+const PROJECT_COLS =
+  "grid-cols-[minmax(180px,1.7fr)_minmax(120px,1fr)_minmax(110px,0.8fr)_minmax(120px,1fr)_minmax(160px,1.6fr)]";
+
+function ProjectTable({ projects: rows }: { projects: Project[] }) {
+  return (
+    <TableShell>
+      <div className="min-w-[760px]">
+        <div
+          className={cn(
+            "grid gap-3 border-b border-[rgba(55,53,47,0.09)] px-3 py-2 text-[12px] font-medium text-notion-gray",
+            PROJECT_COLS,
+          )}
+        >
+          <div>Name</div>
+          <div>Firma</div>
+          <div>Zeitraum</div>
+          <div>Kategorie</div>
+          <div>Tech</div>
+        </div>
+        {rows.map((p) => (
+          <Link
+            key={p.num}
+            href={`/projekte/${p.slug}`}
+            scroll={false}
+            data-analytics-event="project_open"
+            data-analytics-prop-slug={p.slug}
+            data-analytics-prop-source="table"
+            className={cn(
+              "grid items-center gap-3 border-b border-[rgba(55,53,47,0.06)] px-3 py-2.5 text-[13px] transition-colors last:border-0 hover:bg-[rgba(55,53,47,0.02)]",
+              PROJECT_COLS,
+            )}
+          >
+            <div className="flex min-w-0 items-center gap-2.5">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#37352f] text-[11px] font-semibold text-white">
+                {p.num}
+              </span>
+              <div className="min-w-0">
+                <div className="truncate font-medium">{p.name}</div>
+                <div className="truncate text-[12px] text-notion-gray">
+                  {p.subtitle}
+                </div>
+              </div>
+            </div>
+            <div className="truncate text-notion-gray">{p.company ?? "—"}</div>
+            <div className="truncate text-notion-gray">{p.dateRange}</div>
+            <div className="min-w-0">
+              <AccentTag label={p.cat} />
+            </div>
+            <div className="truncate text-[12px] text-notion-gray">
+              {p.tech.slice(0, 3).join(", ")}
+              {p.tech.length > 3 ? " …" : ""}
+            </div>
+          </Link>
+        ))}
+      </div>
+    </TableShell>
+  );
+}
+
 export function ProjectGallery() {
+  const [view, setView] = useState<GalleryView>("gallery");
   const { query, setQuery, sortDirLabel, toggleSort, visible } = useGallery(
     projects,
     projectSearchText,
@@ -79,8 +142,8 @@ export function ProjectGallery() {
   return (
     <>
       <DatabaseToolbar
-        viewLabel="Case Studies"
-        viewIcon={<LayoutGrid size={15} strokeWidth={2} />}
+        view={view}
+        onViewChange={setView}
         sortProp="Datum"
         sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
         sortDirLabel={sortDirLabel}
@@ -91,6 +154,8 @@ export function ProjectGallery() {
 
       {visible.length === 0 ? (
         <EmptyState />
+      ) : view === "table" ? (
+        <ProjectTable projects={visible} />
       ) : (
         <GalleryGrid>
           {visible.map((p) => (
