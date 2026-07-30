@@ -12,6 +12,7 @@ import {
 import { domainOf } from "@/lib/analytics/track";
 import { CertificateGallery } from "@/components/notion/certificates";
 import { CoverBanner } from "@/components/notion/cover-banner";
+import { CodeLogo } from "@/components/notion/icons";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
 import { ReferenceGallery } from "@/components/notion/references";
@@ -38,13 +39,7 @@ export default function Page() {
 
       <main className="mx-auto max-w-[960px] px-6 pb-28 sm:px-12">
         <div className="relative z-10 -mt-[34px] mb-2 w-fit drop-shadow-[0_2px_6px_rgba(0,0,0,0.12)]">
-          <Image
-            src="/assets/avatar.png"
-            alt=""
-            width={66}
-            height={66}
-            className="h-[66px] w-[66px] object-contain"
-          />
+          <CodeLogo size={66} />
         </div>
 
         <div className="grid grid-cols-1 gap-x-[42px] gap-y-10 md:grid-cols-[210px_minmax(0,1fr)]">
