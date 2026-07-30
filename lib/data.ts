@@ -471,8 +471,10 @@ export const certificates: Certificate[] = [
     detail: "5,5 Std · 147 Lektionen",
     cat: "KI / AI",
     tags: ["GitHub Copilot", "Cursor AI"],
-    externalUrl:
+    verifyUrl:
       "https://www.udemy.com/certificate/UC-00859d2d-a91d-40bd-8ea8-cae70ce1c5da/",
+    preview: "/assets/zertifikate/ai-for-developers-github-copilot.webp",
+    tilePreview: "/assets/zertifikate/ai-for-developers-github-copilot-tile.webp",
     summary:
       "Kurs zum KI-gestützten Entwickeln mit GitHub Copilot, Cursor AI und ChatGPT: von Code-Completions über Ask-, Plan- und Agent-Modus bis zu Instruction Files, AGENTS.md, Agent Skills und MCP-Servern. Behandelt beide Werkzeuge in ihrer aktuellen Form, dazu Prompt- und Context-Engineering-Grundlagen sowie den bewussten Einsatz externer Dienste wie ChatGPT für Planung und Recherche. Abschluss ist ein vollständiges Demo-Projekt: eine Node.js-REST-API mit SQLite, JWT-Authentifizierung, Rollen-Autorisierung und Bild-Upload, durchgehend mit KI-Assistenz gebaut.",
     facts: [
