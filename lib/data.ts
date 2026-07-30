@@ -574,6 +574,19 @@ function assertReferences(data: unknown): Reference[] {
 
 export const references: Reference[] = assertReferences(referencesData.references);
 
+/* All published references for one project, in the order of references.json
+   (newest first). One source for the case-study dialog, the per-project
+   listing route (/projekte/<slug>/referenzen) and the sitemap. */
+export const referencesForProject = (projectSlug: string): Reference[] =>
+  references.filter((r) => r.projectSlug === projectSlug);
+
+/* Projects with at least one reference — exactly the projects for which
+   /projekte/<slug>/referenzen exists. Projects without one have no route:
+   an empty listing would be a thin page with nothing to show. */
+export const projectsWithReferences: Project[] = projects.filter(
+  (p) => referencesForProject(p.slug).length > 0,
+);
+
 /* Headings for the floating table-of-contents navigation. */
 export type TocItem = { id: string; label: string; level: 1 | 2 };
 
