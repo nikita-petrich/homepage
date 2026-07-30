@@ -6,8 +6,8 @@ import { ArrowUpDown, ChevronDown, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  viewLabel: string;
-  viewIcon: React.ReactNode;
+  viewLabel?: string;
+  viewIcon?: React.ReactNode;
   sortProp: string;
   sortPropIcon: React.ReactNode;
   sortDirLabel: string;
@@ -38,11 +38,13 @@ export function DatabaseToolbar({
   }, [searchOpen]);
 
   return (
-    <div className="mb-2 flex items-center justify-between gap-2">
-      <div className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[#f1f1ef] px-2 py-[5px] text-[14px] font-medium">
-        <span className="flex h-4 w-4 items-center justify-center">{viewIcon}</span>
-        {viewLabel}
-      </div>
+    <div className="mb-2 flex items-center justify-end gap-2">
+      {viewLabel && (
+        <div className="mr-auto inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[#f1f1ef] px-2 py-[5px] text-[14px] font-medium">
+          <span className="flex h-4 w-4 items-center justify-center">{viewIcon}</span>
+          {viewLabel}
+        </div>
+      )}
 
       <div className="flex items-center gap-0.5 text-notion-gray">
         {searchOpen ? (

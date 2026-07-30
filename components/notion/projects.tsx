@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Calendar, LayoutGrid, Quote } from "lucide-react";
+import { ArrowUpRight, Calendar, Quote } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { projects, references, type Project } from "@/lib/data";
@@ -74,8 +74,6 @@ export function ProjectGallery() {
   return (
     <>
       <DatabaseToolbar
-        viewLabel="Case Studies"
-        viewIcon={<LayoutGrid size={15} strokeWidth={2} />}
         sortProp="Datum"
         sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
         sortDirLabel={sortDirLabel}
