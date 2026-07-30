@@ -175,7 +175,7 @@ export const projects: Project[] = [
       "Ziel: bis zu 10.000 automatisierte Vorprüfungen pro Monat.",
       "Ziel: bis zu 80 % weniger manuelle Fallannahme durch KI-Intake und automatisiertes Anwalts-Routing.",
     ],
-    tech: ["TypeScript", "Python", "Next.js", "React", "FastAPI", "LLM-Integration", "OpenAI API", "Azure OpenAI", "RAG", "Prompt Engineering", "Embeddings", "pgvector", "OCR", "LangChain", "PostgreSQL", "Redis", "Tailwind CSS", "shadcn/ui", "Stripe", "JWT", "OAuth 2.0", "Docker", "GitHub Actions", "CI/CD", "Hetzner", "Microservices", "EU AI Act", "Clean Architecture", "DSGVO by Design"],
+    tech: ["TypeScript", "Python", "Next.js", "React", "FastAPI", "LLM-Integration", "OpenAI API", "Azure OpenAI", "RAG (Retrieval Augmented Generation)", "Prompt Engineering", "Embeddings", "pgvector", "OCR", "Dokumentenanalyse", "LangChain", "PostgreSQL", "Redis", "Tailwind CSS", "shadcn/ui", "Stripe", "JWT", "OAuth 2.0", "Docker", "GitHub Actions", "CI/CD", "Hetzner", "Microservices", "Clean Architecture", "SaaS", "EU AI Act", "DSGVO", "Privacy by Design", "Produktverantwortung"],
   },
   {
     num: "02", slug: "manifest-os", name: "Manifest OS", company: "Manifest Law", companyUrl: "https://manifestlaw.com", subtitle: "KI-gestützte Einwanderungsplattform",
@@ -204,7 +204,7 @@ export const projects: Project[] = [
       "Plattform mit über 3.000 Kunden und 150+ Corporate-Programmen (Team-Ergebnis).",
       "Bis zu 15 % höhere Genehmigungsraten gegenüber dem USCIS-Durchschnitt (Team-Ergebnis).",
     ],
-    tech: ["TypeScript", "Python", "Next.js", "React", "NestJS", "Node.js", "Fastify", "REST API", "Webhooks", "BullMQ", "RabbitMQ", "LLM-Integration", "OpenAI API", "Anthropic Claude API", "RAG", "Embeddings", "OCR", "Amplitude", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "better-auth", "JWT", "Docker", "GCP", "GitHub Actions", "CI/CD", "Claude Code", "Cursor AI", "Code Rabbit", "Linear", "Playwright", "Microservices", "Event-Driven Architecture", "Clean Architecture"],
+    tech: ["TypeScript", "Python", "Next.js", "React", "NestJS", "Node.js", "Fastify", "REST API", "Webhooks", "BullMQ", "RabbitMQ", "LLM-Integration", "OpenAI API", "Anthropic Claude API", "RAG (Retrieval Augmented Generation)", "Embeddings", "OCR", "Bluedot", "Amplitude", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "better-auth", "JWT", "Docker", "Google Cloud Platform (GCP)", "GitHub Actions", "CI/CD", "Claude Code", "Cursor AI", "Code Rabbit", "Linear", "Playwright", "Microservices", "Event-Driven Architecture", "Idempotenz", "Clean Architecture"],
   },
   {
     num: "03", slug: "aitoi", name: "AITOI", company: "AITOI", subtitle: "Interaktives IoT-Spielzeug (MVP)",
@@ -232,7 +232,7 @@ export const projects: Project[] = [
       "Plattformunabhängig nutzbare PWA mit Echtzeit-Synchronisation zwischen IoT-Gerät und App.",
       "Skalierbare, dokumentierte Architektur als tragfähige Grundlage für den Produktlaunch.",
     ],
-    tech: ["TypeScript", "Next.js", "React", "PWA", "Responsive Design", "Design System", "Figma", "TanStack Query", "React Hook Form", "WebSockets", "Device-Pairing", "Supabase", "Supabase Realtime", "Row Level Security", "PostgreSQL", "Tailwind CSS", "shadcn/ui", "JWT", "Docker", "CI/CD", "GitHub Actions", "Vitest", "MVP-Entwicklung", "Clean Architecture"],
+    tech: ["TypeScript", "Next.js", "React", "Progressive Web App (PWA)", "Responsive Design", "Design System", "Figma", "TanStack Query", "React Hook Form", "WebSockets", "Device Pairing", "Supabase", "Supabase Realtime", "Row Level Security", "PostgreSQL", "Tailwind CSS", "shadcn/ui", "JWT", "Authentifizierung", "Docker", "CI/CD", "GitHub Actions", "Vitest", "MVP-Entwicklung", "Clean Architecture"],
   },
   {
     num: "04", slug: "dino", name: "DiNo", company: "LeXtorByte UG", companyUrl: "https://digitales-notariat.de", subtitle: "Digitales Notariat",
@@ -260,7 +260,7 @@ export const projects: Project[] = [
       "Rechnungen werden laut Anbieter bis zu 30 Tage früher bezahlt.",
       "Spürbar reduzierter Verwaltungsaufwand durch durchgängig digitale Prozesse.",
     ],
-    tech: ["TypeScript", "React", "Python", "Flask", "REST API / OpenAPI", "MariaDB", "MySQL", "Redux", "React Router", "React Hook Form", "Material UI (MUI)", "SPA", "Mandantenportal", "Digitale Aktenführung", "JWT", "OAuth 2.0", "RBAC", "DSGVO-Compliance", "Docker", "Nginx", "GitLab", "Clean Architecture"],
+    tech: ["TypeScript", "React", "Python", "Flask", "REST API", "OpenAPI", "MariaDB", "MySQL", "Redux", "React Router", "React Hook Form", "Material UI (MUI)", "Single Page Application (SPA)", "Nutzerführung", "Mandantenportal", "Digitale Archivführung", "JWT", "OAuth 2.0", "Role-Based Access Control (RBAC)", "DSGVO", "Docker", "Nginx", "GitLab", "Clean Architecture"],
   },
   {
     num: "05", slug: "accounting-os", name: "AccountingOS", company: "HD Autoservice", subtitle: "GoBD-konformes Buchhaltungs- & Lagersystem",
@@ -289,7 +289,7 @@ export const projects: Project[] = [
       "Reduziert den Zeitaufwand bei Routineprozessen um bis zu 50 %.",
       "Durchgängig digitale, GoBD-konforme Abläufe mit direkter Kopplung von Lager und Buchhaltung.",
     ],
-    tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "Daten-Synchronisation", "CSV-Verarbeitung", "Message Queues", "Caching", "MariaDB", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "Tailwind CSS", "Warenwirtschaft", "ERP", "GoBD", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Hetzner", "Microservices", "Clean Architecture"],
+    tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "DTOs", "Typsicherheit", "Daten-Synchronisation", "CSV-Verarbeitung", "Message Queues", "Caching", "MariaDB", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "Tailwind CSS", "Warenwirtschaft", "Lagerverwaltung", "Buchhaltung", "ERP", "GoBD", "better-auth", "JWT", "Role-Based Access Control (RBAC)", "Docker", "Self-Hosting", "CI/CD", "GitHub", "GitHub Actions", "Hetzner", "Microservices", "Clean Architecture"],
   },
   {
     num: "06", slug: "lkw-tourverwaltung", name: "LadeTrans", company: "CDH Stephanus", companyUrl: "https://cdh-stephanus.org", subtitle: "LKW-Tourverwaltungssystem",
@@ -318,7 +318,7 @@ export const projects: Project[] = [
       "Erhöht die Transportgenauigkeit um bis zu 25 % und die Logistikeffizienz um bis zu 30 %.",
       "Deutlich reduzierte Übertragungsfehler durch durchgängig digitale Prozesse.",
     ],
-    tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "PostgreSQL", "Redis", "MikroORM", "React Router", "Tailwind CSS", "SPA", "Tourenplanung / Routenoptimierung", "Echtzeit-Tracking", "PDF-Generierung", "DOCX-Generierung", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Nginx", "Microservices", "Clean Architecture"],
+    tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "PostgreSQL", "Redis", "MikroORM", "React Router", "Tailwind CSS", "Single Page Application (SPA)", "Logistik", "Tourenplanung", "Routenoptimierung", "Echtzeit-Tracking", "PDF-Generierung", "DOCX-Generierung", "Digitale Archivführung", "better-auth", "JWT", "Authentifizierung", "Role-Based Access Control (RBAC)", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Nginx", "Microservices", "Clean Architecture"],
   },
   {
     num: "07", slug: "xu-navigator", name: "XU Navigator", company: "XU Group", companyUrl: "https://xu.de", subtitle: "Enterprise-Lernplattform",
@@ -347,7 +347,7 @@ export const projects: Project[] = [
       "Hoher Individualisierungsgrad für passgenaue, unternehmensspezifische Schulungen.",
       "Automatisierte Zertifikatsvergabe und Fortschrittsanalyse zur Steigerung der Abschlussquoten.",
     ],
-    tech: ["TypeScript", "Angular", "Node.js", "NestJS", "Express.js", "REST API", "GraphQL", "MongoDB", "Mongoose", "NgRx", "RxJS", "Angular Material", "SCSS", "Azure", "Azure DevOps", "Azure App Service", "Azure Blob Storage", "Docker", "CI/CD", "JWT", "OAuth 2.0", "SSO", "LMS", "Video-Streaming", "Microservices", "Clean Architecture"],
+    tech: ["TypeScript", "Angular", "Node.js", "NestJS", "Express.js", "REST API", "GraphQL", "MongoDB", "Mongoose", "NgRx", "RxJS", "Angular Material", "SCSS", "Microsoft Azure", "Azure DevOps", "Azure Pipelines", "Azure App Service", "Azure Blob Storage", "Docker", "CI/CD", "JWT", "OAuth 2.0", "Single Sign-On (SSO)", "Learning Management System (LMS)", "Video-Streaming", "Microservices", "Clean Architecture"],
   },
   {
     num: "08", slug: "medizingeraete-ms", name: "Medizingeräte-MS", company: "Krankenhauskette (anonymisiert)", subtitle: "Managementsystem für Medizingeräte",
@@ -375,7 +375,7 @@ export const projects: Project[] = [
       "Vollständige, mandantenfähige Geräteverwaltung mit Wartungshistorie und Dokumentenmanagement umgesetzt.",
       "Strukturierte technische Grundlage für effizientere Wartungs- und Reparaturprozesse der Technik.",
     ],
-    tech: ["C#", ".NET Core", "ASP.NET Core", "ASP.NET Core Web API", "TypeScript", "React", "Entity Framework Core", "MSSQL", "Fluent UI", "Redux", "React Router", "Axios", "SPA", "Dependency Injection", "JWT", "O365 Identity", "RBAC", "Multi-Tenancy", "Azure", "Azure SQL", "Azure DevOps", "Docker", "CI/CD", "Clean Architecture"],
+    tech: ["C#", ".NET Core", "ASP.NET Core", "ASP.NET Core Web API", "OpenAPI", "Swagger", "TypeScript", "React", "Entity Framework Core", "Datenmodellierung", "Microsoft SQL Server (MSSQL)", "Fluent UI", "Redux", "React Router", "Axios", "Single Page Application (SPA)", "Dependency Injection", "JWT", "O365 Identity", "Role-Based Access Control (RBAC)", "Multi-Tenancy", "Stammdatenverwaltung", "Dokumentenmanagement", "Microsoft Azure", "Azure SQL", "Azure DevOps", "Docker", "CI/CD", "Clean Architecture"],
   },
 ];
 
