@@ -34,7 +34,7 @@ export default function Image() {
               fontWeight: 600,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
-              color: "#b84b00",
+              color: "#ff6900",
             }}
           >
             Freiberuflich · Remote · München
