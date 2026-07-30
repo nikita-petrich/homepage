@@ -155,8 +155,8 @@ export default function Page() {
 
             <Section title="Referenzen" level="h2" id="referenzen">
               <p className="mb-4 text-[14px] leading-[1.6] text-notion-gray">
-                Was Kund:innen und Kolleg:innen über die Zusammenarbeit sagen.
-                Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt)
+                Was Kund:innen und Projektbeteiligte über die Zusammenarbeit
+                sagen. Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt)
                 nachprüfbar.
               </p>
               <ReferenceGallery />

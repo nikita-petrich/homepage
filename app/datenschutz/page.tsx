@@ -140,9 +140,9 @@ export default function DatenschutzPage() {
 
       <LegalSection title="7. Referenzen und Empfehlungen Dritter">
         <p>
-          Im Bereich „Referenzen“ veröffentliche ich Empfehlungen von Kunden
-          und ehemaligen Kollegen mit Name, Position, Unternehmen und
-          Zitattext. Diese Empfehlungen wurden von den jeweiligen Personen
+          Im Bereich „Referenzen“ veröffentliche ich Empfehlungen von Kunden und
+          Projektbeteiligten mit Name, Position, Unternehmen und Zitattext.
+          Diese Empfehlungen wurden von den jeweiligen Personen
           öffentlich auf LinkedIn bzw. Malt abgegeben und werden hier mit ihrer
           Zustimmung wiedergegeben (Rechtsgrundlage: Art. 6 Abs. 1 lit. a
           DSGVO). Jeder Referenzgeber kann seine Zustimmung jederzeit formlos

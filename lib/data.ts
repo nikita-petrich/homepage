@@ -505,7 +505,7 @@ export const certificates: Certificate[] = [
   },
 ];
 
-/* Client & colleague references. Each has a stable slug so it can be linked
+/* Client & project-team references. Each has a stable slug so it can be linked
    from anywhere (e.g. the PDF CV) via /referenzen/<slug>; the slug is a
    permanent route and must never change once published. Projects without a
    (published) reference simply have no entry here. */
@@ -531,7 +531,7 @@ export type Reference = {
   company?: string;
   /** Company website; makes the company name a link when set. */
   companyUrl?: string;
-  /** Relationship to Nikita, e.g. "Kunde", "ehem. Kollege". */
+  /** Relationship to Nikita, e.g. "Kunde", "Projektteam". */
   relation: string;
   /** Slug of the related case study (links to /projekte/<slug>). */
   projectSlug?: string;
