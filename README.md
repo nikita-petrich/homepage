@@ -6,7 +6,7 @@ Engineer, built with **Next.js 16**, **Tailwind CSS v4** and **shadcn/ui**.
 The page mirrors a published Notion layout: a sticky top bar, a full-width
 cover, the page icon overlapping it, the title, and a two-column body — a
 sidebar (photo, contact, key facts, languages, ways of working, profiles) and a
-main column with an about callout, focus areas, project case studies,
+main column with an about callout, focus areas, projects,
 testimonials, a searchable skills database and certificates. Legal pages
 (`/impressum`, `/datenschutz`) and a privacy banner make the site fit for
 production use in Germany.
@@ -43,7 +43,7 @@ app/
   error.tsx             Error boundary (+ global-error.tsx)
   impressum/            Anbieterkennzeichnung (§ 5 DDG)
   datenschutz/          Datenschutzerklärung (Art. 13 DSGVO)
-  projekte/[slug]/      Standalone case-study dialogs (SSG)
+  projekte/[slug]/      Standalone project dialogs (SSG)
     referenzen/         All testimonials of one project on one URL (SSG)
   referenzen/[slug]/    Standalone testimonial dialogs (SSG)
   @modal/               Intercepting modal routes for both (SSG)
@@ -55,7 +55,7 @@ components/
     cover-banner.tsx    Cover with git-diff motif + name (h1)
     topbar.tsx          Sticky top bar (name, CV download, booking CTA)
     cv-download.tsx     "CV herunterladen" menu (topbar + hero variant)
-    projects.tsx        Case-study gallery + detail dialog
+    projects.tsx        Project gallery + detail dialog
     references.tsx      Testimonials gallery + detail dialog
     certificates.tsx    Certificates gallery (PDF / external / verify links)
     galleries.tsx       Skills database (searchable category cards)
