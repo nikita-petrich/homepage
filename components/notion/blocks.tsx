@@ -1,11 +1,9 @@
-import Image from "next/image";
-
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import type { FactItem, InfoItem, Language, RichLine } from "@/lib/data";
 
-import { CactusOrangeIcon } from "./icons";
+import { CactusOrangeIcon, Flag } from "./icons";
 
 /* The page's single h1 is the name in the cover banner; main sections are h2,
    sidebar sections h3. Visual sizes are independent of the semantic level. */
@@ -113,15 +111,9 @@ export function LangLine({ item }: { item: Language }) {
   return (
     <div className="flex items-center gap-[8px] py-[3px] text-[15px] leading-[1.5]">
       {/* SVG flags are served as-is — the optimizer adds nothing for vectors. */}
-      <Image
+      <Flag
         src={item.flag}
-        alt=""
-        aria-hidden
-        width={20}
-        height={15}
-        unoptimized
-        style={{ height: 15, width: "auto" }}
-        className="shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+        className="h-[15px] w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
       />
       <span>
         <span className="font-semibold">{item.text}</span>
