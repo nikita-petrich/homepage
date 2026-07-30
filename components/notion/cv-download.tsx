@@ -96,7 +96,8 @@ export function CvDownload({
                   width={24}
                   height={18}
                   unoptimized
-                  className="h-[18px] w-auto rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+                  style={{ height: 18, width: "auto" }}
+                  className="rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
                 />
               </span>
               <span className="min-w-0 flex-1">

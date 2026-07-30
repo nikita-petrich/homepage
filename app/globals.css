@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  /* Primary brand colour — every orange in the UI derives from this one value. */
-  --primary: oklch(70.5% 0.213 47.604);
+  /* Primary brand colour (AWS orange). Every orange in the UI derives from this. */
+  --primary: #ff9900;
   --primary-foreground: #ffffff;
 
   /* Every orange in the UI is the primary — one vibrant tone for fills, icons,
-     text, labels, links and borders alike. Note: ≈2.9:1 as text on white / under
+     text, labels, links and borders alike. Note: ≈2.1:1 as text on white / under
      white text, i.e. below the WCAG AA 4.5:1 threshold, by design choice. */
   --accent-o: var(--primary);
   --accent-text: var(--primary);
