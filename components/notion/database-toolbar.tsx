@@ -1,13 +1,28 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpDown, ChevronDown, Search, X } from "lucide-react";
+import {
+  ArrowUpDown,
+  Check,
+  ChevronDown,
+  LayoutGrid,
+  Search,
+  Table2,
+  X,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+export type GalleryView = "gallery" | "table";
+
+const VIEW_OPTIONS: { key: GalleryView; label: string; icon: React.ReactNode }[] = [
+  { key: "gallery", label: "Galerie", icon: <LayoutGrid size={14} strokeWidth={1.9} /> },
+  { key: "table", label: "Tabelle", icon: <Table2 size={14} strokeWidth={1.9} /> },
+];
+
 type Props = {
-  viewLabel?: string;
-  viewIcon?: React.ReactNode;
+  view: GalleryView;
+  onViewChange: (view: GalleryView) => void;
   sortProp: string;
   sortPropIcon: React.ReactNode;
   sortDirLabel: string;
@@ -16,12 +31,12 @@ type Props = {
   onQueryChange: (q: string) => void;
 };
 
-/* Notion-style toolbar above each gallery: view label, sort popover and an
+/* Notion-style toolbar above each gallery: view switcher, sort popover and an
    expandable search field. Only real controls — every element does what it
    announces. */
 export function DatabaseToolbar({
-  viewLabel,
-  viewIcon,
+  view,
+  onViewChange,
   sortProp,
   sortPropIcon,
   sortDirLabel,
@@ -29,6 +44,7 @@ export function DatabaseToolbar({
   query,
   onQueryChange,
 }: Props) {
+  const [viewOpen, setViewOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -37,14 +53,34 @@ export function DatabaseToolbar({
     if (searchOpen) inputRef.current?.focus();
   }, [searchOpen]);
 
+  const current = VIEW_OPTIONS.find((o) => o.key === view) ?? VIEW_OPTIONS[0]!;
+
   return (
     <div className="mb-2 flex items-center justify-end gap-2">
-      {viewLabel && (
-        <div className="mr-auto inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[#f1f1ef] px-2 py-[5px] text-[14px] font-medium">
-          <span className="flex h-4 w-4 items-center justify-center">{viewIcon}</span>
-          {viewLabel}
-        </div>
-      )}
+      <div className="relative mr-auto">
+        <button
+          type="button"
+          onClick={() => setViewOpen((v) => !v)}
+          aria-label="Ansicht wechseln"
+          aria-haspopup="true"
+          aria-expanded={viewOpen}
+          className={cn(
+            "inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-md bg-[#f1f1ef] px-2 py-[5px] text-[14px] font-medium transition-colors hover:bg-[rgba(55,53,47,0.08)]",
+            viewOpen && "bg-[rgba(55,53,47,0.09)]",
+          )}
+        >
+          <span className="flex h-4 w-4 items-center justify-center">{current.icon}</span>
+          {current.label}
+          <ChevronDown size={13} className="text-notion-gray" />
+        </button>
+        {viewOpen && (
+          <ViewPopover
+            view={view}
+            onChange={onViewChange}
+            onClose={() => setViewOpen(false)}
+          />
+        )}
+      </div>
 
       <div className="flex items-center gap-0.5 text-notion-gray">
         {searchOpen ? (
@@ -58,7 +94,7 @@ export function DatabaseToolbar({
                 if (!query) setSearchOpen(false);
               }}
               placeholder="Suchen…"
-              aria-label={`${viewLabel} durchsuchen`}
+              aria-label="Durchsuchen"
               className="w-[140px] bg-transparent text-[14px] text-notion-text placeholder:text-notion-gray focus:outline-none sm:w-[190px]"
             />
             <button
@@ -142,8 +178,11 @@ function SortPopover({
       <div className="fixed inset-0 z-40" onClick={onClose} />
       <div className="absolute top-full right-0 z-50 mt-1 w-[300px] rounded-lg border border-[rgba(55,53,47,0.12)] bg-white p-1.5 text-notion-text shadow-[rgba(15,15,15,0.14)_0px_6px_22px]">
         <div className="flex items-center gap-1.5 p-1">
-          <div className="inline-flex items-center gap-1.5 rounded-md border border-[rgba(55,53,47,0.16)] px-2 py-[5px] text-[13px] font-medium">
-            <span className="flex h-4 w-4 items-center justify-center text-notion-gray">
+          {/* Not a button: there is only one sort property, so this is a
+              plain label (no border/hover) rather than a dead-looking
+              control. */}
+          <div className="inline-flex items-center gap-1.5 px-1 py-[5px] text-[13px] font-medium text-notion-gray">
+            <span className="flex h-4 w-4 items-center justify-center">
               {propIcon}
             </span>
             {prop}
@@ -157,6 +196,51 @@ function SortPopover({
             <ChevronDown size={13} className="text-notion-gray" />
           </button>
         </div>
+      </div>
+    </>
+  );
+}
+
+function ViewPopover({
+  view,
+  onChange,
+  onClose,
+}: {
+  view: GalleryView;
+  onChange: (view: GalleryView) => void;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <>
+      <div className="fixed inset-0 z-40" onClick={onClose} />
+      <div className="absolute top-full left-0 z-50 mt-1 w-[170px] rounded-lg border border-[rgba(55,53,47,0.12)] bg-white p-1 text-notion-text shadow-[rgba(15,15,15,0.14)_0px_6px_22px]">
+        {VIEW_OPTIONS.map((opt) => (
+          <button
+            key={opt.key}
+            type="button"
+            onClick={() => {
+              onChange(opt.key);
+              onClose();
+            }}
+            className="flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-[7px] text-[13px] transition-colors hover:bg-[rgba(55,53,47,0.06)]"
+          >
+            <span className="flex h-4 w-4 items-center justify-center text-notion-gray">
+              {opt.icon}
+            </span>
+            <span className="flex-1 text-left">{opt.label}</span>
+            {opt.key === view && (
+              <Check size={14} className="text-[var(--accent-text)]" />
+            )}
+          </button>
+        ))}
       </div>
     </>
   );
