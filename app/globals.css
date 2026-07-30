@@ -38,27 +38,34 @@
     "Apple Color Emoji", "Segoe UI Emoji";
 }
 
-* {
-  border-color: var(--border);
-}
+/* Layered (not global) so Tailwind utility classes — e.g. text-white on a
+   link, border-[var(--accent-text)] — can still override these defaults.
+   Unlayered CSS always beats the utilities layer regardless of specificity,
+   which previously made bg-[var(--accent-text)] buttons render with dark
+   inherited text and custom borders render as the default gray. */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
 
-html {
-  -webkit-text-size-adjust: 100%;
-}
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
 
-body {
-  background: var(--notion-bg);
-  color: var(--notion-text);
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  body {
+    background: var(--notion-bg);
+    color: var(--notion-text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 /* Project detail popup enter animations. */
