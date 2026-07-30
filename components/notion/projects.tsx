@@ -60,7 +60,7 @@ function ProjectCover({
 }
 
 /* The meta values are part of the search surface: role, methodology, team size
-   and location are shown on every case study but would otherwise be
+   and location are shown on every project but would otherwise be
    unsearchable, so a query like "Scrum" or "Remote" would find nothing. */
 const projectSearchText = (p: Project) =>
   `${p.name} ${p.subtitle} ${p.cat} ${p.desc} ${p.tech.join(" ")} ${p.meta
@@ -71,12 +71,12 @@ const projectSortKey = (p: Project) => p.sort;
 /* Table view: same row target/analytics as the gallery cards, laid out as a
    CSS grid so cells stay simple <Link> children (no <a> inside <table>). */
 const PROJECT_COLS =
-  "grid-cols-[minmax(180px,1.7fr)_minmax(120px,1fr)_minmax(110px,0.8fr)_minmax(120px,1fr)_minmax(160px,1.6fr)]";
+  "grid-cols-[minmax(190px,2fr)_minmax(120px,1fr)_minmax(130px,1.1fr)]";
 
 function ProjectTable({ projects: rows }: { projects: Project[] }) {
   return (
     <TableShell>
-      <div className="min-w-[760px]">
+      <div className="min-w-[480px]">
         <div
           className={cn(
             "grid gap-3 border-b border-[rgba(55,53,47,0.09)] px-3 py-2 text-[12px] font-medium text-notion-gray",
@@ -85,9 +85,7 @@ function ProjectTable({ projects: rows }: { projects: Project[] }) {
         >
           <div>Name</div>
           <div>Firma</div>
-          <div>Zeitraum</div>
           <div>Kategorie</div>
-          <div>Tech</div>
         </div>
         {rows.map((p) => (
           <Link
@@ -114,13 +112,8 @@ function ProjectTable({ projects: rows }: { projects: Project[] }) {
               </div>
             </div>
             <div className="truncate text-notion-gray">{p.company ?? "—"}</div>
-            <div className="truncate text-notion-gray">{p.dateRange}</div>
             <div className="min-w-0">
               <AccentTag label={p.cat} />
-            </div>
-            <div className="truncate text-[12px] text-notion-gray">
-              {p.tech.slice(0, 3).join(", ")}
-              {p.tech.length > 3 ? " …" : ""}
             </div>
           </Link>
         ))}
