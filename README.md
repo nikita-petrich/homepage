@@ -8,7 +8,7 @@ cover, the page icon overlapping it, the title, and a two-column body — a
 sidebar (photo, contact, key facts, languages, ways of working, profiles) and a
 main column with an about callout, focus areas, projects,
 testimonials, a searchable skills database and certificates. Legal pages
-(`/impressum`, `/datenschutz`) and a privacy banner make the site fit for
+(`/imprint`, `/privacy`) and a privacy banner make the site fit for
 production use in Germany.
 
 ## CV download
@@ -26,7 +26,7 @@ that opens a menu to download the CV as a PDF in two languages:
 - [shadcn/ui](https://ui.shadcn.com/) primitives
 - Notion's light-theme colours captured as CSS variables in `app/globals.css`
 - Optional cookieless analytics: self-hosted [Umami](https://umami.is/) behind
-  a first-party proxy (see `docs/TRACKING-KONZEPT.md`)
+  a first-party proxy (see `docs/TRACKING-CONCEPT.md`)
 
 ## Project structure
 
@@ -41,11 +41,11 @@ app/
   robots.ts             Robots rules
   not-found.tsx         Branded German 404
   error.tsx             Error boundary (+ global-error.tsx)
-  impressum/            Anbieterkennzeichnung (§ 5 DDG)
-  datenschutz/          Datenschutzerklärung (Art. 13 DSGVO)
-  projekte/[slug]/      Standalone project dialogs (SSG)
-    referenzen/         All testimonials of one project on one URL (SSG)
-  referenzen/[slug]/    Standalone testimonial dialogs (SSG)
+  imprint/              Anbieterkennzeichnung (§ 5 DDG)
+  privacy/              Datenschutzerklärung (Art. 13 DSGVO)
+  projects/[slug]/      Standalone project dialogs (SSG)
+    references/         All testimonials of one project on one URL (SSG)
+  references/[slug]/    Standalone testimonial dialogs (SSG)
   @modal/               Intercepting modal routes for both (SSG)
   api/a/[...path]/      First-party Umami proxy (strips client IPs)
 components/
@@ -71,12 +71,12 @@ lib/
   references.json       Testimonials (shared with the PDF CV)
   analytics/            consent.ts, track.ts, use-search-tracking.ts
 docs/
-  AUDIT-REPORT.md       Security/GDPR/quality audit (2026-07)
-  UMSETZUNGSPLAN.md     Remediation & tracking plan
-  TRACKING-KONZEPT.md   Analytics design (two-tier, GDPR)
+  AUDIT-REPORT.md        Security/GDPR/quality audit (2026-07)
+  IMPLEMENTATION-PLAN.md Remediation & tracking plan
+  TRACKING-CONCEPT.md    Analytics design (two-tier, GDPR)
 public/
   cv/                   Downloadable CV PDFs (DE / EN)
-  zertifikate/          Certificate PDFs
+  certificates/         Certificate PDFs
   assets/               Photos, avatar, flags, project covers
 ```
 
@@ -94,7 +94,7 @@ pnpm lint && pnpm typecheck
 Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_UMAMI_WEBSITE_ID` and
 `UMAMI_ORIGIN` to enable the cookieless stage-1 measurement. Without these
 variables the site runs with analytics fully disabled. Details and the legal
-rationale: `docs/TRACKING-KONZEPT.md`.
+rationale: `docs/TRACKING-CONCEPT.md`.
 
 ## Deployment
 

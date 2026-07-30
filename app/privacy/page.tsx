@@ -9,9 +9,9 @@ export const metadata: Metadata = {
     "Informationen zur Verarbeitung personenbezogener Daten auf dieser Website gemäß Art. 13 DSGVO.",
 };
 
-/* NOTE: Der Abschnitt "Hosting" nennt bewusst noch keinen konkreten Anbieter —
-   beim Deployment den Hosting-Dienstleister (Name, Sitz, AVV) eintragen. */
-export default function DatenschutzPage() {
+/* NOTE: The "Hosting" section deliberately names no specific provider yet —
+   fill in the hosting provider (name, registered office, DPA) at deployment. */
+export default function PrivacyPage() {
   return (
     <LegalPage title="Datenschutzerklärung">
       <p className="text-notion-gray">Stand: Juli 2026</p>

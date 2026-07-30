@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Anbieterkennzeichnung gemäß § 5 DDG.",
 };
 
-export default function ImpressumPage() {
+export default function ImprintPage() {
   return (
     <LegalPage title="Impressum">
       <LegalSection title="Angaben gemäß § 5 DDG">

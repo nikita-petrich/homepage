@@ -90,7 +90,7 @@ function ProjectTable({ projects: rows }: { projects: Project[] }) {
         {rows.map((p) => (
           <Link
             key={p.num}
-            href={`/projekte/${p.slug}`}
+            href={`/projects/${p.slug}`}
             scroll={false}
             data-analytics-event="project_open"
             data-analytics-prop-slug={p.slug}
@@ -154,7 +154,7 @@ export function ProjectGallery() {
           {visible.map((p) => (
             <Link
               key={p.num}
-              href={`/projekte/${p.slug}`}
+              href={`/projects/${p.slug}`}
               scroll={false}
               data-analytics-event="project_open"
               data-analytics-prop-slug={p.slug}
@@ -293,7 +293,7 @@ export function ProjectModal({
             Aufgaben
           </h3>
           <ul className="flex flex-col gap-[9px]">
-            {project.aufgaben.map((a, i) => (
+            {project.responsibilities.map((a, i) => (
               <li key={i} className="flex gap-2.5 text-[14px] leading-[1.55]">
                 <span className="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-[#37352f]" />
                 <span>{a}</span>
@@ -306,7 +306,7 @@ export function ProjectModal({
               Ergebnis
             </h3>
             <ul className="flex flex-col gap-2">
-              {project.ergebnis.map((e, i) => (
+              {project.results.map((e, i) => (
                 <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
                   <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--accent-o)]" />
                   <span className="text-[#4a473f]">{e}</span>
@@ -324,7 +324,7 @@ export function ProjectModal({
                 {projectRefs.map((r) => (
                   <Link
                     key={r.slug}
-                    href={`/referenzen/${r.slug}`}
+                    href={`/references/${r.slug}`}
                     scroll={false}
                     data-analytics-event="reference_open"
                     data-analytics-prop-slug={r.slug}
@@ -341,7 +341,7 @@ export function ProjectModal({
                     only worth its own link once there is more than one. */}
                 {projectRefs.length > 1 && (
                   <Link
-                    href={`/projekte/${project.slug}/referenzen`}
+                    href={`/projects/${project.slug}/references`}
                     scroll={false}
                     data-analytics-event="project_references_open"
                     data-analytics-prop-slug={project.slug}

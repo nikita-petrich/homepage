@@ -26,7 +26,7 @@ export const contact: InfoItem[] = [
 
 export type FactItem = { label: string; value: string };
 
-export const eckdaten: FactItem[] = [
+export const facts: FactItem[] = [
   { label: "Erfahrung", value: "7+ Jahre" },
   { label: "Verfügbar", value: "ab sofort · Vollzeit" },
   { label: "Stundensatz", value: "auf Anfrage" },
@@ -42,7 +42,7 @@ export const languages: Language[] = [
   { flag: "/assets/flags/us.svg", text: "Englisch", sub: "B2 · US/EU-Remote" },
 ];
 
-export const arbeitsweise: string[] = [
+export const approach: string[] = [
   "ergebnisorientiert",
   "eigenverantwortlich & zuverlässig",
   "autonome, asynchrone Arbeitsweise",
@@ -114,7 +114,7 @@ export const intro: RichLine[] = [
   ],
 ];
 
-export const schwerpunkt: string[] = [
+export const focus: string[] = [
   "LLM-Integration", "RAG", "KI-gestützte Automatisierung",
   "Agentic Coding / AI-Engineering", "TypeScript", "Python",
   "Backend (NestJS · Node.js · FastAPI)", "Frontend (Next.js · React · Angular)",
@@ -143,8 +143,8 @@ export type Project = {
   cardTags: string[];
   desc: string;
   meta: ProjectMeta[];
-  aufgaben: string[];
-  ergebnis: string[];
+  responsibilities: string[];
+  results: string[];
   tech: string[];
 };
 
@@ -164,14 +164,14 @@ export const projects: Project[] = [
       { label: "Website", value: "bescheidklar.de" },
       { label: "Methodik", value: "Direkte Produktverantwortung" },
     ],
-    aufgaben: [
+    responsibilities: [
       "Konzeption und Aufbau einer zweiseitigen LegalTech-SaaS-Plattform mit modularer, service-orientierter Architektur.",
       "KI-Vorprüfungs-Pipeline für Bescheide und Kündigungen: Extraktion → Fristprüfung → Plausibilitäts- und Erfolgseinschätzung mit strukturierter Aufbereitung des Falls.",
       "Automatisierte, DSGVO-konforme Übergabe qualifizierter Leads inkl. hochgeladener Dokumente an passende Spezialisten (Rechtsanwälte, Law Clinics).",
       "RAG-basierter Ratgeber-Bereich mit Artikeln und Handlungsempfehlungen für Betroffene.",
       "Gesamtverantwortung für Architektur, Tech-Stack, Hosting auf EU-Infrastruktur und ein Secure-by-Design-Compliance-Konzept (EU AI Act, DSGVO, RDG).",
     ],
-    ergebnis: [
+    results: [
       "Adressierbarer Markt: 188.522 zugelassene Rechtsanwälte in Deutschland – skalierbares Modell bei minimalen Fixkosten.",
       "Ziel: bis zu 10.000 automatisierte Vorprüfungen pro Monat.",
       "Ziel: bis zu 80 % weniger manuelle Fallannahme durch KI-Intake und automatisiertes Anwalts-Routing.",
@@ -193,14 +193,14 @@ export const projects: Project[] = [
       { label: "Website", value: "manifestlaw.com" },
       { label: "Methodik", value: "Scrum · autonom" },
     ],
-    aufgaben: [
+    responsibilities: [
       "Produktive KI-Features: ereignisgesteuerte Anreicherung anwaltlicher Erstgespräch-Leads – Aufzeichnungen per Bluedot transkribiert, über Webhook + BullMQ-Queue an die OpenAI-Integration, resilient (Retry, Idempotenz).",
       "KI-gestützte Evidence-Verarbeitung: hochgeladene Falldokumente automatisiert analysiert, klassifiziert und einheitlich benannt.",
       "Mitwirkung an der Konsolidierung von vier Portalen (B2B, B2C, Lawyer, Ops) in ein einheitliches „B2X“-Portal; Fullstack-Migration der B2B- und Ops-Bereiche.",
       "Einführung eines anwendungsweiten Event-Trackings (Amplitude) als Datengrundlage für Produkt- und Data-Analytics.",
       "Robuste, ereignisgetriebene Backend-Services (NestJS, BullMQ) mit Retry-, Idempotenz- und Fehlerbehandlungs-Strategien.",
     ],
-    ergebnis: [
+    results: [
       "Teil eines rund 20-köpfigen Engineering-Teams an einer etablierten Plattform (~60 Mio. USD Bewertung).",
       "Plattform mit über 3.000 Kunden und 150+ Corporate-Programmen (Team-Ergebnis).",
       "Bis zu 15 % höhere Genehmigungsraten gegenüber dem USCIS-Durchschnitt (Team-Ergebnis).",
@@ -222,13 +222,13 @@ export const projects: Project[] = [
       { label: "Sichtbarkeit", value: "Internes System" },
       { label: "Methodik", value: "Eigenverantwortlich" },
     ],
-    aufgaben: [
+    responsibilities: [
       "Konzeption und Umsetzung des IoT-WLAN-Onboardings per QR-Code-Scan – inkl. geführtem Einrichtungs-Flow, Gerätekopplung und robuster Fehlerbehandlung.",
       "Erst-Einrichtung neuer Geräte und nachträgliche Konfiguration über eine plattformunabhängige PWA.",
       "Anbindung von Supabase für Authentifizierung, Datenhaltung und Echtzeit-Synchronisation (inkl. Row Level Security).",
       "Aufbau einer performanten PWA-Architektur (Next.js) mit responsivem UI.",
     ],
-    ergebnis: [
+    results: [
       "Voll funktionsfähiges MVP-Frontend in rund einem Monat – eigenständig von Konzept bis Demo.",
       "Plattformunabhängig nutzbare PWA mit Echtzeit-Synchronisation zwischen IoT-Gerät und App.",
       "Skalierbare, dokumentierte Architektur als tragfähige Grundlage für den Produktlaunch.",
@@ -250,13 +250,13 @@ export const projects: Project[] = [
       { label: "Website", value: "digitales-notariat.de" },
       { label: "Methodik", value: "Scrumban" },
     ],
-    aufgaben: [
+    responsibilities: [
       "Frontend-Features zur Digitalisierung von Notarprozessen mit klarer, nachvollziehbarer Nutzerführung (Mandanten- und Notarportal).",
       "Digitale Vorgangsverwaltung: strukturierte Datenerfassung, digitale Verfahrensakten und nahtlose interne Ablage.",
       "Mandantenportal für Statusverfolgung, sichere Dokumentenbereitstellung und datenschutzkonforme Kommunikation.",
       "Responsive Oberflächen (React, Material UI) für Mandanten- und Notarportal.",
     ],
-    ergebnis: [
+    results: [
       "Laut Anbieter bis zu 70 % weniger telefonische Rückfragen der Mandanten.",
       "Rechnungen werden laut Anbieter bis zu 30 Tage früher bezahlt.",
       "Spürbar reduzierter Verwaltungsaufwand durch durchgängig digitale Prozesse.",
@@ -278,14 +278,14 @@ export const projects: Project[] = [
       { label: "Code", value: "github.com/nikita-petrich/accounting-os" },
       { label: "Methodik", value: "Eigenverantwortlich" },
     ],
-    aufgaben: [
+    responsibilities: [
       "Konzeption und Entwicklung eines GoBD-konformen Buchhaltungs- und Lagersystems auf Basis sauber geschichteter Architektur (Clean Architecture).",
       "Resilienter Daten-Synchronisationsservice („Pipe Service“) für Lieferanten-Kataloge – bis 20 Mio. CSV-Zeilen über TLS mit Queue, Caching, Retry-Logik, Validierung und Deduplizierung.",
       "Buchhaltungsmodul: Rechnungen, Korrekturrechnungen, PDF-Export, Kundenverwaltung, Bestellimport mit GoBD-Festschreibung.",
       "Kopplung von Lagerverwaltung und Rechnungsmanagement (automatische Bestandsabbuchung, Mindestbestand-Benachrichtigung).",
       "Rollenbasierte Zugriffssteuerung (better-auth); typsichere GraphQL- und REST-Schnittstellen (NestJS, MikroORM, DTOs).",
     ],
-    ergebnis: [
+    results: [
       "Spart bis zu 40 Stunden Verwaltungsarbeit pro Monat (bis zu 480 Stunden/Jahr).",
       "Reduziert den Zeitaufwand bei Routineprozessen um bis zu 50 %.",
       "Durchgängig digitale, GoBD-konforme Abläufe mit direkter Kopplung von Lager und Buchhaltung.",
@@ -307,14 +307,14 @@ export const projects: Project[] = [
       { label: "Website", value: "cdh-stephanus.org" },
       { label: "Methodik", value: "Eigenverantwortlich" },
     ],
-    aufgaben: [
+    responsibilities: [
       "Eigenständige Konzeption und Entwicklung eines LKW-Tourverwaltungssystems zur Steuerung und Optimierung der Tourenplanung.",
       "Dynamische Tourenverwaltung zur Erhöhung der Transportgenauigkeit.",
       "Automatisierte Generierung von PDF- und DOCX-Dokumenten sowie revisionssichere digitale Archivführung je Tour.",
       "Rollenbasierte Zugriffssteuerung und sichere Authentifizierung (better-auth).",
       "Container-basiertes, selbst gehostetes Deployment (Docker, Nginx); Backend mit sauberer Schichtung (NestJS, Clean Architecture).",
     ],
-    ergebnis: [
+    results: [
       "Spart durch automatisierte Dokumentenprozesse bis zu 1.000 Stunden pro Jahr und senkt Personalkosten spürbar.",
       "Erhöht die Transportgenauigkeit um bis zu 25 % und die Logistikeffizienz um bis zu 30 %.",
       "Deutlich reduzierte Übertragungsfehler durch durchgängig digitale Prozesse.",
@@ -336,14 +336,14 @@ export const projects: Project[] = [
       { label: "Website", value: "xu.de" },
       { label: "Methodik", value: "Scrum" },
     ],
-    aufgaben: [
+    responsibilities: [
       "Mitentwicklung des „XU Navigator“, einer skalierbaren Microservice-Lernplattform für Unternehmensmitarbeitende.",
       "Dynamisch, mandantenspezifisch befüllbare Kursinhalte (Videos, Podcasts, Multiple-Choice, Artikel) über klar abgegrenzte Services.",
       "Lernfortschrittskontrolle inkl. automatischer Zertifikatsgenerierung sowie Experten- und Community-Foren.",
       "Skalierbare Backend-Services (NestJS, GraphQL) mit klar abgegrenzten Domänen in Microservice-Architektur.",
       "Responsive Angular-Oberflächen (Angular Material, NgRx); Bereitstellung über Azure (DevOps Pipelines, Docker).",
     ],
-    ergebnis: [
+    results: [
       "Skalierbare Microservice-Plattform im produktiven Einsatz bei namhaften Konzernen (Daimler, VW, ThyssenKrupp u. a.).",
       "Hoher Individualisierungsgrad für passgenaue, unternehmensspezifische Schulungen.",
       "Automatisierte Zertifikatsvergabe und Fortschrittsanalyse zur Steigerung der Abschlussquoten.",
@@ -365,14 +365,14 @@ export const projects: Project[] = [
       { label: "Sichtbarkeit", value: "Krankenhauskette (anonymisiert)" },
       { label: "Methodik", value: "Scrumban" },
     ],
-    aufgaben: [
+    responsibilities: [
       "Mitentwicklung aller Bereiche einer Software zur Verwaltung medizinischer Geräte über mehrere Krankenhäuser.",
       "Geräte- und Stammdatenverwaltung (Krankenhaus, Standort, Gerätespezifikationen) auf sauber geschichteter Architektur (Clean Architecture, DI).",
       "Detaillierte Wartungshistorie und gerätebezogenes Dokumentenmanagement; Störungserfassung durch Pflegepersonal.",
       "Mandantenfähige Filterung nach Krankenhaus (Multi-Tenancy) und Anbindung der Microsoft-Anmeldung (O365 Identity).",
       "Typische REST-API (ASP.NET Core Web API, Swagger/OpenAPI); Datenmodellierung mit Entity Framework Core (Code-First) auf MSSQL.",
     ],
-    ergebnis: [
+    results: [
       "Vollständige, mandantenfähige Geräteverwaltung mit Wartungshistorie und Dokumentenmanagement umgesetzt.",
       "Strukturierte technische Grundlage für effizientere Wartungs- und Reparaturprozesse der Technik.",
     ],
@@ -410,10 +410,10 @@ export const skills: SkillCategory[] = [
   { num: "17", name: "Rollen & Profil", items: ["Senior Full-Stack Engineer", "AI Engineer", "Software Engineer", "Freelance Developer", "Interim CTO", "Technischer Berater", "Fachinformatiker Anwendungsentwicklung", "Deutsch (Muttersprache)", "Englisch B2", "München", "DACH"] },
 ];
 
-/* Course certificates, each served as a PDF from /public/zertifikate. The
-   public URL /zertifikate/<slug>.pdf is a permanent, shareable link. */
+/* Course certificates, each served as a PDF from /public/certificates. The
+   public URL /certificates/<slug>.pdf is a permanent, shareable link. */
 export type Certificate = {
-  /** Stable URL slug — the PDF lives at /zertifikate/<slug>.pdf forever. */
+  /** Stable URL slug — the PDF lives at /certificates/<slug>.pdf forever. */
   slug: string;
   title: string;
   issuer: "Scrimba" | "Code with Mosh" | "Udemy";
@@ -506,7 +506,7 @@ export const certificates: Certificate[] = [
 ];
 
 /* Client & project-team references. Each has a stable slug so it can be linked
-   from anywhere (e.g. the PDF CV) via /referenzen/<slug>; the slug is a
+   from anywhere (e.g. the PDF CV) via /references/<slug>; the slug is a
    permanent route and must never change once published. Projects without a
    (published) reference simply have no entry here. */
 export type ReferenceSource = "LinkedIn" | "Malt";
@@ -523,7 +523,7 @@ export const referenceSources: Record<
 >;
 
 export type Reference = {
-  /** Stable slug — the reference lives at /referenzen/<slug> forever. */
+  /** Stable slug — the reference lives at /references/<slug> forever. */
   slug: string;
   name: string;
   role: string;
@@ -533,7 +533,7 @@ export type Reference = {
   companyUrl?: string;
   /** Relationship to Nikita, e.g. "Kunde", "Projektteam". */
   relation: string;
-  /** Slug of the related project (links to /projekte/<slug>). */
+  /** Slug of the related project (links to /projects/<slug>). */
   projectSlug?: string;
   /** Human-readable project label shown on the card. */
   project: string;
@@ -554,19 +554,19 @@ export type Reference = {
    a typo in the JSON then fails the build (generateStaticParams) instead of
    crashing in the browser. */
 function assertReferences(data: unknown): Reference[] {
-  if (!Array.isArray(data)) throw new Error("references.json: kein Array");
+  if (!Array.isArray(data)) throw new Error("references.json: not an array");
   const projectSlugs = new Set(projects.map((p) => p.slug));
   for (const r of data as Reference[]) {
     if (!r.slug || !r.name || !r.role || !r.relation || !r.project || !r.sort || !r.quote || !r.short) {
-      throw new Error(`references.json: Pflichtfeld fehlt bei "${r.slug ?? "?"}"`);
+      throw new Error(`references.json: missing required field for "${r.slug ?? "?"}"`);
     }
     for (const s of r.sources) {
       if (!(s in referenceSources)) {
-        throw new Error(`references.json: unbekannte Quelle "${s}" bei "${r.slug}"`);
+        throw new Error(`references.json: unknown source "${s}" for "${r.slug}"`);
       }
     }
     if (r.projectSlug && !projectSlugs.has(r.projectSlug)) {
-      throw new Error(`references.json: unbekannter projectSlug "${r.projectSlug}" bei "${r.slug}"`);
+      throw new Error(`references.json: unknown projectSlug "${r.projectSlug}" for "${r.slug}"`);
     }
   }
   return data as Reference[];
@@ -576,12 +576,12 @@ export const references: Reference[] = assertReferences(referencesData.reference
 
 /* All published references for one project, in the order of references.json
    (newest first). One source for the project dialog, the per-project
-   listing route (/projekte/<slug>/referenzen) and the sitemap. */
+   listing route (/projects/<slug>/references) and the sitemap. */
 export const referencesForProject = (projectSlug: string): Reference[] =>
   references.filter((r) => r.projectSlug === projectSlug);
 
 /* Projects with at least one reference — exactly the projects for which
-   /projekte/<slug>/referenzen exists. Projects without one have no route:
+   /projects/<slug>/references exists. Projects without one have no route:
    an empty listing would be a thin page with nothing to show. */
 export const projectsWithReferences: Project[] = projects.filter(
   (p) => referencesForProject(p.slug).length > 0,
@@ -591,13 +591,13 @@ export const projectsWithReferences: Project[] = projects.filter(
 export type TocItem = { id: string; label: string; level: 1 | 2 };
 
 export const sections: TocItem[] = [
-  { id: "kontakt", label: "Kontakt", level: 2 },
-  { id: "eckdaten", label: "Eckdaten", level: 2 },
-  { id: "sprachen", label: "Sprachen", level: 2 },
-  { id: "arbeitsweise", label: "Arbeitsweise", level: 2 },
-  { id: "schwerpunkt", label: "Schwerpunkt", level: 1 },
-  { id: "projekte", label: "Projekte", level: 1 },
-  { id: "referenzen", label: "Referenzen", level: 1 },
+  { id: "contact", label: "Kontakt", level: 2 },
+  { id: "facts", label: "Eckdaten", level: 2 },
+  { id: "languages", label: "Sprachen", level: 2 },
+  { id: "approach", label: "Arbeitsweise", level: 2 },
+  { id: "focus", label: "Schwerpunkt", level: 1 },
+  { id: "projects", label: "Projekte", level: 1 },
+  { id: "references", label: "Referenzen", level: 1 },
   { id: "skills", label: "Skills", level: 1 },
-  { id: "zertifikate", label: "Zertifikate", level: 1 },
+  { id: "certificates", label: "Zertifikate", level: 1 },
 ];

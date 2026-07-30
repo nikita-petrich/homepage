@@ -18,14 +18,14 @@ import { ReferenceGallery } from "@/components/notion/references";
 import { TableOfContents } from "@/components/notion/toc";
 import { NotionTopBar } from "@/components/notion/topbar";
 import {
-    arbeitsweise,
+    approach,
     contact,
-    eckdaten,
+    facts,
+    focus,
     intro,
     languages,
     profile,
     profileLinks,
-    schwerpunkt,
     sections,
 } from "@/lib/data";
 
@@ -60,7 +60,7 @@ export default function Page() {
               />
             </div>
 
-            <Section title="Kontakt" level="h3" id="kontakt">
+            <Section title="Kontakt" level="h3" id="contact">
               <div className="flex flex-col">
                 {contact.map((item) => (
                   <InfoLine key={item.text} item={item} />
@@ -68,15 +68,15 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Eckdaten" level="h3" id="eckdaten">
+            <Section title="Eckdaten" level="h3" id="facts">
               <div className="flex flex-col gap-2.5">
-                {eckdaten.map((item) => (
+                {facts.map((item) => (
                   <FactLine key={item.label} item={item} />
                 ))}
               </div>
             </Section>
 
-            <Section title="Sprachen" level="h3" id="sprachen">
+            <Section title="Sprachen" level="h3" id="languages">
               <div className="flex flex-col">
                 {languages.map((item) => (
                   <LangLine key={item.text} item={item} />
@@ -84,9 +84,9 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Arbeitsweise" level="h3" id="arbeitsweise">
+            <Section title="Arbeitsweise" level="h3" id="approach">
               <div className="flex flex-wrap gap-1.5">
-                {arbeitsweise.map((a) => (
+                {approach.map((a) => (
                   <AccentTag key={a} label={a} />
                 ))}
               </div>
@@ -141,19 +141,19 @@ export default function Page() {
               </a>
             </Callout>
 
-            <Section title="Schwerpunkt" level="h2" id="schwerpunkt">
+            <Section title="Schwerpunkt" level="h2" id="focus">
               <div className="flex flex-wrap gap-1.5">
-                {schwerpunkt.map((t) => (
+                {focus.map((t) => (
                   <AccentTag key={t} label={t} size="md" />
                 ))}
               </div>
             </Section>
 
-            <Section title="Projekte" level="h2" id="projekte">
+            <Section title="Projekte" level="h2" id="projects">
               <ProjectGallery />
             </Section>
 
-            <Section title="Referenzen" level="h2" id="referenzen">
+            <Section title="Referenzen" level="h2" id="references">
               <p className="mb-4 text-[14px] leading-[1.6] text-notion-gray">
                 Was Kund:innen und Projektbeteiligte über die Zusammenarbeit
                 sagen. Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt)
@@ -166,7 +166,7 @@ export default function Page() {
               <SkillsGallery />
             </Section>
 
-            <Section title="Zertifikate" level="h2" id="zertifikate">
+            <Section title="Zertifikate" level="h2" id="certificates">
               <CertificateGallery />
             </Section>
           </div>

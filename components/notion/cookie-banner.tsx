@@ -81,7 +81,7 @@ export function CookieBanner() {
           Diese Website misst die Nutzung cookielos und anonym — ohne Cookies
           und ohne Wiedererkennung.{" "}
           <Link
-            href="/datenschutz"
+            href="/privacy"
             className="underline underline-offset-2 hover:text-white"
           >
             Details

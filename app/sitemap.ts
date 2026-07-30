@@ -10,21 +10,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: base, changeFrequency: "monthly", priority: 1 },
     ...projects.map((p) => ({
-      url: `${base}/projekte/${p.slug}`,
+      url: `${base}/projects/${p.slug}`,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
     ...projectsWithReferences.map((p) => ({
-      url: `${base}/projekte/${p.slug}/referenzen`,
+      url: `${base}/projects/${p.slug}/references`,
       changeFrequency: "yearly" as const,
       priority: 0.7,
     })),
     ...references.map((r) => ({
-      url: `${base}/referenzen/${r.slug}`,
+      url: `${base}/references/${r.slug}`,
       changeFrequency: "yearly" as const,
       priority: 0.6,
     })),
-    { url: `${base}/impressum`, changeFrequency: "yearly", priority: 0.1 },
-    { url: `${base}/datenschutz`, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${base}/imprint`, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${base}/privacy`, changeFrequency: "yearly", priority: 0.1 },
   ];
 }
