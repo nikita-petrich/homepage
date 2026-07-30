@@ -23,7 +23,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="rounded-md bg-[var(--accent-text)] px-4 py-2 text-[14px] font-medium text-white shadow-sm transition-colors hover:brightness-95"
+          className="rounded-md bg-primary px-4 py-2 text-[14px] font-medium text-primary-foreground shadow-sm transition-colors hover:brightness-95"
         >
           Zur Startseite
         </Link>

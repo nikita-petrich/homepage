@@ -49,7 +49,7 @@ export function CvDownload({
           "inline-flex items-center gap-1.5 font-medium transition-colors",
           isTopbar
             ? "rounded-md border border-[var(--accent-text)] px-2.5 py-1.5 text-[13px] text-[var(--accent-text)] hover:bg-[color-mix(in_srgb,var(--accent-o)_10%,transparent)]"
-            : "rounded-lg bg-[var(--accent-text)] px-4 py-2.5 text-[14px] text-white shadow-sm hover:brightness-95",
+            : "rounded-lg bg-primary px-4 py-2.5 text-[14px] text-primary-foreground shadow-sm hover:brightness-95",
         )}
       >
         <Download size={isTopbar ? 15 : 17} strokeWidth={2} />
