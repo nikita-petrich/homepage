@@ -16,6 +16,15 @@ export const cvFiles: CvFile[] = [
   { href: "/cv/CV_Nikita_Petrich_EN.pdf", label: "CV EN", flag: "/assets/flags/us.svg", sub: "PDF · 10 pages" },
 ];
 
+/* Intrinsic viewBox ratios of the flag SVGs (DE is 5:3, US is 19:10). next/image
+   needs width/height in the real ratio so a fixed-height + auto-width render
+   scales uniformly and doesn't trip its dev-only "width or height modified, but
+   not the other" warning. */
+export const flagDimensions: Record<string, { width: number; height: number }> = {
+  "/assets/flags/de.svg": { width: 5, height: 3 },
+  "/assets/flags/us.svg": { width: 1235, height: 650 },
+};
+
 export type InfoItem = { icon: string; text: string; href?: string };
 
 export const contact: InfoItem[] = [

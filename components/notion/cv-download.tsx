@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { ChevronDown, Download, FileText } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { cvFiles } from "@/lib/data";
+import { Flag } from "./icons";
 
 export function CvDownload({
   variant = "hero",
@@ -90,14 +90,9 @@ export function CvDownload({
                 style={{ background: "color-mix(in srgb, var(--accent-o) 12%, transparent)" }}
                 aria-hidden
               >
-                <Image
+                <Flag
                   src={f.flag}
-                  alt=""
-                  width={24}
-                  height={18}
-                  unoptimized
-                  style={{ height: 18, width: "auto" }}
-                  className="rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+                  className="h-[18px] w-auto rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
                 />
               </span>
               <span className="min-w-0 flex-1">
