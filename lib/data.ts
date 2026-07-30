@@ -31,8 +31,8 @@ export const eckdaten: FactItem[] = [
   { label: "Verfügbar", value: "ab sofort · Vollzeit" },
   { label: "Stundensatz", value: "auf Anfrage" },
   { label: "Qualifikation", value: "IHK-Fachinformatiker (AE)" },
-  { label: "Standort", value: "Remote · München" },
-  { label: "Vor Ort", value: "Onboarding · monatlich mehrtägig, auch weite Anreise" },
+  { label: "Einsatzort", value: "Remote (bevorzugt) · München hybrid: 1–2 Tage/Woche · Fernreisen: 1–2 Tage/Monat" },
+  { label: "Onboarding", value: "Anreise vor Ort" },
 ];
 
 export type Language = { flag: string; text: string; sub: string };
