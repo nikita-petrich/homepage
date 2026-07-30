@@ -12,7 +12,6 @@ import {
 import { domainOf } from "@/lib/analytics/track";
 import { CertificateGallery } from "@/components/notion/certificates";
 import { CoverBanner } from "@/components/notion/cover-banner";
-import { CvDownload } from "@/components/notion/cv-download";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
 import { ReferenceGallery } from "@/components/notion/references";
@@ -130,7 +129,16 @@ export default function Page() {
                   Buchen Sie ein kostenloses Erstgespräch.
                 </a>
               </p>
-              <CvDownload variant="hero" className="mt-4" />
+              <a
+                href={profile.booking}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-analytics-event="booking_click"
+                data-analytics-prop-placement="hero"
+                className="mt-4 inline-flex w-fit items-center rounded-lg bg-[var(--accent-text)] px-4 py-2.5 text-[14px] font-medium text-white shadow-sm transition-colors hover:brightness-95"
+              >
+                Erstgespräch buchen
+              </a>
             </Callout>
 
             <Section title="Schwerpunkt" level="h2" id="schwerpunkt">
