@@ -7,5 +7,12 @@ export function CactusOrangeIcon({
   size?: number;
   className?: string;
 }) {
-  return <Info size={size} stroke="#e1852e" fill="none" className={className} />;
+  return (
+    <Info
+      size={size}
+      fill="none"
+      className={className}
+      style={{ stroke: "var(--accent-o)" }}
+    />
+  );
 }

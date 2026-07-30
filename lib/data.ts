@@ -7,7 +7,7 @@ export const profile = {
   name: "Nikita Petrich",
   role: "Senior Full-Stack & AI Engineer",
   booking: "https://calendar.notion.so/meet/petrichnikita/erstgespraech-30-min",
-  accent: "#e1852e",
+  accent: "#ff6900",
 };
 
 export type CvFile = { href: string; label: string; flag: string; sub: string };
