@@ -371,9 +371,11 @@ function CurriculumSection({
           </span>
         </span>
       </summary>
+      {/* Keyed by position: lesson titles repeat within a chapter (a course can
+          have "Handling Errors" in both its backend and its frontend part). */}
       <ol className="mb-2.5 ml-[23px] flex list-decimal flex-col gap-[5px] pl-4 text-[13px] leading-[1.5] text-[#4a473f] marker:text-notion-gray">
-        {lessons.map((lesson) => (
-          <li key={lesson}>{lesson}</li>
+        {lessons.map((lesson, i) => (
+          <li key={`${i}-${lesson}`}>{lesson}</li>
         ))}
       </ol>
     </details>
