@@ -321,7 +321,7 @@ export function ProjectReferencesModal({
               data-analytics-prop-source="project_references"
               className="inline-flex items-center gap-1.5 rounded-md border border-[rgba(225,133,46,0.35)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[#f6ede1]"
             >
-              Zur Case Study
+              Zum Projekt
               <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
             </Link>
           </div>
@@ -340,12 +340,12 @@ const referenceSortKey = (r: Reference) => r.sort;
 
 /* Table view: same row target/analytics as the gallery cards. */
 const REFERENCE_COLS =
-  "grid-cols-[minmax(160px,1.3fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(110px,0.9fr)_minmax(140px,1.2fr)]";
+  "grid-cols-[minmax(170px,1.6fr)_minmax(140px,1.2fr)_minmax(120px,1fr)]";
 
 function ReferenceTable({ references: rows }: { references: Reference[] }) {
   return (
     <TableShell>
-      <div className="min-w-[720px]">
+      <div className="min-w-[460px]">
         <div
           className={cn(
             "grid gap-3 border-b border-[rgba(55,53,47,0.09)] px-3 py-2 text-[12px] font-medium text-notion-gray",
@@ -353,10 +353,8 @@ function ReferenceTable({ references: rows }: { references: Reference[] }) {
           )}
         >
           <div>Name</div>
-          <div>Rolle</div>
           <div>Firma</div>
           <div>Bezug</div>
-          <div>Projekt</div>
         </div>
         {rows.map((r) => (
           <Link
@@ -373,12 +371,10 @@ function ReferenceTable({ references: rows }: { references: Reference[] }) {
             )}
           >
             <div className="truncate font-medium">{r.name}</div>
-            <div className="truncate text-notion-gray">{r.role}</div>
             <div className="truncate text-notion-gray">{r.company ?? "—"}</div>
             <div className="min-w-0">
               <AccentTag label={r.relation} />
             </div>
-            <div className="truncate text-notion-gray">{r.project}</div>
           </Link>
         ))}
       </div>
