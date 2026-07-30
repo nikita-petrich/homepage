@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import {
     AccentTag,
@@ -167,6 +168,20 @@ export default function Page() {
             </Section>
 
             <Section title="Zertifikate" level="h2" id="zertifikate">
+              <p className="mb-4 text-[14px] leading-[1.6] text-notion-gray">
+                Abgeschlossene Weiterbildungen. Jede Karte zeigt den
+                vollständigen Umfang — Eckdaten, Inhalte und Kursaufbau — und
+                verlinkt das Zertifikat als PDF.{" "}
+                <Link
+                  href="/zertifikate"
+                  data-analytics-event="certificates_overview_open"
+                  data-analytics-prop-source="home_section"
+                  className="font-medium text-[var(--accent-text)] underline underline-offset-2"
+                >
+                  Alle Zertifikate auf einer Seite
+                </Link>
+                .
+              </p>
               <CertificateGallery />
             </Section>
           </div>
