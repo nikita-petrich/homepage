@@ -77,7 +77,7 @@ docs/
 public/
   cv/                   Downloadable CV PDFs (DE / EN)
   zertifikate/          Certificate PDFs
-  assets/               Photos, avatar, flags, project covers
+  assets/               Photos, flags, project covers
 ```
 
 ## Getting started
