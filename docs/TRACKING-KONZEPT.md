@@ -66,10 +66,10 @@ Abgeleitet aus den tatsächlich vorhandenen Komponenten. Namenskonvention: `snak
 | `reference_open` | Karte `href={/referenzen/${r.slug}}` (references.tsx:91) | `slug` | **Nein** |
 | `reference_source_click` | `SourceTag` Outbound zu LinkedIn/Malt (references.tsx:41–47) | `source: "LinkedIn" \| "Malt"`, `reference_slug` | **Nein** |
 | `certificate_open` | Karte `href={certHref(c)} target="_blank"` (certificates.tsx:112–117) | `slug`, `target: "pdf" \| "external"`, `issuer` | **Nein** |
-| `skills_search` | Debounced (≥ 800 ms Pause) auf `onChange={(e) => setQuery(e.target.value)}` (galleries.tsx:36–37) | `query_length`, `result_count`, `matched_categories` (nur Werte aus der festen Liste `skills[].name`, data.ts:384–397) — **niemals der Roh-Query** | **Nein** (gerade *weil* kein Klartext) |
+| `skills_search` | Debounced (≥ 800 ms Pause) auf `onChange={(e) => setQuery(e.target.value)}` (galleries.tsx:36–37) | `query_length`, `result_count`, `matched_categories` (nur Werte aus der festen Liste `skills[].name`, data.ts:390–408) — **niemals der Roh-Query** | **Nein** (gerade *weil* kein Klartext) |
 | `gallery_search` | Debounced auf die `DatabaseToolbar`-Suche in Projekten/Referenzen/Zertifikaten (`query={query} onQueryChange={setQuery}`, projects.tsx:96–97, references.tsx:269–270, certificates.tsx:96–97) | `gallery: "projects" \| "references" \| "certificates"`, `query_length`, `result_count` | **Nein** |
 | `gallery_sort_toggle` | `onToggleSortDir` (z. B. projects.tsx:95) | `gallery`, `direction` | **Nein** |
-| `toc_navigate` | TOC-Button `onClick={() => scrollTo(item.id)}` (toc.tsx:55) | `section_id` (aus `sections`, data.ts:543–552) | **Nein** |
+| `toc_navigate` | TOC-Button `onClick={() => scrollTo(item.id)}` (toc.tsx:55) | `section_id` (aus `sections`, data.ts:577–587) | **Nein** |
 | `outbound_click` | Klick auf `profileLinks`-Anker (page.tsx:91–101; Ziele data.ts:53–59: Website, LinkedIn, GitHub, freelancermap, Malt) sowie `companyUrl`-Links | `target_domain`, `link_label` | **Nein** |
 | `scroll_depth` | IntersectionObserver/Scroll-Listener, Schwellen 25/50/75/100 % (je Schwelle einmal pro Pageview) | `depth: 25 \| 50 \| 75 \| 100` | **Nein** |
 | `engagement_time` | Beim `visibilitychange`/`pagehide` via `navigator.sendBeacon` (Muster aus node_modules/next/dist/docs/01-app/02-guides/analytics.md, Abschnitt „Sending results to external systems“) | `seconds_bucket: "0-10" \| "10-30" \| "30-60" \| "60-180" \| "180+"` (gebuckelt, kein Exaktwert) | **Nein** |

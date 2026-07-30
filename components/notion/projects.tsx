@@ -58,8 +58,13 @@ function ProjectCover({
   );
 }
 
+/* The meta values are part of the search surface: role, methodology, team size
+   and location are shown on every case study but would otherwise be
+   unsearchable, so a query like "Scrum" or "Remote" would find nothing. */
 const projectSearchText = (p: Project) =>
-  `${p.name} ${p.subtitle} ${p.cat} ${p.desc} ${p.tech.join(" ")}`;
+  `${p.name} ${p.subtitle} ${p.cat} ${p.desc} ${p.tech.join(" ")} ${p.meta
+    .map((m) => m.value)
+    .join(" ")}`;
 const projectSortKey = (p: Project) => p.sort;
 
 export function ProjectGallery() {

@@ -29,9 +29,10 @@ export type FactItem = { label: string; value: string };
 export const eckdaten: FactItem[] = [
   { label: "Erfahrung", value: "7+ Jahre" },
   { label: "Verfügbar", value: "ab sofort · Vollzeit" },
-  { label: "Stundensatz", value: "80 €/h" },
+  { label: "Stundensatz", value: "auf Anfrage" },
   { label: "Qualifikation", value: "IHK-Fachinformatiker (AE)" },
-  { label: "Standort", value: "Remote · München (max. 1–2 Tage onsite)" },
+  { label: "Einsatzort", value: "Remote (bevorzugt) · München hybrid: 1–2 Tage/Woche · Fernreisen: 1–2 Tage/Monat" },
+  { label: "Onboarding", value: "Anreise vor Ort" },
 ];
 
 export type Language = { flag: string; text: string; sub: string };
@@ -175,7 +176,7 @@ export const projects: Project[] = [
       "Ziel: bis zu 10.000 automatisierte Vorprüfungen pro Monat.",
       "Ziel: bis zu 80 % weniger manuelle Fallannahme durch KI-Intake und automatisiertes Anwalts-Routing.",
     ],
-    tech: ["TypeScript", "Python", "Next.js", "React", "FastAPI", "LLM-Integration", "OpenAI API", "Azure OpenAI", "RAG", "Prompt Engineering", "Embeddings", "pgvector", "OCR", "LangChain", "PostgreSQL", "Redis", "Tailwind CSS", "shadcn/ui", "Stripe", "JWT", "OAuth 2.0", "Docker", "GitHub Actions", "CI/CD", "Hetzner", "Microservices", "EU AI Act", "Clean Architecture", "DSGVO by Design"],
+    tech: ["TypeScript", "Python", "Next.js", "React", "FastAPI", "LLM-Integration", "OpenAI API", "Azure OpenAI", "RAG (Retrieval Augmented Generation)", "Prompt Engineering", "Embeddings", "pgvector", "OCR", "Dokumentenanalyse", "LangChain", "PostgreSQL", "Redis", "Tailwind CSS", "shadcn/ui", "Stripe", "JWT", "OAuth 2.0", "Docker", "GitHub Actions", "CI/CD", "Hetzner", "Linux", "Ubuntu", "Slack", "Microservices", "Clean Architecture", "SaaS", "EU AI Act", "DSGVO", "Privacy by Design", "Produktverantwortung"],
   },
   {
     num: "02", slug: "manifest-os", name: "Manifest OS", company: "Manifest Law", companyUrl: "https://manifestlaw.com", subtitle: "KI-gestützte Einwanderungsplattform",
@@ -204,7 +205,7 @@ export const projects: Project[] = [
       "Plattform mit über 3.000 Kunden und 150+ Corporate-Programmen (Team-Ergebnis).",
       "Bis zu 15 % höhere Genehmigungsraten gegenüber dem USCIS-Durchschnitt (Team-Ergebnis).",
     ],
-    tech: ["TypeScript", "Python", "Next.js", "React", "NestJS", "Node.js", "Fastify", "REST API", "Webhooks", "BullMQ", "RabbitMQ", "LLM-Integration", "OpenAI API", "Anthropic Claude API", "RAG", "Embeddings", "OCR", "Amplitude", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "better-auth", "JWT", "Docker", "GCP", "GitHub Actions", "CI/CD", "Claude Code", "Cursor AI", "Code Rabbit", "Linear", "Playwright", "Microservices", "Event-Driven Architecture", "Clean Architecture"],
+    tech: ["TypeScript", "Python", "Next.js", "React", "NestJS", "Node.js", "Fastify", "Express.js", "REST API", "Webhooks", "DTOs", "BullMQ", "RabbitMQ", "LLM-Integration", "OpenAI API", "Anthropic Claude API", "Model Context Protocol (MCP)", "Bluedot", "Amplitude", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "better-auth", "JWT", "Docker", "Linux", "Ubuntu", "Google Cloud Platform (GCP)", "GitHub Actions", "CI/CD", "Claude Code", "Cursor AI", "Code Rabbit", "Linear", "Figma", "Slack", "Playwright", "Microservices", "Event-Driven Architecture", "Idempotenz", "Clean Architecture"],
   },
   {
     num: "03", slug: "aitoi", name: "AITOI", company: "AITOI", subtitle: "Interaktives IoT-Spielzeug (MVP)",
@@ -232,7 +233,7 @@ export const projects: Project[] = [
       "Plattformunabhängig nutzbare PWA mit Echtzeit-Synchronisation zwischen IoT-Gerät und App.",
       "Skalierbare, dokumentierte Architektur als tragfähige Grundlage für den Produktlaunch.",
     ],
-    tech: ["TypeScript", "Next.js", "React", "PWA", "Responsive Design", "Design System", "Figma", "TanStack Query", "React Hook Form", "WebSockets", "Device-Pairing", "Supabase", "Supabase Realtime", "Row Level Security", "PostgreSQL", "Tailwind CSS", "shadcn/ui", "JWT", "Docker", "CI/CD", "GitHub Actions", "Vitest", "MVP-Entwicklung", "Clean Architecture"],
+    tech: ["TypeScript", "Next.js", "React", "Progressive Web App (PWA)", "Responsive Design", "Design System", "React Hook Form", "DTOs", "Device Pairing", "Supabase", "Supabase Realtime", "Row Level Security", "PostgreSQL", "Tailwind CSS", "shadcn/ui", "JWT", "Authentifizierung", "Docker", "Linux", "Ubuntu", "CI/CD", "GitHub Actions", "Vitest", "Cursor AI", "Model Context Protocol (MCP)", "MVP-Entwicklung", "Clean Architecture"],
   },
   {
     num: "04", slug: "dino", name: "DiNo", company: "LeXtorByte UG", companyUrl: "https://digitales-notariat.de", subtitle: "Digitales Notariat",
@@ -260,7 +261,7 @@ export const projects: Project[] = [
       "Rechnungen werden laut Anbieter bis zu 30 Tage früher bezahlt.",
       "Spürbar reduzierter Verwaltungsaufwand durch durchgängig digitale Prozesse.",
     ],
-    tech: ["TypeScript", "React", "Python", "Flask", "REST API / OpenAPI", "MariaDB", "MySQL", "Redux", "React Router", "React Hook Form", "Material UI (MUI)", "SPA", "Mandantenportal", "Digitale Aktenführung", "JWT", "OAuth 2.0", "RBAC", "DSGVO-Compliance", "Docker", "Nginx", "GitLab", "Clean Architecture"],
+    tech: ["TypeScript", "React", "Python", "Flask", "REST API", "OpenAPI", "DTOs", "MariaDB", "MySQL", "Redux", "React Router", "React Hook Form", "Material UI (MUI)", "Single Page Application (SPA)", "Nutzerführung", "Mandantenportal", "Digitale Archivführung", "JWT", "OAuth 2.0", "Role-Based Access Control (RBAC)", "DSGVO", "Docker", "Nginx", "Linux", "Ubuntu", "GitLab", "Slack", "Clean Architecture"],
   },
   {
     num: "05", slug: "accounting-os", name: "AccountingOS", company: "HD Autoservice", subtitle: "GoBD-konformes Buchhaltungs- & Lagersystem",
@@ -289,7 +290,7 @@ export const projects: Project[] = [
       "Reduziert den Zeitaufwand bei Routineprozessen um bis zu 50 %.",
       "Durchgängig digitale, GoBD-konforme Abläufe mit direkter Kopplung von Lager und Buchhaltung.",
     ],
-    tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "Daten-Synchronisation", "CSV-Verarbeitung", "Message Queues", "Caching", "MariaDB", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "Tailwind CSS", "Warenwirtschaft", "ERP", "GoBD", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Hetzner", "Microservices", "Clean Architecture"],
+    tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "DTOs", "Typsicherheit", "Daten-Synchronisation", "CSV-Verarbeitung", "Message Queues", "Caching", "MariaDB", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "Tailwind CSS", "Warenwirtschaft", "Lagerverwaltung", "Buchhaltung", "ERP", "GoBD", "better-auth", "JWT", "Role-Based Access Control (RBAC)", "Docker", "Self-Hosting", "Linux", "Ubuntu", "CI/CD", "GitHub", "GitHub Actions", "Claude Code", "Cursor AI", "Model Context Protocol (MCP)", "Microservices", "Clean Architecture"],
   },
   {
     num: "06", slug: "lkw-tourverwaltung", name: "LadeTrans", company: "CDH Stephanus", companyUrl: "https://cdh-stephanus.org", subtitle: "LKW-Tourverwaltungssystem",
@@ -318,7 +319,7 @@ export const projects: Project[] = [
       "Erhöht die Transportgenauigkeit um bis zu 25 % und die Logistikeffizienz um bis zu 30 %.",
       "Deutlich reduzierte Übertragungsfehler durch durchgängig digitale Prozesse.",
     ],
-    tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "PostgreSQL", "Redis", "MikroORM", "React Router", "Tailwind CSS", "SPA", "Tourenplanung / Routenoptimierung", "Echtzeit-Tracking", "PDF-Generierung", "DOCX-Generierung", "better-auth", "JWT", "RBAC", "Docker", "Self-Hosting", "CI/CD", "GitHub Actions", "Nginx", "Microservices", "Clean Architecture"],
+    tech: ["TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify", "REST API", "GraphQL", "PostgreSQL", "Redis", "MikroORM", "React Router", "Tailwind CSS", "Single Page Application (SPA)", "Logistik", "Tourenplanung", "Routenoptimierung", "Echtzeit-Tracking", "PDF-Generierung", "DOCX-Generierung", "Digitale Archivführung", "better-auth", "JWT", "Authentifizierung", "Role-Based Access Control (RBAC)", "Docker", "Self-Hosting", "Linux", "Ubuntu", "CI/CD", "GitHub Actions", "Claude Code", "Cursor AI", "Model Context Protocol (MCP)", "Slack", "Nginx", "Microservices", "Clean Architecture"],
   },
   {
     num: "07", slug: "xu-navigator", name: "XU Navigator", company: "XU Group", companyUrl: "https://xu.de", subtitle: "Enterprise-Lernplattform",
@@ -347,7 +348,7 @@ export const projects: Project[] = [
       "Hoher Individualisierungsgrad für passgenaue, unternehmensspezifische Schulungen.",
       "Automatisierte Zertifikatsvergabe und Fortschrittsanalyse zur Steigerung der Abschlussquoten.",
     ],
-    tech: ["TypeScript", "Angular", "Node.js", "NestJS", "Express.js", "REST API", "GraphQL", "MongoDB", "Mongoose", "NgRx", "RxJS", "Angular Material", "SCSS", "Azure", "Azure DevOps", "Azure App Service", "Azure Blob Storage", "Docker", "CI/CD", "JWT", "OAuth 2.0", "SSO", "LMS", "Video-Streaming", "Microservices", "Clean Architecture"],
+    tech: ["TypeScript", "Angular", "Node.js", "NestJS", "Express.js", "REST API", "GraphQL", "MongoDB", "Mongoose", "NgRx", "RxJS", "Angular Material", "SCSS", "Figma", "Microsoft Azure", "Azure DevOps", "Azure Pipelines", "Azure App Service", "Azure Blob Storage", "Docker", "CI/CD", "JWT", "OAuth 2.0", "Single Sign-On (SSO)", "Learning Management System (LMS)", "Video-Streaming", "Microservices", "Clean Architecture"],
   },
   {
     num: "08", slug: "medizingeraete-ms", name: "Medizingeräte-MS", company: "Krankenhauskette (anonymisiert)", subtitle: "Managementsystem für Medizingeräte",
@@ -375,25 +376,38 @@ export const projects: Project[] = [
       "Vollständige, mandantenfähige Geräteverwaltung mit Wartungshistorie und Dokumentenmanagement umgesetzt.",
       "Strukturierte technische Grundlage für effizientere Wartungs- und Reparaturprozesse der Technik.",
     ],
-    tech: ["C#", ".NET Core", "ASP.NET Core", "ASP.NET Core Web API", "TypeScript", "React", "Entity Framework Core", "MSSQL", "Fluent UI", "Redux", "React Router", "Axios", "SPA", "Dependency Injection", "JWT", "O365 Identity", "RBAC", "Multi-Tenancy", "Azure", "Azure SQL", "Azure DevOps", "Docker", "CI/CD", "Clean Architecture"],
+    tech: ["C#", ".NET Core", "ASP.NET Core", "ASP.NET Core Web API", "OpenAPI", "Swagger", "TypeScript", "React", "Entity Framework Core", "Datenmodellierung", "Microsoft SQL Server (MSSQL)", "Fluent UI", "Redux", "React Router", "Axios", "Single Page Application (SPA)", "Dependency Injection", "JWT", "O365 Identity", "Role-Based Access Control (RBAC)", "Multi-Tenancy", "Stammdatenverwaltung", "Dokumentenmanagement", "Microsoft Azure", "Azure SQL", "Azure DevOps", "Docker", "CI/CD", "Clean Architecture"],
   },
 ];
 
 export type SkillCategory = { num: string; name: string; items: string[] };
 
+/* The skill taxonomy doubles as the site's keyword surface: every item is
+   rendered as a tag, is searchable in the skills gallery and feeds the
+   `knowsAbout` list of the schema.org Person markup (components/notion/json-ld.tsx).
+   Items are therefore spelled out the way a client or recruiter would search
+   for them ("Role-Based Access Control (RBAC)", not "RBAC") — the substring
+   filter matches both the abbreviation and the long form. Every skill belongs
+   to exactly one category: a cross-listed tag would surface two near-identical
+   cards for one search hit. */
 export const skills: SkillCategory[] = [
-  { num: "01", name: "KI & LLM", items: ["LLM-Integration", "RAG", "Prompt Engineering", "Embeddings", "Vektor-Datenbanken (pgvector)", "Semantische Suche", "Dokumentenanalyse", "OCR", "LangChain", "OpenAI API", "Azure OpenAI", "Anthropic Claude API", "Hugging Face", "Ollama", "KI-Agenten / Agentic"] },
-  { num: "02", name: "Agentic Coding", items: ["Claude Code", "Cursor AI", "Code Rabbit"] },
-  { num: "03", name: "Backend & Sprachen", items: ["TypeScript", "Python", "JavaScript", "C#", "Node.js", "NestJS", "Express.js", "Fastify", "FastAPI", "Flask", "ASP.NET Core", ".NET", "GraphQL", "REST API / OpenAPI", "WebSockets / Realtime", "Webhooks", "Microservices", "Message Queues (BullMQ, RabbitMQ)", "SQL", "Bash"] },
-  { num: "04", name: "Frontend", items: ["React", "Next.js", "Angular", "React Native", "Ionic", "Redux", "NgRx", "RxJS", "TanStack Query", "React Hook Form", "Zod", "Tailwind CSS", "shadcn/ui", "Material UI (MUI)", "Fluent UI", "SCSS", "HTML / CSS", "PWA", "Responsive Design", "Barrierefreiheit (WCAG)", "i18n / Mehrsprachigkeit", "SPA", "Storybook"] },
-  { num: "05", name: "Design", items: ["Figma", "Design System", "UI/UX-Umsetzung"] },
-  { num: "06", name: "Datenbanken & Daten", items: ["PostgreSQL", "MSSQL", "MariaDB / MySQL", "MongoDB (Mongoose)", "SQLite", "Redis", "pgvector", "Prisma", "MikroORM", "TypeORM", "Drizzle ORM", "Entity Framework Core", "DTOs", "Daten-Synchronisation", "CSV-Verarbeitung"] },
-  { num: "07", name: "DevOps, Cloud & Infrastruktur", items: ["Docker / Compose", "CI/CD", "GitHub Actions", "GitLab CI", "Azure Pipelines", "Jenkins", "Nginx", "Sentry", "Linux / Ubuntu", "Self-Hosting", "Azure", "Azure Functions", "Google Cloud Platform", "AWS", "Hetzner", "IONOS", "Digital Ocean", "Vercel", "Azure App Service", "Azure SQL", "Azure Blob Storage", "Supabase", "Firebase", "DevSecOps"] },
-  { num: "08", name: "Architektur & Prinzipien", items: ["Clean Architecture", "Clean Code", "SOLID", "Domain-Driven Design", "Separation of Concerns", "Microservices", "Event-Driven Architecture", "Monorepo (Nx / Turborepo)", "Systemintegration", "Plattform-Migration", "Dependency Injection", "Middleware", "API-First / OpenAPI", "Resilience-Patterns", "Type Safety"] },
-  { num: "09", name: "Methodik & Zusammenarbeit", items: ["Scrum / Agile", "Kanban", "Scrumban", "Code Reviews", "Test-Driven Development", "CI/CD", "Observability / Monitoring"] },
-  { num: "10", name: "Datenschutz & Compliance", items: ["AVV nach Art. 28 DSGVO", "Hosting in DE/EU", "Datenminimierung by Design", "DSGVO by Design", "EU AI Act", "GoBD", "RDG"] },
-  { num: "11", name: "Testing & QA", items: ["Jest", "Vitest", "Cypress", "Playwright", "React Testing Library", "Postman / API-Testing", "E2E- & Unit-Testing"] },
-  { num: "12", name: "Tooling", items: ["Git", "GitHub", "GitLab", "VS Code", "Visual Studio", "Azure DevOps", "Jira", "Linear", "Postman", "Figma", "Bluedot", "Amplitude"] },
+  { num: "01", name: "KI, LLM & AI Engineering", items: ["LLM-Integration", "RAG (Retrieval Augmented Generation)", "Prompt Engineering", "Embeddings", "Vektordatenbanken", "pgvector", "Semantische Suche", "Dokumentenanalyse", "OCR", "LangChain", "OpenAI API", "Azure OpenAI", "Anthropic Claude API", "Hugging Face", "Ollama", "KI-Agenten", "Agentic Software Engineering", "KI-gestützte Automatisierung", "AI Engineering", "Künstliche Intelligenz", "DSGVO-konforme KI-Architektur"] },
+  { num: "02", name: "Agentic Coding", items: ["Claude Code", "Cursor AI", "GitHub Copilot", "Code Rabbit", "ChatGPT", "Lovable", "v0", "Claude Code Hooks", "Slash Commands", "Agent Skills", "Subagenten", "Multi-Agent-Workflows", "Model Context Protocol (MCP)", "Agentic Coding", "Context Engineering", "Spec-Driven Development", "Agentische Pull-Request-Workflows", "KI-gestützte Testgenerierung"] },
+  { num: "03", name: "Programmiersprachen", items: ["TypeScript", "JavaScript", "Python", "C#", "SQL", "Bash", "HTML", "CSS", "SCSS", "XML", "UML"] },
+  { num: "04", name: "Backend & Frameworks", items: ["Node.js", "NestJS", "Express.js", "Fastify", "FastAPI", "Flask", "ASP.NET Core", ".NET Core", "GraphQL", "REST API", "OpenAPI", "Swagger", "WebSockets", "Webhooks", "Message Queues", "BullMQ", "RabbitMQ", "Backend-Entwicklung", "Objektorientierte Programmierung (OOP)"] },
+  { num: "05", name: "Frontend", items: ["React", "Next.js", "Angular", "React Native", "Ionic", "Redux", "NgRx", "RxJS", "TanStack Query", "React Hook Form", "React Router", "Axios", "Zod", "Tailwind CSS", "shadcn/ui", "Material UI (MUI)", "Fluent UI", "Single Page Application (SPA)", "Progressive Web App (PWA)", "Server-Side Rendering (SSR)", "Internationalisierung (i18n)", "Frontend-Entwicklung", "Web-Entwicklung"] },
+  { num: "06", name: "Design & UX", items: ["Figma", "Wireframing", "Prototyping", "Design System", "Design Tokens", "Komponentenbibliotheken", "Storybook", "UI/UX Design", "UI-Implementierung", "Responsive Design", "Mobile First", "Barrierefreiheit (WCAG)", "Usability", "Nutzerführung", "Onboarding-Flows", "Informationsarchitektur", "UX Writing", "Microcopy", "Design Reviews"] },
+  { num: "07", name: "Datenbanken & Daten", items: ["PostgreSQL", "MySQL", "MariaDB", "Microsoft SQL Server (MSSQL)", "MongoDB", "Mongoose", "NoSQL", "SQLite", "Redis", "Prisma", "MikroORM", "TypeORM", "Drizzle ORM", "Entity Framework Core", "Datenmodellierung", "Datenarchitektur", "DTOs", "Daten-Synchronisation", "ETL", "CSV-Verarbeitung", "Caching", "Idempotenz"] },
+  { num: "08", name: "DevOps, Cloud & Infrastruktur", items: ["Docker", "Docker Compose", "CI/CD", "Continuous Integration", "GitHub Actions", "GitLab CI", "Azure Pipelines", "Jenkins", "Nginx", "Sentry", "Monitoring", "Observability", "Linux", "Ubuntu", "Self-Hosting", "Microsoft Azure", "Azure Functions", "Azure App Service", "Azure Blob Storage", "Azure SQL", "Google Cloud Platform (GCP)", "Amazon Web Services (AWS)", "Hetzner", "IONOS", "Digital Ocean", "Vercel", "Supabase", "Firebase", "DevOps", "DevSecOps"] },
+  { num: "09", name: "Auth & Security", items: ["JWT", "OAuth 2.0", "Single Sign-On (SSO)", "better-auth", "Authentifizierung", "Role-Based Access Control (RBAC)", "Row Level Security", "SSL/TLS", "Ende-zu-Ende-Verschlüsselung", "O365 Identity", "Secure by Design", "IT-Sicherheit"] },
+  { num: "10", name: "Architektur & Prinzipien", items: ["Software-Architektur", "Clean Architecture", "Clean Code", "SOLID", "Design Patterns", "Domain-Driven Design", "Separation of Concerns", "Dependency Injection", "Microservices", "Event-Driven Architecture", "Monorepo", "Nx", "Turborepo", "Skalierbare Architektur", "Systemintegration", "Plattform-Migration", "Middleware", "API-First", "Resilience Patterns", "Typsicherheit", "MVP-Entwicklung"] },
+  { num: "11", name: "Methodik & Zusammenarbeit", items: ["Agile Methoden", "Scrum", "Kanban", "Scrumban", "Code Reviews", "Test-Driven Development (TDD)", "Softwareentwicklung", "Projektmanagement", "IT-Beratung", "Requirements Engineering", "Remote Work", "Public Speaking"] },
+  { num: "12", name: "Business & Strategie", items: ["IT-Strategie", "Digitalstrategie", "Digitale Transformation", "Prozessdigitalisierung", "Produktverantwortung", "Entrepreneurship"] },
+  { num: "13", name: "Datenschutz & Compliance", items: ["DSGVO", "Privacy by Design", "Datenminimierung", "Auftragsverarbeitungsvertrag (AVV)", "EU AI Act", "AI Governance", "GoBD", "Revisionssicherheit", "EU-Hosting", "Digitale Souveränität", "Barrierefreiheitsstärkungsgesetz (BFSG)", "European Accessibility Act (EAA)"] },
+  { num: "14", name: "Testing & QA", items: ["Jest", "Vitest", "Cypress", "Playwright", "React Testing Library", "Unit Testing", "Integrationstests", "End-to-End-Tests", "Postman", "API-Testing", "Testautomatisierung"] },
+  { num: "15", name: "Tooling", items: ["Git", "GitHub", "GitLab", "Visual Studio Code", "Visual Studio", "Jira", "Linear", "Slack", "Azure DevOps", "Bluedot", "Google Workspace (Meet, APIs)", "Amplitude", "Product Analytics"] },
+  { num: "16", name: "Domänen & Branchen", items: ["LegalTech", "GovTech", "Kanzleisoftware", "Notariat", "Mandantenportal", "Dokumentenmanagement", "HealthTech", "Medizintechnik", "Instandhaltungsmanagement", "ERP", "Warenwirtschaft", "Lagerverwaltung", "Rechnungsstellung", "Auftragsverwaltung", "CRM", "Buchhaltung", "Stammdatenverwaltung", "Multi-Tenancy", "Stripe", "SEPA", "Zahlungsabwicklung", "Logistik", "Tourenplanung", "Routenoptimierung", "Echtzeit-Tracking", "PDF-Generierung", "Digitale Archivführung", "EdTech", "E-Learning", "Learning Management System (LMS)", "IoT", "Device Pairing", "Consumer Electronics", "SaaS", "Plattformentwicklung"] },
+  { num: "17", name: "Rollen & Profil", items: ["Senior Full-Stack Engineer", "AI Engineer", "Software Engineer", "Freelance Developer", "Interim CTO", "Technischer Berater", "Fachinformatiker Anwendungsentwicklung", "Deutsch (Muttersprache)", "Englisch B2", "München", "DACH"] },
 ];
 
 /* Course certificates, each served as a PDF from /public/zertifikate. The
