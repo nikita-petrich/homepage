@@ -194,7 +194,7 @@ export const projects: Project[] = [
       { label: "Methodik", value: "Scrum · autonom · mit PM und Design" },
     ],
     aufgaben: [
-      "Produktive KI-Anreicherung anwaltlicher Erstgespräch-Leads: Aufzeichnungen werden per Bluedot transkribiert, über Webhook und BullMQ-Queue an die OpenAI-Integration übergeben und strukturiert ins System zurückgeschrieben – als Grundlage für eine effizientere Fallbearbeitung.",
+      "Produktive KI-Anreicherung anwaltlicher Erstgespräch-Leads (HubSpot, Cal.com, Bluedot): Aufzeichnungen werden transkribiert, über Webhook und BullMQ-Queue an die OpenAI-Integration übergeben und strukturiert in die Kernsysteme zurückgeschrieben – als Grundlage für eine effizientere Fallbearbeitung.",
       "KI-gestützte Evidence-Verarbeitung: hochgeladene Falldokumente werden automatisiert analysiert, klassifiziert und einheitlich benannt.",
       "Konsolidierung von vier Portalen (B2B, B2C, Lawyer, Ops) in ein einheitliches „B2X“-Portal – im Team aus vier Engineers, mit Schwerpunkt auf der Fullstack-Migration der B2B- und Ops-Bereiche.",
       "Einführung eines anwendungsweiten Event-Trackings (Amplitude) als Datengrundlage für Produkt- und Data-Analytics.",
@@ -206,7 +206,7 @@ export const projects: Project[] = [
       "Refactoring-Initiativen in den migrierten B2B- und Ops-Bereichen: bestehende Strukturen vereinfacht und auf bessere Wartbarkeit ausgerichtet.",
       "Laut Anbieter über 3.000 Kunden, 150+ Corporate-Programme und bis zu 15 % höhere Genehmigungsraten gegenüber dem USCIS-Durchschnitt (Team-Ergebnis).",
     ],
-    tech: ["TypeScript", "Python", "Next.js", "React", "NestJS", "Node.js", "Fastify", "Express.js", "REST API", "Webhooks", "DTOs", "BullMQ", "RabbitMQ", "LLM-Integration", "OpenAI API", "Anthropic Claude API", "Model Context Protocol (MCP)", "Bluedot", "Amplitude", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "better-auth", "JWT", "Docker", "Linux", "Ubuntu", "Google Cloud Platform (GCP)", "GitHub Actions", "CI/CD", "Claude Code", "Cursor AI", "Code Rabbit", "Linear", "Figma", "Slack", "Playwright", "Microservices", "Event-Driven Architecture", "Idempotenz", "Clean Architecture"],
+    tech: ["TypeScript", "Python", "Next.js", "React", "NestJS", "Node.js", "Fastify", "Express.js", "REST API", "Webhooks", "DTOs", "BullMQ", "RabbitMQ", "LLM-Integration", "OpenAI API", "Anthropic Claude API", "Model Context Protocol (MCP)", "Bluedot", "HubSpot", "Cal.com", "Amplitude", "PostgreSQL", "Redis", "MikroORM", "TanStack Query", "better-auth", "JWT", "Docker", "Linux", "Ubuntu", "Google Cloud Platform (GCP)", "GitHub Actions", "CI/CD", "Claude Code", "Cursor AI", "Code Rabbit", "Linear", "Figma", "Slack", "Playwright", "Microservices", "Event-Driven Architecture", "Idempotenz", "Clean Architecture"],
   },
   {
     num: "03", slug: "aitoi", name: "AITOI", company: "AITOI", subtitle: "Interaktives IoT-Spielzeug (MVP)",
@@ -409,7 +409,7 @@ export const skills: SkillCategory[] = [
   { num: "12", name: "Business & Strategie", items: ["IT-Strategie", "Digitalstrategie", "Digitale Transformation", "Prozessdigitalisierung", "Produktverantwortung", "Entrepreneurship"] },
   { num: "13", name: "Datenschutz & Compliance", items: ["DSGVO", "Privacy by Design", "Datenminimierung", "Auftragsverarbeitungsvertrag (AVV)", "EU AI Act", "AI Governance", "GoBD", "Revisionssicherheit", "EU-Hosting", "Digitale Souveränität", "Barrierefreiheitsstärkungsgesetz (BFSG)", "European Accessibility Act (EAA)"] },
   { num: "14", name: "Testing & QA", items: ["Jest", "Vitest", "Cypress", "Playwright", "React Testing Library", "Unit Testing", "Integrationstests", "End-to-End-Tests", "Postman", "API-Testing", "Testautomatisierung"] },
-  { num: "15", name: "Tooling", items: ["Git", "GitHub", "GitLab", "Visual Studio Code", "Visual Studio", "Jira", "Linear", "Slack", "Azure DevOps", "Bluedot", "Google Workspace (Meet, APIs)", "Amplitude", "Product Analytics"] },
+  { num: "15", name: "Tooling", items: ["Git", "GitHub", "GitLab", "Visual Studio Code", "Visual Studio", "Jira", "Linear", "Slack", "Azure DevOps", "Bluedot", "HubSpot", "Cal.com", "Google Workspace (Meet, APIs)", "Amplitude", "Product Analytics"] },
   { num: "16", name: "Domänen & Branchen", items: ["LegalTech", "GovTech", "Kanzleisoftware", "Notariat", "Mandantenportal", "Dokumentenmanagement", "HealthTech", "Medizintechnik", "Instandhaltungsmanagement", "ERP", "Warenwirtschaft", "Lagerverwaltung", "Rechnungsstellung", "Auftragsverwaltung", "CRM", "Buchhaltung", "Stammdatenverwaltung", "Multi-Tenancy", "Stripe", "SEPA", "Zahlungsabwicklung", "Logistik", "Tourenplanung", "Routenoptimierung", "Echtzeit-Tracking", "PDF-Generierung", "Digitale Archivführung", "EdTech", "E-Learning", "Learning Management System (LMS)", "IoT", "Device Pairing", "Consumer Electronics", "SaaS", "Plattformentwicklung"] },
   { num: "17", name: "Rollen & Profil", items: ["Senior Full-Stack Engineer", "AI Engineer", "Software Engineer", "Freelance Developer", "Interim CTO", "Technischer Berater", "Fachinformatiker Anwendungsentwicklung", "Deutsch (Muttersprache)", "Englisch B2", "München", "DACH"] },
 ];
