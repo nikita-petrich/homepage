@@ -24,6 +24,8 @@ export const metadata: Metadata = {
     template: "%s · Nikita Petrich",
   },
   description: siteDescription,
+  // Subpages set their own canonical via lib/metadata.ts; this covers "/".
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "de_DE",
