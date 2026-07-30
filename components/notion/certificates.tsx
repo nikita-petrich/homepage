@@ -145,12 +145,12 @@ const certificateSortKey = (c: Certificate) => c.sort;
 /* Table view: same target (the detail dialog) and analytics as the gallery
    cards, laid out as a CSS grid so cells stay simple <Link> children. */
 const CERTIFICATE_COLS =
-  "grid-cols-[minmax(200px,1.8fr)_minmax(120px,0.9fr)_minmax(100px,0.7fr)_minmax(140px,1.1fr)_28px]";
+  "grid-cols-[minmax(190px,2fr)_minmax(130px,1fr)_minmax(130px,1.1fr)_28px]";
 
 function CertificateTable({ certificates: rows }: { certificates: Certificate[] }) {
   return (
     <TableShell>
-      <div className="min-w-[720px]">
+      <div className="min-w-[500px]">
         <div
           className={cn(
             "grid gap-3 border-b border-[rgba(55,53,47,0.09)] px-3 py-2 text-[12px] font-medium text-notion-gray",
@@ -159,7 +159,6 @@ function CertificateTable({ certificates: rows }: { certificates: Certificate[] 
         >
           <div>Titel</div>
           <div>Aussteller</div>
-          <div>Datum</div>
           <div>Kategorie</div>
           <div />
         </div>
@@ -182,7 +181,6 @@ function CertificateTable({ certificates: rows }: { certificates: Certificate[] 
             <div className="min-w-0">
               <IssuerPill issuer={c.issuer} />
             </div>
-            <div className="truncate text-notion-gray">{c.date}</div>
             <div className="min-w-0">
               <AccentTag label={c.cat} />
             </div>
