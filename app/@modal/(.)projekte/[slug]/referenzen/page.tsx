@@ -12,7 +12,7 @@ export function generateStaticParams() {
   return projectsWithReferences.map((p) => ({ slug: p.slug }));
 }
 
-/* Intercepts the "Alle N ansehen" link in the case-study dialog and shows the
+/* Intercepts the "Alle N ansehen" link in the project dialog and shows the
    listing as a modal; a hard load or refresh falls through to the standalone
    page. */
 export default async function InterceptedProjectReferencesPage({
