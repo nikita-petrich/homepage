@@ -498,19 +498,21 @@ export const certificates: Certificate[] = [
     ],
     curriculum: [
       {
-        title: "Einführung",
+        title: "Getting Started",
+        meta: "13 Min. · 7 Lektionen",
         lessons: [
           "Welcome To The Course!",
           "Course Overview: What You'll Learn & Achieve",
           "Course Focus: AI Programming Tools & Beyond",
           "Understanding AI: Limitations, Costs & Unpredictability",
-          "AI Tools For Developers — An Overview",
+          "AI Tools For Developers - An Overview",
           "Prompt & Context Engineering Recommendations",
           "Join The Academind Community",
         ],
       },
       {
-        title: "GitHub Copilot",
+        title: "Leverage GitHub Copilot Suggestions & Chat",
+        meta: "2 Std. 47 Min. · 51 Lektionen",
         lessons: [
           "Module Introduction",
           "GitHub Copilot Setup",
@@ -566,7 +568,8 @@ export const certificates: Certificate[] = [
         ],
       },
       {
-        title: "Cursor AI — Grundlagen",
+        title: "Cursor Basics",
+        meta: "41 Min. · 20 Lektionen",
         lessons: [
           "Module Introduction",
           "What Is Cursor?",
@@ -591,7 +594,8 @@ export const certificates: Certificate[] = [
         ],
       },
       {
-        title: "Cursor AI — Context Engineering und Agenten",
+        title: "Cursor Advanced",
+        meta: "59 Min. · 15 Lektionen",
         lessons: [
           "Module Introduction",
           "Understanding Context Engineering",
@@ -611,7 +615,8 @@ export const certificates: Certificate[] = [
         ],
       },
       {
-        title: "Cursor AI — Legacy-Abschnitt",
+        title: "Introducing Cursor AI: Smart Suggestions, Chat and Composer",
+        meta: "50 Min. · 18 Lektionen",
         lessons: [
           "LEGACY SECTION",
           "Introducing Cursor AI",
@@ -634,7 +639,9 @@ export const certificates: Certificate[] = [
         ],
       },
       {
-        title: "Externe KI-Dienste (ChatGPT und Co.)",
+        title:
+          "ChatGPT Or Other External AI Services: Use-Cases During Development",
+        meta: "15 Min. · 7 Lektionen",
         lessons: [
           "Introduction To External AI Services",
           "How To NOT Use ChatGPT As A Developer",
@@ -646,7 +653,8 @@ export const certificates: Certificate[] = [
         ],
       },
       {
-        title: "Demo-Projekt: REST API mit Node.js",
+        title: "Practice Project: Creating a REST API with AI",
+        meta: "2 Std. 17 Min. · 29 Lektionen",
         lessons: [
           "GitHub Copilot & Cursor Versions",
           "A Full Demo Project: Overview",
@@ -681,7 +689,7 @@ export const certificates: Certificate[] = [
       },
     ],
     curriculumNote:
-      "Offizielle Kursgliederung: 147 Lektionen in 7 Abschnitten, Kursstand Januar 2026. Die Urkunde weist 5,5 Stunden aus, der Kurs umfasst heute 8 Stunden — er wurde nach dem Abschluss um die aktuellen Copilot- und Cursor-Module erweitert; die als „Legacy“ gekennzeichneten Teile sind die ältere Fassung. Die Abschnittstitel sind zusammenfassend benannt.",
+      "Offizielle Kursgliederung mit den Abschnittsnamen der Kursseite: 147 Lektionen in 7 Abschnitten, Kursstand Januar 2026. Die Urkunde weist 5,5 Stunden aus, der Kurs umfasst heute 8 Stunden — er wurde nach dem Abschluss um die aktuellen Copilot- und Cursor-Module erweitert; die als „Legacy“ gekennzeichneten Teile sind die ältere Fassung.",
   },
   {
     slug: "build-ai-powered-apps",
@@ -689,7 +697,7 @@ export const certificates: Certificate[] = [
     issuer: "Code with Mosh",
     date: "Dezember 2025",
     sort: "2025-12-07",
-    detail: "ca. 6 Std · 109 Lektionen",
+    detail: "7 Std · 120 Lektionen",
     cat: "KI / AI",
     tags: ["LLM", "OpenAI API"],
     preview: "/assets/zertifikate/build-ai-powered-apps.webp",
@@ -697,8 +705,8 @@ export const certificates: Certificate[] = [
     summary:
       "Projektkurs von Mosh Hamedani zum Bauen von LLM-Anwendungen: von den Grundlagen der Sprachmodelle (Tokens, Modellwahl, Model Settings) über ein modernes Full-Stack-Setup mit Bun, TailwindCSS und shadcn/ui bis zu zwei durchgehenden Projekten — einem Chatbot mit Streaming-UI und einem Review Summarizer mit MySQL, Prisma und TanStack Query. Dazu ein eigenes Modul Prompt Engineering und der Einsatz von Open-Source-Modellen über Hugging Face und Ollama. Ein durchgehendes Thema ist das Refactoring: Repository, Service und Controller werden schrittweise herausgezogen. Vollständig abgeschlossen (alle Lektionen).",
     facts: [
-      { label: "Umfang", value: "ca. 6 Std." },
-      { label: "Lektionen", value: "109 in 8 Modulen" },
+      { label: "Umfang", value: "7 Std." },
+      { label: "Lektionen", value: "120 in 8 Abschnitten" },
       { label: "Dozent", value: "Mosh Hamedani" },
       { label: "Sprache", value: "Englisch" },
       { label: "Format", value: "Video-Kurs mit Projektarbeit" },
@@ -872,7 +880,7 @@ export const certificates: Certificate[] = [
       },
     ],
     curriculumNote:
-      "Offizielle Kursgliederung. Die Modul-Laufzeiten stammen von der Kursseite, die Gesamtdauer ist deren Summe — die Urkunde von Code with Mosh weist selbst keinen Umfang aus. Die Nummerierung der Unterlektionen (2.1, 4.3 …) ist zugunsten einer durchlaufenden Zählung entfernt.",
+      "Die Kursseite nennt 7 Stunden und 120 Lektionen in 8 Abschnitten, listet die Einzellektionen aber nur für „Getting Started“. Die Gliederung hier ist deshalb dem Kursplayer entnommen und zeigt alle 109 Lektionen, die zum Abschluss im Dezember 2025 enthalten waren — der Kurs ist seither gewachsen. Die Urkunde von Code with Mosh weist selbst keinen Umfang aus. Die Nummerierung der Unterlektionen (2.1, 4.3 …) ist zugunsten einer durchlaufenden Zählung entfernt.",
   },
   {
     slug: "angular-real-world-guide",
@@ -1436,7 +1444,7 @@ export const certificates: Certificate[] = [
     issuer: "Code with Mosh",
     date: "Juni 2025",
     sort: "2025-06-02",
-    detail: "ca. 12 Std · 187 Lektionen",
+    detail: "12 Std · 200 Lektionen",
     cat: "Python",
     tags: ["OOP"],
     preview: "/assets/zertifikate/complete-python-mastery.webp",
@@ -1444,8 +1452,8 @@ export const certificates: Certificate[] = [
     summary:
       "Umfassender Python-Kurs von Mosh Hamedani, der die Sprache von den Grundlagen bis in die Breite ihres Ökosystems durchgeht: primitive Typen, Control Flow und Funktionen, ein großes Kapitel Datenstrukturen (Listen, Tupel, Sets, Dictionaries, Comprehensions, Generatoren), Exceptions und ein ausführlicher Teil zu objektorientierter Programmierung — von Magic Methods und Properties über Mehrfachvererbung und Abstract Base Classes bis zu Polymorphie, Duck Typing und Data Classes. Dazu Module und Pakete, die Standardbibliothek (Dateien, CSV, JSON, SQLite, Datum und Zeit, E-Mail, Subprozesse), der Python Package Index samt Veröffentlichen eigener Pakete sowie Praxismodule zu Web Scraping, Browser-Automatisierung, Excel und NumPy, einer Django-Webanwendung bis zum Deployment und einer Einführung in Machine Learning mit scikit-learn. Vollständig abgeschlossen (alle Lektionen).",
     facts: [
-      { label: "Umfang", value: "ca. 12 Std." },
-      { label: "Lektionen", value: "187 in 14 Modulen" },
+      { label: "Umfang", value: "12 Std." },
+      { label: "Lektionen", value: "200 in 13 Abschnitten" },
       { label: "Dozent", value: "Mosh Hamedani" },
       { label: "Sprache", value: "Englisch" },
       { label: "Format", value: "Video-Kurs mit Übungen und Quizzes" },
@@ -1695,7 +1703,7 @@ export const certificates: Certificate[] = [
       },
       {
         title: "Building Web Applications with Django",
-        meta: "ca. 2 Std. · 22 Lektionen",
+        meta: "2 Std. · 22 Lektionen",
         lessons: [
           "Introduction",
           "Your First Django Project",
@@ -1723,7 +1731,7 @@ export const certificates: Certificate[] = [
       },
       {
         title: "Machine Learning with Python",
-        meta: "ca. 48 Min. · 12 Lektionen",
+        meta: "48 Min. · 12 Lektionen",
         lessons: [
           "What is Machine Learning",
           "Machine Learning in Action",
@@ -1741,7 +1749,7 @@ export const certificates: Certificate[] = [
       },
     ],
     curriculumNote:
-      "Offizielle Kursgliederung. Die Modul-Laufzeiten stammen von der Kursseite, die Gesamtdauer ist deren Summe — die Urkunde von Code with Mosh weist selbst keinen Umfang aus. Bei den beiden letzten Modulen nennt die Kursseite je 30 Minuten, was nicht zur Summe der dort gelisteten Lektionen passt; angegeben ist deshalb die aus den Einzellektionen berechnete Laufzeit.",
+      "Die Kursseite nennt 12 Stunden und 200 Lektionen in 13 Abschnitten, listet die Einzellektionen aber nur für „Getting Started“. Die Gliederung hier ist deshalb dem Kursplayer entnommen und zeigt alle 187 Lektionen, die zum Abschluss im Juni 2025 enthalten waren; sie führt „Getting Started“ als zwei Module, wo die Kursseite eines nennt. Die Urkunde von Code with Mosh weist selbst keinen Umfang aus. Der Kurs heißt auf der Kursseite inzwischen The Complete Python Programming Course.",
   },
 ];
 
