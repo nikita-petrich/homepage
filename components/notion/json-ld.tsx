@@ -3,7 +3,8 @@ import { contact, profile, profileLinks, skills } from "@/lib/data";
 /* Every skill the page shows, as schema.org topics. Categories 01–16 are
    subject matter; "17 — Rollen & Profil" is left out because roles, languages
    and location are not things a person "knows about" (jobTitle/address above
-   already carry that). Postman appears in two categories, hence the Set. */
+   already carry that). Each skill is listed in exactly one category, so the
+   Set only guards against a term being cross-listed again later. */
 const knowsAbout = [
   ...new Set(
     skills.filter((c) => c.name !== "Rollen & Profil").flatMap((c) => c.items),
