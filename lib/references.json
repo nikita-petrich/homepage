@@ -11,6 +11,54 @@
   },
   "references": [
     {
+      "slug": "aslan-aiaev",
+      "name": "Aslan Aiaev",
+      "role": "Senior Software Engineer",
+      "company": "Manifest Law",
+      "companyUrl": "https://manifestlaw.com",
+      "relation": "Projektteam",
+      "projectSlug": "manifest-os",
+      "project": "Manifest OS — KI-gestützte Einwanderungsplattform",
+      "sources": [
+        "LinkedIn"
+      ],
+      "sort": "2025-12",
+      "quote": "Nikita and I went through onboarding together at Manifest OS and then worked closely in the same team for a considerable time. He was a Senior Fullstack Engineer there, involved among other things in consolidating the separate portals into the unified one — a rebuild that required merging data model and UI, and correspondingly a lot of care and context.\n\nWhat stayed with me most about working with him: Nikita is extremely self-reliant. He found his way into a complex, grown codebase without anyone having to guide him through it, and was always approachable whenever I had questions. His code was clean, type-safe and tested — he consistently applied SOLID and clean code principles and built reusable components and utilities that the whole team benefited from. That made reviews with him productive rather than tedious.\n\nWorth mentioning as well: he didn’t just work on his own tickets. He repeatedly tracked down existing bugs in the system that nobody had noticed before and fixed them directly. A real asset to the team, both technically and personally. I’d work with him again any time and recommend him without reservation.",
+      "short": "Nikita is extremely self-reliant. He found his way into a complex, grown codebase without anyone having to guide him through it … His code was clean, type-safe and tested — he consistently applied SOLID and clean code principles … I’d work with him again any time and recommend him without reservation."
+    },
+    {
+      "slug": "artem-puliavin",
+      "name": "Artem Puliavin",
+      "role": "Tech Lead B2C",
+      "company": "Manifest Law",
+      "companyUrl": "https://manifestlaw.com",
+      "relation": "Projektteam",
+      "projectSlug": "manifest-os",
+      "project": "Manifest OS — KI-gestützte Einwanderungsplattform",
+      "sources": [
+        "LinkedIn"
+      ],
+      "sort": "2025-12",
+      "quote": "As tech lead for the B2C area I worked with Nikita at Manifest OS on the HubSpot, Cal.com and Bluedot AI integration — him as a Senior Fullstack Engineer, me on the lead side. Specifically it was about event-driven enrichment of initial legal consultation leads: meeting recordings are transcribed via Bluedot, processed further through a webhook and a queue, evaluated by an LLM, and the structured results flow back into the core systems automatically. A chain with plenty of failure modes, which had to be built accordingly resilient (retry, idempotency).\n\nNikita delivered this integration entirely on his own responsibility. I never had to step in — he kept me updated with short, precise status updates, escalated open decisions in time and carried the rest himself. The result was a fully functional AI integration running in production, cleanly implemented and delivered on time.\n\nFor me that’s the best illustration of how he works: a high degree of autonomy combined with transparent communication. I can clearly recommend Nikita.",
+      "short": "Nikita delivered this integration entirely on his own responsibility. I never had to step in — he kept me updated with short, precise status updates and escalated open decisions in time … A fully functional AI integration running in production, cleanly implemented and delivered on time. I can clearly recommend Nikita."
+    },
+    {
+      "slug": "sagar-anne",
+      "name": "Sagar Anne",
+      "role": "Product Manager",
+      "company": "Manifest Law",
+      "companyUrl": "https://manifestlaw.com",
+      "relation": "Projektteam",
+      "projectSlug": "manifest-os",
+      "project": "Manifest OS — KI-gestützte Einwanderungsplattform",
+      "sources": [
+        "LinkedIn"
+      ],
+      "sort": "2025-12",
+      "quote": "As Product Manager I owned the Amplitude analytics project at Manifest OS; Nikita, as a Senior Fullstack Engineer, was the one who carried the implementation. He designed and implemented the application-wide event tracking, instrumented all relevant business user flows, tested and validated the events and created the data foundation that made weaknesses and friction points in the user journey visible in the first place.\n\nWhat made the collaboration so easy from a PM perspective is how autonomously Nikita worked: he grasped requirements quickly, identified gaps himself and asked targeted questions rather than making assumptions. He was also strong cross-functionally: he worked closely with our designers and consistently followed the design system instead of building his own one-offs, which noticeably supported the visual consistency of the platform.",
+      "short": "Nikita designed and implemented the application-wide event tracking, instrumented all relevant business user flows and created the data foundation that made weaknesses and friction points in the user journey visible in the first place … He grasped requirements quickly, identified gaps himself and asked targeted questions rather than making assumptions."
+    },
+    {
       "slug": "suraj-kakar",
       "name": "Suraj Kakar",
       "role": "Executive Director, Private Markets Distribution & Capital Raising",
