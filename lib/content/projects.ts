@@ -312,7 +312,8 @@ export const projects: ProjectSource[] = [
       "Cloud Functions", "Firebase Cloud Messaging (FCM)", "Firebase Hosting",
       "Authentifizierung", "Onboarding-Flows", "Social Media", "Typsicherheit",
       "Unit Testing", "Clean Code", "SOLID", "Separation of Concerns",
-      "Clean Architecture", "Git", "GitHub", "GitHub Actions", "CI/CD", "Linux",
+      "Clean Architecture", "Git", "GitHub", "Trello", "GitHub Actions",
+      "CI/CD", "Linux",
     ]),
   },
   {
