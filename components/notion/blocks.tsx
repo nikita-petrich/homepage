@@ -1,9 +1,31 @@
+import {
+  Briefcase,
+  CalendarCheck,
+  GraduationCap,
+  Handshake,
+  MapPin,
+  Wallet,
+  type LucideIcon,
+} from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import type { FactItem, InfoItem, Language, RichLine } from "@/lib/data";
 
 import { CactusOrangeIcon, Flag } from "./icons";
+
+/* Eckdaten icons, keyed by the string on each fact. Icons can't live in the
+   localized content tree — the per-locale walk in lib/i18n/text.ts would mangle
+   the component objects — so the content stores a key and it maps here. */
+const FACT_ICONS: Record<string, LucideIcon> = {
+  briefcase: Briefcase,
+  "calendar-check": CalendarCheck,
+  wallet: Wallet,
+  "graduation-cap": GraduationCap,
+  "map-pin": MapPin,
+  handshake: Handshake,
+};
 
 /* The page's single h1 is the name in the cover banner; main sections are h2,
    sidebar sections h3. Visual sizes are independent of the semantic level. */
@@ -97,9 +119,13 @@ export function InfoLine({ item }: { item: InfoItem }) {
 }
 
 export function FactLine({ item }: { item: FactItem }) {
+  const Icon = FACT_ICONS[item.icon];
   return (
     <div className="text-[15px] leading-[1.4]">
-      <div className="text-[12px] tracking-[0.04em] text-notion-gray uppercase">
+      <div className="flex items-center gap-1.5 text-[12px] tracking-[0.04em] text-notion-gray uppercase">
+        {Icon ? (
+          <Icon size={12} strokeWidth={2} className="shrink-0 opacity-80" />
+        ) : null}
         {item.label}
       </div>
       {Array.isArray(item.value) ? (

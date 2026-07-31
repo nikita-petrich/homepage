@@ -53,18 +53,22 @@ export const contact = [
 export const facts = [
   {
     label: t("Erfahrung", "Experience"),
+    icon: "briefcase",
     value: t("7+ Jahre", "7+ years"),
   },
   {
     label: t("Verfügbar", "Availability"),
+    icon: "calendar-check",
     value: t("ab sofort · Vollzeit", "immediately · full time"),
   },
   {
     label: t("Stundensatz", "Rate"),
+    icon: "wallet",
     value: t("auf Anfrage", "on request"),
   },
   {
     label: t("Qualifikation", "Qualification"),
+    icon: "graduation-cap",
     value: t(
       "IHK-Fachinformatiker (AE)",
       "IHK-certified IT specialist (application development)",
@@ -72,6 +76,7 @@ export const facts = [
   },
   {
     label: t("Einsatzort", "Location"),
+    icon: "map-pin",
     value: [
       t("Remote (bevorzugt)", "Remote (preferred)"),
       t("München hybrid: 1–2 Tage/Woche", "Munich hybrid: 1–2 days/week"),
@@ -80,6 +85,7 @@ export const facts = [
   },
   {
     label: t("Onboarding", "Onboarding"),
+    icon: "handshake",
     value: t("Anreise vor Ort (bei Bedarf)", "on-site at the start (if needed)"),
   },
 ];
@@ -88,7 +94,7 @@ export const languages = [
   {
     flag: "/assets/flags/de.svg",
     text: t("Deutsch", "German"),
-    sub: t("Muttersprache", "Native speaker"),
+    sub: t("Nativ", "Native"),
   },
   {
     flag: "/assets/flags/gb.svg",

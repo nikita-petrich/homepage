@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowUpRight } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
 
 import {
     AccentTag,
@@ -90,20 +93,26 @@ export default async function Page({
             </Section>
 
             <Section title={ui.sections.profiles} level="h3">
-              <div className="flex flex-wrap gap-x-3.5 gap-y-1.5">
+              <div className="flex flex-wrap gap-1.5">
                 {profileLinks.map((p) => (
-                  <a
+                  <Badge
                     key={p.label}
-                    href={p.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-analytics-event="outbound_click"
-                    data-analytics-prop-link-label={p.label}
-                    data-analytics-prop-target-domain={domainOf(p.href)}
-                    className="text-[14px] font-semibold text-[var(--accent-text)] hover:underline"
+                    asChild
+                    variant="secondary"
+                    className="gap-1 px-2.5 py-1 text-[12px] font-medium"
                   >
-                    {p.label}
-                  </a>
+                    <a
+                      href={p.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-analytics-event="outbound_click"
+                      data-analytics-prop-link-label={p.label}
+                      data-analytics-prop-target-domain={domainOf(p.href)}
+                    >
+                      {p.label}
+                      <ArrowUpRight className="opacity-60" />
+                    </a>
+                  </Badge>
                 ))}
               </div>
             </Section>
