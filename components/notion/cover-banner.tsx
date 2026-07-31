@@ -1,9 +1,12 @@
+import type { CSSProperties } from "react";
+
 import { cn } from "@/lib/utils";
 import { getContent, profileName, profileRole } from "@/lib/data";
 import type { Locale } from "@/lib/i18n/config";
 
-/* The warm banner behind the cover, the certificate/reference covers and the
-   project placeholder. A CSS variable, so it can differ per theme. */
+/* The warm light band behind the certificate/reference covers and the project
+   placeholder. A CSS variable, so it can differ per theme. (The main cover
+   banner below has its own split code/content layout.) */
 export const bannerBg = "var(--banner-bg)";
 
 export function GitCodeMotif({ className }: { className?: string }) {
@@ -45,49 +48,66 @@ const bannerTags = [
   "TypeScript",
   "Python",
   "Clean Architecture",
+  "Next.js",
+  "DSGVO-konform",
 ];
+
+/* Colours for the always-dark code panel, injected as local overrides of the
+   diff/meta tokens so GitCodeMotif renders green "+" / amber "-" / grey lines
+   on black regardless of the page theme. */
+const codePanelStyle = {
+  background: "var(--banner-code-bg)",
+  "--diff-add": "var(--banner-code-add)",
+  "--diff-del": "var(--banner-code-accent)",
+  "--banner-meta": "var(--banner-code-meta)",
+} as CSSProperties;
 
 export function CoverBanner({ locale }: { locale: Locale }) {
   const { profile } = getContent(locale);
 
   return (
-    <div
-      className="relative w-full overflow-hidden"
-      style={{ backgroundImage: bannerBg }}
-    >
-      <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
+    /* Centred to the same 960px column as the page body, so the amber code-logo
+       tile that overlaps the bottom-left (app/[locale]/page.tsx) lands on the
+       corner of the card — a split "code panel / content" layout. */
+    <div className="mx-auto max-w-[960px] px-6 pt-5 sm:px-12 sm:pt-6">
+      <div className="flex overflow-hidden rounded-[12px] shadow-[var(--notion-card-shadow)]">
+        {/* Left — dark terminal-style code strip, hidden on narrow screens. */}
+        <div
+          className="relative hidden shrink-0 basis-[37%] flex-col justify-center px-[clamp(20px,2.4vw,28px)] py-[clamp(22px,2.6vw,30px)] sm:flex"
+          style={codePanelStyle}
+        >
+          <GitCodeMotif className="text-[clamp(11px,1.15vw,13px)]" />
+        </div>
 
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-[clamp(20px,4vw,72px)] px-[clamp(28px,6vw,110px)] py-[clamp(28px,2.85vw,41px)]">
-        <GitCodeMotif className="hidden shrink-0 text-[clamp(11px,1.05vw,18px)] sm:flex" />
-
-        <div className="flex min-w-0 flex-col items-end text-right">
-          <div className="text-[clamp(11px,1vw,17px)] font-semibold tracking-[0.18em] text-[var(--accent-text)] uppercase">
+        {/* Right — content panel with the amber top rule. */}
+        <div className="flex min-w-0 flex-1 flex-col items-end justify-center gap-[clamp(7px,0.9vw,11px)] border-t-[3px] border-[var(--primary)] bg-[var(--card)] px-[clamp(22px,3vw,34px)] py-[clamp(22px,3vw,32px)] text-right">
+          <div className="text-[clamp(10px,1vw,11px)] font-bold tracking-[0.12em] text-[var(--primary)] uppercase">
             {profile.tagline}
           </div>
 
-          <h1 className="mt-[0.16em] text-[clamp(22px,3.2vw,55px)] leading-[1.04] font-bold tracking-[-0.02em] text-[var(--banner-text)]">
+          <h1 className="text-[clamp(23px,3.4vw,36px)] leading-[1.1] font-bold tracking-[-0.01em] text-[var(--foreground)]">
             {profileName}
           </h1>
 
-          <div className="mt-[0.12em] text-[clamp(12px,1.3vw,23px)] leading-tight font-semibold text-[var(--banner-text-soft)]">
+          <div className="text-[clamp(13px,1.5vw,17px)] font-medium text-[var(--banner-text-soft)]">
             {profileRole}
           </div>
 
-          <div className="mt-[clamp(5px,0.7vw,10px)] flex flex-wrap justify-end gap-[clamp(6px,0.65vw,12px)]">
-            {bannerTags.map((t) => (
+          <div className="mt-[2px] flex flex-wrap justify-end gap-[7px]">
+            {bannerTags.map((tag) => (
               <span
-                key={t}
-                className="rounded-[6px] border border-[var(--border)] bg-[var(--surface)] px-[0.7em] py-[0.32em] text-[clamp(11px,1.15vw,20px)] whitespace-nowrap text-[var(--banner-text)] shadow-sm"
+                key={tag}
+                className="rounded-[8px] border border-[var(--border)] bg-[var(--secondary)] px-[13px] py-[6px] text-[clamp(11px,1.2vw,12.5px)] font-medium whitespace-nowrap text-[var(--secondary-foreground)] shadow-sm"
               >
-                {t}
+                {tag}
               </span>
             ))}
           </div>
 
-          <div className="mt-[clamp(6px,0.75vw,12px)] text-[clamp(13px,1.15vw,21px)] font-bold text-[var(--banner-text)]">
+          <div className="mt-[3px] text-[clamp(13px,1.4vw,15px)] font-bold text-[var(--foreground)]">
             https://sequenz.io
           </div>
-          <div className="mt-[0.2em] text-[clamp(12px,1vw,18px)] text-[var(--banner-meta)]">
+          <div className="text-[clamp(11px,1.2vw,13px)] text-[var(--banner-meta)]">
             n.petrich@sequenz.io
           </div>
         </div>

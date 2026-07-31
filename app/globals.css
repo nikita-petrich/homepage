@@ -89,6 +89,15 @@
   --banner-meta: var(--muted-foreground);
   --banner-caption: var(--muted-foreground);
 
+  /* Cover banner code panel — a terminal-style strip that stays dark in both
+     themes (see components/notion/cover-banner.tsx), so these are fixed colours
+     rather than theme aliases. The right-hand content panel next to it uses the
+     normal surface/foreground/primary tokens and therefore follows the theme. */
+  --banner-code-bg: #0d0d10;
+  --banner-code-add: #8fd67a;
+  --banner-code-accent: color-mix(in oklab, var(--primary) 85%, white);
+  --banner-code-meta: #8a8780;
+
   --tag-bg: var(--secondary);
   --tag-text: var(--secondary-foreground);
   --accent-soft: var(--muted);
