@@ -6,10 +6,10 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = pageMetadata({
   title: "Impressum",
   description: "Anbieterkennzeichnung gemäß § 5 DDG.",
-  path: "/impressum",
+  path: "/imprint",
 });
 
-export default function ImpressumPage() {
+export default function ImprintPage() {
   return (
     <LegalPage title="Impressum">
       <LegalSection title="Angaben gemäß § 5 DDG">

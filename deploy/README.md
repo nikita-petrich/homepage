@@ -265,8 +265,8 @@ kein Zertifikat ausstellen. `n8n.sequenz.io` hast du ja bereits.
 
 **Zu `www`:** Der Proxy leitet `www.sequenz.io` an denselben Container weiter;
 die App antwortet darauf mit einer permanenten Weiterleitung (HTTP 308) auf
-`https://sequenz.io` — inklusive Pfad, `www.sequenz.io/projekte/aitoi` landet
-also auf `sequenz.io/projekte/aitoi`. So bleibt genau eine kanonische URL,
+`https://sequenz.io` — inklusive Pfad, `www.sequenz.io/projects/aitoi` landet
+also auf `sequenz.io/projects/aitoi`. So bleibt genau eine kanonische URL,
 was Duplicate Content bei Suchmaschinen vermeidet (konfiguriert über
 `redirects()` in `next.config.ts`).
 

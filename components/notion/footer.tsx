@@ -5,7 +5,7 @@ import { CookieSettingsButton } from "./cookie-settings-button";
 /* Site-wide footer with the legally required links (Impressum, Datenschutz)
    and the re-entry point for the consent settings. Rendered from the root
    layout so it is present on every route, including the standalone
-   /projekte/<slug> and /referenzen/<slug> pages. */
+   /projects/<slug> and /references/<slug> pages. */
 export function Footer() {
   return (
     <footer className="border-t border-[rgba(55,53,47,0.09)] bg-white">
@@ -17,10 +17,10 @@ export function Footer() {
           aria-label="Rechtliches"
           className="flex flex-wrap items-center justify-center gap-x-4"
         >
-          <Link href="/impressum" className="inline-block py-1 hover:underline">
+          <Link href="/imprint" className="inline-block py-1 hover:underline">
             Impressum
           </Link>
-          <Link href="/datenschutz" className="inline-block py-1 hover:underline">
+          <Link href="/privacy" className="inline-block py-1 hover:underline">
             Datenschutz
           </Link>
           <CookieSettingsButton />

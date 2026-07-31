@@ -90,7 +90,7 @@ function ReferenceCover({ reference: r }: { reference: Reference }) {
 function ReferenceCard({ reference: r }: { reference: Reference }) {
   return (
     <Link
-      href={`/referenzen/${r.slug}`}
+      href={`/references/${r.slug}`}
       scroll={false}
       data-analytics-event="reference_open"
       data-analytics-prop-slug={r.slug}
@@ -185,7 +185,7 @@ export function ReferenceModal({
             <AccentTag label={r.relation} />
             {r.projectSlug ? (
               <Link
-                href={`/projekte/${r.projectSlug}`}
+                href={`/projects/${r.projectSlug}`}
                 scroll={false}
                 data-analytics-event="project_open"
                 data-analytics-prop-slug={r.projectSlug}
@@ -246,7 +246,7 @@ function ReferenceEntry({ reference: r }: { reference: Reference }) {
 
       <div className="mt-3.5 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[rgba(55,53,47,0.09)] pt-3">
         <Link
-          href={`/referenzen/${r.slug}`}
+          href={`/references/${r.slug}`}
           scroll={false}
           data-analytics-event="reference_open"
           data-analytics-prop-slug={r.slug}
@@ -269,7 +269,7 @@ function ReferenceEntry({ reference: r }: { reference: Reference }) {
 }
 
 /* All references for one project on a single permanent URL
-   (/projekte/<slug>/referenzen) — shareable in an application or proposal
+   (/projects/<slug>/references) — shareable in an application or proposal
    without the reader having to open one dialog per testimonial. Shared by the
    intercepting modal route and the standalone page, which pass their own
    onClose. */
@@ -314,7 +314,7 @@ export function ProjectReferencesModal({
 
           <div className="mt-6 border-t border-[rgba(55,53,47,0.09)] pt-4">
             <Link
-              href={`/projekte/${project.slug}`}
+              href={`/projects/${project.slug}`}
               scroll={false}
               data-analytics-event="project_open"
               data-analytics-prop-slug={project.slug}
@@ -333,7 +333,7 @@ export function ProjectReferencesModal({
 
 /* Referenzen — testimonials shown as a card gallery after the projects,
    mirroring their size and behaviour: a clamped preview per card, full text in
-   the dialog. Each card has a permanent URL (/referenzen/<slug>). */
+   the dialog. Each card has a permanent URL (/references/<slug>). */
 const referenceSearchText = (r: Reference) =>
   `${r.name} ${r.role} ${r.company ?? ""} ${r.project} ${r.quote}`;
 const referenceSortKey = (r: Reference) => r.sort;
@@ -359,7 +359,7 @@ function ReferenceTable({ references: rows }: { references: Reference[] }) {
         {rows.map((r) => (
           <Link
             key={r.slug}
-            href={`/referenzen/${r.slug}`}
+            href={`/references/${r.slug}`}
             scroll={false}
             data-analytics-event="reference_open"
             data-analytics-prop-slug={r.slug}

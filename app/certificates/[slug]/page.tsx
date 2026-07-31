@@ -21,7 +21,7 @@ export async function generateMetadata({
   return {
     title: `${certificate.title} — Zertifikat`,
     description: certificate.summary,
-    alternates: { canonical: `/zertifikate/${certificate.slug}` },
+    alternates: { canonical: `/certificates/${certificate.slug}` },
   };
 }
 

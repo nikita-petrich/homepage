@@ -24,14 +24,14 @@ import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
 import { ModalShell } from "./modal-shell";
 
 /* Permanent, shareable link to the certificate document itself: the
-   self-hosted PDF at /zertifikate/<slug>.pdf, or an official external URL when
+   self-hosted PDF at /certificates/<slug>.pdf, or an official external URL when
    not yet hosted. Always opened in a new tab. */
 export const certHref = (c: Certificate) =>
-  c.externalUrl ?? `/zertifikate/${c.slug}.pdf`;
+  c.externalUrl ?? `/certificates/${c.slug}.pdf`;
 
 /* Detail page with the full scope of the certificate. Opens as a dialog via
    the intercepting route and renders standalone on a hard load. */
-export const certPageHref = (c: Certificate) => `/zertifikate/${c.slug}`;
+export const certPageHref = (c: Certificate) => `/certificates/${c.slug}`;
 
 const documentLabel = (c: Certificate) =>
   c.externalUrl ? `Auf ${c.issuer} ansehen` : "PDF öffnen";

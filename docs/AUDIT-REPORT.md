@@ -25,7 +25,7 @@ Die Codebasis ist für die Projektgröße **technisch solide** (Lint und Typeche
 
 **Befundübersicht (nach Verifikation):** 2 kritisch · 7 hoch · 21 mittel · 23 niedrig · 24 Hinweise/Positivbefunde — konsolidiert in diesem Report zu ~45 eindeutigen Befunden.
 
-**Zum gewünschten Tracking:** Detailliertes Event-Tracking („jeder Button-Klick") ist machbar — aber „möglichst alles über die Benutzer sammeln" kollidiert frontal mit der DSGVO (Grundsatz der Datenminimierung, Art. 5 Abs. 1 lit. c) und § 25 TDDDG (Einwilligungspflicht für Gerätezugriffe). Der rechtssichere Maximalausbau ist ein **Zwei-Stufen-Modell**: cookielose, anonyme Messung *aller* Interaktionen ohne Einwilligung (Stufe 1) plus optionales, einwilligungsbasiertes Profiling/Session-Replay (Stufe 2). Details: [`TRACKING-KONZEPT.md`](./TRACKING-KONZEPT.md), Umsetzung: [`UMSETZUNGSPLAN.md`](./UMSETZUNGSPLAN.md).
+**Zum gewünschten Tracking:** Detailliertes Event-Tracking („jeder Button-Klick") ist machbar — aber „möglichst alles über die Benutzer sammeln" kollidiert frontal mit der DSGVO (Grundsatz der Datenminimierung, Art. 5 Abs. 1 lit. c) und § 25 TDDDG (Einwilligungspflicht für Gerätezugriffe). Der rechtssichere Maximalausbau ist ein **Zwei-Stufen-Modell**: cookielose, anonyme Messung *aller* Interaktionen ohne Einwilligung (Stufe 1) plus optionales, einwilligungsbasiertes Profiling/Session-Replay (Stufe 2). Details: [`TRACKING-CONCEPT.md`](./TRACKING-CONCEPT.md), Umsetzung: [`IMPLEMENTATION-PLAN.md`](./IMPLEMENTATION-PLAN.md).
 
 ---
 
@@ -44,9 +44,9 @@ Die Codebasis ist für die Projektgröße **technisch solide** (Lint und Typeche
 
 ### R-01 🔴 Kein Impressum (§ 5 DDG)
 
-**Befund:** Es existiert keine Route `/impressum`, kein Footer, kein einziger Treffer für „Impressum" im gesamten Quellcode. Routen-Bestand: nur `/`, `/projekte/[slug]`, `/referenzen/[slug]` (`app/page.tsx:155-157` endet ohne Footer). Die Seite ist eindeutig geschäftsmäßig (Stundensatz „80 €/h" in `lib/data.ts:32`, CTA „Erstgespräch buchen") — damit greift die Impressumspflicht. Fehlendes Impressum ist eine Ordnungswidrigkeit (Bußgeld bis 50.000 €, § 33 DDG) und ein klassischer Abmahngrund. Besonders unglücklich: Die Seite bewirbt sich selbst mit „DSGVO-konform" und „DSGVO by Design" (`lib/data.ts:90-92, 394`).
+**Befund:** Es existiert keine Route `/imprint`, kein Footer, kein einziger Treffer für „Impressum" im gesamten Quellcode. Routen-Bestand: nur `/`, `/projects/[slug]`, `/references/[slug]` (`app/page.tsx:155-157` endet ohne Footer). Die Seite ist eindeutig geschäftsmäßig (Stundensatz „80 €/h" in `lib/data.ts:32`, CTA „Erstgespräch buchen") — damit greift die Impressumspflicht. Fehlendes Impressum ist eine Ordnungswidrigkeit (Bußgeld bis 50.000 €, § 33 DDG) und ein klassischer Abmahngrund. Besonders unglücklich: Die Seite bewirbt sich selbst mit „DSGVO-konform" und „DSGVO by Design" (`lib/data.ts:90-92, 394`).
 
-**Empfehlung:** `app/impressum/page.tsx` anlegen und von **jeder** Seite „leicht erkennbar, unmittelbar erreichbar und ständig verfügbar" verlinken (Footer im Root-Layout, damit auch die Slug-Routen abgedeckt sind). Pflichtangaben für einen Freiberufler (Einzelunternehmer, nicht kammergebunden):
+**Empfehlung:** `app/imprint/page.tsx` anlegen und von **jeder** Seite „leicht erkennbar, unmittelbar erreichbar und ständig verfügbar" verlinken (Footer im Root-Layout, damit auch die Slug-Routen abgedeckt sind). Pflichtangaben für einen Freiberufler (Einzelunternehmer, nicht kammergebunden):
 
 1. Vollständiger Vor- und Nachname
 2. Ladungsfähige Anschrift (Straße, Hausnummer, PLZ, Ort — kein Postfach)
@@ -59,9 +59,9 @@ Die Codebasis ist für die Projektgröße **technisch solide** (Lint und Typeche
 
 ### R-02 🔴 Keine Datenschutzerklärung (Art. 13 DSGVO)
 
-**Befund:** Weder eine Route `/datenschutz` noch irgendein Link darauf. Auch ohne Analytics verarbeitet die Website personenbezogene Daten, über die informiert werden muss: Server-Logs/Hosting (IP-Adressen), Kontaktaufnahme (`mailto:`/`tel:`), Weiterleitung zur Terminbuchung bei **Notion** (`calendar.notion.so`, US-Anbieter — dort gibt der Interessent Name/E-Mail ein), und der localStorage-Eintrag des Cookie-Banners. Dass das Banner aktiv eine „Analyse" behauptet, ohne dass irgendwo steht, wer Verantwortlicher ist, verschärft den Transparenzverstoß (Art. 5 Abs. 1 lit. a, Art. 12 f. DSGVO).
+**Befund:** Weder eine Route `/privacy` noch irgendein Link darauf. Auch ohne Analytics verarbeitet die Website personenbezogene Daten, über die informiert werden muss: Server-Logs/Hosting (IP-Adressen), Kontaktaufnahme (`mailto:`/`tel:`), Weiterleitung zur Terminbuchung bei **Notion** (`calendar.notion.so`, US-Anbieter — dort gibt der Interessent Name/E-Mail ein), und der localStorage-Eintrag des Cookie-Banners. Dass das Banner aktiv eine „Analyse" behauptet, ohne dass irgendwo steht, wer Verantwortlicher ist, verschärft den Transparenzverstoß (Art. 5 Abs. 1 lit. a, Art. 12 f. DSGVO).
 
-**Empfehlung:** `app/datenschutz/page.tsx` mit mindestens: Verantwortlicher (= Impressumsdaten); Hosting/Server-Logs (Rechtsgrundlage Art. 6 Abs. 1 lit. f, Speicherdauer, AVV mit dem Hoster); Kontaktaufnahme; Terminbuchung über Notion inkl. Drittlandtransfer-Hinweis (EU-US Data Privacy Framework — Zertifizierung von Notion prüfen); Referenzen/Testimonials (siehe R-04); Betroffenenrechte (Art. 15–21, 77). Nach Einführung des Trackings entsprechend erweitern (Pflichtinhalte stehen in `TRACKING-KONZEPT.md`, Abschnitt 6). *Aufwand: M.*
+**Empfehlung:** `app/privacy/page.tsx` mit mindestens: Verantwortlicher (= Impressumsdaten); Hosting/Server-Logs (Rechtsgrundlage Art. 6 Abs. 1 lit. f, Speicherdauer, AVV mit dem Hoster); Kontaktaufnahme; Terminbuchung über Notion inkl. Drittlandtransfer-Hinweis (EU-US Data Privacy Framework — Zertifizierung von Notion prüfen); Referenzen/Testimonials (siehe R-04); Betroffenenrechte (Art. 15–21, 77). Nach Einführung des Trackings entsprechend erweitern (Pflichtinhalte stehen in `TRACKING-CONCEPT.md`, Abschnitt 6). *Aufwand: M.*
 
 ### R-03 🟠 Cookie-Banner: irreführend und funktionslos
 
@@ -77,7 +77,7 @@ Ein Consent-Banner ohne dahinterliegende Verarbeitung ist (a) eine irreführende
 
 ### R-04 🟡 Referenzen: Klarnamen Dritter ohne dokumentierte Rechtsgrundlage
 
-**Befund:** `lib/references.json` enthält Name, Position, Firma und ausführliche Zitate von **sechs identifizierbaren Personen** (Suraj Kakar, Daniel Kmiotek, Harry Diwert, Ahmed Buraa Hameed, Behdad Tabrizi, Serghei Granici). Diese werden unter dauerhaften URLs `/referenzen/<slug>` ausgespielt und aktiv in SEO-Metadaten gehoben (`app/referenzen/[slug]/page.tsx:21-22` setzt `Referenz von ${name}` als `<title>` — die Namen werden suchmaschinenindexierbar). Die Zitate stammen von LinkedIn/Malt; die **Weiterveröffentlichung auf der eigenen kommerziellen Website ist eine eigene Verarbeitung**, die eine eigene Rechtsgrundlage braucht (bei werblicher Namensnutzung ist die Einwilligung der sichere Weg). Im Repo ist keinerlei Einwilligungsdokumentation erkennbar. Erschwerend: Der Code-Kommentar „the slug is a permanent route and must never change once published" (`lib/data.ts:512`) verankert dauerhafte Abrufbarkeit — das kollidiert mit Löschungsrecht/Widerruf (Art. 17, Art. 7 Abs. 3). **Positiv:** Der Krankenhaus-Kunde ist bewusst anonymisiert.
+**Befund:** `lib/references.json` enthält Name, Position, Firma und ausführliche Zitate von **sechs identifizierbaren Personen** (Suraj Kakar, Daniel Kmiotek, Harry Diwert, Ahmed Buraa Hameed, Behdad Tabrizi, Serghei Granici). Diese werden unter dauerhaften URLs `/references/<slug>` ausgespielt und aktiv in SEO-Metadaten gehoben (`app/references/[slug]/page.tsx:21-22` setzt `Referenz von ${name}` als `<title>` — die Namen werden suchmaschinenindexierbar). Die Zitate stammen von LinkedIn/Malt; die **Weiterveröffentlichung auf der eigenen kommerziellen Website ist eine eigene Verarbeitung**, die eine eigene Rechtsgrundlage braucht (bei werblicher Namensnutzung ist die Einwilligung der sichere Weg). Im Repo ist keinerlei Einwilligungsdokumentation erkennbar. Erschwerend: Der Code-Kommentar „the slug is a permanent route and must never change once published" (`lib/data.ts:512`) verankert dauerhafte Abrufbarkeit — das kollidiert mit Löschungsrecht/Widerruf (Art. 17, Art. 7 Abs. 3). **Positiv:** Der Krankenhaus-Kunde ist bewusst anonymisiert.
 
 **Empfehlung:** (1) Von allen sechs Referenzgebern eine ausdrückliche, dokumentierte Einwilligung einholen bzw. bestätigen lassen und außerhalb des Repos archivieren (Nachweispflicht Art. 7 Abs. 1). (2) Abschnitt „Referenzen" in die Datenschutzerklärung. (3) Entfernungsprozess definieren (bei Widerruf: Eintrag löschen, Route liefert 404/410 — den „never remove"-Kommentar relativieren). (4) Prüfen, ob Namen in `<title>`/Description von der Einwilligung gedeckt sind. *Aufwand: M (organisatorisch).*
 
@@ -91,7 +91,7 @@ Telefon und E-Mail stehen maschinenlesbar im HTML (`lib/data.ts:22-23`) — kein
 
 ### R-07 ⚪ Einordnung des geplanten Trackings (§ 25 TDDDG)
 
-§ 25 Abs. 1 TDDDG verlangt Einwilligung für **jedes** nicht unbedingt erforderliche Speichern/Auslesen auf dem Endgerät — unabhängig vom Personenbezug. Detailliertes Klick-Tracking ist trotzdem weitgehend **einwilligungsfrei** möglich, wenn nichts im Endgerät gespeichert und niemand über Besuche hinweg wiedererkannt wird (cookielose, aggregierte Messung; Rechtsgrundlage Art. 6 Abs. 1 lit. f). Persistente IDs, Session-Replay und Cross-Visit-Profile erfordern dagegen zwingend Einwilligung. → Zwei-Stufen-Modell in `TRACKING-KONZEPT.md`.
+§ 25 Abs. 1 TDDDG verlangt Einwilligung für **jedes** nicht unbedingt erforderliche Speichern/Auslesen auf dem Endgerät — unabhängig vom Personenbezug. Detailliertes Klick-Tracking ist trotzdem weitgehend **einwilligungsfrei** möglich, wenn nichts im Endgerät gespeichert und niemand über Besuche hinweg wiedererkannt wird (cookielose, aggregierte Messung; Rechtsgrundlage Art. 6 Abs. 1 lit. f). Persistente IDs, Session-Replay und Cross-Visit-Profile erfordern dagegen zwingend Einwilligung. → Zwei-Stufen-Modell in `TRACKING-CONCEPT.md`.
 
 ### R-08 ✅ Positivbefunde Recht
 
@@ -154,7 +154,7 @@ Alle 6 Bild-Stellen nutzen `<img>` (2× wird die ESLint-Regel gezielt unterdrüc
 
 ### N-04 🔵 Intercepting Routes werden dynamisch gerendert
 
-Die Modal-Routen (`app/@modal/(.)projekte/[slug]/page.tsx`, analog Referenzen) sind Client-Komponenten mit `useParams` — sie können kein `generateStaticParams` exportieren und werden als „Dynamic" gerendert (jede Modal-Öffnung = On-Demand-Rendering). Als Server-Komponente mit `generateStaticParams` + kleinem Client-Wrapper wären sie prerendert — und der `notFound()`-Fall (siehe A-17) gleich mitgelöst. *Aufwand: M.*
+Die Modal-Routen (`app/@modal/(.)projects/[slug]/page.tsx`, analog Referenzen) sind Client-Komponenten mit `useParams` — sie können kein `generateStaticParams` exportieren und werden als „Dynamic" gerendert (jede Modal-Öffnung = On-Demand-Rendering). Als Server-Komponente mit `generateStaticParams` + kleinem Client-Wrapper wären sie prerendert — und der `notFound()`-Fall (siehe A-17) gleich mitgelöst. *Aufwand: M.*
 
 ### N-05 ✅ Positivbefunde Next.js
 
@@ -257,4 +257,4 @@ N-03 Bildoptimierung · S-04/S-05 Security-Header + poweredByHeader · A-03 Date
 **P3 — laufend/optional:**
 A-07 Client/Server-Split · N-04 Intercepting-Route-Prerendering · A-11–A-17 · C-03–C-10 · Tracking Stufe 2
 
-Der konkrete, schrittweise Abarbeitungsplan inkl. Tracking-Einführung und ai-blueprint-Prozess steht in [`UMSETZUNGSPLAN.md`](./UMSETZUNGSPLAN.md).
+Der konkrete, schrittweise Abarbeitungsplan inkl. Tracking-Einführung und ai-blueprint-Prozess steht in [`IMPLEMENTATION-PLAN.md`](./IMPLEMENTATION-PLAN.md).

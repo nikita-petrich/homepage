@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/* Pre-renders the first page of every certificate PDF in public/zertifikate to
-   WebP images in public/assets/zertifikate, so the gallery tiles and the
+/* Pre-renders the first page of every certificate PDF in public/certificates to
+   WebP images in public/assets/certificates, so the gallery tiles and the
    certificate dialog show the actual document instead of a placeholder.
  *
  * Two derivatives per certificate:
@@ -40,8 +40,8 @@ import { basename, join } from "node:path";
 
 import { decodePng } from "./lib/png.mjs";
 
-const PDF_DIR = "public/zertifikate";
-const OUT_DIR = "public/assets/zertifikate";
+const PDF_DIR = "public/certificates";
+const OUT_DIR = "public/assets/certificates";
 /** Longest side of the committed preview — 2× the widest on-screen use. */
 const MAX_PX = 1400;
 /** Per-channel distance from the page's border colour that still counts as border. */
