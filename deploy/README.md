@@ -1,222 +1,222 @@
 # Deployment (netcup VPS, Docker)
 
-Diese Anleitung führt Schritt für Schritt durch die einmalige Einrichtung.
-Danach genügt ein Push auf `main` und die Seite ist live.
+This guide walks through the one-time setup step by step. After that a push to
+`main` is all it takes for the site to go live.
 
 ---
 
-## Teil A — Wie das Ganze funktioniert
+## Part A — How the whole thing works
 
-### Die zwei Workflows
+### The two workflows
 
-| Workflow | Läuft wann | Was er tut |
+| Workflow | Runs when | What it does |
 |---|---|---|
-| `ci.yml` | bei jedem Push und Pull Request | `pnpm install`, `lint`, `typecheck`, `build`, `audit --prod` — verhindert, dass kaputter Code nach `main` kommt |
-| `deploy.yml` | bei Push auf `main` + manuell | baut das Docker-Image und rollt es auf dem VPS aus |
+| `ci.yml` | on every push and pull request | `pnpm install`, `lint`, `typecheck`, `build`, `audit --prod` — keeps broken code from reaching `main` |
+| `deploy.yml` | on push to `main` + manually | builds the Docker image and rolls it out on the VPS |
 
-### Was `deploy.yml` genau macht
+### What `deploy.yml` does exactly
 
-**Job 1 „build-and-push"** baut aus dem `Dockerfile` das Produktions-Image
-und lädt es in die GitHub Container Registry (GHCR) hoch — unter zwei Namen:
-`ghcr.io/nikita-petrich/homepage:latest` und `…:<commit-sha>` (zweiteres ist
-der Anker für Rollbacks).
+**Job 1 "build-and-push"** builds the production image from the `Dockerfile`
+and uploads it to the GitHub Container Registry (GHCR) — under two names:
+`ghcr.io/nikita-petrich/homepage:latest` and `…:<commit-sha>` (the latter is
+the anchor for rollbacks).
 
-Wichtig zu verstehen: Die Umami-Website-ID wird **beim Bauen** fest ins
-JavaScript eingebacken. Alles mit dem Prefix `NEXT_PUBLIC_` ist in Next.js
-Build-Zeit-Konfiguration, keine Laufzeit-Variable. Deshalb hängt auch dieser
-Job am `prod`-Environment, und deshalb muss nach dem Eintragen der Website-ID
-einmal neu gebaut werden.
+Important to understand: the Umami website ID is baked into the JavaScript
+**at build time**. In Next.js everything with the `NEXT_PUBLIC_` prefix is
+build-time configuration, not a runtime variable. That is why this job also
+depends on the `prod` environment, and why a rebuild is required once the
+website ID has been entered.
 
-**Job 2 „deploy"** verbindet sich per SSH mit dem VPS und macht vier Dinge:
+**Job 2 "deploy"** connects to the VPS over SSH and does four things:
 
-1. `/opt/stacks/homepage` anlegen (fester Pfad, im Workflow hartkodiert),
-2. `deploy/docker-compose.yml` dorthin kopieren,
-3. die `.env`-Datei **aus den GitHub-Secrets** schreiben (`chmod 600`),
-4. `docker compose pull && docker compose up -d` und alte Images aufräumen.
+1. create `/opt/stacks/homepage` (fixed path, hardcoded in the workflow),
+2. copy `deploy/docker-compose.yml` there,
+3. write the `.env` file **from the GitHub secrets** (`chmod 600`),
+4. run `docker compose pull && docker compose up -d` and clean up old images.
 
-Der Server hält also keine Geheimnisse, die du von Hand pflegen musst — die
-einzige Quelle der Wahrheit ist das GitHub-Environment `prod`.
+So the server holds no secrets you have to maintain by hand — the single
+source of truth is the GitHub environment `prod`.
 
-### Der Stack auf dem VPS
+### The stack on the VPS
 
-| Container | Zweck | Netze |
+| Container | Purpose | Networks |
 |---|---|---|
-| `homepage` | die Website (Port 3000 im Container) | `edge` + `internal` |
-| `umami` | Analytics-Dashboard und Collect-API | `edge` + `internal` |
-| `umami-db` | PostgreSQL für Umami (Volume `umami-db`) | nur `internal` |
+| `homepage` | the website (port 3000 inside the container) | `edge` + `internal` |
+| `umami` | analytics dashboard and collect API | `edge` + `internal` |
+| `umami-db` | PostgreSQL for Umami (volume `umami-db`) | `internal` only |
 
-`edge` ist das bestehende externe Netz, in dem auch dein Reverse Proxy und
-n8n laufen — dadurch erreicht der Proxy die Container über ihre Namen. Die
-Datenbank hängt nur im selbst angelegten Netz `internal` und ist damit aus
-dem Internet nicht erreichbar.
+`edge` is the existing external network that your reverse proxy and n8n also
+run on — which is how the proxy reaches the containers by name. The database
+only sits in the self-created `internal` network and is therefore unreachable
+from the internet.
 
-Die Messdaten der Besucher gehen **nie direkt an Umami**: Der Browser spricht
-ausschließlich
-`https://sequenz.io/api/a`, und die Next.js-App reicht das serverseitig an
-`http://umami:3000` weiter — ohne die IP-Adresse des Besuchers mitzugeben.
-Genau das macht die Messung DSGVO-seitig unkritisch.
+Visitor measurement data **never goes to Umami directly**: the browser talks
+exclusively to
+`https://sequenz.io/api/a`, and the Next.js app forwards that server-side to
+`http://umami:3000` — without passing on the visitor's IP address. That is
+precisely what makes the measurement unproblematic under the GDPR.
 
 ---
 
-## Teil B — Einrichtung
+## Part B — Setup
 
-### Schritt 1: SSH-Schlüssel für das Deployment erzeugen
+### Step 1: Generate an SSH key for the deployment
 
-GitHub muss sich beim VPS anmelden dürfen. Dafür brauchst du ein
-Schlüsselpaar: Der **private** Schlüssel kommt als Secret nach GitHub, der
-**öffentliche** auf den Server.
+GitHub needs permission to log in to the VPS. For that you need a key pair:
+the **private** key goes to GitHub as a secret, the **public** one onto the
+server.
 
-Auf deinem lokalen Rechner (nicht auf dem VPS):
+On your local machine (not on the VPS):
 
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/homepage_deploy -N "" -C "github-deploy-homepage"
 ```
 
-Erklärung der Optionen: `-t ed25519` = moderner Schlüsseltyp, `-f …` = wohin
-gespeichert wird, `-N ""` = **ohne Passphrase** (wichtig — GitHub kann keine
-Passphrase eingeben), `-C …` = Kommentar zur Wiedererkennung.
+What the options mean: `-t ed25519` = modern key type, `-f …` = where it is
+saved, `-N ""` = **without a passphrase** (important — GitHub cannot type a
+passphrase), `-C …` = comment so you recognise it later.
 
-Es entstehen zwei Dateien:
+Two files are created:
 
-| Datei | Das ist … | Kommt wohin |
+| File | This is … | Goes where |
 |---|---|---|
-| `~/.ssh/homepage_deploy` | der **private** Schlüssel | GitHub-Secret `VPS_SSH_KEY` |
-| `~/.ssh/homepage_deploy.pub` | der **öffentliche** Schlüssel | auf den VPS |
+| `~/.ssh/homepage_deploy` | the **private** key | GitHub secret `VPS_SSH_KEY` |
+| `~/.ssh/homepage_deploy.pub` | the **public** key | onto the VPS |
 
-Öffentlichen Schlüssel auf den Server bringen (ersetze User und Host):
+Get the public key onto the server (replace user and host):
 
 ```bash
-ssh-copy-id -i ~/.ssh/homepage_deploy.pub deployuser@dein-vps.example.com
+ssh-copy-id -i ~/.ssh/homepage_deploy.pub deployuser@your-vps.example.com
 ```
 
-Falls `ssh-copy-id` nicht verfügbar ist, geht es auch von Hand:
+If `ssh-copy-id` is not available, it also works by hand:
 
 ```bash
-cat ~/.ssh/homepage_deploy.pub | ssh deployuser@dein-vps.example.com \
+cat ~/.ssh/homepage_deploy.pub | ssh deployuser@your-vps.example.com \
   "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
 ```
 
-Testen, dass die Anmeldung ohne Passwort klappt:
+Test that logging in without a password works:
 
 ```bash
-ssh -i ~/.ssh/homepage_deploy deployuser@dein-vps.example.com "echo Verbindung OK"
+ssh -i ~/.ssh/homepage_deploy deployuser@your-vps.example.com "echo connection OK"
 ```
 
-Den **privaten** Schlüssel für GitHub in die Zwischenablage holen:
+Get the **private** key into the clipboard for GitHub:
 
 ```bash
 cat ~/.ssh/homepage_deploy          # macOS: pbcopy < ~/.ssh/homepage_deploy
 ```
 
-Kopiere den **kompletten** Inhalt inklusive der Zeilen
-`-----BEGIN OPENSSH PRIVATE KEY-----` und `-----END OPENSSH PRIVATE KEY-----`
-sowie des abschließenden Zeilenumbruchs. Das ist der Wert für `VPS_SSH_KEY`.
+Copy the **entire** contents including the lines
+`-----BEGIN OPENSSH PRIVATE KEY-----` and `-----END OPENSSH PRIVATE KEY-----`
+as well as the trailing newline. That is the value for `VPS_SSH_KEY`.
 
-> Der private Schlüssel gehört nirgendwo anders hin — nicht ins Repo, nicht
-> in eine Notiz-App. Wenn er je abhandenkommt: neuen erzeugen, alten aus
-> `~/.ssh/authorized_keys` auf dem VPS löschen.
+> The private key does not belong anywhere else — not in the repo, not in a
+> notes app. If it ever goes missing: generate a new one and delete the old
+> one from `~/.ssh/authorized_keys` on the VPS.
 
-### Schritt 2: Passwörter für Umami erzeugen
+### Step 2: Generate passwords for Umami
 
-Zwei zufällige Werte, die du dir **nicht merken musst** — sie werden nur in
-GitHub gespeichert und von dort auf den Server geschrieben. Erzeuge sie auf
-deinem Rechner oder dem VPS:
+Two random values you **do not have to remember** — they are only stored in
+GitHub and written from there onto the server. Generate them on your machine
+or on the VPS:
 
 ```bash
-openssl rand -hex 16    # → Wert für UMAMI_DB_PASSWORD (32 Zeichen)
-openssl rand -hex 32    # → Wert für UMAMI_APP_SECRET (64 Zeichen)
+openssl rand -hex 16    # → value for UMAMI_DB_PASSWORD (32 characters)
+openssl rand -hex 32    # → value for UMAMI_APP_SECRET (64 characters)
 ```
 
-Was die beiden tun:
+What the two of them do:
 
-- **`UMAMI_DB_PASSWORD`** — das Passwort, mit dem sich Umami bei seiner
-  eigenen PostgreSQL-Datenbank anmeldet. Beide Container bekommen es aus
-  derselben Variable, sie müssen also zusammenpassen.
-- **`UMAMI_APP_SECRET`** — der Schlüssel, mit dem Umami die Login-Sitzungen
-  seines Dashboards signiert. Ändert man ihn, werden alle Dashboard-Logins
-  ungültig (mehr passiert nicht).
+- **`UMAMI_DB_PASSWORD`** — the password Umami uses to log in to its own
+  PostgreSQL database. Both containers get it from the same variable, so they
+  have to match.
+- **`UMAMI_APP_SECRET`** — the key Umami signs its dashboard login sessions
+  with. Changing it invalidates all dashboard logins (nothing more than that
+  happens).
 
-Falls `openssl` fehlt, geht auch:
+If `openssl` is missing, this also works:
 
 ```bash
-head -c 16 /dev/urandom | xxd -p     # bzw. -c 32 für das App-Secret
+head -c 16 /dev/urandom | xxd -p     # or -c 32 for the app secret
 ```
 
-Jeden Wert direkt kopieren und im nächsten Schritt einfügen.
+Copy each value straight away and paste it in the next step.
 
-### Schritt 3: GitHub-Environment `prod` anlegen
+### Step 3: Create the GitHub environment `prod`
 
-Im Browser: Repo **nikita-petrich/homepage** → **Settings** →
-links **Environments** → **New environment** → Name: `prod` → **Configure
-environment**.
+In the browser: repo **nikita-petrich/homepage** → **Settings** →
+**Environments** on the left → **New environment** → name: `prod` →
+**Configure environment**.
 
-Dann auf dieser Seite unten:
+Then at the bottom of that page:
 
-**„Environment secrets" → „Add secret"** — fünf Stück:
+**"Environment secrets" → "Add secret"** — five of them:
 
-| Name | Wert |
+| Name | Value |
 |---|---|
-| `VPS_HOST` | Hostname oder IP des VPS, z. B. `v1234.netcup.net` |
-| `VPS_USER` | der SSH-Benutzername, z. B. `deployuser` |
-| `VPS_SSH_KEY` | kompletter Inhalt von `~/.ssh/homepage_deploy` (Schritt 1) |
-| `UMAMI_DB_PASSWORD` | der `openssl rand -hex 16`-Wert (Schritt 2) |
-| `UMAMI_APP_SECRET` | der `openssl rand -hex 32`-Wert (Schritt 2) |
+| `VPS_HOST` | hostname or IP of the VPS, e.g. `v1234.netcup.net` |
+| `VPS_USER` | the SSH username, e.g. `deployuser` |
+| `VPS_SSH_KEY` | full contents of `~/.ssh/homepage_deploy` (step 1) |
+| `UMAMI_DB_PASSWORD` | the `openssl rand -hex 16` value (step 2) |
+| `UMAMI_APP_SECRET` | the `openssl rand -hex 32` value (step 2) |
 
-**„Environment variables" → „Add variable"** — eine:
+**"Environment variables" → "Add variable"** — one:
 
-| Name | Wert |
+| Name | Value |
 |---|---|
-| `UMAMI_WEBSITE_ID` | vorerst **leer lassen** — die ID gibt es erst nach Schritt 6 |
+| `UMAMI_WEBSITE_ID` | **leave empty for now** — the ID only exists after step 6 |
 
-Warum Variable und nicht Secret? Die Website-ID steht ohnehin öffentlich im
-ausgelieferten HTML — sie ist kein Geheimnis, und als Variable siehst du sie
-später im Klartext, was das Debuggen erleichtert.
+Why a variable and not a secret? The website ID is public in the delivered
+HTML anyway — it is not a secret, and as a variable you can read it in plain
+text later, which makes debugging easier.
 
-> Secrets kannst du nach dem Speichern nie wieder auslesen, nur überschreiben.
-> Das ist normal — hebe die Werte bei Bedarf in deinem Passwort-Manager auf.
+> Secrets can never be read back after saving, only overwritten. That is
+> normal — keep the values in your password manager if you need them.
 
-### Schritt 4: VPS vorbereiten
+### Step 4: Prepare the VPS
 
-Auf dem VPS einloggen und ausführen (ersetze `deployuser`):
+Log in to the VPS and run (replace `deployuser`):
 
 ```bash
-# 4a. Der Deploy-User muss Docker steuern dürfen
+# 4a. The deploy user has to be allowed to drive Docker
 sudo usermod -aG docker deployuser
-#     danach einmal ab- und wieder anmelden, damit die Gruppe greift
+#     then log out and back in once so the group takes effect
 
-# 4b. Stack-Verzeichnis anlegen und dem Deploy-User geben
+# 4b. Create the stack directory and hand it to the deploy user
 sudo mkdir -p /opt/stacks/homepage
 sudo chown deployuser:deployuser /opt/stacks/homepage
 
-# 4c. Prüfen, dass das externe Netz "edge" existiert
+# 4c. Check that the external network "edge" exists
 docker network ls | grep edge
 ```
 
-Der Stack hängt sich in das bestehende Netz **`edge`**, in dem dein Reverse
-Proxy ([nikita-petrich/reverse-proxy](https://github.com/nikita-petrich/reverse-proxy))
-und n8n bereits laufen. Es ist dort als `external: true` deklariert, wird also
-außerhalb der Compose-Dateien verwaltet. Falls es wider Erwarten fehlt:
+The stack attaches itself to the existing network **`edge`**, on which your
+reverse proxy ([nikita-petrich/reverse-proxy](https://github.com/nikita-petrich/reverse-proxy))
+and n8n already run. It is declared there as `external: true`, so it is
+managed outside the compose files. If it is missing against expectations:
 
 ```bash
 docker network create edge
 ```
 
-Wenn dein GHCR-Package privat bleiben soll, muss sich der VPS einmalig an der
-Registry anmelden (GitHub-PAT mit Scope `read:packages`):
+If you want your GHCR package to stay private, the VPS has to log in to the
+registry once (GitHub PAT with scope `read:packages`):
 
 ```bash
 docker login ghcr.io -u nikita-petrich
 ```
 
-Machst du das Package öffentlich (GitHub → Packages → homepage → Package
-settings → Change visibility → Public), entfällt der Login. Für eine
-Portfolio-Website ist beides vertretbar.
+If you make the package public (GitHub → Packages → homepage → Package
+settings → Change visibility → Public), the login is unnecessary. For a
+portfolio website either is defensible.
 
-### Schritt 5: Reverse Proxy erweitern
+### Step 5: Extend the reverse proxy
 
-In deinem `reverse-proxy/compose.yml` müssen nur die zwei Domain-Variablen
-wachsen — der Rest (Ports, Volume, `FORCE_HTTPS`, `RESOLVER_ADDRESS`, Netz
-`edge`) bleibt unverändert:
+In your `reverse-proxy/compose.yml` only the two domain variables have to
+grow — the rest (ports, volume, `FORCE_HTTPS`, `RESOLVER_ADDRESS`, network
+`edge`) stays unchanged:
 
 ```yaml
 environment:
@@ -226,125 +226,122 @@ environment:
   RESOLVER_ADDRESS: "127.0.0.11"
 ```
 
-Dann im Reverse-Proxy-Verzeichnis `docker compose up -d`.
+Then run `docker compose up -d` in the reverse-proxy directory.
 
-Was die beiden Variablen bedeuten:
+What the two variables mean:
 
-- **`ALLOWED_DOMAINS`** ist ein **Regex**, keine Komma-Liste — nur passende
-  Hostnamen bekommen automatisch ein Let's-Encrypt-Zertifikat. Das Muster
-  oben erlaubt `sequenz.io`, `www.sequenz.io`, `stats.sequenz.io` und
+- **`ALLOWED_DOMAINS`** is a **regex**, not a comma-separated list — only
+  matching hostnames automatically get a Let's Encrypt certificate. The
+  pattern above allows `sequenz.io`, `www.sequenz.io`, `stats.sequenz.io` and
   `n8n.sequenz.io`.
 
-  > **Wichtig: keine Backslashes verwenden.** Der Wert wird im Image in ein
-  > Lua-Skript eingesetzt, und `\.` ist in Lua keine gültige Escape-Sequenz —
-  > der Container startet dann in einer Endlosschleife neu. Punkte bleiben
-  > deshalb unescaped (sie matchen als „beliebiges Zeichen", was hier
-  > unkritisch ist); genauso machen es die offiziellen Beispiele des Images.
-  > Auch ein `$` am Ende vermeiden: Docker Compose interpretiert `$` als
-  > Variablen-Präfix.
-- **`SITES`** ist die Weiterleitungstabelle im Format
-  `domain=ziel;domain=ziel`.
+  > **Important: do not use backslashes.** The value is substituted into a Lua
+  > script inside the image, and `\.` is not a valid escape sequence in Lua —
+  > the container then restarts in an endless loop. Dots therefore stay
+  > unescaped (they match as "any character", which is harmless here); the
+  > image's official examples do exactly the same. Also avoid a trailing `$`:
+  > Docker Compose interprets `$` as a variable prefix.
+- **`SITES`** is the forwarding table in the format
+  `domain=target;domain=target`.
 
-  > **Wichtig: keine Leerzeichen nach den Semikolons.** Der Entrypoint des
-  > Images trennt nur an `;` und trimmt nicht; ein führendes Leerzeichen
-  > landet im Servernamen, und das Schreiben der Config-Datei scheitert dann
-  > an einer „ambiguous redirect" in Bash. Betroffene Einträge werden
-  > stillschweigend übersprungen — es bleibt nur der erste Eintrag übrig, der
-  > damit zum Default-Server für *alle* Domains wird (Symptom: jede Subdomain
-  > zeigt dieselbe Seite).
+  > **Important: no spaces after the semicolons.** The image's entrypoint
+  > splits only on `;` and does not trim; a leading space ends up in the
+  > server name, and writing the config file then fails with an "ambiguous
+  > redirect" in Bash. Affected entries are skipped silently — only the first
+  > entry survives, and it thereby becomes the default server for *all*
+  > domains (symptom: every subdomain shows the same page).
 
-  `homepage` und `umami` sind die Container-Namen aus
-  `deploy/docker-compose.yml`; Docker löst sie im Netz `edge` automatisch per
-  DNS auf (dafür steht dein `RESOLVER_ADDRESS: 127.0.0.11` — das ist Dockers
-  eingebauter DNS-Server). Dein bestehender n8n-Eintrag bleibt einfach
-  stehen.
+  `homepage` and `umami` are the container names from
+  `deploy/docker-compose.yml`; Docker resolves them automatically via DNS on
+  the `edge` network (that is what your `RESOLVER_ADDRESS: 127.0.0.11` is for
+  — Docker's built-in DNS server). Your existing n8n entry simply stays.
 
-**Voraussetzung DNS:** Die A-Records für `sequenz.io`, `www.sequenz.io` und
-`stats.sequenz.io` müssen auf die IP des VPS zeigen, sonst kann Let's Encrypt
-kein Zertifikat ausstellen. `n8n.sequenz.io` hast du ja bereits.
+**DNS prerequisite:** the A records for `sequenz.io`, `www.sequenz.io` and
+`stats.sequenz.io` have to point at the VPS's IP, otherwise Let's Encrypt
+cannot issue a certificate. You already have `n8n.sequenz.io`.
 
-**Zu `www`:** Der Proxy leitet `www.sequenz.io` an denselben Container weiter;
-die App antwortet darauf mit einer permanenten Weiterleitung (HTTP 308) auf
-`https://sequenz.io` — inklusive Pfad, `www.sequenz.io/projects/aitoi` landet
-also auf `sequenz.io/projects/aitoi`. So bleibt genau eine kanonische URL,
-was Duplicate Content bei Suchmaschinen vermeidet (konfiguriert über
-`redirects()` in `next.config.ts`).
+**On `www`:** the proxy forwards `www.sequenz.io` to the same container; the
+app answers with a permanent redirect (HTTP 308) to `https://sequenz.io` —
+including the path, so `www.sequenz.io/projects/aitoi` ends up at
+`sequenz.io/projects/aitoi`. That leaves exactly one canonical URL, which
+avoids duplicate content with search engines (configured via `redirects()` in
+`next.config.ts`).
 
-Hinweis:
+Note:
 
-- **Datenschutz:** Die Datenschutzerklärung sagt zu, dass Server-Logs gekürzt
-  und nach spätestens 7 Tagen gelöscht werden. Konfiguriere die Access-Logs
-  des Proxys entsprechend (IP-Kürzung, Rotation ≤ 7 Tage).
+- **Privacy:** the privacy policy promises that server logs are truncated and
+  deleted after 7 days at the latest. Configure the proxy's access logs
+  accordingly (IP truncation, rotation ≤ 7 days).
 
-### Schritt 6: Erster Deploy und Umami einrichten
+### Step 6: First deploy and Umami setup
 
-1. **Branch nach `main` mergen** (oder: Actions → **Deploy** → **Run
-   workflow**). Der Workflow läuft ~3–5 Minuten. Unter „Actions" kannst du
-   live zusehen; bei einem Fehler steht dort genau, welcher Schritt gescheitert
-   ist.
-2. `https://sequenz.io` aufrufen — die Seite läuft. Die Messung ist noch
-   aus, weil `UMAMI_WEBSITE_ID` leer ist. Das ist erwartet.
-3. `https://stats.sequenz.io` aufrufen → Login **`admin`** / **`umami`** →
-   **Passwort sofort ändern** (oben rechts → Profile → Change password).
-   Das ist wichtig: Die Seite ist öffentlich erreichbar, die
-   Standard-Zugangsdaten sind allgemein bekannt.
-4. Dort **Settings → Websites → Add website**: Name `sequenz.io`, Domain
-   `sequenz.io`. Nach dem Speichern die **Website ID** kopieren (eine UUID
-   wie `b4f2c1a8-…`).
-5. Diese ID in GitHub eintragen: Settings → Environments → `prod` →
-   `UMAMI_WEBSITE_ID` bearbeiten → einfügen → speichern.
-6. **Deploy erneut starten**: Actions → Deploy → Run workflow. Erst dieser
-   Build backt die ID ins Frontend ein.
-7. Website öffnen, ein bisschen klicken — im Umami-Dashboard sollten unter
-   „Events" nach kurzer Zeit Einträge wie `cv_download`, `booking_click`,
-   `project_open` erscheinen.
+1. **Merge the branch into `main`** (or: Actions → **Deploy** → **Run
+   workflow**). The workflow takes ~3–5 minutes. You can watch live under
+   "Actions"; on a failure it says exactly which step failed.
+2. Open `https://sequenz.io` — the site is running. Measurement is still off
+   because `UMAMI_WEBSITE_ID` is empty. That is expected.
+3. Open `https://stats.sequenz.io` → log in with **`admin`** / **`umami`** →
+   **change the password immediately** (top right → Profile → Change
+   password). This matters: the page is publicly reachable and the default
+   credentials are common knowledge.
+4. There go to **Settings → Websites → Add website**: name `sequenz.io`,
+   domain `sequenz.io`. After saving, copy the **website ID** (a UUID like
+   `b4f2c1a8-…`).
+5. Enter that ID in GitHub: Settings → Environments → `prod` → edit
+   `UMAMI_WEBSITE_ID` → paste → save.
+6. **Start the deploy again**: Actions → Deploy → Run workflow. Only this
+   build bakes the ID into the frontend.
+7. Open the website, click around a bit — entries such as `cv_download`,
+   `booking_click` and `project_open` should show up under "Events" in the
+   Umami dashboard shortly afterwards.
 
 ---
 
-## Teil C — Betrieb
+## Part C — Operations
 
-**Statistiken ansehen:** `https://stats.sequenz.io` im Browser öffnen.
+**Viewing statistics:** open `https://stats.sequenz.io` in the browser.
 
-**Normales Update:** Änderung committen, nach `main` pushen — fertig. Der
-Deploy läuft automatisch.
+**Normal update:** commit the change, push to `main` — done. The deploy runs
+automatically.
 
-**Rollback:** Auf dem VPS in `/opt/stacks/homepage` das Image-Tag im
-`docker-compose.yml` temporär auf einen früheren Commit setzen
-(`ghcr.io/nikita-petrich/homepage:<commit-sha>`) und `docker compose up -d`.
-Sauberer für Dauerhaftes: den fehlerhaften Commit in Git reverten und pushen.
+**Rollback:** on the VPS, in `/opt/stacks/homepage`, temporarily set the image
+tag in `docker-compose.yml` to an earlier commit
+(`ghcr.io/nikita-petrich/homepage:<commit-sha>`) and run
+`docker compose up -d`. Cleaner for anything permanent: revert the faulty
+commit in Git and push.
 
-**Logs ansehen:**
+**Viewing logs:**
 
 ```bash
 cd /opt/stacks/homepage
-docker compose logs -f homepage     # oder: umami, umami-db
-docker compose ps                   # Status aller Container
+docker compose logs -f homepage     # or: umami, umami-db
+docker compose ps                   # status of all containers
 ```
 
-**Secrets ändern:** Wert im `prod`-Environment überschreiben, Deploy laufen
-lassen. **Achtung bei `UMAMI_DB_PASSWORD`:** PostgreSQL übernimmt ein neues
-Passwort nicht automatisch für eine bereits bestehende Datenbank — du musst
-es dort zusätzlich setzen:
+**Changing secrets:** overwrite the value in the `prod` environment and let
+the deploy run. **Careful with `UMAMI_DB_PASSWORD`:** PostgreSQL does not
+adopt a new password automatically for a database that already exists — you
+have to set it there as well:
 
 ```bash
 docker exec -it umami-db \
-  psql -U umami -c "ALTER USER umami WITH PASSWORD 'neuer-wert';"
+  psql -U umami -c "ALTER USER umami WITH PASSWORD 'new-value';"
 ```
 
-**Backup:** Die Website selbst ist zustandslos (alles liegt im Git). Sichern
-musst du nur die Analytics-Datenbank:
+**Backup:** the website itself is stateless (everything lives in Git). The
+only thing you have to back up is the analytics database:
 
 ```bash
 docker exec umami-db pg_dump -U umami umami > umami-backup-$(date +%F).sql
 ```
 
-**Wenn etwas nicht läuft:**
+**When something does not work:**
 
-| Symptom | Wahrscheinliche Ursache |
+| Symptom | Likely cause |
 |---|---|
-| Deploy scheitert bei „Set up SSH" | `VPS_SSH_KEY` unvollständig kopiert (BEGIN/END-Zeilen fehlen) oder `VPS_HOST` falsch |
-| Deploy scheitert bei „Pull and restart" | Deploy-User nicht in der `docker`-Gruppe, oder GHCR-Login fehlt bei privatem Package |
-| `docker compose up` meldet „network edge not found" | Das externe Netz `edge` existiert nicht — `docker network create edge` (Schritt 4c) |
-| Proxy meldet 502 für sequenz.io | Container `homepage` läuft nicht, oder der `SITES`-Eintrag zeigt auf den falschen Namen/Port (`homepage:3000`) |
-| Seite lädt, aber keine Events in Umami | `UMAMI_WEBSITE_ID` gesetzt, aber kein neuer Deploy gelaufen (Schritt 6.6) |
-| Umami-Container startet nicht | `UMAMI_DB_PASSWORD` nach dem ersten Start geändert, ohne es in Postgres nachzuziehen |
+| Deploy fails at "Set up SSH" | `VPS_SSH_KEY` copied incompletely (BEGIN/END lines missing) or `VPS_HOST` wrong |
+| Deploy fails at "Pull and restart" | Deploy user not in the `docker` group, or GHCR login missing for a private package |
+| `docker compose up` reports "network edge not found" | The external network `edge` does not exist — `docker network create edge` (step 4c) |
+| Proxy returns 502 for sequenz.io | Container `homepage` is not running, or the `SITES` entry points at the wrong name/port (`homepage:3000`) |
+| Page loads but no events in Umami | `UMAMI_WEBSITE_ID` set, but no new deploy has run (step 6.6) |
+| Umami container does not start | `UMAMI_DB_PASSWORD` changed after the first start without applying it in Postgres |

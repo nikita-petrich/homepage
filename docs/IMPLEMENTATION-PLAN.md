@@ -1,215 +1,215 @@
-# Umsetzungsplan: Rechtssicherer Produktivbetrieb + detailliertes Nutzer-Tracking
+# Implementation plan: legally sound production operation + detailed user tracking
 
-**Grundlage:** [`AUDIT-REPORT.md`](./AUDIT-REPORT.md) (Findings R-/S-/N-/A-/C-…) und [`TRACKING-CONCEPT.md`](./TRACKING-CONCEPT.md) (vollständiges Tracking-Design).
-**Arbeitsprozess:** strukturiert über [bradtraversy/ai-blueprint](https://github.com/bradtraversy/ai-blueprint) — siehe Abschnitt „Arbeitsprozess mit ai-blueprint" unten.
-
----
-
-## 0. Zielbild und Leitplanken
-
-1. **Rechtssicherheit vor Features.** Impressum + Datenschutzerklärung sind Voraussetzung für den Produktivgang — und auch für jedes Tracking (die Datenschutzerklärung muss das Tracking beschreiben, *bevor* es live geht).
-2. **„Möglichst alles sammeln" wird als Zwei-Stufen-Modell umgesetzt.** Maximal detailliertes Klick-Tracking ist erreichbar — aber legal nur so:
-   - **Stufe 1 (alle Besucher, ohne Einwilligung):** cookielose, anonyme Messung *jedes* Klicks/Events — kein Speichern im Endgerät, keine Wiedererkennung über Besuche hinweg (§ 25 TDDDG greift nicht; Rechtsgrundlage Art. 6 Abs. 1 lit. f DSGVO). Damit gibt es **ohne einen einzigen Consent-Klick vollständige Klick-Statistiken.**
-   - **Stufe 2 (nur nach Opt-in):** persistente Besucher-IDs, Cross-Visit-Journeys, Session-Replay. Realistisch willigt auf einer Portfolio-Seite nur ein Bruchteil ein — Stufe 2 ist Bonus, nicht Datengrundlage.
-   - Ein „alles ohne Fragen sammeln" (persistente IDs/Fingerprinting ohne Consent) wäre in Deutschland klar rechtswidrig (§ 25 TDDDG, Art. 5/6 DSGVO) und wird nicht gebaut.
-3. **Kleine, überprüfbare Schritte** — jede Phase endet mit grünem `pnpm lint && pnpm build` und einem Commit; die Rechts-Features blockieren als P1-Findings den Abschluss (ai-blueprint-Gate).
+**Basis:** [`AUDIT-REPORT.md`](./AUDIT-REPORT.md) (findings R-/S-/N-/A-/C-…) and [`TRACKING-CONCEPT.md`](./TRACKING-CONCEPT.md) (the full tracking design).
+**Working process:** structured via [bradtraversy/ai-blueprint](https://github.com/bradtraversy/ai-blueprint) — see the "Working process with ai-blueprint" section below.
 
 ---
 
-## Phase 1 — Rechtliche Basis (P0, ~1 Tag + Zuarbeit)
+## 0. Target picture and guard rails
 
-> Erledigt R-01, R-02, R-03 (Teil 1), R-04. **Ohne diese Phase kein Produktivgang.**
+1. **Legal certainty before features.** An imprint and a privacy policy are a precondition for going live — and for any tracking too (the privacy policy has to describe the tracking *before* it goes live).
+2. **"Collect as much as possible" is implemented as a two-tier model.** Maximally detailed click tracking is achievable — but legally only like this:
+   - **Tier 1 (all visitors, without consent):** cookieless, anonymous measurement of *every* click/event — nothing stored on the device, no recognition across visits (§ 25 TDDDG does not apply; legal basis Art. 6(1)(f) GDPR). This yields **full click statistics without a single consent click.**
+   - **Tier 2 (only after opt-in):** persistent visitor IDs, cross-visit journeys, session replay. Realistically only a fraction of visitors to a portfolio page will consent — tier 2 is a bonus, not the data foundation.
+   - A "collect everything without asking" (persistent IDs/fingerprinting without consent) would be clearly unlawful in Germany (§ 25 TDDDG, Art. 5/6 GDPR) and will not be built.
+3. **Small, verifiable steps** — every phase ends with a green `pnpm lint && pnpm build` and a commit; the legal features block completion as P1 findings (ai-blueprint gate).
 
-| # | Schritt | Dateien | Aufwand |
+---
+
+## Phase 1 — Legal basis (P0, ~1 day + input from the operator)
+
+> Closes R-01, R-02, R-03 (part 1), R-04. **Without this phase there is no going live.**
+
+| # | Step | Files | Effort |
 |---|---|---|---|
-| 1.1 | **Footer-Komponente** mit Links „Impressum · Datenschutz · Cookie-Einstellungen" in `app/layout.tsx` einhängen (erscheint damit auf allen Routen inkl. `/projects/*`, `/references/*`) | `components/notion/footer.tsx`, `app/layout.tsx` | S |
-| 1.2 | **Impressum-Seite** im Seiten-Design. Pflichtangaben (Freiberufler): Name, ladungsfähige Anschrift, E-Mail + Telefon, USt-IdNr. (falls vorhanden; bei § 19 UStG entfällt sie), VSBG-Hinweis. `robots`-Meta bleibt indexierbar | `app/imprint/page.tsx` | S |
-| 1.3 | **Datenschutzerklärungs-Seite**: Verantwortlicher; Hosting/Server-Logs (Art. 6 lit. f, Speicherdauer, AVV-Hinweis auf Hoster); Kontaktaufnahme; **Terminbuchung via Notion** (calendar.notion.so, Drittlandtransfer, DPF-Status prüfen); **Referenzen/Testimonials** (Rechtsgrundlage, Widerruf); Betroffenenrechte Art. 15–21, 77; Hinweis „Fonts lokal gehostet, keine Verbindung zu Google" | `app/privacy/page.tsx` | M |
-| 1.4 | **Cookie-Banner stilllegen** (Interimszustand bis Phase 2): Banner entfernen oder Text auf die Wahrheit reduzieren — keine Schein-Toggles. *Alternativ Phase 2 direkt anschließen und den Banner in einem Zug echt machen.* | `components/notion/cookie-banner.tsx`, `app/page.tsx` | S |
-| 1.5 | **Einwilligungen der 6 Referenzgeber** einholen/bestätigen (E-Mail genügt) und **außerhalb des Repos** archivieren (Art. 7 Abs. 1). Entfernungsprozess festhalten: bei Widerruf Eintrag aus `lib/references.json` löschen → Route liefert 404; „never change/never remove"-Kommentar in `lib/data.ts` relativieren | organisatorisch + `lib/data.ts` | M (Zuarbeit) |
-| 1.6 | **CV-PDFs prüfen**: enthaltene Referenz-Zitate/Kundennennungen müssen von 1.5 gedeckt sein | `public/cv/` | S (Zuarbeit) |
+| 1.1 | **Footer component** with the links "Impressum · Datenschutz · Cookie-Einstellungen", hooked into `app/layout.tsx` (so it appears on all routes including `/projects/*`, `/references/*`) | `components/notion/footer.tsx`, `app/layout.tsx` | S |
+| 1.2 | **Imprint page** in the site design. Mandatory details (freelancer): name, address at which service can be effected, email + phone, VAT ID (if one exists; it does not apply under § 19 UStG), VSBG note. The `robots` meta stays indexable | `app/imprint/page.tsx` | S |
+| 1.3 | **Privacy policy page**: controller; hosting/server logs (Art. 6(f), retention period, DPA note on the host); contact; **appointment booking via Notion** (calendar.notion.so, third-country transfer, check DPF status); **references/testimonials** (legal basis, withdrawal); data-subject rights Art. 15–21, 77; a note that "fonts are hosted locally, no connection to Google" | `app/privacy/page.tsx` | M |
+| 1.4 | **Decommission the cookie banner** (interim state until phase 2): remove the banner or reduce its text to the truth — no sham toggles. *Alternatively go straight on to phase 2 and make the banner real in one go.* | `components/notion/cookie-banner.tsx`, `app/page.tsx` | S |
+| 1.5 | **Obtain/confirm the consents of the 6 referrers** (email is enough) and archive them **outside the repo** (Art. 7(1)). Record the removal process: on withdrawal, delete the entry from `lib/references.json` → the route returns 404; soften the "never change/never remove" comment in `lib/data.ts` | organisational + `lib/data.ts` | M (operator input) |
+| 1.6 | **Review the CV PDFs**: the reference quotes/client mentions they contain have to be covered by 1.5 | `public/cv/` | S (operator input) |
 
-**Zuarbeit des Betreibers nötig:** Anschrift, USt-IdNr./Kleinunternehmer-Status, Hoster-Name (für AVV-Abschnitt), Referenzgeber-Kontakte.
+**Input needed from the operator:** address, VAT ID/small-business status, host name (for the DPA section), referrer contacts.
 
 ---
 
-## Phase 2 — Consent-Architektur + Tracking Stufe 1 (P0/P1, ~2–3 Tage)
+## Phase 2 — Consent architecture + tracking tier 1 (P0/P1, ~2–3 days)
 
-> Setzt das [`TRACKING-CONCEPT.md`](./TRACKING-CONCEPT.md) um (dort: vollständige Begründung, Code-Skizzen, Event-Taxonomie). Erledigt R-03 (Teil 2), R-07, A-10.
+> Implements [`TRACKING-CONCEPT.md`](./TRACKING-CONCEPT.md) (which holds the full rationale, code sketches and event taxonomy). Closes R-03 (part 2), R-07, A-10.
 
-**Tool-Entscheidung (Empfehlung aus dem Konzept):** **Selbst gehostetes Umami** (Docker + Postgres, z. B. auf Hetzner — passt zum vorhandenen Stack). Cookielos by default, Visitor-Hash mit täglich rotierendem Salt → einwilligungsfrei nutzbar, kein AVV, keine Drittlandsprüfung, keine Lizenzkosten, deklaratives Event-Tracking. Alternativen und Kriterien: Konzept, Abschnitt 2.
+**Tool decision (recommendation from the concept):** **self-hosted Umami** (Docker + Postgres, e.g. on Hetzner — fits the existing stack). Cookieless by default, visitor hash with a daily rotating salt → usable without consent, no DPA, no third-country assessment, no licence costs, declarative event tracking. Alternatives and criteria: concept, section 2.
 
-| # | Schritt | Kern |
+| # | Step | Core |
 |---|---|---|
-| 2.1 | **Consent-Modul** `lib/analytics/consent.ts` | Versioniertes `ConsentState`-Objekt (statt `"all"/"none"/"customized"`-String), `readConsent()`/`writeConsent()` mit Schema-Validierung, CustomEvent `np:consent`. Speicherung selbst ist § 25 Abs. 2 Nr. 2 TDDDG-konform |
-| 2.2 | **Banner-Umbau** `cookie-banner.tsx` | Echte Persistenz der Toggles; **korrigierter Text** („Diese Website misst die Nutzung cookielos und anonym. Optional: erweiterte Analyse — nur mit Ihrer Einwilligung."); „Ablehnen" bleibt gleichrangig; `aria-label` auf den Toggles (A-10); Footer-Link „Cookie-Einstellungen" öffnet den Banner erneut mit vorbefüllten Werten (Widerruf, Art. 7 Abs. 3) |
-| 2.3 | **Umami aufsetzen** | Docker-Container + Postgres auf EU-Server; Website-ID als `NEXT_PUBLIC_UMAMI_ID` |
-| 2.4 | **First-Party-Proxy** `app/api/a/[...path]/route.ts` | Script + Collect-Endpoint unter eigener Domain; **bewusst keine IP-Weitergabe** (kein X-Forwarded-For) → Umami sieht nie Client-IPs. Next-16-Konvention: `RouteContext`-Helper, awaited `params` |
-| 2.5 | **AnalyticsProvider** in `app/layout.tsx` | Kleine Client-Insel; Umami-`<Script>` lädt immer (Stufe 1, einwilligungsfrei); Stufe-2-Script wird erst **gerendert**, wenn `analytics: true` (next/script-Semantik: Strategie steuert *wann*, Rendern steuert *ob*) |
-| 2.6 | **`track()`-Utility + Instrumentierung** | Zentrale `lib/analytics/track.ts`; **deklarativ** per `data-analytics-event`/`data-analytics-prop-*`-Attributen + globalem delegiertem Click-Listener (Server-Komponenten bleiben Server-Komponenten; `grep data-analytics-event` = komplette Instrumentierungs-Landkarte). Explizite Hooks nur für Suche (debounced), Scroll-Tiefe, Engagement-Zeit (`sendBeacon` bei `pagehide`), Web Vitals (`useReportWebVitals`) |
-| 2.7 | **Datenschutzerklärung erweitern** | Abschnitt Stufe-1-Messung (Art. 6 lit. f, keine Cookies, Widerspruchsrecht) — **vor** Aktivierung des Trackings deployen |
+| 2.1 | **Consent module** `lib/analytics/consent.ts` | A versioned `ConsentState` object (instead of an `"all"/"none"/"customized"` string), `readConsent()`/`writeConsent()` with schema validation, CustomEvent `np:consent`. Storing it is itself compliant with § 25(2) no. 2 TDDDG |
+| 2.2 | **Banner rebuild** `cookie-banner.tsx` | Real persistence of the toggles; **corrected text** ("Diese Website misst die Nutzung cookielos und anonym. Optional: erweiterte Analyse — nur mit Ihrer Einwilligung."); "Ablehnen" stays equally weighted; `aria-label` on the toggles (A-10); the footer link "Cookie-Einstellungen" reopens the banner with pre-filled values (withdrawal, Art. 7(3)) |
+| 2.3 | **Set up Umami** | Docker container + Postgres on an EU server; website ID as `NEXT_PUBLIC_UMAMI_ID` |
+| 2.4 | **First-party proxy** `app/api/a/[...path]/route.ts` | Script + collect endpoint under our own domain; **deliberately no IP forwarding** (no X-Forwarded-For) → Umami never sees client IPs. Next 16 convention: `RouteContext` helper, awaited `params` |
+| 2.5 | **AnalyticsProvider** in `app/layout.tsx` | A small client island; the Umami `<Script>` always loads (tier 1, no consent needed); the tier-2 script is only **rendered** once `analytics: true` (next/script semantics: the strategy controls *when*, rendering controls *whether*) |
+| 2.6 | **`track()` utility + instrumentation** | A central `lib/analytics/track.ts`; **declarative** via `data-analytics-event`/`data-analytics-prop-*` attributes plus a global delegated click listener (server components stay server components; `grep data-analytics-event` = the complete instrumentation map). Explicit hooks only for search (debounced), scroll depth, engagement time (`sendBeacon` on `pagehide`) and web vitals (`useReportWebVitals`) |
+| 2.7 | **Extend the privacy policy** | A section on the tier-1 measurement (Art. 6(f), no cookies, right to object) — deploy it **before** activating the tracking |
 
-**Event-Taxonomie (Auszug — vollständige Tabelle mit Code-Ankern im Konzept, Abschnitt 3):**
+**Event taxonomy (excerpt — the full table with code anchors is in the concept, section 3):**
 
 | Event | Trigger | Properties |
 |---|---|---|
-| `cv_download` | CV-Menü-Eintrag | `cv_lang: de/en`, `placement: topbar/hero` |
-| `booking_click` | „Erstgespräch buchen" | `placement: topbar/intro_callout` |
-| `project_open` / `reference_open` / `certificate_open` | Karten | `slug`, `source` |
-| `skills_search` / `gallery_search` | Suchfelder (debounced) | `query_length`, `result_count`, `matched_categories` — **nie der Roh-Query** (PII-Risiko, Quasi-Identifikator) |
-| `toc_navigate`, `outbound_click`, `scroll_depth`, `engagement_time`, `web_vitals`, `consent_decision` | s. Konzept | gebucketed, ohne Personenbezug |
+| `cv_download` | CV menu entry | `cv_lang: de/en`, `placement: topbar/hero` |
+| `booking_click` | "Erstgespräch buchen" | `placement: topbar/intro_callout` |
+| `project_open` / `reference_open` / `certificate_open` | cards | `slug`, `source` |
+| `skills_search` / `gallery_search` | search fields (debounced) | `query_length`, `result_count`, `matched_categories` — **never the raw query** (PII risk, quasi-identifier) |
+| `toc_navigate`, `outbound_click`, `scroll_depth`, `engagement_time`, `web_vitals`, `consent_decision` | see the concept | bucketed, without any personal reference |
 
-**Datenminimierung (verbindlich):** keine IP-Speicherung (Proxy streift sie ab), Referrer nur als Domain, Zeit-/Vitals-Werte gebucketed, Property-Allowlist in `track()`, Speicherfristen laut Konzept (Roh-Events 14 Monate, Access-Logs 7 Tage, Consent-Logs 3 Jahre).
+**Data minimisation (binding):** no IP storage (the proxy strips them), referrer only as a domain, time/vitals values bucketed, a property allowlist in `track()`, retention periods per the concept (raw events 14 months, access logs 7 days, consent logs 3 years).
 
 ---
 
-## Phase 3 — Security-Härtung & Betriebsreife (P1, ~1 Tag)
+## Phase 3 — Security hardening & operational readiness (P1, ~1 day)
 
-> Erledigt S-01…S-05, N-02.
+> Closes S-01…S-05, N-02.
 
-| # | Schritt | Detail |
+| # | Step | Detail |
 |---|---|---|
-| 3.1 | **Next-Update** | `pnpm up next@16.2.11 eslint-config-next@16.2.11` → 9 CVEs geschlossen; danach `pnpm build` + Smoke-Test. React/lucide-react-Patch-Drift gleich mitnehmen |
-| 3.2 | **pnpm-Overrides** in `pnpm-workspace.yaml` | `postcss: '>=8.5.12'`, `sharp: '>=0.35.0'` (werden von 16.2.11 **nicht** mitgefixt); `pnpm audit` muss danach leer sein; Build-Regression prüfen (next pinnt postcss bewusst exakt) |
-| 3.3 | **CI + Dependabot** | `.github/workflows/ci.yml` (`pnpm install --frozen-lockfile && pnpm lint && pnpm build`) + `.github/dependabot.yml` (npm, weekly, gruppierte Minor/Patch). *Wichtigste strukturelle Maßnahme des Audits* |
-| 3.4 | **Security-Header** in `next.config.ts` via `headers()` | CSP nach dem „Without Nonces"-Muster der Next-16-Doku (statische Seite → **kein** Nonce-Setup, das würde dynamisches Rendering erzwingen): `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests` + `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, restriktive `Permissions-Policy`. Nach Phase 2 die CSP um die Umami-Proxy-Pfade ergänzen (bleibt 'self' — Vorteil des First-Party-Proxys). HSTS: setzt Vercel automatisch; bei Self-Hosting im Reverse Proxy |
-| 3.5 | **`poweredByHeader: false`** | eine Zeile `next.config.ts` |
-| 3.6 | **Fehlerseiten** | `app/not-found.tsx` (deutsch, Seitendesign, Link zur Startseite), `app/error.tsx` (`unstable_retry`), `app/global-error.tsx` (eigene `<html>/<body>`) |
+| 3.1 | **Next update** | `pnpm up next@16.2.11 eslint-config-next@16.2.11` → 9 CVEs closed; then `pnpm build` + smoke test. Take the React/lucide-react patch drift along at the same time |
+| 3.2 | **pnpm overrides** in `pnpm-workspace.yaml` | `postcss: '>=8.5.12'`, `sharp: '>=0.35.0'` (**not** fixed along by 16.2.11); `pnpm audit` has to be empty afterwards; check for build regressions (next pins postcss exactly on purpose) |
+| 3.3 | **CI + Dependabot** | `.github/workflows/ci.yml` (`pnpm install --frozen-lockfile && pnpm lint && pnpm build`) + `.github/dependabot.yml` (npm, weekly, grouped minor/patch). *The most important structural measure of the audit* |
+| 3.4 | **Security headers** in `next.config.ts` via `headers()` | CSP following the "Without Nonces" pattern from the Next 16 docs (static page → **no** nonce setup, that would force dynamic rendering): `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests` + `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, a restrictive `Permissions-Policy`. After phase 2, extend the CSP with the Umami proxy paths (it stays 'self' — the advantage of the first-party proxy). HSTS: Vercel sets it automatically; when self-hosting, in the reverse proxy |
+| 3.5 | **`poweredByHeader: false`** | one line in `next.config.ts` |
+| 3.6 | **Error pages** | `app/not-found.tsx` (German, in the site design, link to the home page), `app/error.tsx` (`unstable_retry`), `app/global-error.tsx` (its own `<html>/<body>`) |
 
 ---
 
-## Phase 4 — SEO & Akquise-Wirkung (P1, ~1 Tag)
+## Phase 4 — SEO & acquisition impact (P1, ~1 day)
 
-> Erledigt N-01, C-02, Teile von C-07.
+> Closes N-01, C-02, parts of C-07.
 
-1. `metadataBase` + `openGraph`/`twitter`-Blöcke in `app/layout.tsx`; `title.template` für die Slug-Seiten.
-2. `app/opengraph-image.tsx` per `ImageResponse` (1200×630, analog `icon.tsx`/CoverBanner-Design) → Link-Previews auf LinkedIn & Co. mit Bild.
-3. `app/sitemap.ts` + `app/robots.ts`, generiert aus `projects`/`references` in `lib/data.ts` (kann nie divergieren).
-4. JSON-LD `Person`/`ProfessionalService`-Schema (Guide `json-ld.md`).
-5. **Profil-Links reparieren** (C-02): echte Malt-Profil-URL (liegt schon in `references.json`), echte freelancermap-Profil-URL eintragen — aktuell landen Interessenten auf den Portal-Startseiten.
-6. Optional: den im README versprochenen zweiten CV-Button („hero"-Variante existiert als toter Code) neben dem Intro-Callout einbauen — Conversion-Element.
-
----
-
-## Phase 5 — Performance & Barrierefreiheit (P2, ~2 Tage)
-
-> Erledigt N-03, A-01, A-02, A-04, A-05, A-06, A-08, A-09, A-17.
-
-1. **Bilder:** `images.unoptimized` entfernen, alle 6 `<img>`-Stellen auf `next/image` mit statischen Imports + `sizes` (Cover werden dann automatisch als AVIF/WebP in Kartengröße ausgeliefert; ~70–80 % Ersparnis auf ~944 KB Cover-Last).
-2. **ModalShell extrahieren** (A-04) und dabei Fokus-Management lösen (A-01): natives `<dialog>`/`showModal()` oder Radix Dialog → Fokus-Trap, initialer Fokus, Fokus-Rückgabe, ESC zentral. Interception-Routen dabei auf Server-Komponenten mit `generateStaticParams` umstellen (N-04) und `notFound()` bei unbekanntem Slug (A-17).
-3. **Kontraste fixen** (A-02): Akzent für Text-auf-Weiß ~`#b5651d`, `--notion-text-gray` anheben; Farbpaare als Token-Paare in `globals.css`/`@theme` (löst A-13 gleich mit).
-4. **Galerie-Hook** `useGallery<T>` + `GalleryGrid`/`EmptyState` (A-05).
-5. **Fake-Toolbar bereinigen** (A-06): Expand/Add sort/Delete sort entfernen, Filter-Popover real an die Suche koppeln oder streichen; `aria-expanded`/`aria-haspopup`/ESC ergänzen.
-6. **Überschriften-Hierarchie** (A-08): Name = einziges `h1`; TOC per Tastatur öffenbar (A-09); deutsche aria-labels (A-11); CV-Dropdown ohne `role="menu"` (A-12).
+1. `metadataBase` + `openGraph`/`twitter` blocks in `app/layout.tsx`; `title.template` for the slug pages.
+2. `app/opengraph-image.tsx` via `ImageResponse` (1200×630, analogous to `icon.tsx`/the CoverBanner design) → link previews on LinkedIn and elsewhere with an image.
+3. `app/sitemap.ts` + `app/robots.ts`, generated from `projects`/`references` in `lib/data.ts` (they can never diverge).
+4. A JSON-LD `Person`/`ProfessionalService` schema (guide `json-ld.md`).
+5. **Fix the profile links** (C-02): enter the real Malt profile URL (already in `references.json`) and the real freelancermap profile URL — right now prospects land on the portals' home pages.
+6. Optional: build in the second CV button promised in the README (the "hero" variant exists as dead code) next to the intro callout — a conversion element.
 
 ---
 
-## Phase 6 — Hygiene & Feinschliff (P3, ~½ Tag, parallelisierbar)
+## Phase 5 — Performance & accessibility (P2, ~2 days)
 
-- 19 ungenutzte Assets löschen (~700 KB, inkl. „LinkedIn Banner-selection.png"); optional CI-Check public↔Code-Referenzen (C-01, C-11).
-- `references.json`-Import mit Zod validieren oder nach `.ts` mit `satisfies` (A-03); `projectSlug`-Build-Assertion.
-- ESLint/TS nachschärfen: typescript-eslint strict, jsx-a11y, `noUncheckedIndexedAccess`, `typecheck`-Script (A-14).
-- Kleinkram: toter Export `referenceHref`, Anführungszeichen, „Munich"→„München", „Eckdaten" ins TOC, `verifyUrl` rendern, Projekt-Meta verlinken, „15 Monate" dynamisch, README aktualisieren (A-15–A-16, C-03–C-10).
+> Closes N-03, A-01, A-02, A-04, A-05, A-06, A-08, A-09, A-17.
 
-## Phase 7 — Optional: Tracking Stufe 2 (nur bei echtem Bedarf)
-
-PostHog EU-Cloud (Frankfurt) **ausschließlich nach Opt-in** gerendert; In-Memory-Event-Queue (nie localStorage vor Consent!); Consent-Logging-Endpoint `app/api/consent/route.ts` (UUID-Beleg ohne IP/UA, 3 Jahre); Widerruf löscht `ph_*`-Keys + reload; AVV mit PostHog, Drittland-Hinweis in der Datenschutzerklärung. **Empfehlung aus dem Konzept:** erst nach 4 Wochen Stufe-1-Daten entscheiden, ob sich das lohnt — Stufe 1 liefert für eine Portfolio-Seite fast den gesamten Erkenntnisgewinn.
+1. **Images:** drop `images.unoptimized`, move all 6 `<img>` sites to `next/image` with static imports + `sizes` (the covers are then delivered automatically as AVIF/WebP at card size; ~70–80 % saving on the ~944 KB of cover payload).
+2. **Extract a ModalShell** (A-04) and solve focus management along the way (A-01): the native `<dialog>`/`showModal()` or Radix Dialog → focus trap, initial focus, focus restoration and ESC in one place. While at it, move the interception routes to server components with `generateStaticParams` (N-04) and `notFound()` for an unknown slug (A-17).
+3. **Fix the contrasts** (A-02): accent for text on white ~`#b5651d`, raise `--notion-text-gray`; colour pairs as token pairs in `globals.css`/`@theme` (which solves A-13 along with it).
+4. **Gallery hook** `useGallery<T>` + `GalleryGrid`/`EmptyState` (A-05).
+5. **Clean up the fake toolbar** (A-06): remove Expand/Add sort/Delete sort, either wire the filter popover to the search for real or drop it; add `aria-expanded`/`aria-haspopup`/ESC.
+6. **Heading hierarchy** (A-08): the name as the only `h1`; the TOC openable by keyboard (A-09); German aria-labels (A-11); the CV dropdown without `role="menu"` (A-12).
 
 ---
 
-## Arbeitsprozess mit ai-blueprint
+## Phase 6 — Hygiene & polish (P3, ~½ day, parallelisable)
 
-[ai-blueprint](https://github.com/bradtraversy/ai-blueprint) (Brad Traversy; „A repeatable process for coding with AI while being the architect of your project") ist kein npm-Laufzeitpaket, sondern ein Satz Markdown-Skills/-Templates, der einen review-getriebenen KI-Arbeitsprozess erzwingt — als Gegenentwurf zum „Vibe Coding". Die vier Grundprinzipien: **Spezifikation vor Implementierung** (Spec stoppt zur Freigabe), **kleine reviewte Diffs**, **dateibasierter Zustand** (überlebt jeden Context-Reset; `/status` ersetzt verlorene Chat-Historie) und ein **Findings-Ledger mit Autorität** (P0/P1-Findings blockieren jeden Merge, bis sie re-reviewt oder bewusst akzeptiert sind).
+- Delete 19 unused assets (~700 KB, including "LinkedIn Banner-selection.png"); optionally a CI check of public↔code references (C-01, C-11).
+- Validate the `references.json` import with Zod, or move it to `.ts` with `satisfies` (A-03); a build assertion for `projectSlug`.
+- Tighten ESLint/TS: typescript-eslint strict, jsx-a11y, `noUncheckedIndexedAccess`, a `typecheck` script (A-14).
+- Odds and ends: the dead export `referenceHref`, quotation marks, "Munich"→"München", "Eckdaten" into the TOC, render `verifyUrl`, link the project meta, make "15 Monate" dynamic, update the README (A-15–A-16, C-03–C-10).
 
-### Warum es hier passt
+## Phase 7 — Optional: tracking tier 2 (only on real demand)
 
-- Das **Findings-Ledger + P0/P1-Gate** macht aus diesem Audit-Report einen maschinell trackbaren Zustand mit *erzwungener* Abarbeitung — statt einer To-do-Liste, die versandet. Als P1 eingetragen, blockieren Impressum/Datenschutz jeden Feature-Merge, bis sie behoben **und per Re-Audit geschlossen** sind. Genau das ist hier gewollt.
-- Der **dateibasierte Zustand** passt zu über Tage verteilten Claude-Code-Sessions.
-- Die Phasen dieses Plans sind sauber feature-große Outcomes im Sinne des `build-plan`-Templates.
+PostHog EU cloud (Frankfurt) rendered **exclusively after opt-in**; an in-memory event queue (never localStorage before consent!); a consent-logging endpoint `app/api/consent/route.ts` (a UUID record without IP/UA, 3 years); withdrawal deletes the `ph_*` keys + reloads; a DPA with PostHog and a third-country note in the privacy policy. **Recommendation from the concept:** decide only after 4 weeks of tier-1 data whether it is worth it — for a portfolio page tier 1 delivers nearly all of the insight.
 
-### Installation in dieses Repo
+---
 
-Konfliktpunkt: `CLAUDE.md` (enthält nur `@AGENTS.md`) und `AGENTS.md` (enthält den **kritischen Next-16-Hinweis** „This is NOT the Next.js you know") existieren bereits. Strategie: Blueprint-Versionen übernehmen, den Hinweis danach wieder verankern.
+## Working process with ai-blueprint
+
+[ai-blueprint](https://github.com/bradtraversy/ai-blueprint) (Brad Traversy; "A repeatable process for coding with AI while being the architect of your project") is not an npm runtime package but a set of Markdown skills/templates that enforces a review-driven AI working process — as a counter-proposal to "vibe coding". Its four core principles: **specification before implementation** (the spec stops for approval), **small reviewed diffs**, **file-based state** (survives any context reset; `/status` replaces lost chat history) and a **findings ledger with authority** (P0/P1 findings block every merge until they are re-reviewed or deliberately accepted).
+
+### Why it fits here
+
+- The **findings ledger + P0/P1 gate** turns this audit report into machine-trackable state with *enforced* follow-through — instead of a to-do list that quietly fizzles out. Entered as P1, the imprint/privacy items block every feature merge until they are fixed **and closed by a re-audit**. That is exactly what is wanted here.
+- The **file-based state** suits Claude Code sessions spread over several days.
+- The phases of this plan are cleanly feature-sized outcomes in the sense of the `build-plan` template.
+
+### Installing it into this repo
+
+Point of conflict: `CLAUDE.md` (which contains only `@AGENTS.md`) and `AGENTS.md` (which contains the **critical Next 16 note** "This is NOT the Next.js you know") already exist. Strategy: take the blueprint versions, then re-anchor the note.
 
 ```bash
 git checkout -b chore/ai-blueprint
-cp AGENTS.md AGENTS.local.bak.md && cp CLAUDE.md CLAUDE.local.bak.md   # 1. sichern
-npx create-ai-blueprint@latest --claude                                # 2. installieren (Claude-Adapter)
-# Überschreiben von AGENTS.md/CLAUDE.md bestätigen; non-interaktiv: --force NUR nach Backup
+cp AGENTS.md AGENTS.local.bak.md && cp CLAUDE.md CLAUDE.local.bak.md   # 1. back up
+npx create-ai-blueprint@latest --claude                                # 2. install (Claude adapter)
+# confirm overwriting AGENTS.md/CLAUDE.md; non-interactive: --force ONLY after a backup
 ```
 
-3. **Next-16-Hinweis re-integrieren** — an zwei Stellen: als eigener Abschnitt oben in der neuen `AGENTS.md` **und** in `blueprint/context/coding-standards.md` (wird von der neuen `CLAUDE.md` per `@`-Import in jede Session geladen). Backups löschen, alles committen (empfohlen: Blueprint-Dateien committen, damit Findings-Historie im Repo nachvollziehbar bleibt).
+3. **Re-integrate the Next 16 note** — in two places: as its own section at the top of the new `AGENTS.md` **and** in `blueprint/context/coding-standards.md` (which the new `CLAUDE.md` loads into every session via an `@` import). Delete the backups, commit everything (recommended: commit the blueprint files so the findings history stays traceable in the repo).
 
-4. **Onboarding für Bestandsprojekt:**
+4. **Onboarding for an existing project:**
 
 ```
-/onboard   # Stack-Erkennung (pnpm lint, pnpm build; kein Test-Runner)
-/adopt     # Brownfield-Bootstrap: erfasst das fertige Portfolio als "shipped", statt es bauen zu wollen
-/doctor    # Read-only-Konsistenzcheck
-/overview  # generiert blueprint/context/project-overview.md aus den Plänen
+/onboard   # stack detection (pnpm lint, pnpm build; no test runner)
+/adopt     # brownfield bootstrap: records the finished portfolio as "shipped" instead of trying to build it
+/doctor    # read-only consistency check
+/overview  # generates blueprint/context/project-overview.md from the plans
 ```
 
-### Die Audit-Ergebnisse im Blueprint abbilden
+### Mapping the audit results into the blueprint
 
-**`blueprint/build-plan.md`** — die Phasen dieses Plans als nummerierte Features (abgeschlossene Items werden nie umnummeriert):
+**`blueprint/build-plan.md`** — the phases of this plan as numbered features (completed items are never renumbered):
 
 ```markdown
-## MVP (Bestand, via /adopt erfasst)
-- [x] 1. **Notion-Resume-Seite** - Layout, Projekte, Skills-Datenbank, CV-Download DE/EN
+## MVP (existing, recorded via /adopt)
+- [x] 1. **Notion résumé page** - layout, projects, skills database, CV download DE/EN
 
-## Rechtliches & Tracking
-- [ ] 2. **Impressum** - statische Route /imprint + Footer, Pflichtangaben Freiberufler
-- [ ] 3. **Datenschutzerklärung** - Route /privacy, verlinkt aus Footer und Cookie-Banner
-- [ ] 4. **Consent-Gate + Tracking Stufe 1** - echter Consent-State, Umami self-hosted, track()-Utility
-- [ ] 5. **Security-Härtung** - Next 16.2.11, Overrides, CI/Dependabot, Header, Fehlerseiten
-- [ ] 6. **SEO/OG** - metadataBase, opengraph-image, sitemap, robots, Profil-Links
-- [ ] 7. **A11y & Performance** - ModalShell+Fokus, Kontraste, next/image
+## Legal & tracking
+- [ ] 2. **Imprint** - static route /imprint + footer, mandatory details for a freelancer
+- [ ] 3. **Privacy policy** - route /privacy, linked from the footer and the cookie banner
+- [ ] 4. **Consent gate + tracking tier 1** - real consent state, Umami self-hosted, track() utility
+- [ ] 5. **Security hardening** - Next 16.2.11, overrides, CI/Dependabot, headers, error pages
+- [ ] 6. **SEO/OG** - metadataBase, opengraph-image, sitemap, robots, profile links
+- [ ] 7. **A11y & performance** - ModalShell+focus, contrasts, next/image
 ```
 
-**`blueprint/context/findings.md`** — die P0/P1-Findings aus dem Report im dokumentierten Ledger-Format (`### F-NN [Severity] status - Titel`; Severities: P0 = Datenverlust/Security, P1 = wahrscheinlicher Bug/hohes Risiko, P2 = Wartbarkeit, P3 = Cleanup; Status: `unverified/open/fixed/closed/accepted/invalid`). Entweder trägt `/audit full` sie selbst ein (diesen Report als Input referenzieren) oder von Hand:
+**`blueprint/context/findings.md`** — the P0/P1 findings from the report in the documented ledger format (`### F-NN [severity] status - title`; severities: P0 = data loss/security, P1 = probable bug/high risk, P2 = maintainability, P3 = cleanup; status: `unverified/open/fixed/closed/accepted/invalid`). Either `/audit full` enters them itself (referencing this report as input) or you do it by hand:
 
 ```markdown
-### F-01 [P1] open - Fehlendes Impressum (R-01)
-- Fundort: app/ (keine Route /imprint), kein Footer
-- Vorschlag: Feature 2 im build-plan
+### F-01 [P1] open - Missing imprint (R-01)
+- Location: app/ (no /imprint route), no footer
+- Proposal: feature 2 in the build plan
 
-### F-02 [P1] open - Fehlende Datenschutzerklärung (R-02)
-### F-03 [P1] open - Cookie-Banner irreführend & funktionslos (R-03)
-### F-04 [P1] open - next@16.2.10 mit 9 bekannten CVEs (S-01)
-### F-05 [P2] open - Modal ohne Fokus-Management (A-01)
+### F-02 [P1] open - Missing privacy policy (R-02)
+### F-03 [P1] open - Cookie banner misleading & non-functional (R-03)
+### F-04 [P1] open - next@16.2.10 with 9 known CVEs (S-01)
+### F-05 [P2] open - Modal without focus management (A-01)
 …
 ```
 
-Wichtig am Gate: Ein per `/implement` gefixtes P0/P1-Finding bleibt blockierend (`fixed`), bis ein erneuter `/audit`-Pass es auf `closed` setzt — kein stilles Versanden.
+The important thing about the gate: a P0/P1 finding fixed via `/implement` stays blocking (`fixed`) until another `/audit` pass sets it to `closed` — no quiet fizzling out.
 
-**Der Zyklus pro Feature:**
+**The cycle per feature:**
 
 ```
-/feature        → Spec für das nächste offene Item (stoppt zur Freigabe)
-/implement      → baut in kleinen, genehmigten Schritten
-/check          → beweist die Erfolgskriterien
-/audit current  → Re-Review, setzt zugehörige Findings fixed → closed
-/complete       → archiviert, committet, merged (blockiert bei offenen P0/P1)
+/feature        → spec for the next open item (stops for approval)
+/implement      → builds in small, approved steps
+/check          → proves the success criteria
+/audit current  → re-review, sets the associated findings fixed → closed
+/complete       → archives, commits, merges (blocks on open P0/P1)
 ```
 
-Dazwischen: `/fix "…"` für Ungeplantes, `/status` nach Context-Resets.
+In between: `/fix "…"` for the unplanned, `/status` after context resets.
 
-### Grenzen (ehrliche Einordnung)
+### Limits (an honest assessment)
 
-Für ein statisches Portfolio mit einem Entwickler ist der volle Zeremonienumfang spürbarer Overhead — der Loop amortisiert sich, wenn Features nicht in einer Session fertig werden. Empfehlung: **Ledger + build-plan als verbindliches Gerüst nutzen** (das Gate erzwingt die Rechts-Themen), den Loop pragmatisch fahren, und auf `/tests` (nur für die Consent-Logik sinnvoll), `/release` und `/autopilot` vorerst verzichten. Bei jeder Planänderung `/overview` neu laufen lassen (prüft `/doctor`).
+For a static portfolio with a single developer the full ceremony is noticeable overhead — the loop pays for itself once features stop fitting into a single session. Recommendation: **use the ledger + build plan as a binding scaffold** (the gate enforces the legal topics), run the loop pragmatically, and skip `/tests` (only worthwhile for the consent logic), `/release` and `/autopilot` for now. Re-run `/overview` on every change of plan (`/doctor` checks it).
 
 ---
 
-## Reihenfolge & Aufwand (Gesamtübersicht)
+## Order & effort (overview)
 
-| Phase | Inhalt | Aufwand | Abhängigkeit |
+| Phase | Content | Effort | Dependency |
 |---|---|---|---|
-| 1 | Impressum, Datenschutz, Banner-Interim, Referenz-Einwilligungen | ~1 Tag + Zuarbeit | — (**vor Produktivgang**) |
-| 2 | Consent-Gate, Umami, track(), Instrumentierung | ~2–3 Tage | Phase 1 (Datenschutzerklärung zuerst) |
-| 3 | Next-Update, Overrides, CI/Dependabot, Header, Fehlerseiten | ~1 Tag | — (parallel zu 1 möglich) |
-| 4 | Metadata/OG/Sitemap, Profil-Links | ~1 Tag | — |
-| 5 | Bilder, ModalShell+Fokus, Kontraste, Dedup, Toolbar | ~2 Tage | sinnvoll nach 3 |
-| 6 | Assets, Validierung, Lint-Regeln, Kleinkram | ~½ Tag | — |
-| 7 | (Optional) PostHog Stufe 2 + Consent-Logging | ~1 Tag | Phase 2 + 4 Wochen Datenlage |
+| 1 | Imprint, privacy policy, banner interim, reference consents | ~1 day + operator input | — (**before going live**) |
+| 2 | Consent gate, Umami, track(), instrumentation | ~2–3 days | phase 1 (privacy policy first) |
+| 3 | Next update, overrides, CI/Dependabot, headers, error pages | ~1 day | — (can run parallel to 1) |
+| 4 | Metadata/OG/sitemap, profile links | ~1 day | — |
+| 5 | Images, ModalShell+focus, contrasts, dedup, toolbar | ~2 days | sensible after 3 |
+| 6 | Assets, validation, lint rules, odds and ends | ~½ day | — |
+| 7 | (Optional) PostHog tier 2 + consent logging | ~1 day | phase 2 + 4 weeks of data |
 
-**Gesamt: ~7–9 Arbeitstage** für Phasen 1–6; danach läuft die Seite rechtssicher, gehärtet, barriereärmer, SEO-wirksam — und liefert ab Phase 2 vollständige Klick-Statistiken über jeden Button, DSGVO-konform und ganz überwiegend ohne Consent-Hürde.
+**Total: ~7–9 working days** for phases 1–6; after that the site runs legally sound, hardened, more accessible and SEO-effective — and from phase 2 on it delivers full click statistics for every button, GDPR-compliant and very largely without a consent hurdle.

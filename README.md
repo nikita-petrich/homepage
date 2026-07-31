@@ -41,8 +41,8 @@ app/
   robots.ts             Robots rules
   not-found.tsx         Branded German 404
   error.tsx             Error boundary (+ global-error.tsx)
-  imprint/              Anbieterkennzeichnung (§ 5 DDG)
-  privacy/              Datenschutzerklärung (Art. 13 DSGVO)
+  imprint/              Provider identification (§ 5 DDG)
+  privacy/              Privacy policy (Art. 13 GDPR)
   projects/[slug]/      Standalone project dialogs (SSG)
     references/         All testimonials of one project on one URL (SSG)
   references/[slug]/    Standalone testimonial dialogs (SSG)
