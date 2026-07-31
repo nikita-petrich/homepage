@@ -277,12 +277,19 @@ export function ProjectModal({
           </div>
 
           <div className="mt-[18px] grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[rgba(55,53,47,0.1)] bg-[rgba(55,53,47,0.09)] sm:grid-cols-3">
+            {/* min-w-0: grid items default to min-width:auto, so a long value
+                ("Direkte Produktverantwortung") widened its column past the
+                container and overflow-hidden clipped the text mid-word on
+                phones (≤375px). break-words handles unbreakable tokens. */}
             {project.meta.map((m) => (
-              <div key={m.label} className="bg-[#faf9f7] px-3.5 py-2.5">
+              <div
+                key={m.label}
+                className="min-w-0 bg-[#faf9f7] px-2.5 py-2 sm:px-3.5 sm:py-2.5"
+              >
                 <div className="text-[10px] font-semibold tracking-[0.06em] text-notion-gray uppercase">
                   {m.label}
                 </div>
-                <div className="mt-1 text-[13px] leading-[1.35] text-[#37352f]">
+                <div className="mt-1 text-[13px] leading-[1.35] break-words text-[#37352f]">
                   <MetaValue value={m.value} />
                 </div>
               </div>

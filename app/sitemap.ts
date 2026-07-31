@@ -1,6 +1,11 @@
 import type { MetadataRoute } from "next";
 
-import { projects, projectsWithReferences, references } from "@/lib/data";
+import {
+  certificates,
+  projects,
+  projectsWithReferences,
+  references,
+} from "@/lib/data";
 
 /* Generated from lib/data.ts so the sitemap can never diverge from the
    actually existing slug routes. */
@@ -23,6 +28,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${base}/references/${r.slug}`,
       changeFrequency: "yearly" as const,
       priority: 0.6,
+    })),
+    { url: `${base}/certificates`, changeFrequency: "monthly", priority: 0.6 },
+    ...certificates.map((c) => ({
+      url: `${base}/certificates/${c.slug}`,
+      changeFrequency: "yearly" as const,
+      priority: 0.5,
     })),
     { url: `${base}/imprint`, changeFrequency: "yearly", priority: 0.1 },
     { url: `${base}/privacy`, changeFrequency: "yearly", priority: 0.1 },
