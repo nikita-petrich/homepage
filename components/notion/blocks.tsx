@@ -57,7 +57,7 @@ export function RichText({ lines }: { lines: RichLine[] }) {
 
 export function Callout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex gap-3 rounded-[10px] border border-[rgba(55,53,47,0.16)] bg-white px-4 py-4">
+    <div className="flex gap-3 rounded-[10px] border border-[var(--border)] bg-[var(--surface)] px-4 py-4">
       <div className="mt-[1px] shrink-0">
         <CactusOrangeIcon size={24} />
       </div>
@@ -121,7 +121,7 @@ export function LangLine({ item }: { item: Language }) {
       {/* SVG flags are served as-is — the optimizer adds nothing for vectors. */}
       <Flag
         src={item.flag}
-        className="mt-[4px] h-[15px] w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+        className="mt-[4px] h-[15px] w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_var(--border-strong)]"
       />
       {/* Level on its own line: "Englisch — B2 · US/EU-Remote" wrapped mid-
           phrase in the 210px sidebar and read like one broken sentence. */}

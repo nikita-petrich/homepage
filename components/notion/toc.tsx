@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import type { TocItem } from "@/lib/data";
+import { useUi } from "@/lib/i18n/provider";
 import { track } from "@/lib/analytics/track";
 
 export function TableOfContents({ items }: { items: TocItem[] }) {
+  const ui = useUi();
   const [active, setActive] = useState<string>(items[0]?.id ?? "");
   const [open, setOpen] = useState(false);
 
@@ -45,18 +47,18 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="sr-only focus:not-sr-only focus:absolute focus:top-1/2 focus:right-2 focus:z-50 focus:-translate-y-1/2 focus:rounded-md focus:bg-white focus:px-2 focus:py-1 focus:text-[12px] focus:shadow-md"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-1/2 focus:right-2 focus:z-50 focus:-translate-y-1/2 focus:rounded-md focus:bg-[var(--surface)] focus:px-2 focus:py-1 focus:text-[12px] focus:shadow-md"
       >
-        Inhaltsverzeichnis
+        {ui.common.toc}
       </button>
       <nav
         className={cn(
-          "absolute top-1/2 right-2 min-w-[190px] -translate-y-1/2 rounded-lg border border-[rgba(55,53,47,0.12)] bg-white p-1.5 shadow-[rgba(15,15,15,0.08)_0px_4px_16px] transition-all duration-150",
+          "absolute top-1/2 right-2 min-w-[190px] -translate-y-1/2 rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] p-1.5 shadow-[rgba(15,15,15,0.08)_0px_4px_16px] transition-all duration-150",
           open
             ? "visible translate-x-0 opacity-100"
             : "invisible translate-x-1 opacity-0",
         )}
-        aria-label="Inhaltsverzeichnis"
+        aria-label={ui.common.toc}
       >
         {/* Real anchors, not buttons: every section gets a shareable URL
             (/#projects), can be copied, middle-clicked or opened in a new tab,
@@ -70,7 +72,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
             onClick={() => track("toc_navigate", { section_id: item.id })}
             aria-current={active === item.id ? "location" : undefined}
             className={cn(
-              "block w-full truncate rounded-md px-2 py-[5px] text-left text-[13px] leading-[1.3] transition-colors hover:bg-[rgba(55,53,47,0.06)]",
+              "block w-full truncate rounded-md px-2 py-[5px] text-left text-[13px] leading-[1.3] transition-colors hover:bg-[var(--surface-hover)]",
               item.level === 2 && "pl-4",
               active === item.id
                 ? "font-medium text-notion-text"
@@ -96,7 +98,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
               "h-[2px] rounded-full transition-all duration-200",
               active === item.id
                 ? "w-[15px] bg-notion-text"
-                : "w-3 bg-[rgba(55,53,47,0.18)]",
+                : "w-3 bg-[var(--border)]",
             )}
           />
         ))}

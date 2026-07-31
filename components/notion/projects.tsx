@@ -6,7 +6,10 @@ import Link from "next/link";
 import { ArrowUpRight, Calendar, Quote } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { projects, referencesForProject, type Project } from "@/lib/data";
+import type { Project, Reference } from "@/lib/data";
+import { localePath } from "@/lib/i18n/config";
+import { useI18n } from "@/lib/i18n/provider";
+import { format } from "@/lib/i18n/text";
 import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
 import { DatabaseToolbar, type GalleryView } from "./database-toolbar";
@@ -16,8 +19,7 @@ import { GitCodeMotif, bannerBg } from "./cover-banner";
 import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
 import { ModalShell } from "./modal-shell";
 
-const stripe =
-  "repeating-linear-gradient(135deg,#f2efe9 0 10px,#eae6dd 10px 20px)";
+const stripe = "var(--stripe)";
 
 function ProjectCover({
   project,
@@ -45,13 +47,13 @@ function ProjectCover({
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center p-3">
-          <span className={cn("text-center font-mono text-[#6b614e]", captionClass)}>
+          <span className={cn("text-center font-mono text-[var(--banner-caption)]", captionClass)}>
             {project.caption}
           </span>
         </div>
       )}
       {numBadge && (
-        <div className="absolute top-2 left-2 flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#37352f] text-[12px] font-semibold text-white shadow-sm">
+        <div className="absolute top-2 left-2 flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[var(--notion-text)] text-[12px] font-semibold text-[var(--notion-bg)] shadow-sm">
           {project.num}
         </div>
       )}
@@ -74,34 +76,35 @@ const PROJECT_COLS =
   "grid-cols-[minmax(190px,2fr)_minmax(120px,1fr)_minmax(130px,1.1fr)]";
 
 function ProjectTable({ projects: rows }: { projects: Project[] }) {
+  const { locale, ui } = useI18n();
   return (
     <TableShell>
       <div className="min-w-[480px]">
         <div
           className={cn(
-            "grid gap-3 border-b border-[rgba(55,53,47,0.09)] px-3 py-2 text-[12px] font-medium text-notion-gray",
+            "grid gap-3 border-b border-[var(--hairline)] px-3 py-2 text-[12px] font-medium text-notion-gray",
             PROJECT_COLS,
           )}
         >
-          <div>Name</div>
-          <div>Firma</div>
-          <div>Kategorie</div>
+          <div>{ui.projects.colName}</div>
+          <div>{ui.projects.colCompany}</div>
+          <div>{ui.projects.colCategory}</div>
         </div>
         {rows.map((p) => (
           <Link
             key={p.num}
-            href={`/projects/${p.slug}`}
+            href={localePath(locale, `/projects/${p.slug}`)}
             scroll={false}
             data-analytics-event="project_open"
             data-analytics-prop-slug={p.slug}
             data-analytics-prop-source="table"
             className={cn(
-              "grid items-center gap-3 border-b border-[rgba(55,53,47,0.06)] px-3 py-2.5 text-[13px] transition-colors last:border-0 hover:bg-[rgba(55,53,47,0.02)]",
+              "grid items-center gap-3 border-b border-[var(--hairline-faint)] px-3 py-2.5 text-[13px] transition-colors last:border-0 hover:bg-[var(--surface-hover-soft)]",
               PROJECT_COLS,
             )}
           >
             <div className="flex min-w-0 items-center gap-2.5">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#37352f] text-[11px] font-semibold text-white">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--notion-text)] text-[11px] font-semibold text-[var(--notion-bg)]">
                 {p.num}
               </span>
               <div className="min-w-0">
@@ -122,7 +125,8 @@ function ProjectTable({ projects: rows }: { projects: Project[] }) {
   );
 }
 
-export function ProjectGallery() {
+export function ProjectGallery({ projects }: { projects: Project[] }) {
+  const { locale, ui } = useI18n();
   const [view, setView] = useState<GalleryView>("gallery");
   const { query, setQuery, sortDirLabel, toggleSort, visible } = useGallery(
     projects,
@@ -137,7 +141,7 @@ export function ProjectGallery() {
       <DatabaseToolbar
         view={view}
         onViewChange={setView}
-        sortProp="Datum"
+        sortProp={ui.gallery.sortByDate}
         sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
         sortDirLabel={sortDirLabel}
         onToggleSortDir={toggleSort}
@@ -154,13 +158,13 @@ export function ProjectGallery() {
           {visible.map((p) => (
             <Link
               key={p.num}
-              href={`/projects/${p.slug}`}
+              href={localePath(locale, `/projects/${p.slug}`)}
               scroll={false}
               data-analytics-event="project_open"
               data-analytics-prop-slug={p.slug}
               data-analytics-prop-source="gallery"
               style={{ boxShadow: "var(--notion-card-shadow)" }}
-              className="h-full cursor-pointer overflow-hidden rounded-lg bg-white text-left transition-colors hover:bg-[rgba(55,53,47,0.02)]"
+              className="h-full cursor-pointer overflow-hidden rounded-lg bg-[var(--surface)] text-left transition-colors hover:bg-[var(--surface-hover-soft)]"
             >
               <ProjectCover
                 project={p}
@@ -172,7 +176,7 @@ export function ProjectGallery() {
                 <div className="text-[15px] leading-[1.3] font-semibold">
                   {p.name}
                 </div>
-                <div className="text-[13px] leading-[1.4] text-[#4a473f]">
+                <div className="text-[13px] leading-[1.4] text-notion-soft">
                   {p.subtitle}
                 </div>
                 {p.company ? (
@@ -224,12 +228,15 @@ function MetaValue({ value }: { value: string }) {
    pass their own onClose. */
 export function ProjectModal({
   project,
+  references: projectRefs,
   onClose,
 }: {
   project: Project;
+  /** Testimonials for this project, resolved by the route that renders it. */
+  references: Reference[];
   onClose: () => void;
 }) {
-  const projectRefs = referencesForProject(project.slug);
+  const { locale, ui } = useI18n();
 
   return (
     <ModalShell label={project.name} onClose={onClose}>
@@ -255,14 +262,14 @@ export function ProjectModal({
             {project.cat}
           </div>
           <div className="mt-2 flex items-center gap-2.5">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#37352f] text-[13px] font-semibold text-white">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--notion-text)] text-[13px] font-semibold text-[var(--notion-bg)]">
               {project.num}
             </span>
             <h2 className="text-[26px] leading-[1.2] font-bold tracking-[-0.01em]">
               {project.name}
             </h2>
           </div>
-          <div className="mt-1.5 text-[16px] font-semibold text-[#4a473f]">
+          <div className="mt-1.5 text-[16px] font-semibold text-notion-soft">
             {project.subtitle}
           </div>
           {project.company ? (
@@ -276,7 +283,7 @@ export function ProjectModal({
             {project.dateRange} · {project.role}
           </div>
 
-          <div className="mt-[18px] grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[rgba(55,53,47,0.1)] bg-[rgba(55,53,47,0.09)] sm:grid-cols-3">
+          <div className="mt-[18px] grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--hairline)] sm:grid-cols-3">
             {/* min-w-0: grid items default to min-width:auto, so a long value
                 ("Direkte Produktverantwortung") widened its column past the
                 container and overflow-hidden clipped the text mid-word on
@@ -284,12 +291,12 @@ export function ProjectModal({
             {project.meta.map((m) => (
               <div
                 key={m.label}
-                className="min-w-0 bg-[#faf9f7] px-2.5 py-2 sm:px-3.5 sm:py-2.5"
+                className="min-w-0 bg-[var(--surface-muted)] px-2.5 py-2 sm:px-3.5 sm:py-2.5"
               >
                 <div className="text-[10px] font-semibold tracking-[0.06em] text-notion-gray uppercase">
                   {m.label}
                 </div>
-                <div className="mt-1 text-[13px] leading-[1.35] break-words text-[#37352f]">
+                <div className="mt-1 text-[13px] leading-[1.35] break-words text-notion-text">
                   <MetaValue value={m.value} />
                 </div>
               </div>
@@ -297,26 +304,26 @@ export function ProjectModal({
           </div>
 
           <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-            Aufgaben
+            {ui.projects.responsibilities}
           </h3>
           <ul className="flex flex-col gap-[9px]">
             {project.responsibilities.map((a, i) => (
               <li key={i} className="flex gap-2.5 text-[14px] leading-[1.55]">
-                <span className="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-[#37352f]" />
+                <span className="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--notion-text)]" />
                 <span>{a}</span>
               </li>
             ))}
           </ul>
 
-          <div className="mt-[22px] rounded-lg border border-[rgba(55,53,47,0.1)] bg-[#faf6f0] p-4">
+          <div className="mt-[22px] rounded-lg border border-[var(--border-soft)] bg-[var(--accent-soft)] p-4">
             <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-[var(--accent-text)] uppercase">
-              Ergebnis
+              {ui.projects.results}
             </h3>
             <ul className="flex flex-col gap-2">
               {project.results.map((e, i) => (
                 <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
                   <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--accent-o)]" />
-                  <span className="text-[#4a473f]">{e}</span>
+                  <span className="text-notion-soft">{e}</span>
                 </li>
               ))}
             </ul>
@@ -325,19 +332,23 @@ export function ProjectModal({
           {projectRefs.length > 0 && (
             <>
               <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-                {projectRefs.length > 1 ? "Referenzen" : "Referenz"}
+                {projectRefs.length > 1
+                  ? ui.projects.references
+                  : ui.projects.reference}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {projectRefs.map((r) => (
                   <Link
                     key={r.slug}
-                    href={`/references/${r.slug}`}
+                    href={localePath(locale, `/references/${r.slug}`)}
                     scroll={false}
                     data-analytics-event="reference_open"
                     data-analytics-prop-slug={r.slug}
                     data-analytics-prop-source="project_modal"
-                    aria-label={`Referenz von ${r.name} ansehen`}
-                    className="inline-flex items-center gap-1.5 rounded-md border border-[color-mix(in_srgb,var(--accent-o)_35%,transparent)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[#f6ede1]"
+                    aria-label={format(ui.projects.viewReference, {
+                      name: r.name,
+                    })}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-[color-mix(in_srgb,var(--accent-o)_35%,transparent)] bg-[var(--accent-soft)] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[var(--accent-soft-hover)]"
                   >
                     <Quote size={13} strokeWidth={2} className="shrink-0" />
                     <span>{r.name}</span>
@@ -348,15 +359,25 @@ export function ProjectModal({
                     only worth its own link once there is more than one. */}
                 {projectRefs.length > 1 && (
                   <Link
-                    href={`/projects/${project.slug}/references`}
+                    href={localePath(
+                      locale,
+                      `/projects/${project.slug}/references`,
+                    )}
                     scroll={false}
                     data-analytics-event="project_references_open"
                     data-analytics-prop-slug={project.slug}
                     data-analytics-prop-source="project_modal"
-                    aria-label={`Alle ${projectRefs.length} Referenzen zu ${project.name} ansehen`}
-                    className="inline-flex items-center gap-1.5 rounded-md bg-[#f1f0ee] px-2.5 py-1 text-[13px] font-medium text-[#4a473f] transition-colors hover:bg-[rgba(55,53,47,0.1)]"
+                    aria-label={format(ui.projects.viewAllReferences, {
+                      count: projectRefs.length,
+                      project: project.name,
+                    })}
+                    className="inline-flex items-center gap-1.5 rounded-md bg-[var(--surface-chip)] px-2.5 py-1 text-[13px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
                   >
-                    <span>Alle {projectRefs.length} ansehen</span>
+                    <span>
+                      {format(ui.projects.viewAll, {
+                        count: projectRefs.length,
+                      })}
+                    </span>
                     <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
                   </Link>
                 )}
@@ -365,7 +386,7 @@ export function ProjectModal({
           )}
 
           <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-            Technologien
+            {ui.projects.technologies}
           </h3>
           <div className="flex flex-wrap gap-[6px]">
             {project.tech.map((t) => (

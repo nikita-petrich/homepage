@@ -8,8 +8,8 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        accent: "bg-[#ece3d3] text-[#6f5b3e]",
-        skill: "bg-[#f1f0ee] text-[#4a473f]",
+        accent: "bg-[var(--tag-bg)] text-[var(--tag-text)]",
+        skill: "bg-[var(--surface-chip)] text-notion-soft",
       },
     },
     defaultVariants: { variant: "accent" },

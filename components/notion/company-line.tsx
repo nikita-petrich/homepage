@@ -3,6 +3,8 @@
 import { Building2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useUi } from "@/lib/i18n/provider";
+import { format } from "@/lib/i18n/text";
 import { domainOf, track } from "@/lib/analytics/track";
 
 /* Company name with a building icon. When `href` is set the name is a link to
@@ -20,8 +22,9 @@ export function CompanyLine({
   inCard?: boolean;
   className?: string;
 }) {
+  const ui = useUi();
   const base = cn(
-    "inline-flex w-fit items-center gap-1 font-medium text-[#6f5b3e]",
+    "inline-flex w-fit items-center gap-1 font-medium text-[var(--tag-text)]",
     className,
   );
   const content = (
@@ -42,7 +45,7 @@ export function CompanyLine({
       <span
         role="link"
         tabIndex={0}
-        aria-label={`Website von ${name} öffnen`}
+        aria-label={format(ui.common.openWebsite, { name })}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();

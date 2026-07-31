@@ -11,6 +11,9 @@ import {
   writeConsent,
 } from "@/lib/analytics/consent";
 import { track } from "@/lib/analytics/track";
+import { localePath } from "@/lib/i18n/config";
+import { useI18n } from "@/lib/i18n/provider";
+import type { Ui } from "@/lib/i18n/ui";
 
 /* Privacy banner. This site tracks cookieless and anonymous (stage 1, no
    consent required — see lib/analytics/consent.ts), so this banner INFORMS
@@ -18,6 +21,7 @@ import { track } from "@/lib/analytics/track";
    re-opens via the footer's "Datenschutz-Einstellungen" button so a choice
    can be changed at any time. */
 export function CookieBanner() {
+  const { locale, ui } = useI18n();
   const [visible, setVisible] = useState(false);
   const [customize, setCustomize] = useState(false);
   const [statistics, setStatistics] = useState(true);
@@ -70,6 +74,7 @@ export function CookieBanner() {
     <div className="fixed bottom-4 left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-[620px] -translate-x-1/2">
       {customize && (
         <CustomizePanel
+          ui={ui}
           statistics={statistics}
           onToggleStatistics={() => setStatistics((v) => !v)}
           onDone={() => save(statistics, "customized")}
@@ -81,13 +86,12 @@ export function CookieBanner() {
           minimum target size (WCAG 2.2 SC 2.5.8). */}
       <div className="flex flex-col gap-2 rounded-xl bg-[#2a2e30] px-4 py-3 text-[14px] text-white shadow-[rgba(15,15,15,0.28)_0px_8px_28px] sm:flex-row sm:items-center sm:gap-3">
         <span className="flex-1 text-white/85">
-          Diese Website misst die Nutzung cookielos und anonym — ohne Cookies
-          und ohne Wiedererkennung.{" "}
+          {ui.consent.text}{" "}
           <Link
-            href="/privacy"
+            href={localePath(locale, "/privacy")}
             className="underline underline-offset-2 hover:text-white"
           >
-            Details
+            {ui.consent.details}
           </Link>
         </span>
         <div className="flex items-center gap-3">
@@ -96,21 +100,21 @@ export function CookieBanner() {
             onClick={() => save(true, "ok")}
             className="inline-flex min-h-[24px] shrink-0 cursor-pointer items-center px-1 font-semibold transition-colors hover:text-white/75"
           >
-            OK
+            {ui.consent.ok}
           </button>
           <button
             type="button"
             onClick={() => save(false, "opt_out")}
             className="inline-flex min-h-[24px] shrink-0 cursor-pointer items-center font-semibold transition-colors hover:text-white/75"
           >
-            Ablehnen
+            {ui.consent.decline}
           </button>
           <button
             type="button"
             onClick={() => setCustomize((v) => !v)}
-            aria-label="Datenschutz-Einstellungen anpassen"
+            aria-label={ui.consent.customize}
             aria-expanded={customize}
-            className="ml-auto shrink-0 cursor-pointer rounded p-1 transition-colors hover:bg-white/10 sm:ml-0"
+            className="ml-auto shrink-0 cursor-pointer rounded p-1 transition-colors hover:bg-[var(--surface)]/10 sm:ml-0"
           >
             <MoreHorizontal size={18} />
           </button>
@@ -121,10 +125,12 @@ export function CookieBanner() {
 }
 
 function CustomizePanel({
+  ui,
   statistics,
   onToggleStatistics,
   onDone,
 }: {
+  ui: Ui;
   statistics: boolean;
   onToggleStatistics: () => void;
   onDone: () => void;
@@ -132,16 +138,16 @@ function CustomizePanel({
   const rows = [
     {
       key: "necessary",
-      title: "Unbedingt erforderlich",
-      desc: "Speichert ausschließlich Ihre hier getroffene Entscheidung. Immer aktiv.",
+      title: ui.consent.necessaryTitle,
+      desc: ui.consent.necessaryDesc,
       on: true,
       disabled: true,
       onToggle: undefined as (() => void) | undefined,
     },
     {
       key: "statistics",
-      title: "Anonyme Statistik",
-      desc: "Cookielose, anonyme Messung von Seitenaufrufen und Klicks — ohne Wiedererkennung, ohne Speicherung auf Ihrem Gerät. Kann hier jederzeit deaktiviert werden.",
+      title: ui.consent.statisticsTitle,
+      desc: ui.consent.statisticsDesc,
       on: statistics,
       disabled: false,
       onToggle: onToggleStatistics,
@@ -151,17 +157,17 @@ function CustomizePanel({
   return (
     /* w-full + max-w: a fixed 340px overflowed the banner's own
        calc(100%-1.5rem) width on a 320px screen and ran off the left edge. */
-    <div className="absolute right-0 bottom-full mb-2 w-full max-w-[340px] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white shadow-[rgba(15,15,15,0.2)_0px_12px_34px]">
+    <div className="absolute right-0 bottom-full mb-2 w-full max-w-[340px] overflow-hidden rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] shadow-[rgba(15,15,15,0.2)_0px_12px_34px]">
       <div className="flex items-center justify-between px-4 py-3">
         <span className="text-[15px] font-medium text-notion-text">
-          Datenschutz-Einstellungen
+          {ui.consent.settings}
         </span>
         <button
           type="button"
           onClick={onDone}
-          className="cursor-pointer rounded-md border border-[#2383e2] px-3 py-1 text-[14px] font-medium text-[#2383e2] transition-colors hover:bg-[#2383e2]/5"
+          className="cursor-pointer rounded-md border border-[var(--blue)] px-3 py-1 text-[14px] font-medium text-[var(--blue)] transition-colors hover:bg-[color-mix(in_srgb,var(--blue)_5%,transparent)]"
         >
-          Fertig
+          {ui.consent.done}
         </button>
       </div>
 
@@ -171,7 +177,7 @@ function CustomizePanel({
             key={row.key}
             className={cn(
               "flex items-start justify-between gap-3 px-4 py-3",
-              i === 0 && "bg-[#f7f6f5]",
+              i === 0 && "bg-[var(--surface-muted)]",
             )}
           >
             <div className="min-w-0">
@@ -216,13 +222,13 @@ function Toggle({
       aria-label={label}
       className={cn(
         "relative mt-1 h-[18px] w-[30px] shrink-0 rounded-full transition-colors",
-        on ? "bg-[#2383e2]" : "bg-[rgba(55,53,47,0.22)]",
+        on ? "bg-[var(--blue)]" : "bg-[var(--border)]",
         disabled ? "cursor-default opacity-70" : "cursor-pointer",
       )}
     >
       <span
         className={cn(
-          "absolute top-[2px] h-[14px] w-[14px] rounded-full bg-white shadow-sm transition-all",
+          "absolute top-[2px] h-[14px] w-[14px] rounded-full bg-[var(--surface)] shadow-sm transition-all",
           on ? "left-[14px]" : "left-[2px]",
         )}
       />

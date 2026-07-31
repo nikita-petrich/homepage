@@ -26,6 +26,13 @@ const nextConfig: NextConfig = {
   // Self-contained build for the Docker image (deploy/docker-compose.yml).
   output: "standalone",
   poweredByHeader: false,
+  experimental: {
+    /* The root layout sits under a dynamic segment (app/[locale]/layout.tsx),
+       so a URL that matches no route has no layout to render a 404 in. This
+       flag enables app/global-not-found.tsx, which brings its own document —
+       the case the convention is documented for. */
+    globalNotFound: true,
+  },
   async redirects() {
     return [
       // www → apex, so the site has exactly one canonical URL (matches

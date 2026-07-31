@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import { useUi } from "@/lib/i18n/provider";
 
 /* Shared search/sort state for the three card galleries (projects,
    references, certificates): case-insensitive substring filter over a
@@ -13,6 +14,7 @@ export function useGallery<T>(
   searchText: (item: T) => string,
   sortKey: (item: T) => string,
 ) {
+  const ui = useUi();
   const [asc, setAsc] = useState(false); // false = newest first
   const [query, setQuery] = useState("");
 
@@ -34,15 +36,16 @@ export function useGallery<T>(
     setQuery,
     asc,
     toggleSort: () => setAsc((v) => !v),
-    sortDirLabel: asc ? "Älteste zuerst" : "Neueste zuerst",
+    sortDirLabel: asc ? ui.gallery.oldestFirst : ui.gallery.newestFirst,
     visible,
   };
 }
 
 export function EmptyState() {
+  const ui = useUi();
   return (
-    <div className="rounded-lg border border-dashed border-[rgba(55,53,47,0.16)] px-4 py-10 text-center text-[14px] text-notion-gray">
-      Keine Treffer.
+    <div className="rounded-lg border border-dashed border-[var(--border)] px-4 py-10 text-center text-[14px] text-notion-gray">
+      {ui.gallery.empty}
     </div>
   );
 }
@@ -53,7 +56,7 @@ export function TableShell({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{ boxShadow: "var(--notion-card-shadow)" }}
-      className="overflow-hidden rounded-lg bg-white"
+      className="overflow-hidden rounded-lg bg-[var(--surface)]"
     >
       <div className="overflow-x-auto">{children}</div>
     </div>

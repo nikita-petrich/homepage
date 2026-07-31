@@ -3,7 +3,8 @@
 import { useMemo, useState } from "react";
 import { Search, Star } from "lucide-react";
 
-import { skills } from "@/lib/data";
+import type { SkillCategory } from "@/lib/data";
+import { useUi } from "@/lib/i18n/provider";
 import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 
 import { SkillTag } from "./blocks";
@@ -11,7 +12,8 @@ import { EmptyState, GalleryGrid } from "./gallery";
 
 const cardShadow = { boxShadow: "var(--notion-card-shadow)" } as const;
 
-export function SkillsGallery() {
+export function SkillsGallery({ skills }: { skills: SkillCategory[] }) {
+  const ui = useUi();
   const [query, setQuery] = useState("");
 
   const visible = useMemo(() => {
@@ -23,24 +25,24 @@ export function SkillsGallery() {
         items: c.items.filter((i) => i.toLowerCase().includes(q)),
       }))
       .filter((c) => c.name.toLowerCase().includes(q) || c.items.length > 0);
-  }, [query]);
+  }, [query, skills]);
 
   useSearchTracking("skills", query, visible.length);
 
   return (
     <>
       <div className="mb-3 flex items-center justify-between gap-2">
-        <div className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[#f1f1ef] px-2 py-[5px] text-[14px] font-medium">
+        <div className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[var(--surface-chip)] px-2 py-[5px] text-[14px] font-medium">
           <Star size={15} strokeWidth={1.9} className="text-notion-gray" />
-          Meine Skills
+          {ui.skills.title}
         </div>
         <div className="flex items-center gap-1.5 px-1 text-notion-gray">
           <Search size={16} strokeWidth={1.9} className="shrink-0" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Skill suchen…"
-            aria-label="Skill suchen"
+            placeholder={ui.skills.searchPlaceholder}
+            aria-label={ui.skills.searchLabel}
             className="w-[130px] bg-transparent text-[14px] text-notion-text placeholder:text-notion-gray focus:outline-none sm:w-[170px]"
           />
         </div>
@@ -54,7 +56,7 @@ export function SkillsGallery() {
             <div
               key={cat.num}
               style={cardShadow}
-              className="h-full overflow-hidden rounded-lg bg-white"
+              className="h-full overflow-hidden rounded-lg bg-[var(--surface)]"
             >
               <div className="flex flex-col gap-[11px] p-[13px]">
                 <div className="flex items-center gap-[9px]">

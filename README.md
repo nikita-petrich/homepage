@@ -2,6 +2,8 @@
 
 A Notion-style résumé homepage for **Nikita Petrich**, Senior Full-Stack & AI
 Engineer, built with **Next.js 16**, **Tailwind CSS v4** and **shadcn/ui**.
+The site is fully bilingual (German and English) and ships a light and a dark
+theme.
 
 The page mirrors a published Notion layout: a sticky top bar, a full-width
 cover, the page icon overlapping it, the title, and a two-column body — a
@@ -11,10 +13,49 @@ testimonials, a searchable skills database and certificates. Legal pages
 (`/imprint`, `/privacy`) and a privacy banner make the site fit for
 production use in Germany.
 
+## Languages and theme
+
+Every page exists in German and English under its own URL — `/de/…` and
+`/en/…`. A request without a language prefix is sent to one of them by
+`proxy.ts`, which decides in this order:
+
+1. the `NEXT_LOCALE` cookie — an explicit choice from the language switcher,
+2. the browser's `Accept-Language` header,
+3. **English** as the fallback when neither says anything usable.
+
+The redirect is a temporary one (307), because the target depends on who is
+asking. Every previously published address therefore keeps working:
+`/certificates/<slug>` still leads to that certificate, and
+`/certificates/<slug>.pdf` is served unchanged — files under `public/` are
+excluded from the language routing.
+
+Both languages are written side by side in the source (`t("…", "…")`, see
+`lib/i18n/text.ts`), so a content edit cannot silently leave one language
+behind. Interface strings live in `lib/i18n/ui.ts`, page content in
+`lib/content/*`.
+
+Top-right in the top bar sit the two switches: a language menu (German /
+English, the current one marked) and a light/dark toggle. The theme is applied
+before the first paint by a small inline script and stored in `localStorage`
+under `np-theme`; every colour in the UI comes from a CSS variable that has a
+light and a dark value (`app/globals.css`).
+
+Two exceptions to "everything in both languages", both deliberate:
+
+- **Testimonials** are shown in the language they were written in, with a
+  translation in the other one, marked as such and linking to the source.
+- **Course syllabi** keep the courses' own English lesson titles — that is what
+  makes them verifiable against the course page. Everything the site says about
+  a certificate (summary, scope, outcomes) exists in both languages.
+
+The legal pages are governed by German law, so the German version is the
+binding one; the English version says so and links to it.
+
 ## CV download
 
-The top bar and the intro callout each expose a **CV herunterladen** button
-that opens a menu to download the CV as a PDF in two languages:
+The top bar and the intro callout each expose a **CV herunterladen** /
+**CV download** button that opens a menu to download the CV as a PDF in two
+languages:
 
 - 🇩🇪 `public/cv/CV_Nikita_Petrich_DE.pdf`
 - 🇬🇧 `public/cv/CV_Nikita_Petrich_EN.pdf`
@@ -24,38 +65,50 @@ that opens a menu to download the CV as a PDF in two languages:
 - [Next.js 16](https://nextjs.org/) (App Router, TypeScript, Turbopack)
 - [Tailwind CSS v4](https://tailwindcss.com/)
 - [shadcn/ui](https://ui.shadcn.com/) primitives
-- Notion's light-theme colours captured as CSS variables in `app/globals.css`
+- Notion's colours captured as CSS variables in `app/globals.css` (light and
+  dark)
+- Language routing via `proxy.ts` (the Next 16 name for the middleware
+  convention) — no i18n library
 - Optional cookieless analytics: self-hosted [Umami](https://umami.is/) behind
   a first-party proxy (see `docs/TRACKING-CONCEPT.md`)
 
 ## Project structure
 
 ```
+proxy.ts                Language routing: cookie → Accept-Language → English
 app/
-  layout.tsx            Root layout: metadata (OG/Twitter), footer, banner, analytics
-  page.tsx              Page composition (icon, title, two columns)
-  globals.css           Design tokens + popup animations
+  globals.css           Design tokens (light + dark) + popup animations
   icon.tsx              Generated favicon
-  opengraph-image.tsx   Generated social-share card
-  sitemap.ts            Sitemap from lib/data.ts slugs
+  sitemap.ts            Sitemap from the slugs, both languages + hreflang
   robots.ts             Robots rules
-  not-found.tsx         Branded German 404
-  error.tsx             Error boundary (+ global-error.tsx)
-  imprint/              Provider identification (§ 5 DDG)
-  privacy/              Privacy policy (Art. 13 GDPR)
-  projects/[slug]/      Standalone project dialogs (SSG)
-    references/         All testimonials of one project on one URL (SSG)
-  references/[slug]/    Standalone testimonial dialogs (SSG)
-  certificates/         Certificates overview — the shareable /certificates URL
-    [slug]/             Standalone certificate dialogs (SSG)
-  @modal/               Intercepting modal routes for all three (SSG)
+  global-error.tsx      Error boundary that replaces the root layout
+  global-not-found.tsx  404 for URLs that match no route at all
   api/a/[...path]/      First-party Umami proxy (strips client IPs)
+  [locale]/             Everything below exists as /de/… and /en/…
+    layout.tsx          Root layout: metadata (OG/Twitter, hreflang), theme
+                        script, i18n provider, footer, banner, analytics
+    page.tsx            Page composition (icon, title, two columns)
+    opengraph-image.tsx Generated social-share card (one per language)
+    not-found.tsx       Branded 404 in the language of the URL
+    error.tsx           Error boundary
+    [...rest]/          Catch-all so an unknown /de/… 404s in German
+    imprint/            Provider identification (§ 5 DDG) — de.tsx / en.tsx
+    privacy/            Privacy policy (Art. 13 GDPR) — de.tsx / en.tsx
+    projects/[slug]/    Standalone project dialogs (SSG)
+      references/       All testimonials of one project on one URL (SSG)
+    references/[slug]/  Standalone testimonial dialogs (SSG)
+    certificates/       Certificates overview — the shareable URL
+      [slug]/           Standalone certificate dialogs (SSG)
+    @modal/             Intercepting modal routes for all three (SSG)
 components/
   analytics/            AnalyticsProvider (script gate, click/scroll/vitals)
   notion/
     blocks.tsx          Section, Callout, RichText, InfoLine, FactLine, LangLine, tags
     cover-banner.tsx    Cover with git-diff motif + name (h1)
-    topbar.tsx          Sticky top bar (name, CV download, booking CTA)
+    topbar.tsx          Sticky top bar (name, language, theme, CV, booking)
+    language-toggle.tsx German/English menu (real links, remembers the choice)
+    theme-toggle.tsx    Light/dark switch
+    theme-sync.tsx      Re-applies the theme where the inline script cannot run
     cv-download.tsx     "CV herunterladen" menu (topbar + hero variant)
     projects.tsx        Project gallery + detail dialog
     references.tsx      Testimonials gallery + detail dialog
@@ -69,7 +122,22 @@ components/
     cookie-banner.tsx   Privacy banner (informs, opt-out; no fake consent)
     legal.tsx           Shared shell for the legal pages
 lib/
-  data.ts               All page content (typed, references validated at build)
+  data.ts               Content assembled and resolved for one locale
+  profile.ts            Name, role, booking URL — language-independent
+  theme.ts              Theme storage, the pre-paint script, sync helpers
+  i18n/
+    config.ts           Locales, cookie, path helpers, Accept-Language match
+    text.ts             t() / localize() — both languages in one source tree
+    ui.ts               Every interface string, German and English
+    provider.tsx        Locale + strings for the client components
+    cookie.ts           Remembers an explicit language choice
+  content/
+    profile.ts          Identity, sidebar, intro, focus, TOC
+    projects.ts         The nine reference projects
+    skills.ts           Skill taxonomy (17 categories)
+    certificates.ts     Certificates incl. syllabi
+    references.ts       Testimonials + translations, validated at build
+    terms.ts            Shared translations of technology/skill terms
   references.json       Testimonials (shared with the PDF CV)
   analytics/            consent.ts, track.ts, use-search-tracking.ts
 docs/
@@ -112,10 +180,22 @@ secrets/variables: [`deploy/README.md`](./deploy/README.md).
 
 ## Content
 
-All page copy lives in `lib/data.ts` (contact, key facts, languages, focus,
-projects, certificates and skills); testimonials live in
-`lib/references.json` and are validated at build time. The CV PDFs are
-generated separately and committed under `public/cv/`.
+All page copy lives in `lib/content/*` (contact, key facts, languages, focus,
+projects, certificates and skills), each string with its German and its English
+wording next to each other:
+
+```ts
+{ label: t("Erfahrung", "Experience"), value: t("7+ Jahre", "7+ years") }
+```
+
+Testimonials live in `lib/references.json` — the file the PDF CV shares — and
+their translations in `lib/content/references.ts`; both are validated at build
+time, including a check that the original wording still matches the JSON. The
+CV PDFs are generated separately and committed under `public/cv/`.
+
+Technology and skill terms are translated once in `lib/content/terms.ts` and
+reused by the projects, the skills database and the schema.org markup, so a
+term reads the same everywhere.
 
 ### Profile photo
 
@@ -139,6 +219,10 @@ published:
   from a card, renders standalone on a hard load)
 - `/certificates/<slug>.pdf` — the certificate document itself, served straight
   from `public/certificates`
+
+The first two now live under a language prefix (`/de/certificates/<slug>`,
+`/en/certificates/<slug>`); the unprefixed address still resolves and is sent
+to the visitor's language. The PDF URL is untouched by the language routing.
 
 The detail dialog is filled from the `Certificate` type in `lib/data.ts`:
 `summary` (what the course covered), `facts` (scope grid), `outcomes`
