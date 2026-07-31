@@ -76,11 +76,13 @@
   --border-soft: var(--border);
   --border-strong: var(--border);
 
+  /* A distinctly-visible light band (a few % deeper than the page) so the
+     banner reads as its own strip and light chips/text stand out on it. */
   --banner-bg: linear-gradient(
     100deg,
-    var(--muted) 0%,
-    var(--background) 55%,
-    var(--muted) 100%
+    color-mix(in oklab, var(--foreground) 7%, var(--background)) 0%,
+    color-mix(in oklab, var(--foreground) 3%, var(--background)) 55%,
+    color-mix(in oklab, var(--foreground) 6%, var(--background)) 100%
   );
   --banner-text: var(--foreground);
   --banner-text-soft: var(--foreground);

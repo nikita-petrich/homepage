@@ -77,7 +77,7 @@ export function CoverBanner({ locale }: { locale: Locale }) {
             {bannerTags.map((t) => (
               <span
                 key={t}
-                className="rounded-[5px] bg-[var(--tag-bg)] px-[0.7em] py-[0.32em] text-[clamp(11px,1.15vw,20px)] whitespace-nowrap text-[var(--tag-text)]"
+                className="rounded-[6px] border border-[var(--border)] bg-[var(--surface)] px-[0.7em] py-[0.32em] text-[clamp(11px,1.15vw,20px)] whitespace-nowrap text-[var(--banner-text)] shadow-sm"
               >
                 {t}
               </span>
