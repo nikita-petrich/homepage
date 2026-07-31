@@ -79,7 +79,7 @@ docs/
 public/
   cv/                   Downloadable CV PDFs (DE / EN)
   certificates/         Certificate PDFs (/certificates/<slug>.pdf, permanent)
-  assets/               Photos, avatar, flags, project covers
+  assets/               Photos, flags, project covers
     certificates/       Pre-rendered certificate previews (generated)
 scripts/
   certificate-previews.mjs      PDF first page → WebP page + tile crop

@@ -6,6 +6,7 @@ import {
   projectsWithReferences,
   referencesForProject,
 } from "@/lib/data";
+import { pageMetadata } from "@/lib/metadata";
 
 import { StandaloneProjectReferencesDialog } from "./standalone";
 
@@ -25,12 +26,13 @@ export async function generateMetadata({
   const projectRefs = referencesForProject(slug);
   if (!project || projectRefs.length === 0) return {};
   // The "· Nikita Petrich" suffix comes from the root layout's title.template.
-  return {
+  return pageMetadata({
     title: `Referenzen — ${project.name}`,
     description: `${projectRefs.length === 1 ? "Referenz" : `Alle ${projectRefs.length} Referenzen`} zum Projekt ${project.name} (${project.subtitle}): ${projectRefs
       .map((r) => r.name)
       .join(", ")}.`,
-  };
+    path: `/projects/${project.slug}/references`,
+  });
 }
 
 export default async function ProjectReferencesPage({
