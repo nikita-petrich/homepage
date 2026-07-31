@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Wraps a certificate that only exists as an image — a screenshot of the
    issuer's certificate page, for instance — into a PDF, so it can be served
-   from public/zertifikate like every other certificate and gets the same tile
+   from public/certificates like every other certificate and gets the same tile
    preview and "open in a new tab" behaviour.
  *
  *   node scripts/certificate-image-to-pdf.mjs <bild.jpg|bild.png> <slug>
@@ -31,7 +31,7 @@ import { decodePng } from "./lib/png.mjs";
 
 /** Longer page side in points — A4's long edge. */
 const LONG_SIDE_PT = 841.89;
-const OUT_DIR = "public/zertifikate";
+const OUT_DIR = "public/certificates";
 
 const [imagePath, slugArg] = process.argv.slice(2);
 

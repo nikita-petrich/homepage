@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import type { Certificate } from "@/lib/data";
 import { CertificateModal } from "@/components/notion/certificates";
 
-/* Hard load or refresh of /zertifikate/<slug>: closing returns to the
+/* Hard load or refresh of /certificates/<slug>: closing returns to the
    certificates overview instead of the home page. */
 export function StandaloneCertificateDialog({
   certificate,
@@ -16,7 +16,7 @@ export function StandaloneCertificateDialog({
   return (
     <CertificateModal
       certificate={certificate}
-      onClose={() => router.push("/zertifikate")}
+      onClose={() => router.push("/certificates")}
     />
   );
 }

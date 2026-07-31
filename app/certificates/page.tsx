@@ -15,9 +15,9 @@ export const metadata: Metadata = {
   // The "· Nikita Petrich" suffix comes from the root layout's title.template.
   title: "Zertifikate",
   description,
-  alternates: { canonical: "/zertifikate" },
+  alternates: { canonical: "/certificates" },
   openGraph: {
-    url: "/zertifikate",
+    url: "/certificates",
     title: "Zertifikate · Nikita Petrich",
     description,
   },

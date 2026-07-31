@@ -36,6 +36,20 @@ const nextConfig: NextConfig = {
         destination: "https://sequenz.io/:path*",
         permanent: true,
       },
+      // Legacy German URLs → English paths. Keeps links alive that were shared
+      // before the rename (PDF CVs, bookmarks, search-engine indexes). The
+      // nested project-references rule must precede /projekte/:path* so its
+      // second segment is translated too — redirects match top to bottom.
+      {
+        source: "/projekte/:slug/referenzen",
+        destination: "/projects/:slug/references",
+        permanent: true,
+      },
+      { source: "/projekte/:path*", destination: "/projects/:path*", permanent: true },
+      { source: "/referenzen/:path*", destination: "/references/:path*", permanent: true },
+      { source: "/zertifikate/:path*", destination: "/certificates/:path*", permanent: true },
+      { source: "/impressum", destination: "/imprint", permanent: true },
+      { source: "/datenschutz", destination: "/privacy", permanent: true },
     ];
   },
   async headers() {

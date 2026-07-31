@@ -31,7 +31,7 @@ export async function generateMetadata({
     description: `${projectRefs.length === 1 ? "Referenz" : `Alle ${projectRefs.length} Referenzen`} zum Projekt ${project.name} (${project.subtitle}): ${projectRefs
       .map((r) => r.name)
       .join(", ")}.`,
-    path: `/projekte/${project.slug}/referenzen`,
+    path: `/projects/${project.slug}/references`,
   });
 }
 

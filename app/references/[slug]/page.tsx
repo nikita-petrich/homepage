@@ -22,7 +22,7 @@ export async function generateMetadata({
   return pageMetadata({
     title: `Referenz von ${reference.name}`,
     description: `${reference.name} (${reference.role}) über die Zusammenarbeit mit Nikita Petrich.`,
-    path: `/referenzen/${reference.slug}`,
+    path: `/references/${reference.slug}`,
   });
 }
 

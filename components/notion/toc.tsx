@@ -59,7 +59,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
         aria-label="Inhaltsverzeichnis"
       >
         {/* Real anchors, not buttons: every section gets a shareable URL
-            (/#projekte), can be copied, middle-clicked or opened in a new tab,
+            (/#projects), can be copied, middle-clicked or opened in a new tab,
             and deep links keep working without JavaScript. The scroll offset
             under the sticky top bar comes from `scroll-mt-20` on each Section,
             the easing from `scroll-smooth` on <html>. */}

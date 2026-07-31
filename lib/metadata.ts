@@ -26,8 +26,8 @@ const ogImage = {
    node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-metadata.md,
    section "Inheriting fields"). Setting only `title`/`description` on a page is
    therefore not enough: every subpage would keep advertising the start page's
-   og:url, og:title and og:description, so a shared /projekte/<slug> or
-   /referenzen/<slug> link previews as the homepage — which defeats the whole
+   og:url, og:title and og:description, so a shared /projects/<slug> or
+   /references/<slug> link previews as the homepage — which defeats the whole
    point of the permanent slug routes.
 
    Every route builds its own Open Graph block here instead, together with the
@@ -41,7 +41,7 @@ export function pageMetadata({
   /** Page title without the site suffix — `title.template` adds it. */
   title: string;
   description: string;
-  /** Absolute site path, e.g. "/projekte/manifest-os". */
+  /** Absolute site path, e.g. "/projects/manifest-os". */
   path: string;
 }): Metadata {
   /* `title.template` only applies to <title>, not to og:title/twitter:title,

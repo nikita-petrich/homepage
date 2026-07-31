@@ -61,16 +61,16 @@ Abgeleitet aus den tatsächlich vorhandenen Komponenten. Namenskonvention: `snak
 | `cv_download` | Klick auf einen CV-Eintrag im Dropdown: `cvFiles.map((f) => (<a … href={f.href} download` (cv-download.tsx:76–79) | `cv_lang: "de" \| "en"` (aus `f.href`, data.ts:15–16), `placement: "topbar" \| "hero"` (Prop `variant`, cv-download.tsx:13; aktuell nur `variant="topbar"` in topbar.tsx:16 — `hero` ist vorbereitet) | **Nein** |
 | `cv_menu_open` | Toggle des Dropdowns (`onClick={() => setOpen((v) => !v)}`, cv-download.tsx:43) | `placement` | **Nein** |
 | `booking_click` | Klick auf `href={profile.booking}` → `calendar.notion.so` (topbar.tsx:17–19 „Erstgespräch buchen“ und page.tsx:112–118 Callout-Link) | `placement: "topbar" \| "intro_callout"` | **Nein** — *Hinweis:* Der Klick führt zu Notion (US-Anbieter); das ist ein Outbound-Link, kein eigenes Tracking. In die Datenschutzerklärung gehört ein Hinweis auf den externen Buchungsdienst. |
-| `project_open` | Navigation auf Projekt-Karte: `href={/projekte/${p.slug}}` (projects.tsx:115) | `slug` (stabil, data.ts:127), `source: "gallery"` | **Nein** |
+| `project_open` | Navigation auf Projekt-Karte: `href={/projects/${p.slug}}` (projects.tsx:115) | `slug` (stabil, data.ts:127), `source: "gallery"` | **Nein** |
 | `project_reference_click` | Referenz-Chip im Projekt-Modal (projects.tsx:294–306) | `project_slug`, `reference_slug` | **Nein** |
-| `project_references_open` | „Alle N ansehen“ im Projekt-Modal: `href={/projekte/${project.slug}/referenzen}` (projects.tsx) | `slug` (Projekt-Slug), `source: "project_modal"` | **Nein** |
-| `reference_open` | Karte `href={/referenzen/${r.slug}}` (references.tsx:91) | `slug`, `source: "gallery" \| "project_modal" \| "project_references"` | **Nein** |
+| `project_references_open` | „Alle N ansehen“ im Projekt-Modal: `href={/projects/${project.slug}/references}` (projects.tsx) | `slug` (Projekt-Slug), `source: "project_modal"` | **Nein** |
+| `reference_open` | Karte `href={/references/${r.slug}}` (references.tsx:91) | `slug`, `source: "gallery" \| "project_modal" \| "project_references"` | **Nein** |
 | `reference_source_click` | `SourceTag` Outbound zu LinkedIn/Malt (references.tsx:41–47) | `source: "LinkedIn" \| "Malt"`, `reference_slug` | **Nein** |
 | `certificate_open` | Zertifikats-Karte bzw. Tabellenzeile `href={certPageHref(c)}` → Detail-Dialog (certificates.tsx) | `slug`, `issuer`, `source: "gallery" \| "table"` | **Nein** |
 | `certificate_document_open` | Öffnen des Zertifikats selbst in neuem Tab: Karten-Link „PDF öffnen“, Klick auf die Vorschau im Dialog, Primär-Button im Dialog (certificates.tsx) | `slug`, `issuer`, `target: "pdf" \| "external"`, `source: "gallery" \| "modal_preview" \| "modal_button"` | **Nein** |
 | `certificate_verify_click` | „Auf ‹Aussteller› verifizieren“ im Dialog → Outbound zur Zertifikatsprüfung des Anbieters (certificates.tsx) | `slug`, `issuer` | **Nein** |
 | `certificate_course_click` | „Kursseite“ im Dialog → Outbound zur öffentlichen Kursseite (certificates.tsx) | `slug`, `issuer` | **Nein** |
-| `certificates_overview_open` | „Alle Zertifikate auf einer Seite“ im Abschnitt „Zertifikate“ → `/zertifikate` (page.tsx) | `source: "home_section"` | **Nein** |
+| `certificates_overview_open` | „Alle Zertifikate auf einer Seite“ im Abschnitt „Zertifikate“ → `/certificates` (page.tsx) | `source: "home_section"` | **Nein** |
 | `skills_search` | Debounced (≥ 800 ms Pause) auf `onChange={(e) => setQuery(e.target.value)}` (galleries.tsx:36–37) | `query_length`, `result_count`, `matched_categories` (nur Werte aus der festen Liste `skills[].name`, data.ts:390–408) — **niemals der Roh-Query** | **Nein** (gerade *weil* kein Klartext) |
 | `gallery_search` | Debounced auf die `DatabaseToolbar`-Suche in Projekten/Referenzen/Zertifikaten (`query={query} onQueryChange={setQuery}`, projects.tsx:96–97, references.tsx:269–270, certificates.tsx:96–97) | `gallery: "projects" \| "references" \| "certificates"`, `query_length`, `result_count` | **Nein** |
 | `gallery_sort_toggle` | `onToggleSortDir` (z. B. projects.tsx:95) | `gallery`, `direction` | **Nein** |
@@ -320,7 +320,7 @@ und der Booking-CTA (topbar.tsx):
 - `skills_search`/`gallery_search`: debounced in einem kleinen `useTrackedSearch(gallery, query, resultCount)`-Hook, der in `SkillsGallery` (galleries.tsx) und den drei `DatabaseToolbar`-Nutzern eingehängt wird — dort ist der `result_count` (`visible.length`) ohnehin lokal verfügbar.
 - `scroll_depth` und `engagement_time`: ein `useEngagement()`-Hook im Provider (Scroll-Schwellen einmalig pro Pageview; Zeitmessung über `document.visibilityState`, Versand per `navigator.sendBeacon` beim `pagehide` — exakt das in analytics.md dokumentierte Beacon-Muster).
 - `toc_navigate`: eine Zeile `track("toc_navigate", { section_id: id })` in `scrollTo()` (toc.tsx:30–35), da der Button bereits einen Handler hat.
-- `project_open`/`reference_open` können alternativ als Pageview der Zielroute (`/projekte/[slug]`) gemessen werden — die Karten sind `<Link>`-Navigationen (projects.tsx:113); das Klick-Event liefert zusätzlich die `source`.
+- `project_open`/`reference_open` können alternativ als Pageview der Zielroute (`/projects/[slug]`) gemessen werden — die Karten sind `<Link>`-Navigationen (projects.tsx:113); das Klick-Event liefert zusätzlich die `source`.
 
 ### 5.3 Web Vitals
 
