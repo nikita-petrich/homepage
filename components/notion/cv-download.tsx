@@ -88,18 +88,14 @@ export function CvDownload({
               data-analytics-prop-cv-lang={f.href.includes("_DE") ? "de" : "en"}
               data-analytics-prop-placement={variant}
               onClick={() => setOpen(false)}
-              className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-[rgba(55,53,47,0.06)]"
+              className="flex items-center gap-2.5 rounded-lg px-2 py-2 transition-colors hover:bg-[rgba(55,53,47,0.06)]"
             >
-              <span
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md"
-                style={{ background: "color-mix(in srgb, var(--accent-o) 12%, transparent)" }}
-                aria-hidden
-              >
-                <Flag
-                  src={f.flag}
-                  className="h-[18px] w-auto rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
-                />
-              </span>
+              {/* The flag sits on the menu background directly — no tile behind
+                  it; the hairline is the flag's own edge, not a frame. */}
+              <Flag
+                src={f.flag}
+                className="h-5 w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+              />
               <span className="min-w-0 flex-1">
                 <span className="block text-[14px] font-semibold text-notion-text">
                   {f.label}

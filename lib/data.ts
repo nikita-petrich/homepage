@@ -13,16 +13,16 @@ export const profile = {
 export type CvFile = { href: string; label: string; flag: string; sub: string };
 export const cvFiles: CvFile[] = [
   { href: "/cv/CV_Nikita_Petrich_DE.pdf", label: "CV Deutsch", flag: "/assets/flags/de.svg", sub: "PDF · 10 Seiten" },
-  { href: "/cv/CV_Nikita_Petrich_EN.pdf", label: "CV EN", flag: "/assets/flags/us.svg", sub: "PDF · 10 pages" },
+  { href: "/cv/CV_Nikita_Petrich_EN.pdf", label: "CV EN", flag: "/assets/flags/gb.svg", sub: "PDF · 10 pages" },
 ];
 
-/* Intrinsic viewBox ratios of the flag SVGs (DE is 5:3, US is 19:10). next/image
+/* Intrinsic viewBox ratios of the flag SVGs (DE is 5:3, GB is 2:1). next/image
    needs width/height in the real ratio so a fixed-height + auto-width render
    scales uniformly and doesn't trip its dev-only "width or height modified, but
    not the other" warning. */
 export const flagDimensions: Record<string, { width: number; height: number }> = {
   "/assets/flags/de.svg": { width: 5, height: 3 },
-  "/assets/flags/us.svg": { width: 1235, height: 650 },
+  "/assets/flags/gb.svg": { width: 60, height: 30 },
 };
 
 export type InfoItem = { icon: string; text: string; href?: string };
@@ -48,7 +48,7 @@ export type Language = { flag: string; text: string; sub: string };
 
 export const languages: Language[] = [
   { flag: "/assets/flags/de.svg", text: "Deutsch", sub: "Muttersprache" },
-  { flag: "/assets/flags/us.svg", text: "Englisch", sub: "B2 · US/EU-Remote" },
+  { flag: "/assets/flags/gb.svg", text: "Englisch", sub: "B2 · US/EU-Remote" },
 ];
 
 export const approach: string[] = [
