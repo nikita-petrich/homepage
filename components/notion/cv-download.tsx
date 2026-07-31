@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { ChevronDown, Download, FileText } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { cvFiles } from "@/lib/data";
+import { Flag } from "./icons";
 
 export function CvDownload({
   variant = "hero",
@@ -38,7 +38,12 @@ export function CvDownload({
   const isTopbar = variant === "topbar";
 
   return (
-    <div ref={rootRef} className={cn("relative", className)}>
+    /* The topbar variant deliberately has no positioning context of its own:
+       its menu is anchored to the top bar's right-hand group instead, so the
+       248px panel lines up with the bar's right edge rather than with a button
+       that sits mid-screen — anchoring it here pushed the menu off the left
+       edge of the viewport on phones (≤414px). */
+    <div ref={rootRef} className={cn(!isTopbar && "relative", className)}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -49,7 +54,7 @@ export function CvDownload({
           "inline-flex items-center gap-1.5 font-medium transition-colors",
           isTopbar
             ? "rounded-md border border-[var(--accent-text)] px-2.5 py-1.5 text-[13px] text-[var(--accent-text)] hover:bg-[color-mix(in_srgb,var(--accent-o)_10%,transparent)]"
-            : "rounded-lg bg-[var(--accent-text)] px-4 py-2.5 text-[14px] text-white shadow-sm hover:brightness-95",
+            : "rounded-lg bg-primary px-4 py-2.5 text-[14px] text-primary-foreground shadow-sm hover:brightness-95",
         )}
       >
         <Download size={isTopbar ? 15 : 17} strokeWidth={2} />
@@ -67,8 +72,8 @@ export function CvDownload({
       {open && (
         <div
           className={cn(
-            "absolute z-50 mt-2 w-[248px] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white p-1.5 shadow-[rgba(15,15,15,0.16)_0px_8px_28px]",
-            isTopbar ? "right-0" : "left-0",
+            "absolute z-50 mt-2 w-[248px] max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white p-1.5 shadow-[rgba(15,15,15,0.16)_0px_8px_28px]",
+            isTopbar ? "top-full right-0" : "left-0",
           )}
         >
           <div className="px-2 pt-1 pb-1.5 text-[11px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
@@ -83,22 +88,14 @@ export function CvDownload({
               data-analytics-prop-cv-lang={f.href.includes("_DE") ? "de" : "en"}
               data-analytics-prop-placement={variant}
               onClick={() => setOpen(false)}
-              className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-[rgba(55,53,47,0.06)]"
+              className="flex items-center gap-2.5 rounded-lg px-2 py-2 transition-colors hover:bg-[rgba(55,53,47,0.06)]"
             >
-              <span
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md"
-                style={{ background: "color-mix(in srgb, var(--accent-o) 12%, transparent)" }}
-                aria-hidden
-              >
-                <Image
-                  src={f.flag}
-                  alt=""
-                  width={24}
-                  height={18}
-                  unoptimized
-                  className="h-[18px] w-auto rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
-                />
-              </span>
+              {/* The flag sits on the menu background directly — no tile behind
+                  it; the hairline is the flag's own edge, not a frame. */}
+              <Flag
+                src={f.flag}
+                className="h-5 w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+              />
               <span className="min-w-0 flex-1">
                 <span className="block text-[14px] font-semibold text-notion-text">
                   {f.label}

@@ -28,14 +28,6 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
     };
   }, [items]);
 
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    track("toc_navigate", { section_id: id });
-    const y = el.getBoundingClientRect().top + window.scrollY - 72;
-    window.scrollTo({ top: y, behavior: "smooth" });
-  };
-
   return (
     <div
       className="fixed top-1/2 right-0 z-40 hidden -translate-y-1/2 md:block"
@@ -66,11 +58,17 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
         )}
         aria-label="Inhaltsverzeichnis"
       >
+        {/* Real anchors, not buttons: every section gets a shareable URL
+            (/#projects), can be copied, middle-clicked or opened in a new tab,
+            and deep links keep working without JavaScript. The scroll offset
+            under the sticky top bar comes from `scroll-mt-20` on each Section,
+            the easing from `scroll-smooth` on <html>. */}
         {items.map((item) => (
-          <button
+          <a
             key={item.id}
-            type="button"
-            onClick={() => scrollTo(item.id)}
+            href={`#${item.id}`}
+            onClick={() => track("toc_navigate", { section_id: item.id })}
+            aria-current={active === item.id ? "location" : undefined}
             className={cn(
               "block w-full truncate rounded-md px-2 py-[5px] text-left text-[13px] leading-[1.3] transition-colors hover:bg-[rgba(55,53,47,0.06)]",
               item.level === 2 && "pl-4",
@@ -80,7 +78,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
             )}
           >
             {item.label}
-          </button>
+          </a>
         ))}
       </nav>
 

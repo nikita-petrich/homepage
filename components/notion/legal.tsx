@@ -1,6 +1,6 @@
 import { NotionTopBar } from "./topbar";
 
-/* Shared shell for the legal pages (/impressum, /datenschutz): the familiar
+/* Shared shell for the legal pages (/imprint, /privacy): the familiar
    top bar plus a narrow, readable text column in the site's typography. */
 export function LegalPage({
   title,

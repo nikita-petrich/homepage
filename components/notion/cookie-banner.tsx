@@ -76,40 +76,45 @@ export function CookieBanner() {
         />
       )}
 
-      <div className="flex items-center gap-3 rounded-xl bg-[#2a2e30] px-4 py-3 text-[14px] text-white shadow-[rgba(15,15,15,0.28)_0px_8px_28px]">
+      {/* Stacks below sm: side by side, the copy was squeezed into a ~145px
+          column on a 320px screen. min-h-[24px] on the actions meets the 24px
+          minimum target size (WCAG 2.2 SC 2.5.8). */}
+      <div className="flex flex-col gap-2 rounded-xl bg-[#2a2e30] px-4 py-3 text-[14px] text-white shadow-[rgba(15,15,15,0.28)_0px_8px_28px] sm:flex-row sm:items-center sm:gap-3">
         <span className="flex-1 text-white/85">
           Diese Website misst die Nutzung cookielos und anonym — ohne Cookies
           und ohne Wiedererkennung.{" "}
           <Link
-            href="/datenschutz"
+            href="/privacy"
             className="underline underline-offset-2 hover:text-white"
           >
             Details
           </Link>
         </span>
-        <button
-          type="button"
-          onClick={() => save(true, "ok")}
-          className="shrink-0 cursor-pointer font-semibold transition-colors hover:text-white/75"
-        >
-          OK
-        </button>
-        <button
-          type="button"
-          onClick={() => save(false, "opt_out")}
-          className="shrink-0 cursor-pointer font-semibold transition-colors hover:text-white/75"
-        >
-          Ablehnen
-        </button>
-        <button
-          type="button"
-          onClick={() => setCustomize((v) => !v)}
-          aria-label="Datenschutz-Einstellungen anpassen"
-          aria-expanded={customize}
-          className="shrink-0 cursor-pointer rounded p-1 transition-colors hover:bg-white/10"
-        >
-          <MoreHorizontal size={18} />
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => save(true, "ok")}
+            className="inline-flex min-h-[24px] shrink-0 cursor-pointer items-center px-1 font-semibold transition-colors hover:text-white/75"
+          >
+            OK
+          </button>
+          <button
+            type="button"
+            onClick={() => save(false, "opt_out")}
+            className="inline-flex min-h-[24px] shrink-0 cursor-pointer items-center font-semibold transition-colors hover:text-white/75"
+          >
+            Ablehnen
+          </button>
+          <button
+            type="button"
+            onClick={() => setCustomize((v) => !v)}
+            aria-label="Datenschutz-Einstellungen anpassen"
+            aria-expanded={customize}
+            className="ml-auto shrink-0 cursor-pointer rounded p-1 transition-colors hover:bg-white/10 sm:ml-0"
+          >
+            <MoreHorizontal size={18} />
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -144,7 +149,9 @@ function CustomizePanel({
   ];
 
   return (
-    <div className="absolute right-0 bottom-full mb-2 w-[340px] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white shadow-[rgba(15,15,15,0.2)_0px_12px_34px]">
+    /* w-full + max-w: a fixed 340px overflowed the banner's own
+       calc(100%-1.5rem) width on a 320px screen and ran off the left edge. */
+    <div className="absolute right-0 bottom-full mb-2 w-full max-w-[340px] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white shadow-[rgba(15,15,15,0.2)_0px_12px_34px]">
       <div className="flex items-center justify-between px-4 py-3">
         <span className="text-[15px] font-medium text-notion-text">
           Datenschutz-Einstellungen

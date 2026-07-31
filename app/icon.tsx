@@ -3,10 +3,9 @@ import { ImageResponse } from "next/og";
 /**
  * Programmatically generated favicon.
  *
- * Mirrors the on-page avatar (`public/assets/avatar.png`): a
- * rounded terracotta tile with white `</>` code brackets, drawn as crisp SVG
- * so it stays sharp at every size instead of reusing the tiny raster asset.
- * Uses the site accent colour (`--accent-o`, #e1852e).
+ * Mirrors the on-page logo tile (`CodeLogo` in components/notion/icons.tsx): a
+ * rounded tile with white `</>` code brackets, drawn as crisp SVG.
+ * Uses the AWS orange #ff9900 — keep it in sync with `--primary`.
  */
 
 export const size = { width: 64, height: 64 };
@@ -22,7 +21,7 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#e1852e",
+          background: "#ff9900",
           borderRadius: 14,
         }}
       >
