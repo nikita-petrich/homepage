@@ -63,7 +63,10 @@ export const projects: ProjectSource[] = [
     cat: "LegalTech / GovTech",
     role: t("Gründer & CTO", "Founder & CTO"),
     dateRange: t("04/2025 – heute", "04/2025 – today"),
-    sort: "2025-04",
+    /* Ongoing project: sorts by its current activity rather than its 04/2025
+       start, so the active flagship leads the newest-first gallery (matching
+       num 01). Bump this above the newest completed project's start date. */
+    sort: "2026-07",
     caption: t("KI-Vorprüfung für Bescheide", "AI pre-assessment of official notices"),
     cover: "/assets/projects/bescheidklar.jpg",
     cardTags: ["LegalTech", t("KI · RAG", "AI · RAG")],
