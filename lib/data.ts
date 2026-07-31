@@ -243,7 +243,7 @@ export const projects: Project[] = [
     cat: "Social Media / Mobile App", role: "Sole Developer · Full-Stack",
     dateRange: "11/2025 – 12/2025 · ~2 Monate", sort: "2025-11",
     caption: "Cross-Platform-App für Web, iOS und Android",
-    cardTags: ["Social Media", "Cross-Platform"],
+    cover: "/assets/projects/rate-up.jpg", cardTags: ["Social Media", "Cross-Platform"],
     desc: "Cross-Platform-App im Social-Media-Umfeld: Bewertungen, Feed und Profile aus einer Ionic-/Angular-Codebasis für Web, iOS und Android – Backend vollständig auf Firebase.",
     meta: [
       { label: "Rolle", value: "Sole Developer · Full-Stack" },
