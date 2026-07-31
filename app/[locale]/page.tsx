@@ -23,7 +23,7 @@ import { ProjectGallery } from "@/components/notion/projects";
 import { ReferenceGallery } from "@/components/notion/references";
 import { TableOfContents } from "@/components/notion/toc";
 import { NotionTopBar } from "@/components/notion/topbar";
-import { bookingUrl, getContent } from "@/lib/data";
+import { bookingUrlFor, getContent } from "@/lib/data";
 import { isLocale, localePath } from "@/lib/i18n/config";
 import { getUi } from "@/lib/i18n/ui";
 
@@ -42,6 +42,7 @@ export default async function Page({
     contact,
     facts,
     focus,
+    headline,
     intro,
     languages,
     methods,
@@ -144,12 +145,29 @@ export default async function Page({
 
           <div className="flex min-w-0 flex-col gap-10">
             <Callout>
+              {/* Positioning headline as a scannable lead-in; split on " | "
+                  so each claim is its own segment with a muted divider. */}
+              <p className="mb-3 leading-snug font-semibold text-[var(--foreground)]">
+                {headline.split(" | ").map((segment, i) => (
+                  <span key={segment}>
+                    {i > 0 ? (
+                      <span
+                        aria-hidden
+                        className="mx-1.5 font-normal text-notion-gray"
+                      >
+                        |
+                      </span>
+                    ) : null}
+                    {segment}
+                  </span>
+                ))}
+              </p>
               <RichText lines={intro} />
               <p className="mt-3 font-semibold text-[var(--accent-text)]">
                 {ui.home.ctaQuestion}
               </p>
               <a
-                href={bookingUrl}
+                href={bookingUrlFor(locale)}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-analytics-event="booking_click"

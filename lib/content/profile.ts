@@ -117,96 +117,156 @@ export const profileLinks = [
   { label: "Malt", href: "https://www.malt.de/profile/nikitapetrich" },
 ];
 
+/* Pipe-separated positioning line, shown as a lead-in above the intro
+   (split on " | " in app/[locale]/page.tsx). */
+export const headline = t(
+  "Freiberuflicher Senior Full-Stack & AI Engineer | Was zweimal von Hand passiert, gehört automatisiert | LLM-Integration · RAG · DSGVO-konforme KI-Architektur | TypeScript · Python · Agentic Engineering/Coding",
+  "Freelance Senior Full-Stack & AI Engineer | Anything done twice by hand should be automated | LLM Integration · RAG · GDPR-Compliant AI Architecture | TypeScript · Python · Agentic Engineering/Coding",
+);
+
+/* Bold marks the proof points (the guiding principle, the concrete numbers and
+   the lead technologies), matching how the rest of the page emphasises facts. */
 export const intro: RichLine[] = [
   [
-    { t: t("Ich bin freiberuflicher ", "I am a freelance ") },
-    { t: "Senior Full-Stack & AI Engineer", b: true },
-    { t: t(". Mein Schwerpunkt ist KI: ", ". My focus is AI: ") },
-    { t: t("LLM-Integration", "LLM integration"), b: true },
-    { t: ", " },
-    { t: "RAG", b: true },
-    { t: t(" und ", " and ") },
-    { t: t("KI-gestützte Automatisierung", "AI-assisted automation"), b: true },
     {
       t: t(
-        ", die den Sprung in den Produktivbetrieb schaffen – von der Architektur über die Integration bis zum stabilen Betrieb.",
-        " — the kind that actually makes it into production, from architecture through integration to stable operation.",
+        "Ich bin freiberuflicher Senior Full-Stack & AI Engineer mit Schwerpunkt auf KI: ",
+        "I'm a freelance Senior Full-Stack & AI Engineer focused on AI: ",
+      ),
+    },
+    {
+      t: t(
+        "LLM-Integration, RAG und KI-gestützte Automatisierung",
+        "LLM integration, RAG and AI-driven automation",
+      ),
+      b: true,
+    },
+    {
+      t: t(
+        " – von der Architektur bis zum stabilen Produktivbetrieb.",
+        " – from architecture all the way to stable production.",
       ),
     },
   ],
   [
+    { t: t("Mein Leitsatz: ", "My guiding principle: ") },
     {
       t: t(
-        "Ebenso zu Hause bin ich in der klassischen Full-Stack-Entwicklung – ob komplette Anwendung, reines Backend (",
-        "I am equally at home in classic full-stack development — a complete application, a pure backend (",
+        "Was zweimal von Hand passiert, gehört automatisiert.",
+        "anything done twice by hand should be automated.",
       ),
+      b: true,
     },
-    { t: "NestJS", b: true },
-    { t: ", " },
-    { t: "Node.js", b: true },
-    { t: ", " },
-    { t: "FastAPI", b: true },
-    { t: t(") oder reines Frontend (", ") or a pure frontend (") },
-    { t: "Next.js", b: true },
-    { t: ", " },
-    { t: "React", b: true },
-    { t: ", " },
-    { t: "Angular", b: true },
     {
       t: t(
-        "). Robuste APIs, klar geschnittene Architektur (",
-        "). Robust APIs, cleanly separated architecture (",
+        " Das gilt für die Prozesse meiner Kunden genauso wie für meine eigene Arbeit. In der Logistik spart ein von mir gebautes Tourverwaltungssystem ",
+        " That applies to my clients' processes as much as to my own work. In logistics, a route management system I built saves ",
       ),
     },
-    { t: "Clean Architecture", b: true },
-    { t: ", " },
-    { t: "Microservices", b: true },
+    { t: t("bis zu 1.000 Stunden pro Jahr", "up to 1,000 hours a year"), b: true },
     {
       t: t(
-        ") und wartbarer, getesteter Code sind Standard; Datenschutz denke ich von Beginn an mit – ",
-        ") and maintainable, tested code are the baseline; data protection is part of the design from day one — ",
+        " durch automatisierte Dokumentenprozesse, im Handel ",
+        " through automated document workflows; in retail, ",
       ),
     },
-    { t: t("DSGVO-konform", "GDPR-compliant"), b: true },
     {
       t: t(
-        " und Secure by Design auf europäischer Infrastruktur.",
-        " and secure by design on European infrastructure.",
+        "bis zu 40 Stunden Verwaltungsarbeit pro Monat",
+        "up to 40 hours of admin work per month",
       ),
+      b: true,
     },
-  ],
-  [
-    { t: t("Ich arbeite konsequent mit modernen ", "I consistently work with modern ") },
-    { t: "Agentic-Coding-", b: true },
-    { t: t(" und ", " and ") },
-    { t: "AI-Engineering", b: true },
     {
       t: t(
-        "-Workflows und -Tools (Claude Code, Cursor, Code Rabbit) – für außergewöhnlich hohe Produktivität bei gleichbleibender Qualität.",
-        " workflows and tools (Claude Code, Cursor, Code Rabbit) — for exceptionally high productivity at consistent quality.",
+        ", im Notariat sinken die telefonischen Rückfragen der Mandanten um ",
+        "; at a notary's office, client phone enquiries dropped by ",
       ),
     },
+    { t: t("bis zu 70 %", "up to 70%"), b: true },
+    { t: "." },
   ],
   [
     {
       t: t(
-        "In über sieben Jahren habe ich Anwendungen in ",
-        "Over more than seven years I have built applications in ",
+        "Dieselbe Konsequenz wende ich auf die Entwicklung selbst an: Ich arbeite durchgängig mit ",
+        "I apply the same logic to development itself. I work consistently with ",
       ),
     },
-    { t: "LegalTech", b: true },
-    { t: ", " },
-    { t: "HealthTech", b: true },
-    { t: ", " },
-    { t: t("E-Commerce/Handel", "e-commerce/retail"), b: true },
-    { t: ", " },
-    { t: "EdTech", b: true },
-    { t: t(" und ", " and ") },
-    { t: t("Logistik", "logistics"), b: true },
     {
       t: t(
-        " umgesetzt – von KI-Plattformen mit mehreren Tausend Nutzern bis zu geschäftskritischen Fachanwendungen.",
-        " — from AI platforms with several thousand users to business-critical line-of-business systems.",
+        "Agentic-Coding- und AI-Engineering-Workflows",
+        "agentic coding and AI engineering workflows",
+      ),
+      b: true,
+    },
+    {
+      t: t(
+        " (Claude Code, Cursor, Code Rabbit, MCP) – spezifikationsgetrieben, mit KI-gestützter Testgenerierung und agentischen Review-Prozessen. Das ist keine Spielerei, sondern der Grund für außergewöhnliches Tempo bei gleichbleibender Qualität: eine vollständige Cross-Platform-App vom ersten Commit bis zur Übergabe ",
+        " (Claude Code, Cursor, Code Rabbit, MCP) – spec-driven, with AI-assisted test generation and agentic review processes. This isn't a gimmick, it's the reason for unusual speed at consistent quality: a complete cross-platform app from first commit to handover ",
+      ),
+    },
+    { t: t("in rund zwei Monaten", "in roughly two months"), b: true },
+    { t: t(", als alleiniger Entwickler.", ", as the sole developer.") },
+  ],
+  [
+    { t: t("Wie ich arbeite: ", "How I work: ") },
+    {
+      t: t(
+        "eigenverantwortlich, remote und asynchron",
+        "independently, remote and asynchronously",
+      ),
+      b: true,
+    },
+    {
+      t: t(
+        ". Ich brauche keine tägliche Steuerung, sondern ein klares Ziel – den Weg dorthin schneide ich selbst zu und melde mich, bevor etwas ins Rutschen kommt. Entscheidungen dokumentiere ich, Code kommt getestet und review-fähig, und ich sage früh, wenn eine Anforderung technisch teurer wird als gedacht. Kommunikation auf Deutsch und Englisch.",
+        ". I don't need daily direction, just a clear goal – I'll figure out the path there myself and speak up before anything slips. I document decisions, ship tested and review-ready code, and flag early when a requirement turns out to be technically more expensive than expected. I communicate in German and English.",
+      ),
+    },
+  ],
+  [
+    { t: t("Technisch: ", "Technically: ") },
+    { t: t("TypeScript und Python", "TypeScript and Python"), b: true },
+    {
+      t: t(
+        ", Backend mit NestJS, Node.js und FastAPI, Frontend mit Next.js, React und Angular, dazu PostgreSQL, Docker, CI/CD und Cloud auf Azure oder GCP. Clean Architecture und Microservices sind Standard, ",
+        ", backends with NestJS, Node.js and FastAPI, frontends with Next.js, React and Angular, plus PostgreSQL, Docker, CI/CD and cloud on Azure or GCP. Clean Architecture and microservices are standard; ",
+      ),
+    },
+    {
+      t: t(
+        "DSGVO-Konformität und Secure by Design",
+        "GDPR compliance and Secure by Design",
+      ),
+      b: true,
+    },
+    { t: t(" denke ich von Beginn an mit.", " are built in from day one.") },
+  ],
+  [
+    { t: t("Erprobt ist das im ", "I've done this inside a ") },
+    {
+      t: t("20-köpfigen Engineering-Team", "20-person engineering team"),
+      b: true,
+    },
+    {
+      t: t(
+        " – zuletzt an einer KI-gestützten LegalTech-Plattform mit ",
+        " – most recently on an AI-powered LegalTech platform with ",
+      ),
+    },
+    { t: t("über 3.000 Kunden", "more than 3,000 customers"), b: true },
+    {
+      t: t(
+        " – ebenso wie als alleiniger Entwickler mit voller Produktverantwortung. In ",
+        " – and as a sole developer with full product ownership. Over ",
+      ),
+    },
+    { t: t("über sieben Jahren", "seven years"), b: true },
+    {
+      t: t(
+        " quer durch LegalTech, HealthTech, E-Commerce, EdTech und Logistik.",
+        " across LegalTech, HealthTech, e-commerce, EdTech and logistics.",
       ),
     },
   ],

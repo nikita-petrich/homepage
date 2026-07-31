@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { localePath } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/provider";
-import { bookingUrl, profileName } from "@/lib/profile";
+import { bookingUrlFor, profileName } from "@/lib/profile";
 import { Button } from "@/components/ui/button";
 
 import { CvDownload } from "./cv-download";
@@ -39,7 +39,7 @@ export function NotionTopBar() {
         <CvDownload variant="topbar" />
         <Button asChild size="sm">
           <a
-            href={bookingUrl}
+            href={bookingUrlFor(locale)}
             target="_blank"
             rel="noopener noreferrer"
             data-analytics-event="booking_click"

@@ -8,6 +8,7 @@ import {
   cvFiles,
   facts,
   focus,
+  headline,
   intro,
   languages,
   methods,
@@ -52,11 +53,12 @@ export type TocItem = Content["sections"][number];
 
 /* Locale-independent: names, URLs. */
 export { referenceSources };
-export { bookingUrl, profileName, profileRole } from "./profile";
+export { bookingUrl, bookingUrlFor, profileName, profileRole } from "./profile";
 
 const content = {
   profile,
   siteDescription,
+  headline,
   cvFiles,
   contact,
   facts,

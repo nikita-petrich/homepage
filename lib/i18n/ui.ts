@@ -62,8 +62,8 @@ const ui = {
 
   home: {
     ctaQuestion: t(
-      "Sie planen ein KI-Vorhaben oder ein Produkt, das zuverlässig laufen muss?",
-      "Planning an AI initiative — or a product that simply has to run reliably?",
+      "Passt das zu Ihrem Vorhaben?",
+      "Does this fit what you have in mind?",
     ),
     referencesIntro: t(
       "Was Kund:innen und Projektbeteiligte über die Zusammenarbeit sagen. Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt) nachprüfbar.",
