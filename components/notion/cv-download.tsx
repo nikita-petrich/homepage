@@ -38,7 +38,12 @@ export function CvDownload({
   const isTopbar = variant === "topbar";
 
   return (
-    <div ref={rootRef} className={cn("relative", className)}>
+    /* The topbar variant deliberately has no positioning context of its own:
+       its menu is anchored to the top bar's right-hand group instead, so the
+       248px panel lines up with the bar's right edge rather than with a button
+       that sits mid-screen — anchoring it here pushed the menu off the left
+       edge of the viewport on phones (≤414px). */
+    <div ref={rootRef} className={cn(!isTopbar && "relative", className)}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -67,8 +72,8 @@ export function CvDownload({
       {open && (
         <div
           className={cn(
-            "absolute z-50 mt-2 w-[248px] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white p-1.5 shadow-[rgba(15,15,15,0.16)_0px_8px_28px]",
-            isTopbar ? "right-0" : "left-0",
+            "absolute z-50 mt-2 w-[248px] max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-xl border border-[rgba(55,53,47,0.12)] bg-white p-1.5 shadow-[rgba(15,15,15,0.16)_0px_8px_28px]",
+            isTopbar ? "top-full right-0" : "left-0",
           )}
         >
           <div className="px-2 pt-1 pb-1.5 text-[11px] font-semibold tracking-[0.04em] text-notion-gray uppercase">

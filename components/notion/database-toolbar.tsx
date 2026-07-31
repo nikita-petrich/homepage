@@ -56,7 +56,9 @@ export function DatabaseToolbar({
   const current = VIEW_OPTIONS.find((o) => o.key === view) ?? VIEW_OPTIONS[0]!;
 
   return (
-    <div className="mb-2 flex items-center justify-end gap-2">
+    /* relative: the sort popover is anchored to the toolbar rather than to its
+       (near-viewport-edge) trigger, so a 300px panel stays on screen at 320px. */
+    <div className="relative mb-2 flex items-center justify-end gap-2">
       <div className="relative mr-auto">
         <button
           type="button"
@@ -82,9 +84,16 @@ export function DatabaseToolbar({
         )}
       </div>
 
-      <div className="flex items-center gap-0.5 text-notion-gray">
+      <div
+        className={cn(
+          "flex items-center gap-0.5 text-notion-gray",
+          // While open, the search field takes the leftover width instead of a
+          // fixed one — a fixed 140px pushed the view switcher off screen at 320px.
+          searchOpen && "min-w-0 flex-1 sm:flex-none",
+        )}
+      >
         {searchOpen ? (
-          <div className="flex items-center gap-1.5 rounded-md px-1">
+          <div className="flex min-w-0 flex-1 items-center gap-1.5 rounded-md px-1 sm:flex-none">
             <Search size={16} strokeWidth={1.9} className="shrink-0" />
             <input
               ref={inputRef}
@@ -95,7 +104,7 @@ export function DatabaseToolbar({
               }}
               placeholder="Suchen…"
               aria-label="Durchsuchen"
-              className="w-[140px] bg-transparent text-[14px] text-notion-text placeholder:text-notion-gray focus:outline-none sm:w-[190px]"
+              className="w-full min-w-0 bg-transparent text-[14px] text-notion-text placeholder:text-notion-gray focus:outline-none sm:w-[190px]"
             />
             <button
               type="button"
@@ -112,7 +121,9 @@ export function DatabaseToolbar({
           </div>
         ) : (
           <>
-            <div className="relative">
+            {/* No positioning context here on purpose — SortPopover anchors to
+                the toolbar so it cannot overflow the viewport. */}
+            <div>
               <button
                 type="button"
                 onClick={() => setSortOpen((v) => !v)}
@@ -176,7 +187,7 @@ function SortPopover({
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="absolute top-full right-0 z-50 mt-1 w-[300px] rounded-lg border border-[rgba(55,53,47,0.12)] bg-white p-1.5 text-notion-text shadow-[rgba(15,15,15,0.14)_0px_6px_22px]">
+      <div className="absolute top-full right-0 z-50 mt-1 w-[300px] max-w-full rounded-lg border border-[rgba(55,53,47,0.12)] bg-white p-1.5 text-notion-text shadow-[rgba(15,15,15,0.14)_0px_6px_22px]">
         <div className="flex items-center gap-1.5 p-1">
           {/* Not a button: there is only one sort property, so this is a
               plain label (no border/hover) rather than a dead-looking
