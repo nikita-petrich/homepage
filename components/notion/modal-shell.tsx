@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useUi } from "@/lib/i18n/provider";
 
 /* Shared dialog scaffolding for the project and reference popups.
  *
@@ -24,6 +25,7 @@ export function ModalShell({
   maxWidthClass?: string;
   children: React.ReactNode;
 }) {
+  const ui = useUi();
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -51,7 +53,7 @@ export function ModalShell({
     >
       <div
         className={cn(
-          "relative my-4 h-fit w-full overflow-hidden rounded-xl bg-white shadow-[rgba(15,15,15,0.2)_0px_16px_48px] sm:my-8",
+          "relative my-4 h-fit w-full overflow-hidden rounded-xl bg-[var(--surface)] shadow-[rgba(15,15,15,0.2)_0px_16px_48px] sm:my-8",
           maxWidthClass,
         )}
         style={{ animation: "np-modal-in 0.28s ease-out" }}
@@ -60,8 +62,8 @@ export function ModalShell({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Schließen"
-          className="absolute top-3 right-3 z-10 cursor-pointer rounded-md bg-white/85 p-1.5 text-notion-gray backdrop-blur transition-colors hover:bg-white hover:text-notion-text"
+          aria-label={ui.common.close}
+          className="absolute top-3 right-3 z-10 cursor-pointer rounded-md bg-[var(--overlay-panel)] p-1.5 text-notion-gray backdrop-blur transition-colors hover:bg-[var(--surface)] hover:text-notion-text"
         >
           <X size={18} />
         </button>

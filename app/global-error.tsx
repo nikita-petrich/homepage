@@ -1,5 +1,13 @@
 "use client"; // global-error replaces the root layout when active
 
+import { defaultLocale, localeMeta } from "@/lib/i18n/config";
+import { getUi } from "@/lib/i18n/ui";
+
+/* Replaces the root layout — so it has no locale from the route and no
+   stylesheet. It renders in the fallback language, the same one proxy.ts falls
+   back to, with inline styles in the light palette. */
+const ui = getUi(defaultLocale);
+
 export default function GlobalError({
   unstable_retry,
 }: {
@@ -8,7 +16,7 @@ export default function GlobalError({
 }) {
   return (
     // global-error must include html and body tags
-    <html lang="de">
+    <html lang={localeMeta[defaultLocale].htmlLang}>
       <body
         style={{
           fontFamily:
@@ -22,12 +30,8 @@ export default function GlobalError({
         }}
       >
         <main style={{ textAlign: "center", padding: "0 24px" }}>
-          <h1 style={{ fontSize: 24, fontWeight: 600 }}>
-            Da ist etwas schiefgelaufen.
-          </h1>
-          <p style={{ marginTop: 8, color: "#787774" }}>
-            Ein unerwarteter Fehler ist aufgetreten.
-          </p>
+          <h1 style={{ fontSize: 24, fontWeight: 600 }}>{ui.error.title}</h1>
+          <p style={{ marginTop: 8, color: "#787774" }}>{ui.error.textShort}</p>
           <button
             type="button"
             onClick={() => unstable_retry()}
@@ -43,7 +47,7 @@ export default function GlobalError({
               fontWeight: 500,
             }}
           >
-            Erneut versuchen
+            {ui.error.retry}
           </button>
         </main>
       </body>

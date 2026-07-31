@@ -1,0 +1,296 @@
+import { localizedMemo, t } from "./text";
+
+/* Every string of the interface itself — labels, buttons, ARIA text, empty
+ * states. Page content (projects, certificates, testimonials …) lives in
+ * lib/content/*; this file is the chrome around it.
+ *
+ * Strings with a {placeholder} are filled via format() at the call site. */
+const ui = {
+  topbar: {
+    booking: t("Erstgespräch buchen", "Book an intro call"),
+    home: t("Zur Startseite", "Back to home"),
+  },
+
+  language: {
+    switchLabel: t("Sprache wählen", "Choose language"),
+    current: t("Aktuelle Sprache: {language}", "Current language: {language}"),
+    menuLabel: t("Sprache", "Language"),
+  },
+
+  /* The languages named in the page's own language — the switcher itself shows
+     each language's native name instead (see localeMeta in i18n/config.ts). */
+  languageName: {
+    de: t("Deutsch", "German"),
+    en: t("Englisch", "English"),
+  },
+
+  theme: {
+    toggleLabel: t("Design wechseln", "Switch theme"),
+    toLight: t("Zu hellem Design wechseln", "Switch to light theme"),
+    toDark: t("Zu dunklem Design wechseln", "Switch to dark theme"),
+  },
+
+  cv: {
+    button: t("CV", "CV"),
+    buttonSuffix: t(" herunterladen", " download"),
+    menuTitle: t("Lebenslauf als PDF", "Résumé as PDF"),
+    open: t("CV-Download öffnen", "Open CV download"),
+  },
+
+  footer: {
+    legalNav: t("Rechtliches", "Legal"),
+    imprint: t("Impressum", "Imprint"),
+    privacy: t("Datenschutz", "Privacy"),
+    privacySettings: t("Datenschutz-Einstellungen", "Privacy settings"),
+  },
+
+  /* Headings of the home page. The floating table of contents carries its own,
+     shorter labels (see `sections` in lib/content/profile.ts). */
+  sections: {
+    contact: t("Kontakt", "Contact"),
+    facts: t("Eckdaten", "Key facts"),
+    profiles: t("Profile", "Profiles"),
+    methods: t("Methodik", "Methodology"),
+    languages: t("Sprachen", "Languages"),
+    approach: t("Arbeitsweise", "Ways of working"),
+    focus: t("Schwerpunkt", "Focus"),
+    projects: t("Projekte", "Projects"),
+    references: t("Referenzen", "Testimonials"),
+    skills: t("Skills & Fähigkeiten", "Skills & capabilities"),
+    certificates: t("Zertifikate", "Certificates"),
+  },
+
+  home: {
+    ctaQuestion: t(
+      "Sie planen ein KI-Vorhaben oder ein Produkt, das zuverlässig laufen muss?",
+      "Planning an AI initiative — or a product that simply has to run reliably?",
+    ),
+    referencesIntro: t(
+      "Was Kund:innen und Projektbeteiligte über die Zusammenarbeit sagen. Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt) nachprüfbar.",
+      "What clients and project colleagues say about working together. Every testimonial is verifiable through its source (LinkedIn / Malt).",
+    ),
+    certificatesIntro: t(
+      "Abgeschlossene Weiterbildungen. Jede Karte zeigt den vollständigen Umfang — Eckdaten, Inhalte und Kursaufbau — und verlinkt das Zertifikat als PDF.",
+      "Completed courses. Each card shows the full scope — key facts, contents and syllabus — and links to the certificate as a PDF.",
+    ),
+    certificatesLink: t(
+      "Alle Zertifikate auf einer Seite",
+      "All certificates on one page",
+    ),
+  },
+
+  gallery: {
+    view: t("Galerie", "Gallery"),
+    table: t("Tabelle", "Table"),
+    switchView: t("Ansicht wechseln", "Switch view"),
+    sort: t("Sortierung", "Sorting"),
+    sortByDate: t("Datum", "Date"),
+    newestFirst: t("Neueste zuerst", "Newest first"),
+    oldestFirst: t("Älteste zuerst", "Oldest first"),
+    search: t("Suchen", "Search"),
+    searchPlaceholder: t("Suchen…", "Search…"),
+    searchLabel: t("Durchsuchen", "Search entries"),
+    closeSearch: t("Suche schließen", "Close search"),
+    empty: t("Keine Treffer.", "No matches."),
+  },
+
+  skills: {
+    title: t("Meine Skills", "My skills"),
+    searchPlaceholder: t("Skill suchen…", "Search skills…"),
+    searchLabel: t("Skill suchen", "Search skills"),
+  },
+
+  projects: {
+    colName: t("Name", "Name"),
+    colCompany: t("Firma", "Company"),
+    colCategory: t("Kategorie", "Category"),
+    responsibilities: t("Aufgaben", "Responsibilities"),
+    results: t("Ergebnis", "Outcome"),
+    reference: t("Referenz", "Testimonial"),
+    references: t("Referenzen", "Testimonials"),
+    technologies: t("Technologien", "Technologies"),
+    viewReference: t(
+      "Referenz von {name} ansehen",
+      "View testimonial by {name}",
+    ),
+    viewAll: t("Alle {count} ansehen", "View all {count}"),
+    viewAllReferences: t(
+      "Alle {count} Referenzen zu {project} ansehen",
+      "View all {count} testimonials for {project}",
+    ),
+  },
+
+  references: {
+    coverLabel: t("Empfehlung", "Testimonial"),
+    colName: t("Name", "Name"),
+    colCompany: t("Firma", "Company"),
+    colRelation: t("Bezug", "Relation"),
+    open: t("Referenz von {name} öffnen", "Open testimonial by {name}"),
+    dialogLabel: t("Referenz von {name}", "Testimonial by {name}"),
+    openSingle: t(
+      "Referenz von {name} einzeln öffnen",
+      "Open the testimonial by {name} on its own page",
+    ),
+    single: t("Einzelansicht", "Single view"),
+    source: t("Quelle:", "Source:"),
+    viewOnSource: t("Referenz auf {source} ansehen", "View testimonial on {source}"),
+    projectDialogLabel: t(
+      "Referenzen zu {project}",
+      "Testimonials for {project}",
+    ),
+    countOne: t("1 Referenz", "1 testimonial"),
+    countMany: t("{count} Referenzen", "{count} testimonials"),
+    toProject: t("Zum Projekt", "Go to project"),
+    /* Testimonials are quoted in the language they were written in; the other
+       language shows a translation, and this line names the original. */
+    originalLanguage: t(
+      "Übersetzt aus dem Original ({language}) — der Wortlaut steht bei der verlinkten Quelle.",
+      "Translated from the original ({language}) — the wording as written is at the linked source.",
+    ),
+    metaDescription: t(
+      "{name} ({role}) über die Zusammenarbeit mit Nikita Petrich.",
+      "{name} ({role}) on working with Nikita Petrich.",
+    ),
+    projectMetaTitle: t(
+      "Referenzen — {project}",
+      "Testimonials — {project}",
+    ),
+    projectMetaDescription: t(
+      "{count} zum Projekt {project} ({subtitle}): {names}.",
+      "{count} for the {project} project ({subtitle}): {names}.",
+    ),
+  },
+
+  certificates: {
+    colTitle: t("Titel", "Title"),
+    colIssuer: t("Aussteller", "Issuer"),
+    colCategory: t("Kategorie", "Category"),
+    dialogLabel: t("Zertifikat: {title}", "Certificate: {title}"),
+    open: t(
+      "Zertifikat „{title}“ ({issuer}) — Details ansehen",
+      "Certificate “{title}” ({issuer}) — view details",
+    ),
+    previewAlt: t(
+      "Zertifikat „{title}“ von {issuer}, ausgestellt {date}",
+      "Certificate “{title}” from {issuer}, issued {date}",
+    ),
+    openDocument: t(
+      "Zertifikat „{title}“ als {kind} in neuem Tab öffnen",
+      "Open certificate “{title}” as {kind} in a new tab",
+    ),
+    kindOriginal: t("Original", "the original"),
+    kindPdf: t("PDF", "a PDF"),
+    viewOnIssuer: t("Auf {issuer} ansehen", "View on {issuer}"),
+    openPdf: t("PDF öffnen", "Open PDF"),
+    openInNewTab: t("In neuem Tab öffnen", "Open in a new tab"),
+    scopeAndContents: t("Umfang & Inhalte", "Scope & contents"),
+    viewCertificateOnIssuer: t(
+      "Zertifikat auf {issuer} ansehen",
+      "View certificate on {issuer}",
+    ),
+    openCertificatePdf: t(
+      "Zertifikat als PDF öffnen",
+      "Open certificate as PDF",
+    ),
+    verifyOnIssuer: t("Auf {issuer} verifizieren", "Verify on {issuer}"),
+    coursePage: t("Kursseite", "Course page"),
+    outcomes: t("Inhalte & Kompetenzen", "Contents & competencies"),
+    curriculum: t("Kursaufbau", "Syllabus"),
+    topics: t("Themen", "Topics"),
+    lessons: t("{count} Lektionen", "{count} lessons"),
+    metaTitle: t("{title} — Zertifikat", "{title} — certificate"),
+    pageTitle: t("Zertifikate", "Certificates"),
+    pageIntro: t(
+      "Abgeschlossene Weiterbildungen mit dem jeweiligen Zertifikat als PDF. Ein Klick auf eine Karte zeigt den vollständigen Umfang — Eckdaten, Inhalte und den Kursaufbau bis zur einzelnen Lektion; das Zertifikat selbst öffnet sich in einem neuen Tab.",
+      "Completed courses, each with its certificate as a PDF. Clicking a card shows the full scope — key facts, contents and the syllabus down to the individual lesson; the certificate itself opens in a new tab.",
+    ),
+    pageDescription: t(
+      "Alle {count} Weiterbildungs-Zertifikate von Nikita Petrich mit Umfang, Kursaufbau und dem Zertifikat als PDF — von Scrimba, Code with Mosh und Udemy.",
+      "All {count} course certificates held by Nikita Petrich, with scope, syllabus and the certificate as a PDF — from Scrimba, Code with Mosh and Udemy.",
+    ),
+  },
+
+  common: {
+    close: t("Schließen", "Close"),
+    toc: t("Inhaltsverzeichnis", "Table of contents"),
+    openWebsite: t("Website von {name} öffnen", "Open the website of {name}"),
+  },
+
+  consent: {
+    /* Says "no tracking cookies" rather than "no cookies": the language
+       switcher stores one strictly necessary cookie (see the privacy page). */
+    text: t(
+      "Diese Website misst die Nutzung cookielos und anonym — ohne Tracking-Cookies und ohne Wiedererkennung.",
+      "This website measures its usage cookielessly and anonymously — no tracking cookies, no recognition across visits.",
+    ),
+    details: t("Details", "Details"),
+    ok: t("OK", "OK"),
+    decline: t("Ablehnen", "Decline"),
+    customize: t(
+      "Datenschutz-Einstellungen anpassen",
+      "Adjust privacy settings",
+    ),
+    settings: t("Datenschutz-Einstellungen", "Privacy settings"),
+    done: t("Fertig", "Done"),
+    necessaryTitle: t("Unbedingt erforderlich", "Strictly necessary"),
+    necessaryDesc: t(
+      "Speichert ausschließlich Ihre hier getroffene Entscheidung. Immer aktiv.",
+      "Stores nothing but the choice you make here. Always on.",
+    ),
+    statisticsTitle: t("Anonyme Statistik", "Anonymous statistics"),
+    statisticsDesc: t(
+      "Cookielose, anonyme Messung von Seitenaufrufen und Klicks — ohne Wiedererkennung, ohne Speicherung auf Ihrem Gerät. Kann hier jederzeit deaktiviert werden.",
+      "Cookieless, anonymous measurement of page views and clicks — no recognition, nothing stored on your device. Can be switched off here at any time.",
+    ),
+  },
+
+  notFound: {
+    metaTitle: t("Seite nicht gefunden", "Page not found"),
+    label: t("Fehler 404", "Error 404"),
+    title: t(
+      "Diese Seite gibt es nicht (mehr).",
+      "This page does not exist (any more).",
+    ),
+    text: t(
+      "Die aufgerufene Adresse existiert nicht oder wurde entfernt.",
+      "The address you requested does not exist or has been removed.",
+    ),
+  },
+
+  error: {
+    title: t("Da ist etwas schiefgelaufen.", "Something went wrong."),
+    text: t(
+      "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+      "An unexpected error occurred. Please try again.",
+    ),
+    textShort: t(
+      "Ein unerwarteter Fehler ist aufgetreten.",
+      "An unexpected error occurred.",
+    ),
+    retry: t("Erneut versuchen", "Try again"),
+  },
+
+  legal: {
+    imprintTitle: t("Impressum", "Imprint"),
+    imprintDescription: t(
+      "Anbieterkennzeichnung gemäß § 5 DDG.",
+      "Provider identification pursuant to § 5 DDG (German Digital Services Act).",
+    ),
+    privacyTitle: t("Datenschutzerklärung", "Privacy policy"),
+    privacyDescription: t(
+      "Informationen zur Verarbeitung personenbezogener Daten auf dieser Website gemäß Art. 13 DSGVO.",
+      "Information on the processing of personal data on this website pursuant to Art. 13 GDPR.",
+    ),
+    /* German law applies to both documents; the English version is a courtesy
+       translation and says so. */
+    translationNote: t(
+      "",
+      "This is a courtesy translation. The legally binding version is the German one.",
+    ),
+    translationLink: t("", "Read the German version"),
+  },
+} as const;
+
+export type Ui = ReturnType<typeof getUi>;
+
+export const getUi = localizedMemo(ui);

@@ -1,6 +1,14 @@
 @import "tailwindcss";
 
+/* Class-based dark mode: the theme is an explicit choice (see
+   components/notion/theme-toggle.tsx), stored in localStorage and applied to
+   <html> before the first paint. Tailwind v4 wires `dark:` to
+   prefers-color-scheme by default, so point it at the class instead. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+  color-scheme: light;
+
   /* Primary brand colour (AWS orange). Every orange in the UI derives from this. */
   --primary: #ff9900;
   --primary-foreground: #ffffff;
@@ -12,19 +20,127 @@
   --accent-text: var(--primary);
 
   --notion-text: #37352f;
+  --notion-text-soft: #4a473f;
   --notion-text-gray: #6f6d68; /* ≥4.5:1 on white (was #787774 at 4.48:1) */
   --notion-bg: #ffffff;
   --notion-divider: rgba(55, 53, 47, 0.16);
   --notion-card-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
     rgba(15, 15, 15, 0.1) 0px 2px 4px;
 
+  /* Surfaces: the page background, raised cards/popovers/dialogs, and the two
+     filled blocks (muted panels, neutral chips). */
+  --surface: #ffffff;
+  --surface-muted: #faf9f7;
+  --surface-chip: #f1f0ee;
+  --surface-hover: rgba(55, 53, 47, 0.06);
+  --surface-hover-strong: rgba(55, 53, 47, 0.1);
+  --surface-hover-soft: rgba(55, 53, 47, 0.02);
+  --overlay-panel: rgba(255, 255, 255, 0.9);
+
+  /* Hairlines, from barely-there to the standard border. */
+  --hairline: rgba(55, 53, 47, 0.09);
+  --hairline-faint: rgba(55, 53, 47, 0.06);
+  --border-soft: rgba(55, 53, 47, 0.1);
+  --border-strong: rgba(55, 53, 47, 0.12);
+
+  /* The warm banner used by the cover, the certificate and reference covers
+     and the project placeholder. */
+  --banner-bg: linear-gradient(100deg, #ecefe8 0%, #f5f3ee 58%, #f1eee7 100%);
+  --banner-text: #2b2925;
+  --banner-text-soft: #3a382f;
+  --banner-meta: #67655f;
+  --banner-caption: #6b614e;
+
+  /* Accent tags and the soft accent panels (results block, reference chips). */
+  --tag-bg: #ece3d3;
+  --tag-text: #6f5b3e;
+  --accent-soft: #faf6f0;
+  --accent-soft-hover: #f6ede1;
+
+  /* Notion's blue, used by the sort control and the consent toggles. */
+  --blue: #2383e2;
+
   /* Notion select colours for the certificate issuer pills. */
   --pill-green: #dbeddb;
+  --pill-green-text: #2a6b3a;
   --pill-blue: #d3e5ef;
+  --pill-blue-text: #24618a;
   --pill-purple: #e8deee;
+  --pill-purple-text: #6b4a86;
+
+  /* Decorative code-diff motif on the cover. */
+  --diff-add: #3f9142;
+  --diff-del: #c0553d;
+  --stripe: repeating-linear-gradient(
+    135deg,
+    #f2efe9 0 10px,
+    #eae6dd 10px 20px
+  );
 
   --radius: 0.5rem;
   --border: rgba(55, 53, 47, 0.16);
+}
+
+/* Dark theme. Same structure, Notion's dark greys — the orange stays the
+   brand's, only lifted slightly so it carries on a dark surface. */
+.dark {
+  color-scheme: dark;
+
+  --primary: #ff9900;
+  --primary-foreground: #1f1f1f;
+  --accent-o: #ffa726;
+  --accent-text: #ffb04d;
+
+  --notion-text: #e6e5e3;
+  --notion-text-soft: #c5c3bf;
+  --notion-text-gray: #9d9b96;
+  --notion-bg: #191919;
+  --notion-divider: rgba(255, 255, 255, 0.14);
+  --notion-card-shadow: rgba(255, 255, 255, 0.07) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.4) 0px 2px 6px;
+
+  --surface: #202020;
+  --surface-muted: #252525;
+  --surface-chip: #2f2f2f;
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --surface-hover-strong: rgba(255, 255, 255, 0.13);
+  --surface-hover-soft: rgba(255, 255, 255, 0.04);
+  --overlay-panel: rgba(32, 32, 32, 0.9);
+
+  --hairline: rgba(255, 255, 255, 0.11);
+  --hairline-faint: rgba(255, 255, 255, 0.07);
+  --border-soft: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --banner-bg: linear-gradient(100deg, #23262a 0%, #2a2926 58%, #26241f 100%);
+  --banner-text: #f0efec;
+  --banner-text-soft: #d9d7d1;
+  --banner-meta: #a3a09a;
+  --banner-caption: #b9ad95;
+
+  --tag-bg: #453b2a;
+  --tag-text: #e8cfa4;
+  --accent-soft: #2a2419;
+  --accent-soft-hover: #352c1e;
+
+  --blue: #5aa9f0;
+
+  --pill-green: #24352a;
+  --pill-green-text: #92d1a4;
+  --pill-blue: #1f3243;
+  --pill-blue-text: #8ec4e8;
+  --pill-purple: #322940;
+  --pill-purple-text: #c4a9dd;
+
+  --diff-add: #6cc070;
+  --diff-del: #e0806a;
+  --stripe: repeating-linear-gradient(
+    135deg,
+    #2b2926 0 10px,
+    #24221f 10px 20px
+  );
+
+  --border: rgba(255, 255, 255, 0.16);
 }
 
 @theme inline {
@@ -33,6 +149,10 @@
   --color-border: var(--border);
   --color-notion-text: var(--notion-text);
   --color-notion-gray: var(--notion-text-gray);
+  --color-notion-soft: var(--notion-text-soft);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-chip: var(--surface-chip);
 
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -55,6 +175,7 @@
 
   html {
     -webkit-text-size-adjust: 100%;
+    background: var(--notion-bg);
   }
 
   body {

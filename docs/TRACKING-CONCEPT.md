@@ -74,6 +74,9 @@ Derived from the components that actually exist. Naming convention: `snake_case`
 | `skills_search` | Debounced (≥ 800 ms pause) on `onChange={(e) => setQuery(e.target.value)}` (galleries.tsx:36–37) | `query_length`, `result_count`, `matched_categories` (only values from the fixed list `skills[].name`, data.ts:390–408) — **never the raw query** | **No** (precisely *because* there is no plain text) |
 | `gallery_search` | Debounced on the `DatabaseToolbar` search in projects/references/certificates (`query={query} onQueryChange={setQuery}`, projects.tsx:96–97, references.tsx:269–270, certificates.tsx:96–97) | `gallery: "projects" \| "references" \| "certificates"`, `query_length`, `result_count` | **No** |
 | `gallery_sort_toggle` | `onToggleSortDir` (e.g. projects.tsx:95) | `gallery`, `direction` | **No** |
+| `language_switch` | Click on a language in the header's language menu (language-toggle.tsx) | `locale: "de" \| "en"` | **No** |
+| `language_menu_open` | Opening the language menu (language-toggle.tsx) | — | **No** |
+| `theme_switch` | Click on the light/dark switch (theme-toggle.tsx) | `theme: "light" \| "dark"` | **No** |
 | `toc_navigate` | TOC button `onClick={() => scrollTo(item.id)}` (toc.tsx:55) | `section_id` (from `sections`, data.ts:577–587) | **No** |
 | `outbound_click` | Click on a `profileLinks` anchor (page.tsx:91–101; targets data.ts:53–59: website, LinkedIn, GitHub, freelancermap, Malt) as well as `companyUrl` links | `target_domain`, `link_label` | **No** |
 | `scroll_depth` | IntersectionObserver/scroll listener, thresholds 25/50/75/100 % (each threshold once per pageview) | `depth: 25 \| 50 \| 75 \| 100` | **No** |
@@ -83,6 +86,8 @@ Derived from the components that actually exist. Naming convention: `snake_case`
 | `consent_decision` | `dismiss(value)` (cookie-banner.tsx:34) | `decision: "all" \| "none" \| "customized"`, `analytics: bool`, `marketing: bool`, `banner_version` | **No** (an aggregated counter; for the *consent log* itself see 4.4) |
 | `session_recording_start` | PostHog only, after opt-in | session ID (PostHog-internal) | **YES — tier 2** |
 | `identify` / cross-visit profile | PostHog only, after opt-in | persistent `distinct_id` | **YES — tier 2** |
+
+**Addendum (bilingual site, 2026-07):** Since German and English were introduced, the website sets a single, technically necessary cookie — `NEXT_LOCALE` with the value `de` or `en`, written by the language switcher and by `proxy.ts`. It is not part of the measurement, holds no identifier and serves only to deliver an address without a language prefix in the language the visitor chose (§ 25 (2) no. 2 TDDDG). The tier-1 argument is unaffected: the measurement itself remains cookieless and stores nothing on the device. The localStorage entry `np-theme` for the choice between the light and the dark theme is equally free of consent.
 
 **Why the skill search query is not logged in plain text:** (1) free-text fields are uncontrollable data sources — users accidentally type or paste names, email addresses and internal project designations; that would store potentially personal data without a legal basis and without any way to assign a deletion. (2) Rare, individual search strings act as a quasi-identifier and, combined with a timestamp/IP, can make recognition possible — which would undermine the tier-1 argument ("no recognition"). (3) The analytical value is almost entirely preserved with `query_length`, `result_count` and `matched_categories` (an allowlist from the fixed skill vocabulary): you can see *what is being searched for* (at category level) and *whether anything is found* — without the plain-text risk.
 

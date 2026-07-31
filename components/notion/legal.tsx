@@ -10,7 +10,7 @@ export function LegalPage({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[var(--notion-bg)]">
       <NotionTopBar />
       <main className="mx-auto max-w-[720px] px-6 pt-10 pb-24 sm:px-8">
         <h1 className="text-[1.75rem] leading-[1.25] font-semibold tracking-[-0.01em]">
@@ -40,5 +40,27 @@ export function LegalSection({
         {children}
       </div>
     </section>
+  );
+}
+
+/* Shown on the English versions: German law applies to both documents, so the
+   translation is a courtesy and the German wording is the binding one. */
+export function TranslationNote({
+  note,
+  linkLabel,
+  href,
+}: {
+  note: string;
+  linkLabel: string;
+  href: string;
+}) {
+  return (
+    <p className="rounded-lg border border-[var(--border-soft)] bg-[var(--surface-muted)] px-4 py-3 text-[13px] leading-[1.6] text-notion-gray">
+      {note}{" "}
+      <a href={href} className="font-medium underline underline-offset-2">
+        {linkLabel}
+      </a>
+      .
+    </p>
   );
 }

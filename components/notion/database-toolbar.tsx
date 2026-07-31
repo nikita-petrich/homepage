@@ -12,12 +12,26 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useUi } from "@/lib/i18n/provider";
+import type { Ui } from "@/lib/i18n/ui";
 
 export type GalleryView = "gallery" | "table";
 
-const VIEW_OPTIONS: { key: GalleryView; label: string; icon: React.ReactNode }[] = [
-  { key: "gallery", label: "Galerie", icon: <LayoutGrid size={14} strokeWidth={1.9} /> },
-  { key: "table", label: "Tabelle", icon: <Table2 size={14} strokeWidth={1.9} /> },
+const VIEW_OPTIONS: {
+  key: GalleryView;
+  label: (ui: Ui) => string;
+  icon: React.ReactNode;
+}[] = [
+  {
+    key: "gallery",
+    label: (ui) => ui.gallery.view,
+    icon: <LayoutGrid size={14} strokeWidth={1.9} />,
+  },
+  {
+    key: "table",
+    label: (ui) => ui.gallery.table,
+    icon: <Table2 size={14} strokeWidth={1.9} />,
+  },
 ];
 
 type Props = {
@@ -44,6 +58,7 @@ export function DatabaseToolbar({
   query,
   onQueryChange,
 }: Props) {
+  const ui = useUi();
   const [viewOpen, setViewOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -63,16 +78,16 @@ export function DatabaseToolbar({
         <button
           type="button"
           onClick={() => setViewOpen((v) => !v)}
-          aria-label="Ansicht wechseln"
+          aria-label={ui.gallery.switchView}
           aria-haspopup="true"
           aria-expanded={viewOpen}
           className={cn(
-            "inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-md bg-[#f1f1ef] px-2 py-[5px] text-[14px] font-medium transition-colors hover:bg-[rgba(55,53,47,0.08)]",
-            viewOpen && "bg-[rgba(55,53,47,0.09)]",
+            "inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-md bg-[var(--surface-chip)] px-2 py-[5px] text-[14px] font-medium transition-colors hover:bg-[var(--surface-hover)]",
+            viewOpen && "bg-[var(--hairline)]",
           )}
         >
           <span className="flex h-4 w-4 items-center justify-center">{current.icon}</span>
-          {current.label}
+          {current.label(ui)}
           <ChevronDown size={13} className="text-notion-gray" />
         </button>
         {viewOpen && (
@@ -102,8 +117,8 @@ export function DatabaseToolbar({
               onBlur={() => {
                 if (!query) setSearchOpen(false);
               }}
-              placeholder="Suchen…"
-              aria-label="Durchsuchen"
+              placeholder={ui.gallery.searchPlaceholder}
+              aria-label={ui.gallery.searchLabel}
               className="w-full min-w-0 bg-transparent text-[14px] text-notion-text placeholder:text-notion-gray focus:outline-none sm:w-[190px]"
             />
             <button
@@ -113,8 +128,8 @@ export function DatabaseToolbar({
                 onQueryChange("");
                 setSearchOpen(false);
               }}
-              aria-label="Suche schließen"
-              className="shrink-0 cursor-pointer rounded p-0.5 hover:bg-[rgba(55,53,47,0.06)]"
+              aria-label={ui.gallery.closeSearch}
+              className="shrink-0 cursor-pointer rounded p-0.5 hover:bg-[var(--surface-hover)]"
             >
               <X size={14} />
             </button>
@@ -127,12 +142,12 @@ export function DatabaseToolbar({
               <button
                 type="button"
                 onClick={() => setSortOpen((v) => !v)}
-                aria-label="Sortierung"
+                aria-label={ui.gallery.sort}
                 aria-haspopup="true"
                 aria-expanded={sortOpen}
                 className={cn(
-                  "cursor-pointer rounded p-1 text-[#2383e2] hover:bg-[rgba(55,53,47,0.06)]",
-                  sortOpen && "bg-[rgba(35,131,226,0.1)]",
+                  "cursor-pointer rounded p-1 text-[var(--blue)] hover:bg-[var(--surface-hover)]",
+                  sortOpen && "bg-[color-mix(in_srgb,var(--blue)_10%,transparent)]",
                 )}
               >
                 <ArrowUpDown size={16} strokeWidth={1.9} />
@@ -151,8 +166,8 @@ export function DatabaseToolbar({
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              aria-label="Suchen"
-              className="cursor-pointer rounded p-1 hover:bg-[rgba(55,53,47,0.06)]"
+              aria-label={ui.gallery.search}
+              className="cursor-pointer rounded p-1 hover:bg-[var(--surface-hover)]"
             >
               <Search size={16} strokeWidth={1.9} />
             </button>
@@ -187,7 +202,7 @@ function SortPopover({
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="absolute top-full right-0 z-50 mt-1 w-[300px] max-w-full rounded-lg border border-[rgba(55,53,47,0.12)] bg-white p-1.5 text-notion-text shadow-[rgba(15,15,15,0.14)_0px_6px_22px]">
+      <div className="absolute top-full right-0 z-50 mt-1 w-[300px] max-w-full rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] p-1.5 text-notion-text shadow-[rgba(15,15,15,0.14)_0px_6px_22px]">
         <div className="flex items-center gap-1.5 p-1">
           {/* Not a button: there is only one sort property, so this is a
               plain label (no border/hover) rather than a dead-looking
@@ -201,7 +216,7 @@ function SortPopover({
           <button
             type="button"
             onClick={onToggleDir}
-            className="inline-flex flex-1 cursor-pointer items-center justify-between gap-1.5 rounded-md border border-[rgba(55,53,47,0.16)] px-2 py-[5px] text-[13px] transition-colors hover:bg-[rgba(55,53,47,0.04)]"
+            className="inline-flex flex-1 cursor-pointer items-center justify-between gap-1.5 rounded-md border border-[var(--border)] px-2 py-[5px] text-[13px] transition-colors hover:bg-[var(--surface-hover-soft)]"
           >
             {dirLabel}
             <ChevronDown size={13} className="text-notion-gray" />
@@ -221,6 +236,7 @@ function ViewPopover({
   onChange: (view: GalleryView) => void;
   onClose: () => void;
 }) {
+  const ui = useUi();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -232,7 +248,7 @@ function ViewPopover({
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="absolute top-full left-0 z-50 mt-1 w-[170px] rounded-lg border border-[rgba(55,53,47,0.12)] bg-white p-1 text-notion-text shadow-[rgba(15,15,15,0.14)_0px_6px_22px]">
+      <div className="absolute top-full left-0 z-50 mt-1 w-[170px] rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] p-1 text-notion-text shadow-[rgba(15,15,15,0.14)_0px_6px_22px]">
         {VIEW_OPTIONS.map((opt) => (
           <button
             key={opt.key}
@@ -241,12 +257,12 @@ function ViewPopover({
               onChange(opt.key);
               onClose();
             }}
-            className="flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-[7px] text-[13px] transition-colors hover:bg-[rgba(55,53,47,0.06)]"
+            className="flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-[7px] text-[13px] transition-colors hover:bg-[var(--surface-hover)]"
           >
             <span className="flex h-4 w-4 items-center justify-center text-notion-gray">
               {opt.icon}
             </span>
-            <span className="flex-1 text-left">{opt.label}</span>
+            <span className="flex-1 text-left">{opt.label(ui)}</span>
             {opt.key === view && (
               <Check size={14} className="text-[var(--accent-text)]" />
             )}
