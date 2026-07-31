@@ -32,15 +32,6 @@ export const cvFiles = [
   },
 ];
 
-/* Intrinsic viewBox ratios of the flag SVGs (DE is 5:3, GB is 2:1). next/image
-   needs width/height in the real ratio so a fixed-height + auto-width render
-   scales uniformly and doesn't trip its dev-only "width or height modified, but
-   not the other" warning. */
-export const flagDimensions: Record<string, { width: number; height: number }> = {
-  "/assets/flags/de.svg": { width: 5, height: 3 },
-  "/assets/flags/gb.svg": { width: 60, height: 30 },
-};
-
 export const contact = [
   { icon: "phone", text: "+49 15679088678", href: "tel:+4915679088678" },
   { icon: "mail", text: "n.petrich@sequenz.io", href: "mailto:n.petrich@sequenz.io" },

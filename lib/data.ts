@@ -7,7 +7,6 @@ import {
   contact,
   cvFiles,
   facts,
-  flagDimensions,
   focus,
   intro,
   languages,
@@ -51,8 +50,8 @@ export type ProfileLink = Content["profileLinks"][number];
 export type CvFile = Content["cvFiles"][number];
 export type TocItem = Content["sections"][number];
 
-/* Locale-independent: names, URLs, image ratios. */
-export { flagDimensions, referenceSources };
+/* Locale-independent: names, URLs. */
+export { referenceSources };
 export { bookingUrl, profileName, profileRole } from "./profile";
 
 const content = {

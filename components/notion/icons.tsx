@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Info } from "lucide-react";
 
-import { flagDimensions } from "@/lib/data";
+import { cn } from "@/lib/utils";
 
 export function CactusOrangeIcon({
   size = 24,
@@ -20,20 +20,29 @@ export function CactusOrangeIcon({
   );
 }
 
-/* Decorative flag icon. Uses each SVG's intrinsic ratio (see flagDimensions) so
-   next/image can scale it by height alone without an aspect-ratio warning. */
+/* Decorative flag chip. Every flag is drawn into the same fixed 3:2 box and
+   cropped with object-cover, so DE (5:3) and GB (2:1) render at identical
+   dimensions instead of the different widths height-only scaling would give
+   them. The height comes from the caller's className (e.g. h-4); the aspect
+   ratio then fixes the width. */
 export function Flag({ src, className }: { src: string; className?: string }) {
-  const { width, height } = flagDimensions[src] ?? { width: 4, height: 3 };
   return (
-    <Image
-      src={src}
-      alt=""
+    <span
       aria-hidden
-      width={width}
-      height={height}
-      unoptimized
-      className={className}
-    />
+      className={cn(
+        "relative inline-block aspect-[3/2] w-auto overflow-hidden",
+        className,
+      )}
+    >
+      <Image
+        src={src}
+        alt=""
+        fill
+        sizes="32px"
+        unoptimized
+        className="object-cover"
+      />
+    </span>
   );
 }
 
