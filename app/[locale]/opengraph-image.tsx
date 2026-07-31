@@ -37,7 +37,7 @@ export default async function Image({
           background: "linear-gradient(100deg, #f5f5f5 0%, #ffffff 55%, #f5f5f5 100%)",
         }}
       >
-        <div style={{ width: 14, height: "100%", background: "#171717" }} />
+        <div style={{ width: 14, height: "100%", background: "#bb4d00" }} />
         <div
           style={{
             flex: 1,
@@ -53,7 +53,7 @@ export default async function Image({
               fontWeight: 600,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
-              color: "#171717",
+              color: "#bb4d00",
             }}
           >
             {profile.tagline}

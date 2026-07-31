@@ -40,7 +40,7 @@ export default function GlobalError({
               cursor: "pointer",
               borderRadius: 6,
               border: "none",
-              background: "#171717",
+              background: "#bb4d00",
               color: "#ffffff",
               padding: "8px 16px",
               fontSize: 14,
