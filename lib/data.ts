@@ -306,7 +306,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "React", "Python", "Flask", "REST API", "OpenAPI", "DTOs", "MariaDB", "MySQL", "Redux", "React Router", "React Hook Form", "Material UI (MUI)", "Single Page Application (SPA)", "Nutzerführung", "Mandantenportal", "Digitale Archivführung", "JWT", "OAuth 2.0", "Role-Based Access Control (RBAC)", "DSGVO", "Docker", "Nginx", "Linux", "Ubuntu", "GitLab", "Slack", "Clean Architecture"],
   },
   {
-    num: "06", slug: "accounting-os", name: "AccountingOS", company: "HD Autoservice", subtitle: "GoBD-konformes Buchhaltungs- & Lagersystem",
+    num: "06", slug: "accounting-os", name: "Accounting OS", company: "HD Autoservice", subtitle: "GoBD-konformes Buchhaltungs- & Lagersystem",
     cat: "Handel & Kfz-Gewerbe", role: "Sole Developer · Full-Stack & AI",
     dateRange: "01/2024 – 12/2024 · ~12 Monate · lfd. Wartung", sort: "2024-01",
     caption: "Lagerverwaltung & Rechnungsmodul",
