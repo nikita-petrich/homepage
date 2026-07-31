@@ -140,7 +140,7 @@ export function FactLine({ item }: { item: FactItem }) {
     <div className="text-[15px] leading-[1.4]">
       <div className="flex items-center gap-1.5 text-[12px] tracking-[0.04em] text-notion-gray uppercase">
         {Icon ? (
-          <Icon size={12} strokeWidth={2} className="shrink-0 opacity-80" />
+          <Icon size={15} strokeWidth={2} className="shrink-0 opacity-80" />
         ) : null}
         {item.label}
       </div>
