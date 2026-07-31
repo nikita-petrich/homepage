@@ -26,6 +26,7 @@ import {
     focus,
     intro,
     languages,
+    methods,
     profile,
     profileLinks,
     sections,
@@ -72,22 +73,6 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Sprachen" level="h3" id="languages">
-              <div className="flex flex-col">
-                {languages.map((item) => (
-                  <LangLine key={item.text} item={item} />
-                ))}
-              </div>
-            </Section>
-
-            <Section title="Arbeitsweise" level="h3" id="approach">
-              <div className="flex flex-wrap gap-1.5">
-                {approach.map((a) => (
-                  <AccentTag key={a} label={a} />
-                ))}
-              </div>
-            </Section>
-
             <Section title="Profile" level="h3">
               <div className="flex flex-wrap gap-x-3.5 gap-y-1.5">
                 {profileLinks.map((p) => (
@@ -103,6 +88,30 @@ export default function Page() {
                   >
                     {p.label}
                   </a>
+                ))}
+              </div>
+            </Section>
+
+            <Section title="Methodik" level="h3">
+              <div className="flex flex-wrap gap-1.5">
+                {methods.map((m) => (
+                  <AccentTag key={m} label={m} />
+                ))}
+              </div>
+            </Section>
+
+            <Section title="Sprachen" level="h3" id="languages">
+              <div className="flex flex-col">
+                {languages.map((item) => (
+                  <LangLine key={item.text} item={item} />
+                ))}
+              </div>
+            </Section>
+
+            <Section title="Arbeitsweise" level="h3" id="approach">
+              <div className="flex flex-wrap gap-1.5">
+                {approach.map((a) => (
+                  <AccentTag key={a} label={a} />
                 ))}
               </div>
             </Section>

@@ -33,15 +33,25 @@ export const contact: InfoItem[] = [
   { icon: "🌐", text: "https://sequenz.io", href: "https://sequenz.io" },
 ];
 
-export type FactItem = { label: string; value: string };
+/* An array value is rendered as one line per entry — for facts that carry
+   several independent statements and would otherwise wrap awkwardly in the
+   210px sidebar. */
+export type FactItem = { label: string; value: string | string[] };
 
 export const facts: FactItem[] = [
   { label: "Erfahrung", value: "7+ Jahre" },
   { label: "Verfügbar", value: "ab sofort · Vollzeit" },
   { label: "Stundensatz", value: "auf Anfrage" },
   { label: "Qualifikation", value: "IHK-Fachinformatiker (AE)" },
-  { label: "Einsatzort", value: "Remote (bevorzugt) · München hybrid: 1–2 Tage/Woche · Fernreisen: 1–2 Tage/Monat" },
-  { label: "Onboarding", value: "Anreise vor Ort" },
+  {
+    label: "Einsatzort",
+    value: [
+      "Remote (bevorzugt)",
+      "München hybrid: 1–2 Tage/Woche",
+      "Fernreisen: 1–2 Tage/Monat",
+    ],
+  },
+  { label: "Onboarding", value: "Anreise vor Ort (bei Bedarf)" },
 ];
 
 export type Language = { flag: string; text: string; sub: string };
@@ -56,6 +66,17 @@ export const approach: string[] = [
   "eigenverantwortlich & zuverlässig",
   "autonome, asynchrone Arbeitsweise",
   "klare Kommunikation (DE/EN)",
+];
+
+/* Methods actually used in the projects (see each project's "Methodik"),
+   mirrored from the "Methodik & Zusammenarbeit" skill category so the
+   sidebar and the skills database never claim different things. */
+export const methods: string[] = [
+  "Scrum",
+  "Scrumban",
+  "Kanban",
+  "Code Reviews",
+  "Requirements Engineering",
 ];
 
 export type ProfileLink = { label: string; href: string };
