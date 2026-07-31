@@ -13,6 +13,7 @@ import {
 import { domainOf } from "@/lib/analytics/track";
 import { CertificateGallery } from "@/components/notion/certificates";
 import { CoverBanner } from "@/components/notion/cover-banner";
+import { CodeLogo } from "@/components/notion/icons";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
 import { ReferenceGallery } from "@/components/notion/references";
@@ -39,13 +40,7 @@ export default function Page() {
 
       <main className="mx-auto max-w-[960px] px-6 pb-28 sm:px-12">
         <div className="relative z-10 -mt-[34px] mb-2 w-fit drop-shadow-[0_2px_6px_rgba(0,0,0,0.12)]">
-          <Image
-            src="/assets/avatar.png"
-            alt=""
-            width={66}
-            height={66}
-            className="h-[66px] w-[66px] object-contain"
-          />
+          <CodeLogo size={66} />
         </div>
 
         <div className="grid grid-cols-1 gap-x-[42px] gap-y-10 md:grid-cols-[210px_minmax(0,1fr)]">
@@ -118,17 +113,7 @@ export default function Page() {
               <RichText lines={intro} />
               <p className="mt-3 font-semibold text-[var(--accent-text)]">
                 Sie planen ein KI-Vorhaben oder ein Produkt, das zuverlässig
-                laufen muss?{" "}
-                <a
-                  href={profile.booking}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-analytics-event="booking_click"
-                  data-analytics-prop-placement="intro_callout"
-                  className="underline underline-offset-2"
-                >
-                  Buchen Sie ein kostenloses Erstgespräch.
-                </a>
+                laufen muss?
               </p>
               <a
                 href={profile.booking}
@@ -136,7 +121,7 @@ export default function Page() {
                 rel="noopener noreferrer"
                 data-analytics-event="booking_click"
                 data-analytics-prop-placement="hero"
-                className="mt-4 inline-flex w-fit items-center rounded-lg bg-[var(--accent-text)] px-4 py-2.5 text-[14px] font-medium text-white shadow-sm transition-colors hover:brightness-95"
+                className="mt-4 inline-flex w-fit items-center rounded-lg bg-primary px-4 py-2.5 text-[14px] font-medium text-primary-foreground shadow-sm transition-colors hover:brightness-95"
               >
                 Erstgespräch buchen
               </a>

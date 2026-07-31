@@ -58,7 +58,7 @@ export function SkillsGallery() {
             >
               <div className="flex flex-col gap-[11px] p-[13px]">
                 <div className="flex items-center gap-[9px]">
-                  <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-md bg-[var(--accent-text)] text-[11px] font-bold text-white">
+                  <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-md bg-primary text-[11px] font-bold text-primary-foreground">
                     {cat.num}
                   </span>
                   <span className="text-[15px] leading-[1.3] font-semibold">
