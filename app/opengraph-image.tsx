@@ -1,11 +1,15 @@
 import { ImageResponse } from "next/og";
 
-/* Social-share card (LinkedIn, WhatsApp, Slack …), generated at build time in
-   the cover-banner design: warm gradient, accent bar, name, role, domain. */
+import { ogImageAlt, ogImageContentType, ogImageSize } from "@/lib/metadata";
 
-export const alt = "Nikita Petrich — Senior Full-Stack & AI Engineer";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+/* Social-share card (LinkedIn, WhatsApp, Slack …), generated at build time in
+   the cover-banner design: warm gradient, accent bar, name, role, domain.
+   Alt text and dimensions come from lib/metadata.ts, which also hands them to
+   the routes that build their own openGraph block. */
+
+export const alt = ogImageAlt;
+export const size = ogImageSize;
+export const contentType = ogImageContentType;
 
 export default function Image() {
   return new ImageResponse(
@@ -18,7 +22,7 @@ export default function Image() {
           background: "linear-gradient(100deg, #ecefe8 0%, #f5f3ee 58%, #f1eee7 100%)",
         }}
       >
-        <div style={{ width: 14, height: "100%", background: "#e1852e" }} />
+        <div style={{ width: 14, height: "100%", background: "#ff9900" }} />
         <div
           style={{
             flex: 1,
@@ -34,7 +38,7 @@ export default function Image() {
               fontWeight: 600,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
-              color: "#b5651d",
+              color: "#ff9900",
             }}
           >
             Freiberuflich · Remote · München

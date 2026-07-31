@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import {
     AccentTag,
@@ -12,20 +13,21 @@ import {
 import { domainOf } from "@/lib/analytics/track";
 import { CertificateGallery } from "@/components/notion/certificates";
 import { CoverBanner } from "@/components/notion/cover-banner";
+import { CodeLogo } from "@/components/notion/icons";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
 import { ReferenceGallery } from "@/components/notion/references";
 import { TableOfContents } from "@/components/notion/toc";
 import { NotionTopBar } from "@/components/notion/topbar";
 import {
-    arbeitsweise,
+    approach,
     contact,
-    eckdaten,
+    facts,
+    focus,
     intro,
     languages,
     profile,
     profileLinks,
-    schwerpunkt,
     sections,
 } from "@/lib/data";
 
@@ -38,13 +40,7 @@ export default function Page() {
 
       <main className="mx-auto max-w-[960px] px-6 pb-28 sm:px-12">
         <div className="relative z-10 -mt-[34px] mb-2 w-fit drop-shadow-[0_2px_6px_rgba(0,0,0,0.12)]">
-          <Image
-            src="/assets/avatar.png"
-            alt=""
-            width={66}
-            height={66}
-            className="h-[66px] w-[66px] object-contain"
-          />
+          <CodeLogo size={66} />
         </div>
 
         <div className="grid grid-cols-1 gap-x-[42px] gap-y-10 md:grid-cols-[210px_minmax(0,1fr)]">
@@ -60,7 +56,7 @@ export default function Page() {
               />
             </div>
 
-            <Section title="Kontakt" level="h3" id="kontakt">
+            <Section title="Kontakt" level="h3" id="contact">
               <div className="flex flex-col">
                 {contact.map((item) => (
                   <InfoLine key={item.text} item={item} />
@@ -68,15 +64,15 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Eckdaten" level="h3" id="eckdaten">
+            <Section title="Eckdaten" level="h3" id="facts">
               <div className="flex flex-col gap-2.5">
-                {eckdaten.map((item) => (
+                {facts.map((item) => (
                   <FactLine key={item.label} item={item} />
                 ))}
               </div>
             </Section>
 
-            <Section title="Sprachen" level="h3" id="sprachen">
+            <Section title="Sprachen" level="h3" id="languages">
               <div className="flex flex-col">
                 {languages.map((item) => (
                   <LangLine key={item.text} item={item} />
@@ -84,9 +80,9 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section title="Arbeitsweise" level="h3" id="arbeitsweise">
+            <Section title="Arbeitsweise" level="h3" id="approach">
               <div className="flex flex-wrap gap-1.5">
-                {arbeitsweise.map((a) => (
+                {approach.map((a) => (
                   <AccentTag key={a} label={a} />
                 ))}
               </div>
@@ -117,17 +113,7 @@ export default function Page() {
               <RichText lines={intro} />
               <p className="mt-3 font-semibold text-[var(--accent-text)]">
                 Sie planen ein KI-Vorhaben oder ein Produkt, das zuverlässig
-                laufen muss?{" "}
-                <a
-                  href={profile.booking}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-analytics-event="booking_click"
-                  data-analytics-prop-placement="intro_callout"
-                  className="underline underline-offset-2"
-                >
-                  Buchen Sie ein kostenloses Erstgespräch.
-                </a>
+                laufen muss?
               </p>
               <a
                 href={profile.booking}
@@ -135,25 +121,25 @@ export default function Page() {
                 rel="noopener noreferrer"
                 data-analytics-event="booking_click"
                 data-analytics-prop-placement="hero"
-                className="mt-4 inline-flex w-fit items-center rounded-lg bg-[var(--accent-text)] px-4 py-2.5 text-[14px] font-medium text-white shadow-sm transition-colors hover:brightness-95"
+                className="mt-4 inline-flex w-fit items-center rounded-lg bg-primary px-4 py-2.5 text-[14px] font-medium text-primary-foreground shadow-sm transition-colors hover:brightness-95"
               >
                 Erstgespräch buchen
               </a>
             </Callout>
 
-            <Section title="Schwerpunkt" level="h2" id="schwerpunkt">
+            <Section title="Schwerpunkt" level="h2" id="focus">
               <div className="flex flex-wrap gap-1.5">
-                {schwerpunkt.map((t) => (
+                {focus.map((t) => (
                   <AccentTag key={t} label={t} size="md" />
                 ))}
               </div>
             </Section>
 
-            <Section title="Projekte" level="h2" id="projekte">
+            <Section title="Projekte" level="h2" id="projects">
               <ProjectGallery />
             </Section>
 
-            <Section title="Referenzen" level="h2" id="referenzen">
+            <Section title="Referenzen" level="h2" id="references">
               <p className="mb-4 text-[14px] leading-[1.6] text-notion-gray">
                 Was Kund:innen und Projektbeteiligte über die Zusammenarbeit
                 sagen. Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt)
@@ -166,7 +152,21 @@ export default function Page() {
               <SkillsGallery />
             </Section>
 
-            <Section title="Zertifikate" level="h2" id="zertifikate">
+            <Section title="Zertifikate" level="h2" id="certificates">
+              <p className="mb-4 text-[14px] leading-[1.6] text-notion-gray">
+                Abgeschlossene Weiterbildungen. Jede Karte zeigt den
+                vollständigen Umfang — Eckdaten, Inhalte und Kursaufbau — und
+                verlinkt das Zertifikat als PDF.{" "}
+                <Link
+                  href="/certificates"
+                  data-analytics-event="certificates_overview_open"
+                  data-analytics-prop-source="home_section"
+                  className="font-medium text-[var(--accent-text)] underline underline-offset-2"
+                >
+                  Alle Zertifikate auf einer Seite
+                </Link>
+                .
+              </p>
               <CertificateGallery />
             </Section>
           </div>

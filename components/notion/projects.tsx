@@ -90,7 +90,7 @@ function ProjectTable({ projects: rows }: { projects: Project[] }) {
         {rows.map((p) => (
           <Link
             key={p.num}
-            href={`/projekte/${p.slug}`}
+            href={`/projects/${p.slug}`}
             scroll={false}
             data-analytics-event="project_open"
             data-analytics-prop-slug={p.slug}
@@ -154,7 +154,7 @@ export function ProjectGallery() {
           {visible.map((p) => (
             <Link
               key={p.num}
-              href={`/projekte/${p.slug}`}
+              href={`/projects/${p.slug}`}
               scroll={false}
               data-analytics-event="project_open"
               data-analytics-prop-slug={p.slug}
@@ -277,12 +277,19 @@ export function ProjectModal({
           </div>
 
           <div className="mt-[18px] grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[rgba(55,53,47,0.1)] bg-[rgba(55,53,47,0.09)] sm:grid-cols-3">
+            {/* min-w-0: grid items default to min-width:auto, so a long value
+                ("Direkte Produktverantwortung") widened its column past the
+                container and overflow-hidden clipped the text mid-word on
+                phones (≤375px). break-words handles unbreakable tokens. */}
             {project.meta.map((m) => (
-              <div key={m.label} className="bg-[#faf9f7] px-3.5 py-2.5">
+              <div
+                key={m.label}
+                className="min-w-0 bg-[#faf9f7] px-2.5 py-2 sm:px-3.5 sm:py-2.5"
+              >
                 <div className="text-[10px] font-semibold tracking-[0.06em] text-notion-gray uppercase">
                   {m.label}
                 </div>
-                <div className="mt-1 text-[13px] leading-[1.35] text-[#37352f]">
+                <div className="mt-1 text-[13px] leading-[1.35] break-words text-[#37352f]">
                   <MetaValue value={m.value} />
                 </div>
               </div>
@@ -293,7 +300,7 @@ export function ProjectModal({
             Aufgaben
           </h3>
           <ul className="flex flex-col gap-[9px]">
-            {project.aufgaben.map((a, i) => (
+            {project.responsibilities.map((a, i) => (
               <li key={i} className="flex gap-2.5 text-[14px] leading-[1.55]">
                 <span className="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-[#37352f]" />
                 <span>{a}</span>
@@ -306,7 +313,7 @@ export function ProjectModal({
               Ergebnis
             </h3>
             <ul className="flex flex-col gap-2">
-              {project.ergebnis.map((e, i) => (
+              {project.results.map((e, i) => (
                 <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
                   <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--accent-o)]" />
                   <span className="text-[#4a473f]">{e}</span>
@@ -324,13 +331,13 @@ export function ProjectModal({
                 {projectRefs.map((r) => (
                   <Link
                     key={r.slug}
-                    href={`/referenzen/${r.slug}`}
+                    href={`/references/${r.slug}`}
                     scroll={false}
                     data-analytics-event="reference_open"
                     data-analytics-prop-slug={r.slug}
                     data-analytics-prop-source="project_modal"
                     aria-label={`Referenz von ${r.name} ansehen`}
-                    className="inline-flex items-center gap-1.5 rounded-md border border-[rgba(225,133,46,0.35)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[#f6ede1]"
+                    className="inline-flex items-center gap-1.5 rounded-md border border-[color-mix(in_srgb,var(--accent-o)_35%,transparent)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[#f6ede1]"
                   >
                     <Quote size={13} strokeWidth={2} className="shrink-0" />
                     <span>{r.name}</span>
@@ -341,7 +348,7 @@ export function ProjectModal({
                     only worth its own link once there is more than one. */}
                 {projectRefs.length > 1 && (
                   <Link
-                    href={`/projekte/${project.slug}/referenzen`}
+                    href={`/projects/${project.slug}/references`}
                     scroll={false}
                     data-analytics-event="project_references_open"
                     data-analytics-prop-slug={project.slug}

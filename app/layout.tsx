@@ -24,6 +24,8 @@ export const metadata: Metadata = {
     template: "%s · Nikita Petrich",
   },
   description: siteDescription,
+  // Subpages set their own canonical via lib/metadata.ts; this covers "/".
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "de_DE",
@@ -47,7 +49,19 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className={`${inter.variable} antialiased`}>
+    /* `motion-safe:scroll-smooth` eases the in-page jumps of the table of
+       contents (and any /#section deep link) while respecting
+       prefers-reduced-motion. `data-scroll-behavior="smooth"` is required on
+       top: since Next 16 the router no longer neutralises smooth scrolling
+       during route transitions on its own, so without it opening or closing a
+       project modal would animate the page instead of switching instantly
+       (see node_modules/next/dist/docs/01-app/02-guides/upgrading/version-16.md,
+       "Scroll Behavior Override"). */
+    <html
+      lang="de"
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} antialiased motion-safe:scroll-smooth`}
+    >
       <body>
         <PersonJsonLd />
         {children}
