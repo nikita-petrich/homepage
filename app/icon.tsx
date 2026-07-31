@@ -5,7 +5,7 @@ import { ImageResponse } from "next/og";
  *
  * Mirrors the on-page logo tile (`CodeLogo` in components/notion/icons.tsx): a
  * rounded tile with white `</>` code brackets, drawn as crisp SVG.
- * Uses the AWS orange #ff9900 — keep it in sync with `--primary`.
+ * Uses the primary near-black #171717 — keep it in sync with `--primary`.
  */
 
 export const size = { width: 64, height: 64 };
@@ -21,7 +21,7 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#ff9900",
+          background: "#171717",
           borderRadius: 14,
         }}
       >

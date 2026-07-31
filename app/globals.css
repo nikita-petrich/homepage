@@ -1,152 +1,196 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-/* Class-based dark mode: the theme is an explicit choice (see
-   components/notion/theme-toggle.tsx), stored in localStorage and applied to
-   <html> before the first paint. Tailwind v4 wires `dark:` to
-   prefers-color-scheme by default, so point it at the class instead. */
+/* Class-based dark mode (main's mechanism): the theme is an explicit choice
+   applied to <html> before first paint — see components/notion/theme-toggle.tsx
+   and lib/theme.ts. Tailwind v4 wires `dark:` to prefers-color-scheme by
+   default, so point it at the class instead. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Default shadcn/ui design system — "new-york" style, neutral base colour
+   (oklch, radius 0.625rem), with light + dark themes. main's semantic token
+   vocabulary (--surface, --tag-*, --hairline, --banner-*, notion-*, …) is
+   re-pointed onto this scale further down, so every existing i18n component
+   adopts the shadcn palette in both themes without per-class edits. */
 :root {
   color-scheme: light;
 
-  /* Primary brand colour (AWS orange). Every orange in the UI derives from this. */
-  --primary: #ff9900;
-  --primary-foreground: #ffffff;
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 
-  /* Every orange in the UI is the primary — one vibrant tone for fills, icons,
-     text, labels, links and borders alike. Note: ≈2.1:1 as text on white / under
-     white text, i.e. below the WCAG AA 4.5:1 threshold, by design choice. */
+  /* ---- Aliases: main's token vocabulary → shadcn scale ------------------
+     These reference the shadcn tokens above, so they are theme-aware for free
+     (inside .dark the shadcn tokens change and these follow). The single brand
+     accent — and Notion's functional blue — collapse onto --primary. */
   --accent-o: var(--primary);
   --accent-text: var(--primary);
+  --blue: var(--primary);
 
-  --notion-text: #37352f;
-  --notion-text-soft: #4a473f;
-  --notion-text-gray: #6f6d68; /* ≥4.5:1 on white (was #787774 at 4.48:1) */
-  --notion-bg: #ffffff;
-  --notion-divider: rgba(55, 53, 47, 0.16);
-  --notion-card-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
-    rgba(15, 15, 15, 0.1) 0px 2px 4px;
+  --notion-text: var(--foreground);
+  --notion-text-soft: var(--foreground);
+  --notion-text-gray: var(--muted-foreground);
+  --notion-bg: var(--background);
+  --notion-divider: var(--border);
+  --notion-card-shadow: 0 0 0 1px var(--border), 0 2px 4px oklch(0 0 0 / 0.06);
 
-  /* Surfaces: the page background, raised cards/popovers/dialogs, and the two
-     filled blocks (muted panels, neutral chips). */
-  --surface: #ffffff;
-  --surface-muted: #faf9f7;
-  --surface-chip: #f1f0ee;
-  --surface-hover: rgba(55, 53, 47, 0.06);
-  --surface-hover-strong: rgba(55, 53, 47, 0.1);
-  --surface-hover-soft: rgba(55, 53, 47, 0.02);
-  --overlay-panel: rgba(255, 255, 255, 0.9);
+  --surface: var(--card);
+  --surface-muted: var(--muted);
+  --surface-chip: var(--secondary);
+  --surface-hover: var(--accent);
+  --surface-hover-strong: var(--accent);
+  --surface-hover-soft: var(--muted);
+  --overlay-panel: color-mix(in oklab, var(--popover) 90%, transparent);
 
-  /* Hairlines, from barely-there to the standard border. */
-  --hairline: rgba(55, 53, 47, 0.09);
-  --hairline-faint: rgba(55, 53, 47, 0.06);
-  --border-soft: rgba(55, 53, 47, 0.1);
-  --border-strong: rgba(55, 53, 47, 0.12);
+  --hairline: var(--border);
+  --hairline-faint: var(--border);
+  --border-soft: var(--border);
+  --border-strong: var(--border);
 
-  /* The warm banner used by the cover, the certificate and reference covers
-     and the project placeholder. */
-  --banner-bg: linear-gradient(100deg, #ecefe8 0%, #f5f3ee 58%, #f1eee7 100%);
-  --banner-text: #2b2925;
-  --banner-text-soft: #3a382f;
-  --banner-meta: #67655f;
-  --banner-caption: #6b614e;
+  --banner-bg: linear-gradient(
+    100deg,
+    var(--muted) 0%,
+    var(--background) 55%,
+    var(--muted) 100%
+  );
+  --banner-text: var(--foreground);
+  --banner-text-soft: var(--foreground);
+  --banner-meta: var(--muted-foreground);
+  --banner-caption: var(--muted-foreground);
 
-  /* Accent tags and the soft accent panels (results block, reference chips). */
-  --tag-bg: #ece3d3;
-  --tag-text: #6f5b3e;
-  --accent-soft: #faf6f0;
-  --accent-soft-hover: #f6ede1;
+  --tag-bg: var(--secondary);
+  --tag-text: var(--secondary-foreground);
+  --accent-soft: var(--muted);
+  --accent-soft-hover: var(--accent);
 
-  /* Notion's blue, used by the sort control and the consent toggles. */
-  --blue: #2383e2;
+  --stripe: repeating-linear-gradient(
+    135deg,
+    var(--muted) 0 10px,
+    var(--secondary) 10px 20px
+  );
 
-  /* Notion select colours for the certificate issuer pills. */
+  /* Kept as deliberate semantic colour sets (light values). */
   --pill-green: #dbeddb;
   --pill-green-text: #2a6b3a;
   --pill-blue: #d3e5ef;
   --pill-blue-text: #24618a;
   --pill-purple: #e8deee;
   --pill-purple-text: #6b4a86;
-
-  /* Decorative code-diff motif on the cover. */
   --diff-add: #3f9142;
   --diff-del: #c0553d;
-  --stripe: repeating-linear-gradient(
-    135deg,
-    #f2efe9 0 10px,
-    #eae6dd 10px 20px
-  );
-
-  --radius: 0.5rem;
-  --border: rgba(55, 53, 47, 0.16);
 }
 
-/* Dark theme. Same structure, Notion's dark greys — the orange stays the
-   brand's, only lifted slightly so it carries on a dark surface. */
 .dark {
   color-scheme: dark;
 
-  --primary: #ff9900;
-  --primary-foreground: #1f1f1f;
-  --accent-o: #ffa726;
-  --accent-text: #ffb04d;
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 
-  --notion-text: #e6e5e3;
-  --notion-text-soft: #c5c3bf;
-  --notion-text-gray: #9d9b96;
-  --notion-bg: #191919;
-  --notion-divider: rgba(255, 255, 255, 0.14);
-  --notion-card-shadow: rgba(255, 255, 255, 0.07) 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0.4) 0px 2px 6px;
+  --notion-card-shadow: 0 0 0 1px var(--border), 0 2px 6px oklch(0 0 0 / 0.4);
 
-  --surface: #202020;
-  --surface-muted: #252525;
-  --surface-chip: #2f2f2f;
-  --surface-hover: rgba(255, 255, 255, 0.08);
-  --surface-hover-strong: rgba(255, 255, 255, 0.13);
-  --surface-hover-soft: rgba(255, 255, 255, 0.04);
-  --overlay-panel: rgba(32, 32, 32, 0.9);
-
-  --hairline: rgba(255, 255, 255, 0.11);
-  --hairline-faint: rgba(255, 255, 255, 0.07);
-  --border-soft: rgba(255, 255, 255, 0.12);
-  --border-strong: rgba(255, 255, 255, 0.16);
-
-  --banner-bg: linear-gradient(100deg, #23262a 0%, #2a2926 58%, #26241f 100%);
-  --banner-text: #f0efec;
-  --banner-text-soft: #d9d7d1;
-  --banner-meta: #a3a09a;
-  --banner-caption: #b9ad95;
-
-  --tag-bg: #453b2a;
-  --tag-text: #e8cfa4;
-  --accent-soft: #2a2419;
-  --accent-soft-hover: #352c1e;
-
-  --blue: #5aa9f0;
-
+  /* Kept semantic colour sets (dark values). */
   --pill-green: #24352a;
   --pill-green-text: #92d1a4;
   --pill-blue: #1f3243;
   --pill-blue-text: #8ec4e8;
   --pill-purple: #322940;
   --pill-purple-text: #c4a9dd;
-
   --diff-add: #6cc070;
   --diff-del: #e0806a;
-  --stripe: repeating-linear-gradient(
-    135deg,
-    #2b2926 0 10px,
-    #24221f 10px 20px
-  );
-
-  --border: rgba(255, 255, 255, 0.16);
 }
 
 @theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
   --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* main's named colour utilities kept as aliases (text-notion-*, bg-surface*). */
   --color-notion-text: var(--notion-text);
   --color-notion-gray: var(--notion-text-gray);
   --color-notion-soft: var(--notion-text-soft);
@@ -154,33 +198,30 @@
   --color-surface-muted: var(--surface-muted);
   --color-surface-chip: var(--surface-chip);
 
+  --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --font-sans: var(--font-inter), ui-sans-serif, -apple-system,
+  --font-sans: var(--font-geist-sans), ui-sans-serif, -apple-system,
     BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
 }
 
-/* Layered (not global) so Tailwind utility classes — e.g. text-white on a
-   link, border-[var(--accent-text)] — can still override these defaults.
-   Unlayered CSS always beats the utilities layer regardless of specificity,
-   which previously made bg-[var(--accent-text)] buttons render with dark
-   inherited text and custom borders render as the default gray. */
 @layer base {
   * {
-    border-color: var(--border);
+    @apply border-border outline-ring/50;
   }
 
   html {
     -webkit-text-size-adjust: 100%;
-    background: var(--notion-bg);
+    background: var(--background);
   }
 
   body {
-    background: var(--notion-bg);
-    color: var(--notion-text);
+    @apply bg-background text-foreground;
     font-family: var(--font-sans);
     font-size: 16px;
     line-height: 1.5;
@@ -194,7 +235,7 @@
   }
 }
 
-/* Project detail popup enter animations. */
+/* Project detail popup enter animations (kept for any remaining native popups). */
 @keyframes np-overlay-in {
   from {
     opacity: 0;

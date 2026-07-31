@@ -34,10 +34,10 @@ export default async function Image({
           width: "100%",
           height: "100%",
           display: "flex",
-          background: "linear-gradient(100deg, #ecefe8 0%, #f5f3ee 58%, #f1eee7 100%)",
+          background: "linear-gradient(100deg, #f5f5f5 0%, #ffffff 55%, #f5f5f5 100%)",
         }}
       >
-        <div style={{ width: 14, height: "100%", background: "#ff9900" }} />
+        <div style={{ width: 14, height: "100%", background: "#171717" }} />
         <div
           style={{
             flex: 1,
@@ -53,7 +53,7 @@ export default async function Image({
               fontWeight: 600,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
-              color: "#ff9900",
+              color: "#171717",
             }}
           >
             {profile.tagline}
@@ -64,7 +64,7 @@ export default async function Image({
               fontSize: 92,
               fontWeight: 700,
               letterSpacing: "-0.02em",
-              color: "#2b2925",
+              color: "#171717",
             }}
           >
             Nikita Petrich
@@ -74,7 +74,7 @@ export default async function Image({
               marginTop: 10,
               fontSize: 42,
               fontWeight: 600,
-              color: "#3a382f",
+              color: "#525252",
             }}
           >
             Senior Full-Stack &amp; AI Engineer
@@ -85,16 +85,16 @@ export default async function Image({
               display: "flex",
               gap: 16,
               fontSize: 28,
-              color: "#6f5b3e",
+              color: "#262626",
             }}
           >
-            <div style={{ background: "#ece3d3", padding: "10px 22px", borderRadius: 10 }}>
+            <div style={{ background: "#f5f5f5", padding: "10px 22px", borderRadius: 10 }}>
               LLM-Integration
             </div>
-            <div style={{ background: "#ece3d3", padding: "10px 22px", borderRadius: 10 }}>
+            <div style={{ background: "#f5f5f5", padding: "10px 22px", borderRadius: 10 }}>
               RAG
             </div>
-            <div style={{ background: "#ece3d3", padding: "10px 22px", borderRadius: 10 }}>
+            <div style={{ background: "#f5f5f5", padding: "10px 22px", borderRadius: 10 }}>
               Clean Architecture
             </div>
           </div>
@@ -103,7 +103,7 @@ export default async function Image({
               marginTop: 46,
               fontSize: 32,
               fontWeight: 700,
-              color: "#2b2925",
+              color: "#171717",
             }}
           >
             https://sequenz.io

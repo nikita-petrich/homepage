@@ -26,12 +26,12 @@ export default function GlobalError({
           alignItems: "center",
           justifyContent: "center",
           background: "#ffffff",
-          color: "#37352f",
+          color: "#171717",
         }}
       >
         <main style={{ textAlign: "center", padding: "0 24px" }}>
           <h1 style={{ fontSize: 24, fontWeight: 600 }}>{ui.error.title}</h1>
-          <p style={{ marginTop: 8, color: "#787774" }}>{ui.error.textShort}</p>
+          <p style={{ marginTop: 8, color: "#737373" }}>{ui.error.textShort}</p>
           <button
             type="button"
             onClick={() => unstable_retry()}
@@ -40,7 +40,7 @@ export default function GlobalError({
               cursor: "pointer",
               borderRadius: 6,
               border: "none",
-              background: "#ff9900",
+              background: "#171717",
               color: "#ffffff",
               padding: "8px 16px",
               fontSize: 14,

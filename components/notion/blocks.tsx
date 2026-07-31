@@ -142,7 +142,7 @@ export function AccentTag({
 }) {
   return (
     <Badge
-      variant="accent"
+      variant="secondary"
       className={cn(
         "whitespace-normal",
         size === "md" ? "px-[9px] py-[3px] text-[13px]" : "text-[12px]",
@@ -155,7 +155,7 @@ export function AccentTag({
 
 export function SkillTag({ label }: { label: string }) {
   return (
-    <Badge variant="skill" className="px-[7px] py-px text-[12px] whitespace-normal">
+    <Badge variant="outline" className="px-[7px] py-px text-[12px] whitespace-normal">
       {label}
     </Badge>
   );

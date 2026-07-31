@@ -1,19 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useUi } from "@/lib/i18n/provider";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
-/* Shared dialog scaffolding for the project and reference popups.
- *
- * Uses the native <dialog> element via showModal(), which provides the
- * complete modal keyboard contract for free: focus is trapped inside the
- * dialog, the first focusable element (the close button) receives initial
- * focus, ESC closes, and focus returns to the triggering element on close.
- * Clicking the backdrop (the dialog element itself, stretched over the
- * viewport) also closes. */
+/* Shared dialog scaffolding for the project, reference and certificate popups,
+   built on the shadcn Dialog (Radix) primitive: focus trap, initial focus, ESC,
+   backdrop click, body scroll-lock and focus return for free. The dialog is
+   always mounted "open"; closing it calls `onClose`, which the intercepting
+   route turns into a router.back(). */
 export function ModalShell({
   label,
   onClose,
@@ -26,49 +23,38 @@ export function ModalShell({
   children: React.ReactNode;
 }) {
   const ui = useUi();
-  const ref = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = ref.current;
-    if (!dialog || dialog.open) return;
-    dialog.showModal();
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-      if (dialog.open) dialog.close();
-    };
-  }, []);
+  /* The caller passes a Tailwind width class; read the px out of it and apply
+     it as an inline style. A width class assembled at runtime would never be
+     emitted by the static Tailwind compiler, so the class alone cannot size the
+     dialog (that was the full-width regression). min() keeps a phone gutter. */
+  const px = Number(maxWidthClass.match(/\[(\d+)px\]/)?.[1] ?? 720);
 
   return (
-    <dialog
-      ref={ref}
-      aria-label={label}
-      onClose={onClose}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
+    <Dialog
+      open
+      onOpenChange={(o) => {
+        if (!o) onClose();
       }}
-      className="fixed inset-0 m-0 flex h-dvh max-h-none w-screen max-w-none justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-[2px] backdrop:bg-transparent open:flex sm:p-6"
-      style={{ animation: "np-overlay-in 0.2s ease-out" }}
     >
-      <div
+      <DialogContent
+        showCloseButton={false}
+        style={{ maxWidth: `min(${px}px, calc(100% - 2rem))` }}
         className={cn(
-          "relative my-4 h-fit w-full overflow-hidden rounded-xl bg-[var(--surface)] shadow-[rgba(15,15,15,0.2)_0px_16px_48px] sm:my-8",
-          maxWidthClass,
+          "w-full gap-0 overflow-y-auto rounded-xl p-0 shadow-xl",
+          "max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-4rem)]",
         )}
-        style={{ animation: "np-modal-in 0.28s ease-out" }}
-        onClick={(e) => e.stopPropagation()}
       >
+        <DialogTitle className="sr-only">{label}</DialogTitle>
         <button
           type="button"
           onClick={onClose}
           aria-label={ui.common.close}
-          className="absolute top-3 right-3 z-10 cursor-pointer rounded-md bg-[var(--overlay-panel)] p-1.5 text-notion-gray backdrop-blur transition-colors hover:bg-[var(--surface)] hover:text-notion-text"
+          className="absolute top-3 right-3 z-10 cursor-pointer rounded-md bg-background/85 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:bg-background hover:text-foreground"
         >
           <X size={18} />
         </button>
         {children}
-      </div>
-    </dialog>
+      </DialogContent>
+    </Dialog>
   );
 }

@@ -14,6 +14,8 @@ import { track } from "@/lib/analytics/track";
 import { localePath } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/provider";
 import type { Ui } from "@/lib/i18n/ui";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 
 /* Privacy banner. This site tracks cookieless and anonymous (stage 1, no
    consent required — see lib/analytics/consent.ts), so this banner INFORMS
@@ -81,15 +83,15 @@ export function CookieBanner() {
         />
       )}
 
-      {/* Stacks below sm: side by side, the copy was squeezed into a ~145px
-          column on a 320px screen. min-h-[24px] on the actions meets the 24px
+      {/* A high-contrast toast (foreground/background tokens) so it reads as a
+          system surface in both themes. min-h on the actions meets the 24px
           minimum target size (WCAG 2.2 SC 2.5.8). */}
-      <div className="flex flex-col gap-2 rounded-xl bg-[#2a2e30] px-4 py-3 text-[14px] text-white shadow-[rgba(15,15,15,0.28)_0px_8px_28px] sm:flex-row sm:items-center sm:gap-3">
-        <span className="flex-1 text-white/85">
+      <div className="flex flex-col gap-2 rounded-xl bg-foreground px-4 py-3 text-[14px] text-background shadow-lg sm:flex-row sm:items-center sm:gap-3">
+        <span className="flex-1 text-background/80">
           {ui.consent.text}{" "}
           <Link
             href={localePath(locale, "/privacy")}
-            className="underline underline-offset-2 hover:text-white"
+            className="underline underline-offset-2 hover:text-background"
           >
             {ui.consent.details}
           </Link>
@@ -98,14 +100,14 @@ export function CookieBanner() {
           <button
             type="button"
             onClick={() => save(true, "ok")}
-            className="inline-flex min-h-[24px] shrink-0 cursor-pointer items-center px-1 font-semibold transition-colors hover:text-white/75"
+            className="inline-flex min-h-[24px] shrink-0 cursor-pointer items-center px-1 font-semibold transition-colors hover:text-background/70"
           >
             {ui.consent.ok}
           </button>
           <button
             type="button"
             onClick={() => save(false, "opt_out")}
-            className="inline-flex min-h-[24px] shrink-0 cursor-pointer items-center font-semibold transition-colors hover:text-white/75"
+            className="inline-flex min-h-[24px] shrink-0 cursor-pointer items-center font-semibold transition-colors hover:text-background/70"
           >
             {ui.consent.decline}
           </button>
@@ -114,7 +116,7 @@ export function CookieBanner() {
             onClick={() => setCustomize((v) => !v)}
             aria-label={ui.consent.customize}
             aria-expanded={customize}
-            className="ml-auto shrink-0 cursor-pointer rounded p-1 transition-colors hover:bg-[var(--surface)]/10 sm:ml-0"
+            className="ml-auto shrink-0 cursor-pointer rounded p-1 transition-colors hover:bg-background/15 sm:ml-0"
           >
             <MoreHorizontal size={18} />
           </button>
@@ -157,18 +159,12 @@ function CustomizePanel({
   return (
     /* w-full + max-w: a fixed 340px overflowed the banner's own
        calc(100%-1.5rem) width on a 320px screen and ran off the left edge. */
-    <div className="absolute right-0 bottom-full mb-2 w-full max-w-[340px] overflow-hidden rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] shadow-[rgba(15,15,15,0.2)_0px_12px_34px]">
+    <div className="absolute right-0 bottom-full mb-2 w-full max-w-[340px] overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-lg">
       <div className="flex items-center justify-between px-4 py-3">
-        <span className="text-[15px] font-medium text-notion-text">
-          {ui.consent.settings}
-        </span>
-        <button
-          type="button"
-          onClick={onDone}
-          className="cursor-pointer rounded-md border border-[var(--blue)] px-3 py-1 text-[14px] font-medium text-[var(--blue)] transition-colors hover:bg-[color-mix(in_srgb,var(--blue)_5%,transparent)]"
-        >
+        <span className="text-[15px] font-medium">{ui.consent.settings}</span>
+        <Button variant="outline" size="sm" onClick={onDone}>
           {ui.consent.done}
-        </button>
+        </Button>
       </div>
 
       <div className="max-h-[320px] overflow-y-auto">
@@ -177,61 +173,25 @@ function CustomizePanel({
             key={row.key}
             className={cn(
               "flex items-start justify-between gap-3 px-4 py-3",
-              i === 0 && "bg-[var(--surface-muted)]",
+              i === 0 && "bg-muted",
             )}
           >
             <div className="min-w-0">
-              <div className="text-[14px] font-medium text-notion-text">
-                {row.title}
-              </div>
-              <div className="mt-0.5 text-[13px] leading-[1.4] text-notion-gray">
+              <div className="text-[14px] font-medium">{row.title}</div>
+              <div className="mt-0.5 text-[13px] leading-[1.4] text-muted-foreground">
                 {row.desc}
               </div>
             </div>
-            <Toggle
-              on={row.on}
+            <Switch
+              checked={row.on}
               disabled={row.disabled}
-              label={row.title}
-              onClick={row.onToggle}
+              onCheckedChange={row.onToggle ? () => row.onToggle!() : undefined}
+              aria-label={row.title}
+              className="mt-1"
             />
           </div>
         ))}
       </div>
     </div>
-  );
-}
-
-function Toggle({
-  on,
-  disabled,
-  label,
-  onClick,
-}: {
-  on: boolean;
-  disabled?: boolean;
-  label: string;
-  onClick?: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      role="switch"
-      onClick={onClick}
-      disabled={disabled}
-      aria-checked={on}
-      aria-label={label}
-      className={cn(
-        "relative mt-1 h-[18px] w-[30px] shrink-0 rounded-full transition-colors",
-        on ? "bg-[var(--blue)]" : "bg-[var(--border)]",
-        disabled ? "cursor-default opacity-70" : "cursor-pointer",
-      )}
-    >
-      <span
-        className={cn(
-          "absolute top-[2px] h-[14px] w-[14px] rounded-full bg-[var(--surface)] shadow-sm transition-all",
-          on ? "left-[14px]" : "left-[2px]",
-        )}
-      />
-    </button>
   );
 }

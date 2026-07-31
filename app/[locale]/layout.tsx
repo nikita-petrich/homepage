@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import { notFound } from "next/navigation";
 
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
@@ -15,12 +16,6 @@ import { alternateLanguages, ogImageFor, siteName } from "@/lib/metadata";
 import { themeInitScript } from "@/lib/theme";
 
 import "../globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 /* The root layout lives under [locale] so <html lang> and every string on the
    page follow the route — the pattern the bundled guide describes for
@@ -97,7 +92,7 @@ export default async function RootLayout({
     <html
       lang={localeMeta[locale].htmlLang}
       data-scroll-behavior="smooth"
-      className={`${inter.variable} antialiased motion-safe:scroll-smooth`}
+      className={`${GeistSans.variable} ${GeistMono.variable} antialiased motion-safe:scroll-smooth`}
       suppressHydrationWarning
     >
       <head>
