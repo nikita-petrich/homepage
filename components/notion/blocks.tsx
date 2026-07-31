@@ -1,9 +1,12 @@
 import {
   Briefcase,
   CalendarCheck,
+  Globe,
   GraduationCap,
   Handshake,
+  Mail,
   MapPin,
+  Phone,
   Wallet,
   type LucideIcon,
 } from "lucide-react";
@@ -25,6 +28,13 @@ const FACT_ICONS: Record<string, LucideIcon> = {
   "graduation-cap": GraduationCap,
   "map-pin": MapPin,
   handshake: Handshake,
+};
+
+/* Contact icons — same lucide treatment as the Eckdaten (fact) icons. */
+const CONTACT_ICONS: Record<string, LucideIcon> = {
+  phone: Phone,
+  mail: Mail,
+  globe: Globe,
 };
 
 /* The page's single h1 is the name in the cover banner; main sections are h2,
@@ -89,6 +99,7 @@ export function Callout({ children }: { children: React.ReactNode }) {
 }
 
 export function InfoLine({ item }: { item: InfoItem }) {
+  const Icon = CONTACT_ICONS[item.icon];
   const isExternal = item.href?.startsWith("http");
   const contactType = item.href?.startsWith("tel:")
     ? "phone"
@@ -96,10 +107,15 @@ export function InfoLine({ item }: { item: InfoItem }) {
       ? "email"
       : "website";
   return (
-    <div className="flex items-start gap-[8px] py-[3px] text-[15px] leading-[1.5]">
-      <span className="shrink-0 leading-[1.5]" aria-hidden>
-        {item.icon}
-      </span>
+    <div className="flex items-center gap-2 py-[3px] text-[15px] leading-[1.5]">
+      {Icon ? (
+        <Icon
+          size={15}
+          strokeWidth={2}
+          className="shrink-0 text-notion-gray opacity-80"
+          aria-hidden
+        />
+      ) : null}
       {item.href ? (
         <a
           href={item.href}

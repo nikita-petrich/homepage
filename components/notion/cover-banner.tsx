@@ -57,7 +57,7 @@ export function CoverBanner({ locale }: { locale: Locale }) {
     >
       <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
 
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-[clamp(20px,4vw,72px)] px-[clamp(28px,6vw,110px)] py-[clamp(5px,0.85vw,13px)]">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-[clamp(20px,4vw,72px)] px-[clamp(28px,6vw,110px)] py-[clamp(28px,2.85vw,41px)]">
         <GitCodeMotif className="hidden shrink-0 text-[clamp(11px,1.05vw,18px)] sm:flex" />
 
         <div className="flex min-w-0 flex-col items-end text-right">

@@ -42,9 +42,9 @@ export const flagDimensions: Record<string, { width: number; height: number }> =
 };
 
 export const contact = [
-  { icon: "📞", text: "+49 15679088678", href: "tel:+4915679088678" },
-  { icon: "✉️", text: "n.petrich@sequenz.io", href: "mailto:n.petrich@sequenz.io" },
-  { icon: "🌐", text: "https://sequenz.io", href: "https://sequenz.io" },
+  { icon: "phone", text: "+49 15679088678", href: "tel:+4915679088678" },
+  { icon: "mail", text: "n.petrich@sequenz.io", href: "mailto:n.petrich@sequenz.io" },
+  { icon: "globe", text: "https://sequenz.io", href: "https://sequenz.io" },
 ];
 
 /* An array value is rendered as one line per entry — for facts that carry
@@ -69,18 +69,15 @@ export const facts = [
   {
     label: t("Qualifikation", "Qualification"),
     icon: "graduation-cap",
-    value: t(
-      "IHK-Fachinformatiker (AE)",
-      "IHK-certified IT specialist (application development)",
-    ),
+    value: t("IHK-Fachinformatiker (Köln)", "IHK-certified IT specialist (Cologne)"),
   },
   {
     label: t("Einsatzort", "Location"),
     icon: "map-pin",
     value: [
       t("Remote (bevorzugt)", "Remote (preferred)"),
-      t("München hybrid: 1–2 Tage/Woche", "Munich hybrid: 1–2 days/week"),
-      t("Fernreisen: 1–2 Tage/Monat", "Long-distance travel: 1–2 days/month"),
+      t("Vor Ort: München · 1–2 Tage/Woche", "On-site: Munich · 1–2 days/week"),
+      t("Reisen: 1–2 Tage/Monat", "Travel: 1–2 days/month"),
     ],
   },
   {
