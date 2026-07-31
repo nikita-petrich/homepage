@@ -23,7 +23,7 @@ export type CertificateSource = {
       detail page at /certificates/<slug>. */
   slug: string;
   title: string;
-  issuer: "Scrimba" | "Code with Mosh" | "Udemy";
+  issuer: "Scrimba" | "Code with Mosh" | "Udemy" | "Traversy Media";
   date: Text;
   /** ISO completion date, used for sorting (newest first). */
   sort: string;
@@ -57,6 +57,23 @@ export type CertificateSource = {
 
 /* Ordered newest first by default (mirrors the projects gallery). */
 export const certificates: CertificateSource[] = [
+  {
+    slug: "traversy-coding-with-ai",
+    title: "Coding with AI",
+    issuer: "Traversy Media",
+    // TODO(user): confirm the real completion date — the value below is a
+    // placeholder and also controls where this card sorts (newest first).
+    date: t("2026", "2026"),
+    sort: "2026-06-01",
+    cat: t("KI / AI", "AI"),
+    tags: ["AI Coding", "Prompt Engineering", "AI Tools"],
+    externalUrl: "https://www.traversymedia.com/coding-with-ai",
+    courseUrl: "https://www.traversymedia.com/coding-with-ai",
+    summary: t(
+      "Praxiskurs von Traversy Media zum KI-gestützten Programmieren: der effektive Einsatz moderner KI-Werkzeuge im Entwickler-Alltag — von Prompting und Code-Generierung bis zum Bauen vollständiger Anwendungen mit KI-Assistenz.",
+      "A hands-on Traversy Media course on coding with AI: using modern AI tools effectively in a developer's day-to-day workflow — from prompting and code generation to building complete applications with AI assistance.",
+    ),
+  },
   {
     slug: "ai-for-developers-github-copilot",
     title: "AI For Developers With GitHub Copilot, Cursor AI & ChatGPT",
