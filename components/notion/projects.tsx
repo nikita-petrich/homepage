@@ -337,7 +337,7 @@ export function ProjectModal({
                     data-analytics-prop-slug={r.slug}
                     data-analytics-prop-source="project_modal"
                     aria-label={`Referenz von ${r.name} ansehen`}
-                    className="inline-flex items-center gap-1.5 rounded-md border border-[rgba(225,133,46,0.35)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[#f6ede1]"
+                    className="inline-flex items-center gap-1.5 rounded-md border border-[color-mix(in_srgb,var(--accent-o)_35%,transparent)] bg-[#faf6f0] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[#f6ede1]"
                   >
                     <Quote size={13} strokeWidth={2} className="shrink-0" />
                     <span>{r.name}</span>

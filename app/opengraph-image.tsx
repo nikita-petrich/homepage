@@ -22,7 +22,7 @@ export default function Image() {
           background: "linear-gradient(100deg, #ecefe8 0%, #f5f3ee 58%, #f1eee7 100%)",
         }}
       >
-        <div style={{ width: 14, height: "100%", background: "#e1852e" }} />
+        <div style={{ width: 14, height: "100%", background: "#ff9900" }} />
         <div
           style={{
             flex: 1,
@@ -38,7 +38,7 @@ export default function Image() {
               fontWeight: 600,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
-              color: "#b5651d",
+              color: "#ff9900",
             }}
           >
             Freiberuflich · Remote · München
