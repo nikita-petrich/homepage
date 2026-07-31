@@ -66,7 +66,11 @@ Abgeleitet aus den tatsächlich vorhandenen Komponenten. Namenskonvention: `snak
 | `project_references_open` | „Alle N ansehen“ im Projekt-Modal: `href={/projects/${project.slug}/references}` (projects.tsx) | `slug` (Projekt-Slug), `source: "project_modal"` | **Nein** |
 | `reference_open` | Karte `href={/references/${r.slug}}` (references.tsx:91) | `slug`, `source: "gallery" \| "project_modal" \| "project_references"` | **Nein** |
 | `reference_source_click` | `SourceTag` Outbound zu LinkedIn/Malt (references.tsx:41–47) | `source: "LinkedIn" \| "Malt"`, `reference_slug` | **Nein** |
-| `certificate_open` | Karte `href={certHref(c)} target="_blank"` (certificates.tsx:112–117) | `slug`, `target: "pdf" \| "external"`, `issuer` | **Nein** |
+| `certificate_open` | Zertifikats-Karte bzw. Tabellenzeile `href={certPageHref(c)}` → Detail-Dialog (certificates.tsx) | `slug`, `issuer`, `source: "gallery" \| "table"` | **Nein** |
+| `certificate_document_open` | Öffnen des Zertifikats selbst in neuem Tab: Karten-Link „PDF öffnen“, Klick auf die Vorschau im Dialog, Primär-Button im Dialog (certificates.tsx) | `slug`, `issuer`, `target: "pdf" \| "external"`, `source: "gallery" \| "modal_preview" \| "modal_button"` | **Nein** |
+| `certificate_verify_click` | „Auf ‹Aussteller› verifizieren“ im Dialog → Outbound zur Zertifikatsprüfung des Anbieters (certificates.tsx) | `slug`, `issuer` | **Nein** |
+| `certificate_course_click` | „Kursseite“ im Dialog → Outbound zur öffentlichen Kursseite (certificates.tsx) | `slug`, `issuer` | **Nein** |
+| `certificates_overview_open` | „Alle Zertifikate auf einer Seite“ im Abschnitt „Zertifikate“ → `/certificates` (page.tsx) | `source: "home_section"` | **Nein** |
 | `skills_search` | Debounced (≥ 800 ms Pause) auf `onChange={(e) => setQuery(e.target.value)}` (galleries.tsx:36–37) | `query_length`, `result_count`, `matched_categories` (nur Werte aus der festen Liste `skills[].name`, data.ts:390–408) — **niemals der Roh-Query** | **Nein** (gerade *weil* kein Klartext) |
 | `gallery_search` | Debounced auf die `DatabaseToolbar`-Suche in Projekten/Referenzen/Zertifikaten (`query={query} onQueryChange={setQuery}`, projects.tsx:96–97, references.tsx:269–270, certificates.tsx:96–97) | `gallery: "projects" \| "references" \| "certificates"`, `query_length`, `result_count` | **Nein** |
 | `gallery_sort_toggle` | `onToggleSortDir` (z. B. projects.tsx:95) | `gallery`, `direction` | **Nein** |
