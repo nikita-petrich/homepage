@@ -102,22 +102,32 @@ export function FactLine({ item }: { item: FactItem }) {
       <div className="text-[12px] tracking-[0.04em] text-notion-gray uppercase">
         {item.label}
       </div>
-      <div className="font-semibold">{item.value}</div>
+      {Array.isArray(item.value) ? (
+        <div className="flex flex-col gap-[2px] font-semibold">
+          {item.value.map((line) => (
+            <div key={line}>{line}</div>
+          ))}
+        </div>
+      ) : (
+        <div className="font-semibold">{item.value}</div>
+      )}
     </div>
   );
 }
 
 export function LangLine({ item }: { item: Language }) {
   return (
-    <div className="flex items-center gap-[8px] py-[3px] text-[15px] leading-[1.5]">
+    <div className="flex items-start gap-[8px] py-[4px] text-[15px] leading-[1.4]">
       {/* SVG flags are served as-is — the optimizer adds nothing for vectors. */}
       <Flag
         src={item.flag}
-        className="h-[15px] w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
+        className="mt-[4px] h-[15px] w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(55,53,47,0.12)]"
       />
-      <span>
-        <span className="font-semibold">{item.text}</span>
-        <span className="text-notion-gray"> — {item.sub}</span>
+      {/* Level on its own line: "Englisch — B2 · US/EU-Remote" wrapped mid-
+          phrase in the 210px sidebar and read like one broken sentence. */}
+      <span className="min-w-0">
+        <span className="block font-semibold">{item.text}</span>
+        <span className="block text-[13px] text-notion-gray">{item.sub}</span>
       </span>
     </div>
   );
