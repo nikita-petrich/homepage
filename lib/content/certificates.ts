@@ -59,20 +59,24 @@ export type CertificateSource = {
 export const certificates: CertificateSource[] = [
   {
     slug: "traversy-coding-with-ai",
-    title: "Coding with AI",
+    title: "Coding With AI: Planning To Production",
     issuer: "Traversy Media",
-    // TODO(user): confirm the real completion date — the value below is a
-    // placeholder and also controls where this card sorts (newest first).
-    date: t("2026", "2026"),
-    sort: "2026-06-01",
+    date: t("Juli 2026", "July 2026"),
+    sort: "2026-07-31",
     cat: t("KI / AI", "AI"),
     tags: ["AI Coding", "Prompt Engineering", "AI Tools"],
-    externalUrl: "https://www.traversymedia.com/coding-with-ai",
+    preview: "/assets/certificates/traversy-coding-with-ai.webp",
+    tilePreview: "/assets/certificates/traversy-coding-with-ai-tile.webp",
     courseUrl: "https://www.traversymedia.com/coding-with-ai",
     summary: t(
       "Praxiskurs von Traversy Media zum KI-gestützten Programmieren: der effektive Einsatz moderner KI-Werkzeuge im Entwickler-Alltag — von Prompting und Code-Generierung bis zum Bauen vollständiger Anwendungen mit KI-Assistenz.",
       "A hands-on Traversy Media course on coding with AI: using modern AI tools effectively in a developer's day-to-day workflow — from prompting and code generation to building complete applications with AI assistance.",
     ),
+    facts: [
+      { label: t("Dozent", "Instructor"), value: "Brad Traversy" },
+      { label: t("Sprache", "Language"), value: t("Englisch", "English") },
+      { label: t("Abschluss", "Completed"), value: t("31. Juli 2026", "31 July 2026") },
+    ],
   },
   {
     slug: "ai-for-developers-github-copilot",
