@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 
 import { LegalPage, LegalSection } from "@/components/notion/legal";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Impressum",
   description: "Anbieterkennzeichnung gemäß § 5 DDG.",
-};
+  path: "/imprint",
+});
 
 export default function ImprintPage() {
   return (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { references } from "@/lib/data";
+import { pageMetadata } from "@/lib/metadata";
 
 import { StandaloneReferenceDialog } from "./standalone";
 
@@ -18,10 +19,11 @@ export async function generateMetadata({
   const reference = references.find((r) => r.slug === slug);
   if (!reference) return {};
   // The "· Nikita Petrich" suffix comes from the root layout's title.template.
-  return {
+  return pageMetadata({
     title: `Referenz von ${reference.name}`,
     description: `${reference.name} (${reference.role}) über die Zusammenarbeit mit Nikita Petrich.`,
-  };
+    path: `/references/${reference.slug}`,
+  });
 }
 
 export default async function ReferencePage({
