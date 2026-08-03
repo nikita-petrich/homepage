@@ -119,7 +119,10 @@ export function InfoLine({ item }: { item: InfoItem }) {
       {item.href ? (
         <a
           href={item.href}
-          className="font-semibold break-words hover:underline"
+          /* inline-block + py: the bare 15px/1.5 line box was 23px high, just
+             under the 24px minimum target size (WCAG 2.2 SC 2.5.8) — the same
+             treatment the footer links already get. */
+          className="inline-block py-px font-semibold break-words hover:underline"
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
           data-analytics-event="contact_click"

@@ -49,7 +49,7 @@ export default async function CertificatesPage({
       <main className="mx-auto max-w-[980px] px-6 pt-10 pb-24 sm:px-8">
         <Link
           href={localePath(locale)}
-          className="inline-flex items-center gap-1.5 text-[13px] font-medium text-notion-gray transition-colors hover:text-notion-text"
+          className="inline-flex items-center gap-1.5 py-[3px] text-[13px] font-medium text-notion-gray transition-colors hover:text-notion-text"
         >
           <ArrowLeft size={14} strokeWidth={2} />
           {ui.topbar.home}

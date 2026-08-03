@@ -8,6 +8,9 @@ import { localizedMemo, t } from "./text";
 const ui = {
   topbar: {
     booking: t("Erstgespräch buchen", "Book an intro call"),
+    /* Same action, shown in the top bar below ~400px where the full label
+       would not fit next to the other controls. */
+    bookingShort: t("Buchen", "Book a call"),
     home: t("Zur Startseite", "Back to home"),
   },
 

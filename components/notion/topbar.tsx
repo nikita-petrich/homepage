@@ -22,14 +22,16 @@ export function NotionTopBar() {
 
   return (
     <header className="sticky top-0 z-30 flex h-11 items-center justify-between border-b border-[var(--hairline)] bg-[color-mix(in_srgb,var(--surface)_95%,transparent)] px-3 backdrop-blur-sm sm:px-4">
-      {/* min-w-0 + truncate: the name yields space to the actions instead of
-          forcing them to wrap out of the 44px bar on narrow phones. */}
+      {/* Below sm the name is dropped entirely rather than truncated: letting it
+          shrink squeezed the link below the logo's own 18px, so the (shrink-0)
+          logo overlapped the language button and the bar overflowed the
+          viewport on a 320px phone. The logo alone still links home. */}
       <Link
         href={localePath(locale)}
-        className="flex min-w-0 items-center gap-2 text-[14px] font-medium"
+        className="-mx-1 flex min-h-[24px] shrink-0 items-center gap-2 px-1 text-[14px] font-medium"
       >
         <CodeLogo size={18} className="shrink-0" />
-        <span className="truncate">{profileName}</span>
+        <span className="hidden truncate sm:inline">{profileName}</span>
       </Link>
       {/* Positioning context for the CV menu, so it aligns with the bar's
           right edge and stays inside the viewport on phones. */}
@@ -45,7 +47,13 @@ export function NotionTopBar() {
             data-analytics-event="booking_click"
             data-analytics-prop-placement="topbar"
           >
-            {ui.topbar.booking}
+            {/* The full CTA needs ~370px of bar; below that it pushed the whole
+                row past the viewport edge. A short label keeps the primary
+                action complete (never clipped) on the narrowest phones. */}
+            <span className="min-[400px]:hidden">{ui.topbar.bookingShort}</span>
+            <span className="hidden min-[400px]:inline">
+              {ui.topbar.booking}
+            </span>
           </a>
         </Button>
       </div>
