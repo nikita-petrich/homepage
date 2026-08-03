@@ -92,7 +92,7 @@ export default async function Page({
               </div>
             </Section>
 
-            <Section title={ui.sections.profiles} level="h3">
+            <Section title={ui.sections.profiles} level="h3" id="profiles">
               <div className="flex flex-wrap gap-1.5">
                 {profileLinks.map((p) => (
                   <Badge
@@ -117,7 +117,7 @@ export default async function Page({
               </div>
             </Section>
 
-            <Section title={ui.sections.methods} level="h3">
+            <Section title={ui.sections.methods} level="h3" id="methods">
               <div className="flex flex-wrap gap-1.5">
                 {methods.map((m) => (
                   <AccentTag key={m} label={m} />

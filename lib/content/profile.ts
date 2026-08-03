@@ -195,12 +195,20 @@ export const intro: RichLine[] = [
     },
     {
       t: t(
-        " (Claude Code, Cursor, Code Rabbit, MCP) – spezifikationsgetrieben, mit KI-gestützter Testgenerierung und agentischen Review-Prozessen. Das ist keine Spielerei, sondern der Grund für außergewöhnliches Tempo bei gleichbleibender Qualität: eine vollständige Cross-Platform-App vom ersten Commit bis zur Übergabe ",
-        " (Claude Code, Cursor, Code Rabbit, MCP) – spec-driven, with AI-assisted test generation and agentic review processes. This isn't a gimmick, it's the reason for unusual speed at consistent quality: a complete cross-platform app from first commit to handover ",
+        " (Claude Code, Cursor, Code Rabbit, MCP) – spezifikationsgetrieben, mit KI-gestützter Testgenerierung und agentischen Review-Prozessen. Das ist keine Spielerei, sondern der Grund für außergewöhnliches Tempo bei gleichbleibender Qualität: Eine vollständige Cross-Platform-App ",
+        " (Claude Code, Cursor, Code Rabbit, MCP) – spec-driven, with AI-assisted test generation and agentic review processes. This isn't a gimmick, it's the reason for unusual speed at consistent quality: a complete cross-platform app built and handed over ",
       ),
     },
-    { t: t("in rund zwei Monaten", "in roughly two months"), b: true },
-    { t: t(", als alleiniger Entwickler.", ", as the sole developer.") },
+    {
+      t: t("innerhalb von rund zwei Monaten", "in roughly two months"),
+      b: true,
+    },
+    {
+      t: t(
+        " entwickelt und übergeben – als alleiniger Entwickler.",
+        " – as the sole developer.",
+      ),
+    },
   ],
   [
     { t: t("Wie ich arbeite: ", "How I work: ") },

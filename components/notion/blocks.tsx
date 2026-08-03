@@ -61,7 +61,31 @@ export function Section({
 
   return (
     <section id={id} className={cn("min-w-0 scroll-mt-20", className)}>
-      <Heading className={headingClass}>{title}</Heading>
+      <Heading className={headingClass}>
+        {/* A section with an id is a shareable URL: the heading itself is the
+            anchor (plain <a href="#id">, so it works without JavaScript, can be
+            copied or middle-clicked, and pins the hash in the address bar). The
+            "#" marker only shows on hover/keyboard focus. The scroll offset
+            under the sticky top bar comes from `scroll-mt-20` above. */}
+        {id ? (
+          <a
+            href={`#${id}`}
+            className="group/anchor inline-flex items-baseline gap-1.5"
+          >
+            <span className="underline-offset-[6px] group-hover/anchor:underline">
+              {title}
+            </span>
+            <span
+              aria-hidden
+              className="text-[0.65em] font-normal text-notion-gray opacity-0 transition-opacity group-hover/anchor:opacity-100 group-focus-visible/anchor:opacity-100"
+            >
+              #
+            </span>
+          </a>
+        ) : (
+          title
+        )}
+      </Heading>
       <Separator className="mt-[7px] mb-[14px] bg-[var(--notion-divider)]" />
       {children}
     </section>
