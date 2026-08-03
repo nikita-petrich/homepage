@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import { notFound } from "next/navigation";
 
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
+import { InlineScript } from "@/components/inline-script";
 import { CookieBanner } from "@/components/notion/cookie-banner";
 import { Footer } from "@/components/notion/footer";
 import { PersonJsonLd } from "@/components/notion/json-ld";
@@ -97,18 +98,15 @@ export default async function RootLayout({
     >
       <head>
         {/* Applies the stored theme before the first paint — see lib/theme.ts.
-            A plain inline <script> in <head>, which the browser runs
-            synchronously while parsing the HTML: the shape the bundled guide
-            prescribes for exactly this case
+            An inline <script> in <head>, which the browser runs synchronously
+            while parsing the HTML: the shape the bundled guide prescribes for
+            exactly this case
             (node_modules/next/dist/docs/01-app/02-guides/preventing-flash-before-hydration.md,
-            "Themes"). next/script's `beforeInteractive` renders through a
-            client component and made React warn about a script tag being
-            rendered on the client. suppressHydrationWarning above covers the
-            class this adds to <html>. */}
-        <script
-          dangerouslySetInnerHTML={{ __html: themeInitScript }}
-          suppressHydrationWarning
-        />
+            "Themes"). InlineScript is what keeps React quiet about a script
+            rendered on the client — the guide's helper, not a plain <script>.
+            suppressHydrationWarning above covers the class this adds to
+            <html>. */}
+        <InlineScript html={themeInitScript} />
       </head>
       <body>
         <I18nProvider locale={locale} ui={getUi(locale)}>
