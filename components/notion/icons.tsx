@@ -1,24 +1,6 @@
 import Image from "next/image";
-import { Info } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-
-export function CactusOrangeIcon({
-  size = 24,
-  className,
-}: {
-  size?: number;
-  className?: string;
-}) {
-  return (
-    <Info
-      size={size}
-      fill="none"
-      className={className}
-      style={{ stroke: "var(--accent-o)" }}
-    />
-  );
-}
 
 /* Decorative flag chip. Every flag is drawn into the same fixed 3:2 box and
    cropped with object-cover, so DE (5:3) and GB (2:1) render at identical

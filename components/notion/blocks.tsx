@@ -4,6 +4,7 @@ import {
   Globe,
   GraduationCap,
   Handshake,
+  Info,
   Mail,
   MapPin,
   Phone,
@@ -16,7 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import type { FactItem, InfoItem, Language, RichLine } from "@/lib/data";
 
-import { CactusOrangeIcon, Flag } from "./icons";
+import { Flag } from "./icons";
 
 /* Eckdaten icons, keyed by the string on each fact. Icons can't live in the
    localized content tree — the per-locale walk in lib/i18n/text.ts would mangle
@@ -90,8 +91,15 @@ export function RichText({ lines }: { lines: RichLine[] }) {
 export function Callout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex gap-3 rounded-[10px] border border-[var(--border)] bg-[var(--surface)] px-4 py-4">
-      <div className="mt-[1px] shrink-0">
-        <CactusOrangeIcon size={24} />
+      {/* Same treatment as the sidebar contact/fact icons: 15px lucide glyph in
+          muted grey, nudged down to sit on the first line's centre. */}
+      <div className="mt-[5px] shrink-0">
+        <Info
+          size={15}
+          strokeWidth={2}
+          className="text-notion-gray opacity-80"
+          aria-hidden
+        />
       </div>
       <div className="text-[15px] leading-[1.65]">{children}</div>
     </div>
