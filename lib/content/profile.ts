@@ -120,8 +120,8 @@ export const profileLinks = [
 /* Pipe-separated positioning line, shown as a lead-in above the intro
    (split on " | " in app/[locale]/page.tsx). */
 export const headline = t(
-  "Freiberuflicher Senior Full-Stack & AI Engineer | Was zweimal von Hand passiert, gehört automatisiert | LLM-Integration · RAG · DSGVO-konforme KI-Architektur | TypeScript · Python · Agentic Engineering/Coding",
-  "Freelance Senior Full-Stack & AI Engineer | Anything done twice by hand should be automated | LLM Integration · RAG · GDPR-Compliant AI Architecture | TypeScript · Python · Agentic Engineering/Coding",
+  "Freiberuflicher Senior Full-Stack & AI Engineer | Was zweimal manuell passiert, wird automatisiert | LLM-Integration · RAG · DSGVO-konforme KI-Architektur | TypeScript · Python · Agentic Engineering/Coding",
+  "Freelance Senior Full-Stack & AI Engineer | Anything done manually twice gets automated | LLM Integration · RAG · GDPR-Compliant AI Architecture | TypeScript · Python · Agentic Engineering/Coding",
 );
 
 /* Bold marks the proof points (the guiding principle, the concrete numbers and
@@ -152,8 +152,8 @@ export const intro: RichLine[] = [
     { t: t("Mein Leitsatz: ", "My guiding principle: ") },
     {
       t: t(
-        "Was zweimal von Hand passiert, gehört automatisiert.",
-        "anything done twice by hand should be automated.",
+        "Was zweimal manuell passiert, wird automatisiert.",
+        "anything done manually twice gets automated.",
       ),
       b: true,
     },
