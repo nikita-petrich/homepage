@@ -1,9 +1,41 @@
+import {
+  Briefcase,
+  CalendarCheck,
+  Globe,
+  GraduationCap,
+  Handshake,
+  Mail,
+  MapPin,
+  Phone,
+  Wallet,
+  type LucideIcon,
+} from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import type { FactItem, InfoItem, Language, RichLine } from "@/lib/data";
 
 import { CactusOrangeIcon, Flag } from "./icons";
+
+/* Eckdaten icons, keyed by the string on each fact. Icons can't live in the
+   localized content tree — the per-locale walk in lib/i18n/text.ts would mangle
+   the component objects — so the content stores a key and it maps here. */
+const FACT_ICONS: Record<string, LucideIcon> = {
+  briefcase: Briefcase,
+  "calendar-check": CalendarCheck,
+  wallet: Wallet,
+  "graduation-cap": GraduationCap,
+  "map-pin": MapPin,
+  handshake: Handshake,
+};
+
+/* Contact icons — same lucide treatment as the Eckdaten (fact) icons. */
+const CONTACT_ICONS: Record<string, LucideIcon> = {
+  phone: Phone,
+  mail: Mail,
+  globe: Globe,
+};
 
 /* The page's single h1 is the name in the cover banner; main sections are h2,
    sidebar sections h3. Visual sizes are independent of the semantic level. */
@@ -67,6 +99,7 @@ export function Callout({ children }: { children: React.ReactNode }) {
 }
 
 export function InfoLine({ item }: { item: InfoItem }) {
+  const Icon = CONTACT_ICONS[item.icon];
   const isExternal = item.href?.startsWith("http");
   const contactType = item.href?.startsWith("tel:")
     ? "phone"
@@ -74,10 +107,15 @@ export function InfoLine({ item }: { item: InfoItem }) {
       ? "email"
       : "website";
   return (
-    <div className="flex items-start gap-[8px] py-[3px] text-[15px] leading-[1.5]">
-      <span className="shrink-0 leading-[1.5]" aria-hidden>
-        {item.icon}
-      </span>
+    <div className="flex items-center gap-2 py-[3px] text-[15px] leading-[1.5]">
+      {Icon ? (
+        <Icon
+          size={15}
+          strokeWidth={2}
+          className="shrink-0 text-notion-gray opacity-80"
+          aria-hidden
+        />
+      ) : null}
       {item.href ? (
         <a
           href={item.href}
@@ -97,9 +135,13 @@ export function InfoLine({ item }: { item: InfoItem }) {
 }
 
 export function FactLine({ item }: { item: FactItem }) {
+  const Icon = FACT_ICONS[item.icon];
   return (
     <div className="text-[15px] leading-[1.4]">
-      <div className="text-[12px] tracking-[0.04em] text-notion-gray uppercase">
+      <div className="flex items-center gap-1.5 text-[12px] tracking-[0.04em] text-notion-gray uppercase">
+        {Icon ? (
+          <Icon size={15} strokeWidth={2} className="shrink-0 opacity-80" />
+        ) : null}
         {item.label}
       </div>
       {Array.isArray(item.value) ? (
@@ -142,7 +184,7 @@ export function AccentTag({
 }) {
   return (
     <Badge
-      variant="accent"
+      variant="secondary"
       className={cn(
         "whitespace-normal",
         size === "md" ? "px-[9px] py-[3px] text-[13px]" : "text-[12px]",
@@ -155,7 +197,7 @@ export function AccentTag({
 
 export function SkillTag({ label }: { label: string }) {
   return (
-    <Badge variant="skill" className="px-[7px] py-px text-[12px] whitespace-normal">
+    <Badge variant="outline" className="px-[7px] py-px text-[12px] whitespace-normal">
       {label}
     </Badge>
   );

@@ -4,7 +4,8 @@ import Link from "next/link";
 
 import { localePath } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/provider";
-import { bookingUrl, profileName } from "@/lib/profile";
+import { bookingUrlFor, profileName } from "@/lib/profile";
+import { Button } from "@/components/ui/button";
 
 import { CvDownload } from "./cv-download";
 import { CodeLogo } from "./icons";
@@ -36,16 +37,17 @@ export function NotionTopBar() {
         <LanguageToggle />
         <ThemeToggle />
         <CvDownload variant="topbar" />
-        <a
-          href={bookingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-analytics-event="booking_click"
-          data-analytics-prop-placement="topbar"
-          className="rounded-md bg-primary px-2 py-1 text-[12px] font-medium whitespace-nowrap text-primary-foreground shadow-sm transition-colors hover:brightness-95 sm:px-2.5 sm:py-1.5 sm:text-[13px]"
-        >
-          {ui.topbar.booking}
-        </a>
+        <Button asChild size="sm">
+          <a
+            href={bookingUrlFor(locale)}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-analytics-event="booking_click"
+            data-analytics-prop-placement="topbar"
+          >
+            {ui.topbar.booking}
+          </a>
+        </Button>
       </div>
     </header>
   );

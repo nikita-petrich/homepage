@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
 import { CookieBanner } from "@/components/notion/cookie-banner";
@@ -15,12 +17,6 @@ import { alternateLanguages, ogImageFor, siteName } from "@/lib/metadata";
 import { themeInitScript } from "@/lib/theme";
 
 import "../globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 /* The root layout lives under [locale] so <html lang> and every string on the
    page follow the route — the pattern the bundled guide describes for
@@ -97,13 +93,19 @@ export default async function RootLayout({
     <html
       lang={localeMeta[locale].htmlLang}
       data-scroll-behavior="smooth"
-      className={`${inter.variable} antialiased motion-safe:scroll-smooth`}
+      className={`${GeistSans.variable} ${GeistMono.variable} antialiased motion-safe:scroll-smooth`}
       suppressHydrationWarning
     >
       <head>
         {/* Applies the stored theme before the first paint — see lib/theme.ts.
+            next/script `beforeInteractive` inlines it into the initial <head>
+            (so no theme flash) without the raw-<script> client-render warning.
             suppressHydrationWarning above covers the class it adds to <html>. */}
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
       </head>
       <body>
         <I18nProvider locale={locale} ui={getUi(locale)}>

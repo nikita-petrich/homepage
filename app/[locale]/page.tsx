@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowUpRight } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
 
 import {
     AccentTag,
@@ -20,7 +23,7 @@ import { ProjectGallery } from "@/components/notion/projects";
 import { ReferenceGallery } from "@/components/notion/references";
 import { TableOfContents } from "@/components/notion/toc";
 import { NotionTopBar } from "@/components/notion/topbar";
-import { bookingUrl, getContent } from "@/lib/data";
+import { bookingUrlFor, getContent } from "@/lib/data";
 import { isLocale, localePath } from "@/lib/i18n/config";
 import { getUi } from "@/lib/i18n/ui";
 
@@ -39,6 +42,7 @@ export default async function Page({
     contact,
     facts,
     focus,
+    headline,
     intro,
     languages,
     methods,
@@ -90,20 +94,26 @@ export default async function Page({
             </Section>
 
             <Section title={ui.sections.profiles} level="h3">
-              <div className="flex flex-wrap gap-x-3.5 gap-y-1.5">
+              <div className="flex flex-wrap gap-1.5">
                 {profileLinks.map((p) => (
-                  <a
+                  <Badge
                     key={p.label}
-                    href={p.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-analytics-event="outbound_click"
-                    data-analytics-prop-link-label={p.label}
-                    data-analytics-prop-target-domain={domainOf(p.href)}
-                    className="text-[14px] font-semibold text-[var(--accent-text)] hover:underline"
+                    asChild
+                    variant="secondary"
+                    className="gap-1 px-2.5 py-1 text-[12px] font-medium"
                   >
-                    {p.label}
-                  </a>
+                    <a
+                      href={p.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-analytics-event="outbound_click"
+                      data-analytics-prop-link-label={p.label}
+                      data-analytics-prop-target-domain={domainOf(p.href)}
+                    >
+                      {p.label}
+                      <ArrowUpRight className="opacity-60" />
+                    </a>
+                  </Badge>
                 ))}
               </div>
             </Section>
@@ -135,12 +145,29 @@ export default async function Page({
 
           <div className="flex min-w-0 flex-col gap-10">
             <Callout>
+              {/* Positioning headline as a scannable lead-in; split on " | "
+                  so each claim is its own segment with a muted divider. */}
+              <p className="mb-3 leading-snug font-semibold text-[var(--foreground)]">
+                {headline.split(" | ").map((segment, i) => (
+                  <span key={segment}>
+                    {i > 0 ? (
+                      <span
+                        aria-hidden
+                        className="mx-1.5 font-normal text-notion-gray"
+                      >
+                        |
+                      </span>
+                    ) : null}
+                    {segment}
+                  </span>
+                ))}
+              </p>
               <RichText lines={intro} />
               <p className="mt-3 font-semibold text-[var(--accent-text)]">
                 {ui.home.ctaQuestion}
               </p>
               <a
-                href={bookingUrl}
+                href={bookingUrlFor(locale)}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-analytics-event="booking_click"
