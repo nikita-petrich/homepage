@@ -23,8 +23,11 @@ export function CompanyLine({
   className?: string;
 }) {
   const ui = useUi();
+  /* py-[3px]: as a link this is a standalone target, and the bare line box
+     stayed 20px high — under the 24px minimum (WCAG 2.2 SC 2.5.8). The padding
+     covers both call sites, at 12px (cards) and 13px (modals). */
   const base = cn(
-    "inline-flex w-fit items-center gap-1 font-medium text-[var(--tag-text)]",
+    "inline-flex w-fit items-center gap-1 py-[3px] font-medium text-[var(--tag-text)]",
     className,
   );
   const content = (

@@ -30,9 +30,13 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
     };
   }, [items]);
 
+  /* A hover flyout, so it is only rendered where hovering exists: on a touch
+     tablet the dots were permanently visible but the panel could never be
+     opened. `lg` also keeps the open panel out of the 960px text column, which
+     it covered by ~190px at the md breakpoint. */
   return (
     <div
-      className="fixed top-1/2 right-0 z-40 hidden -translate-y-1/2 md:block"
+      className="fixed top-1/2 right-0 z-40 hidden -translate-y-1/2 lg:pointer-fine:block"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
       onFocusCapture={() => setOpen(true)}

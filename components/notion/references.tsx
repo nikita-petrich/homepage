@@ -46,7 +46,7 @@ function SourceTag({ source }: { source: Reference["sources"][number] }) {
       data-analytics-event="reference_source_click"
       data-analytics-prop-source={s.label}
       aria-label={format(ui.references.viewOnSource, { source: s.label })}
-      className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--surface-chip)] px-[7px] py-px text-[12px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
+      className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--surface-chip)] px-[7px] py-[3px] text-[12px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
     >
       {s.label}
       <ExternalLink size={11} strokeWidth={2} className="opacity-70" />
@@ -208,7 +208,7 @@ export function ReferenceModal({
                 data-analytics-event="project_open"
                 data-analytics-prop-slug={r.projectSlug}
                 data-analytics-prop-source="reference_modal"
-                className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--surface-chip)] px-[7px] py-px text-[12px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
+                className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--surface-chip)] px-[7px] py-[3px] text-[12px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
               >
                 {r.project}
                 <ArrowUpRight size={12} strokeWidth={2} className="opacity-70" />
@@ -273,7 +273,7 @@ function ReferenceEntry({ reference: r }: { reference: Reference }) {
           data-analytics-prop-slug={r.slug}
           data-analytics-prop-source="project_references"
           aria-label={format(ui.references.openSingle, { name: r.name })}
-          className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--surface-chip)] px-[7px] py-px text-[12px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
+          className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--surface-chip)] px-[7px] py-[3px] text-[12px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
         >
           {ui.references.single}
           <ArrowUpRight size={12} strokeWidth={2} className="opacity-70" />

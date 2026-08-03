@@ -65,12 +65,14 @@ export default async function Page({
 
         <div className="grid grid-cols-1 gap-x-[42px] gap-y-10 md:grid-cols-[210px_minmax(0,1fr)]">
           <aside className="flex min-w-0 flex-col gap-8">
+            {/* Full-bleed within the content column on a phone, 210px wide in
+                the sidebar from md up — the 1:1.1 ratio holds either way. */}
             <div className="relative aspect-[1/1.1] w-full overflow-hidden rounded-[8px] bg-[var(--surface-chip)]">
               <Image
                 src="/assets/profile.jpg"
                 alt="Nikita Petrich"
                 fill
-                sizes="(max-width: 768px) 100vw, 210px"
+                sizes="(max-width: 767px) 100vw, 210px"
                 priority
                 className="object-cover object-top"
               />

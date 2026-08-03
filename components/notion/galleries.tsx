@@ -43,7 +43,7 @@ export function SkillsGallery({ skills }: { skills: SkillCategory[] }) {
             onChange={(e) => setQuery(e.target.value)}
             placeholder={ui.skills.searchPlaceholder}
             aria-label={ui.skills.searchLabel}
-            className="w-[130px] bg-transparent text-[14px] text-notion-text placeholder:text-notion-gray focus:outline-none sm:w-[170px]"
+            className="w-[130px] bg-transparent py-[2px] text-[14px] text-notion-text placeholder:text-notion-gray focus:outline-none sm:w-[170px]"
           />
         </div>
       </div>

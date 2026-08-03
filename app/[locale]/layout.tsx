@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
 import { CookieBanner } from "@/components/notion/cookie-banner";
@@ -98,13 +97,17 @@ export default async function RootLayout({
     >
       <head>
         {/* Applies the stored theme before the first paint — see lib/theme.ts.
-            next/script `beforeInteractive` inlines it into the initial <head>
-            (so no theme flash) without the raw-<script> client-render warning.
-            suppressHydrationWarning above covers the class it adds to <html>. */}
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
+            A plain inline <script> in <head>, which the browser runs
+            synchronously while parsing the HTML: the shape the bundled guide
+            prescribes for exactly this case
+            (node_modules/next/dist/docs/01-app/02-guides/preventing-flash-before-hydration.md,
+            "Themes"). next/script's `beforeInteractive` renders through a
+            client component and made React warn about a script tag being
+            rendered on the client. suppressHydrationWarning above covers the
+            class this adds to <html>. */}
+        <script
           dangerouslySetInnerHTML={{ __html: themeInitScript }}
+          suppressHydrationWarning
         />
       </head>
       <body>
