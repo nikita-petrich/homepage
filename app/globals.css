@@ -27,7 +27,12 @@
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.966 0.005 106.5);
-  --muted-foreground: oklch(0.58 0.031 107.3);
+  /* Secondary text (text-notion-gray) lands on white, on --muted panels and on
+     --secondary chips. L 0.58 measured 4.26:1 on white — under the 4.5:1 that
+     WCAG AA asks of body text, and the single cause of every contrast failure
+     on the page. L 0.54 clears it on all three grounds (5.03:1 on white,
+     4.56:1 on --muted, 4.57:1 on --secondary) and stays visibly a soft grey. */
+  --muted-foreground: oklch(0.54 0.031 107.3);
   --accent: oklch(0.966 0.005 106.5);
   --accent-foreground: oklch(0.228 0.013 107.4);
   --destructive: oklch(0.577 0.245 27.325);
@@ -156,6 +161,15 @@
   --sidebar-ring: oklch(0.58 0.031 107.3);
 
   --notion-card-shadow: 0 0 0 1px var(--border), 0 2px 6px oklch(0 0 0 / 0.4);
+
+  /* --accent-text is body-weight prose (the intro CTA line, inline links, tag
+     buttons), not a fill with --primary-foreground on top of it. At the dark
+     theme's --primary lightness it measured 2.4:1 on the page and 2.8:1 on
+     cards — well under AA, and invisible to a light-mode audit. Same hue and
+     chroma, lifted to L 0.74: 8.1:1 on the page, 7.0:1 on cards, 5.9:1 on
+     --muted. --accent-o keeps tracking --primary, since it only ever paints
+     fills and decorative icons. */
+  --accent-text: oklch(0.74 0.137 46.201);
 
   /* Kept semantic colour sets (dark values). */
   --pill-green: #24352a;

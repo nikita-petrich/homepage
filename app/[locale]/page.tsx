@@ -66,19 +66,26 @@ export default async function Page({
         <div className="grid grid-cols-1 gap-x-[42px] gap-y-10 md:grid-cols-[210px_minmax(0,1fr)]">
           <aside className="flex min-w-0 flex-col gap-8">
             {/* Full-bleed within the content column on a phone, 210px wide in
-                the sidebar from md up — the 1:1.1 ratio holds either way. */}
+                the sidebar from md up — the 1:1.1 ratio holds either way.
+
+                This portrait is the LCP element. `preload` replaces the
+                deprecated `priority` in Next 16 and emits the <link rel=preload>;
+                fetchPriority is now a separate prop, and without it neither the
+                preload nor the <img> carries fetchpriority=high — so the browser
+                still queues the page's largest paint at default priority. */}
             <div className="relative aspect-[1/1.1] w-full overflow-hidden rounded-[8px] bg-[var(--surface-chip)]">
               <Image
                 src="/assets/profile.jpg"
                 alt="Nikita Petrich"
                 fill
                 sizes="(max-width: 767px) 100vw, 210px"
-                priority
+                preload
+                fetchPriority="high"
                 className="object-cover object-top"
               />
             </div>
 
-            <Section title={ui.sections.contact} level="h3" id="contact">
+            <Section title={ui.sections.contact} size="h3" id="contact">
               <div className="flex flex-col">
                 {contact.map((item) => (
                   <InfoLine key={item.text} item={item} />
@@ -86,7 +93,7 @@ export default async function Page({
               </div>
             </Section>
 
-            <Section title={ui.sections.facts} level="h3" id="facts">
+            <Section title={ui.sections.facts} size="h3" id="facts">
               <div className="flex flex-col gap-2.5">
                 {facts.map((item) => (
                   <FactLine key={item.label} item={item} />
@@ -94,7 +101,7 @@ export default async function Page({
               </div>
             </Section>
 
-            <Section title={ui.sections.profiles} level="h3" id="profiles">
+            <Section title={ui.sections.profiles} size="h3" id="profiles">
               <div className="flex flex-wrap gap-1.5">
                 {profileLinks.map((p) => (
                   <Badge
@@ -119,7 +126,7 @@ export default async function Page({
               </div>
             </Section>
 
-            <Section title={ui.sections.methods} level="h3" id="methods">
+            <Section title={ui.sections.methods} size="h3" id="methods">
               <div className="flex flex-wrap gap-1.5">
                 {methods.map((m) => (
                   <AccentTag key={m} label={m} />
@@ -127,7 +134,7 @@ export default async function Page({
               </div>
             </Section>
 
-            <Section title={ui.sections.languages} level="h3" id="languages">
+            <Section title={ui.sections.languages} size="h3" id="languages">
               <div className="flex flex-col">
                 {languages.map((item) => (
                   <LangLine key={item.text} item={item} />
@@ -135,7 +142,7 @@ export default async function Page({
               </div>
             </Section>
 
-            <Section title={ui.sections.approach} level="h3" id="approach">
+            <Section title={ui.sections.approach} size="h3" id="approach">
               <div className="flex flex-wrap gap-1.5">
                 {approach.map((a) => (
                   <AccentTag key={a} label={a} />

@@ -38,24 +38,32 @@ const CONTACT_ICONS: Record<string, LucideIcon> = {
   globe: Globe,
 };
 
-/* The page's single h1 is the name in the cover banner; main sections are h2,
-   sidebar sections h3. Visual sizes are independent of the semantic level. */
+/* The page's single h1 is the name in the cover banner. Every section below it
+   is an h2: the sidebar sections are peers of the main-column ones, not their
+   children, and nothing sits between them and the h1 — rendering them as h3
+   skipped a level, which assistive tech reads as a missing section.
+
+   `size` carries the visual hierarchy instead, so the sidebar keeps its smaller
+   headings while the outline stays flat and correct. It defaults to the level,
+   which is what a standalone page wants. */
 export function Section({
   title,
   level = "h2",
+  size = level,
   id,
   className,
   children,
 }: {
   title: string;
   level?: "h2" | "h3";
+  size?: "h2" | "h3";
   id?: string;
   className?: string;
   children: React.ReactNode;
 }) {
   const Heading = level;
   const headingClass =
-    level === "h2"
+    size === "h2"
       ? "text-[1.75rem] font-semibold leading-[1.25] tracking-[-0.01em]"
       : "text-[1.375rem] font-semibold leading-[1.25] tracking-[-0.01em]";
 
