@@ -27,11 +27,15 @@ function ProjectCover({
   className,
   captionClass,
   numBadge = false,
+  priority = false,
 }: {
   project: Project;
   className?: string;
   captionClass?: string;
   numBadge?: boolean;
+  /** Set on the detail view, where the cover is the LCP element above the
+      fold. The gallery cards stay lazy — they sit far below it. */
+  priority?: boolean;
 }) {
   return (
     <div
@@ -44,6 +48,7 @@ function ProjectCover({
           alt={project.caption}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px"
+          priority={priority}
           className="object-cover"
         />
       ) : (
@@ -247,6 +252,7 @@ export function ProjectModal({
             project={project}
             className="aspect-[16/8]"
             captionClass="text-[13px]"
+            priority
           />
         ) : (
           <div

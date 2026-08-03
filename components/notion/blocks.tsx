@@ -181,9 +181,12 @@ export function FactLine({ item }: { item: FactItem }) {
       </div>
       <div className="font-semibold">{item.value}</div>
       {/* Qualifiers under the headline value. The flex row puts the dot in its
-          own gutter, so a value that wraps ("München · 1–2 Tage/Woche" in the
-          210px sidebar) stays indented under its own text instead of running
-          back to the margin and reading like the next fact. */}
+          own gutter, so a wrapping detail stays indented under its own text
+          instead of running back to the margin and reading like the next fact.
+          The value itself never breaks: "München · 1–2 Tage/Woche" is 137px in
+          the 200px sidebar column and only overflowed because of the "Vor Ort:"
+          prefix, so the line now breaks after the label and keeps the value —
+          one statement — together. */}
       {item.details?.length ? (
         <ul className="mt-[3px] flex flex-col gap-[3px]">
           {item.details.map((detail) => (
@@ -194,7 +197,9 @@ export function FactLine({ item }: { item: FactItem }) {
               />
               <span className="min-w-0">
                 <span className="text-notion-gray">{detail.key}: </span>
-                <span className="font-medium">{detail.value}</span>
+                <span className="font-medium whitespace-nowrap">
+                  {detail.value}
+                </span>
               </span>
             </li>
           ))}
