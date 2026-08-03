@@ -117,13 +117,6 @@ export const profileLinks = [
   { label: "Malt", href: "https://www.malt.de/profile/nikitapetrich" },
 ];
 
-/* Pipe-separated positioning line, shown as a lead-in above the intro
-   (split on " | " in app/[locale]/page.tsx). */
-export const headline = t(
-  "Freiberuflicher Senior Full-Stack & AI Engineer | Was zweimal manuell passiert, wird automatisiert | LLM-Integration · RAG · DSGVO-konforme KI-Architektur | TypeScript · Python · Agentic Engineering/Coding",
-  "Freelance Senior Full-Stack & AI Engineer | Anything done manually twice gets automated | LLM Integration · RAG · GDPR-Compliant AI Architecture | TypeScript · Python · Agentic Engineering/Coding",
-);
-
 /* Bold marks the proof points (the guiding principle, the concrete numbers and
    the lead technologies), matching how the rest of the page emphasises facts. */
 export const intro: RichLine[] = [
