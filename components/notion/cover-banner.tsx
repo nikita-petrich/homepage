@@ -69,7 +69,7 @@ export function CoverBanner({ locale }: { locale: Locale }) {
     /* Full-bleed Notion-style cover: edge to edge, no rounding or shadow. The
        amber code-logo tile in app/[locale]/page.tsx overlaps its bottom edge,
        the way a Notion page icon sits on the cover image. */
-    <div className="flex w-full border-t-[3px] border-[var(--primary)]">
+    <div className="flex w-full border-t-[3px] border-b border-t-[var(--primary)] border-b-[var(--border-strong)]">
       {/* Left — dark terminal-style code strip, hidden on narrow screens. */}
       <div
         className="relative hidden shrink-0 basis-[37%] flex-col justify-center px-[clamp(20px,3.2vw,64px)] py-[clamp(22px,2.6vw,34px)] sm:flex"
@@ -78,9 +78,15 @@ export function CoverBanner({ locale }: { locale: Locale }) {
         <GitCodeMotif className="text-[clamp(11px,1.15vw,15px)]" />
       </div>
 
-      {/* Right — content panel. The inner stack is capped and pushed right so
-          the tag row keeps wrapping into even rows on wide screens. */}
-      <div className="flex min-w-0 flex-1 flex-col items-end justify-center gap-[clamp(7px,0.9vw,12px)] bg-[var(--card)] px-[clamp(22px,4vw,80px)] py-[clamp(22px,3vw,34px)] text-right [&>*]:max-w-[620px]">
+      {/* Right — content panel. It carries the warm banner band rather than the
+          card colour, which is the same white as the page in light mode and
+          made the full-bleed cover blend into the body. The inner stack is
+          capped and pushed right so the tag row wraps into even rows on wide
+          screens. */}
+      <div
+        className="flex min-w-0 flex-1 flex-col items-end justify-center gap-[clamp(7px,0.9vw,12px)] px-[clamp(22px,4vw,80px)] py-[clamp(22px,3vw,34px)] text-right [&>*]:max-w-[620px]"
+        style={{ backgroundImage: bannerBg }}
+      >
         <div className="text-[clamp(10px,1vw,13px)] font-bold tracking-[0.12em] text-[var(--primary)] uppercase">
           {profile.tagline}
         </div>
@@ -97,7 +103,8 @@ export function CoverBanner({ locale }: { locale: Locale }) {
           {bannerTags.map((tag) => (
             <span
               key={tag}
-              className="rounded-[8px] border border-[var(--border)] bg-[var(--secondary)] px-[13px] py-[6px] text-[clamp(11px,1.2vw,14px)] font-medium whitespace-nowrap text-[var(--secondary-foreground)] shadow-sm"
+              /* Card-coloured chips, so they read as raised on the band. */
+              className="rounded-[8px] border border-[var(--border)] bg-[var(--card)] px-[13px] py-[6px] text-[clamp(11px,1.2vw,14px)] font-medium whitespace-nowrap text-[var(--foreground)] shadow-sm"
             >
               {tag}
             </span>
