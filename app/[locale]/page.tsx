@@ -42,7 +42,6 @@ export default async function Page({
     contact,
     facts,
     focus,
-    headline,
     intro,
     languages,
     methods,
@@ -98,7 +97,7 @@ export default async function Page({
               </div>
             </Section>
 
-            <Section title={ui.sections.profiles} level="h3">
+            <Section title={ui.sections.profiles} level="h3" id="profiles">
               <div className="flex flex-wrap gap-1.5">
                 {profileLinks.map((p) => (
                   <Badge
@@ -123,7 +122,7 @@ export default async function Page({
               </div>
             </Section>
 
-            <Section title={ui.sections.methods} level="h3">
+            <Section title={ui.sections.methods} level="h3" id="methods">
               <div className="flex flex-wrap gap-1.5">
                 {methods.map((m) => (
                   <AccentTag key={m} label={m} />
@@ -150,23 +149,6 @@ export default async function Page({
 
           <div className="flex min-w-0 flex-col gap-10">
             <Callout>
-              {/* Positioning headline as a scannable lead-in; split on " | "
-                  so each claim is its own segment with a muted divider. */}
-              <p className="mb-3 leading-snug font-semibold text-[var(--foreground)]">
-                {headline.split(" | ").map((segment, i) => (
-                  <span key={segment}>
-                    {i > 0 ? (
-                      <span
-                        aria-hidden
-                        className="mx-1.5 font-normal text-notion-gray"
-                      >
-                        |
-                      </span>
-                    ) : null}
-                    {segment}
-                  </span>
-                ))}
-              </p>
               <RichText lines={intro} />
               <p className="mt-3 font-semibold text-[var(--accent-text)]">
                 {ui.home.ctaQuestion}

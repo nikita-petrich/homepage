@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useRef } from "react";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -29,25 +30,42 @@ export function ModalShell({
      dialog (that was the full-width regression). min() keeps a phone gutter. */
   const px = Number(maxWidthClass.match(/\[(\d+)px\]/)?.[1] ?? 720);
 
+  /* Close exactly once per dialog. ESC, a backdrop click and the X button all
+     land here, and the dialog stays mounted until the navigation that onClose
+     starts has committed — so two of them in quick succession would fire two
+     router.back() calls and jump two entries deep into the history. */
+  const closed = useRef(false);
+  const close = useCallback(() => {
+    if (closed.current) return;
+    closed.current = true;
+    onClose();
+  }, [onClose]);
+
   return (
     <Dialog
       open
       onOpenChange={(o) => {
-        if (!o) onClose();
+        if (!o) close();
       }}
     >
       <DialogContent
         showCloseButton={false}
         style={{ maxWidth: `min(${px}px, calc(100% - 2rem))` }}
+        /* `block`, not the shadcn default `grid`: the cover sizes itself from
+           an aspect-ratio over a percentage width, which a grid row cannot
+           resolve — Chromium sized that row to 0px, so the cover overflowed it
+           and its absolutely positioned <img> painted straight over the meta
+           table and the whole modal header. Normal block flow gives the cover a
+           definite width, so the ratio resolves. */
         className={cn(
-          "w-full gap-0 overflow-y-auto rounded-xl p-0 shadow-xl",
+          "block w-full overflow-y-auto rounded-xl p-0 shadow-xl",
           "max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-4rem)]",
         )}
       >
         <DialogTitle className="sr-only">{label}</DialogTitle>
         <button
           type="button"
-          onClick={onClose}
+          onClick={close}
           aria-label={ui.common.close}
           className="absolute top-3 right-3 z-10 cursor-pointer rounded-md bg-background/85 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:bg-background hover:text-foreground"
         >

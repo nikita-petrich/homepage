@@ -38,10 +38,21 @@ export const contact = [
   { icon: "globe", text: "https://sequenz.io", href: "https://sequenz.io" },
 ];
 
-/* An array value is rendered as one line per entry — for facts that carry
-   several independent statements and would otherwise wrap awkwardly in the
-   210px sidebar. */
-export const facts = [
+/* A fact is one headline value. `details` carries the qualifiers that narrow
+   it down ("Remote — but on-site how often?"): they are rendered as a small
+   bulleted key/value list under the value, so the 210px sidebar keeps one
+   answer per fact instead of three equally loud lines that wrap into each
+   other. The type is spelled out rather than inferred so `details` stays
+   optional across the array. */
+type Fact = {
+  label: ReturnType<typeof t>;
+  /** Key into FACT_ICONS in components/notion/blocks.tsx. */
+  icon: string;
+  value: ReturnType<typeof t>;
+  details?: { key: ReturnType<typeof t>; value: ReturnType<typeof t> }[];
+};
+
+export const facts: Fact[] = [
   {
     label: t("Erfahrung", "Experience"),
     icon: "briefcase",
@@ -65,10 +76,16 @@ export const facts = [
   {
     label: t("Einsatzort", "Location"),
     icon: "map-pin",
-    value: [
-      t("Remote (bevorzugt)", "Remote (preferred)"),
-      t("Vor Ort: München · 1–2 Tage/Woche", "On-site: Munich · 1–2 days/week"),
-      t("Reisen: 1–2 Tage/Monat", "Travel: 1–2 days/month"),
+    value: t("Remote (bevorzugt)", "Remote (preferred)"),
+    details: [
+      {
+        key: t("Vor Ort", "On-site"),
+        value: t("München · 1–2 Tage/Woche", "Munich · 1–2 days/week"),
+      },
+      {
+        key: t("Reisen", "Travel"),
+        value: t("1–2 Tage/Monat", "1–2 days/month"),
+      },
     ],
   },
   {
@@ -116,13 +133,6 @@ export const profileLinks = [
   { label: "freelancermap", href: "https://www.freelancermap.de/profil/nikita-petrich" },
   { label: "Malt", href: "https://www.malt.de/profile/nikitapetrich" },
 ];
-
-/* Pipe-separated positioning line, shown as a lead-in above the intro
-   (split on " | " in app/[locale]/page.tsx). */
-export const headline = t(
-  "Freiberuflicher Senior Full-Stack & AI Engineer | Was zweimal manuell passiert, wird automatisiert | LLM-Integration · RAG · DSGVO-konforme KI-Architektur | TypeScript · Python · Agentic Engineering/Coding",
-  "Freelance Senior Full-Stack & AI Engineer | Anything done manually twice gets automated | LLM Integration · RAG · GDPR-Compliant AI Architecture | TypeScript · Python · Agentic Engineering/Coding",
-);
 
 /* Bold marks the proof points (the guiding principle, the concrete numbers and
    the lead technologies), matching how the rest of the page emphasises facts. */
@@ -202,12 +212,20 @@ export const intro: RichLine[] = [
     },
     {
       t: t(
-        " (Claude Code, Cursor, Code Rabbit, MCP) – spezifikationsgetrieben, mit KI-gestützter Testgenerierung und agentischen Review-Prozessen. Das ist keine Spielerei, sondern der Grund für außergewöhnliches Tempo bei gleichbleibender Qualität: eine vollständige Cross-Platform-App vom ersten Commit bis zur Übergabe ",
-        " (Claude Code, Cursor, Code Rabbit, MCP) – spec-driven, with AI-assisted test generation and agentic review processes. This isn't a gimmick, it's the reason for unusual speed at consistent quality: a complete cross-platform app from first commit to handover ",
+        " (Claude Code, Cursor, Code Rabbit, MCP) – spezifikationsgetrieben, mit KI-gestützter Testgenerierung und agentischen Review-Prozessen. Das ist keine Spielerei, sondern der Grund für außergewöhnliches Tempo bei gleichbleibender Qualität: Eine vollständige Cross-Platform-App ",
+        " (Claude Code, Cursor, Code Rabbit, MCP) – spec-driven, with AI-assisted test generation and agentic review processes. This isn't a gimmick, it's the reason for unusual speed at consistent quality: a complete cross-platform app built and handed over ",
       ),
     },
-    { t: t("in rund zwei Monaten", "in roughly two months"), b: true },
-    { t: t(", als alleiniger Entwickler.", ", as the sole developer.") },
+    {
+      t: t("innerhalb von rund zwei Monaten", "in roughly two months"),
+      b: true,
+    },
+    {
+      t: t(
+        " entwickelt und übergeben – als alleiniger Entwickler.",
+        " – as the sole developer.",
+      ),
+    },
   ],
   [
     { t: t("Wie ich arbeite: ", "How I work: ") },

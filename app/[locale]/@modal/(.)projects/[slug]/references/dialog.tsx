@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import type { Project, Reference } from "@/lib/data";
+import { InterceptedModal } from "@/components/notion/modal-nav";
 import { ProjectReferencesModal } from "@/components/notion/references";
 
 export function InterceptedProjectReferencesDialog({
@@ -14,10 +15,12 @@ export function InterceptedProjectReferencesDialog({
 }) {
   const router = useRouter();
   return (
-    <ProjectReferencesModal
-      project={project}
-      references={references}
-      onClose={() => router.back()}
-    />
+    <InterceptedModal>
+      <ProjectReferencesModal
+        project={project}
+        references={references}
+        onClose={() => router.back()}
+      />
+    </InterceptedModal>
   );
 }

@@ -8,7 +8,6 @@ import {
   cvFiles,
   facts,
   focus,
-  headline,
   intro,
   languages,
   methods,
@@ -58,7 +57,6 @@ export { bookingUrl, bookingUrlFor, profileName, profileRole } from "./profile";
 const content = {
   profile,
   siteDescription,
-  headline,
   cvFiles,
   contact,
   facts,

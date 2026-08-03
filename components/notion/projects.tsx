@@ -17,6 +17,7 @@ import { AccentTag, SkillTag } from "./blocks";
 import { CompanyLine } from "./company-line";
 import { GitCodeMotif, bannerBg } from "./cover-banner";
 import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
+import { ModalLink } from "./modal-nav";
 import { ModalShell } from "./modal-shell";
 
 const stripe = "var(--stripe)";
@@ -338,10 +339,9 @@ export function ProjectModal({
               </h3>
               <div className="flex flex-wrap gap-2">
                 {projectRefs.map((r) => (
-                  <Link
+                  <ModalLink
                     key={r.slug}
                     href={localePath(locale, `/references/${r.slug}`)}
-                    scroll={false}
                     data-analytics-event="reference_open"
                     data-analytics-prop-slug={r.slug}
                     data-analytics-prop-source="project_modal"
@@ -353,17 +353,16 @@ export function ProjectModal({
                     <Quote size={13} strokeWidth={2} className="shrink-0" />
                     <span>{r.name}</span>
                     <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
-                  </Link>
+                  </ModalLink>
                 ))}
                 {/* Every testimonial of this project on one shareable URL —
                     only worth its own link once there is more than one. */}
                 {projectRefs.length > 1 && (
-                  <Link
+                  <ModalLink
                     href={localePath(
                       locale,
                       `/projects/${project.slug}/references`,
                     )}
-                    scroll={false}
                     data-analytics-event="project_references_open"
                     data-analytics-prop-slug={project.slug}
                     data-analytics-prop-source="project_modal"
@@ -379,7 +378,7 @@ export function ProjectModal({
                       })}
                     </span>
                     <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
-                  </Link>
+                  </ModalLink>
                 )}
               </div>
             </>
