@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 
 import type { Certificate } from "@/lib/data";
 import { CertificateModal } from "@/components/notion/certificates";
+import { InterceptedModal } from "@/components/notion/modal-nav";
 
 export function InterceptedCertificateDialog({
   certificate,
@@ -12,6 +13,8 @@ export function InterceptedCertificateDialog({
 }) {
   const router = useRouter();
   return (
-    <CertificateModal certificate={certificate} onClose={() => router.back()} />
+    <InterceptedModal>
+      <CertificateModal certificate={certificate} onClose={() => router.back()} />
+    </InterceptedModal>
   );
 }

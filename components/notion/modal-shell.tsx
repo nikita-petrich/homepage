@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useRef } from "react";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -29,11 +30,22 @@ export function ModalShell({
      dialog (that was the full-width regression). min() keeps a phone gutter. */
   const px = Number(maxWidthClass.match(/\[(\d+)px\]/)?.[1] ?? 720);
 
+  /* Close exactly once per dialog. ESC, a backdrop click and the X button all
+     land here, and the dialog stays mounted until the navigation that onClose
+     starts has committed — so two of them in quick succession would fire two
+     router.back() calls and jump two entries deep into the history. */
+  const closed = useRef(false);
+  const close = useCallback(() => {
+    if (closed.current) return;
+    closed.current = true;
+    onClose();
+  }, [onClose]);
+
   return (
     <Dialog
       open
       onOpenChange={(o) => {
-        if (!o) onClose();
+        if (!o) close();
       }}
     >
       <DialogContent
@@ -47,7 +59,7 @@ export function ModalShell({
         <DialogTitle className="sr-only">{label}</DialogTitle>
         <button
           type="button"
-          onClick={onClose}
+          onClick={close}
           aria-label={ui.common.close}
           className="absolute top-3 right-3 z-10 cursor-pointer rounded-md bg-background/85 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:bg-background hover:text-foreground"
         >
