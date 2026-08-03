@@ -21,6 +21,7 @@ import { AccentTag } from "./blocks";
 import { CompanyLine } from "./company-line";
 import { bannerBg } from "./cover-banner";
 import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
+import { ModalLink } from "./modal-nav";
 import { ModalShell } from "./modal-shell";
 
 /* Two-letter monogram for the recommender avatar (e.g. "Suraj Kakar" → "SK"). */
@@ -202,9 +203,8 @@ export function ReferenceModal({
           <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--hairline)] pt-4">
             <AccentTag label={r.relation} />
             {r.projectSlug ? (
-              <Link
+              <ModalLink
                 href={localePath(locale, `/projects/${r.projectSlug}`)}
-                scroll={false}
                 data-analytics-event="project_open"
                 data-analytics-prop-slug={r.projectSlug}
                 data-analytics-prop-source="reference_modal"
@@ -212,7 +212,7 @@ export function ReferenceModal({
               >
                 {r.project}
                 <ArrowUpRight size={12} strokeWidth={2} className="opacity-70" />
-              </Link>
+              </ModalLink>
             ) : (
               <span className="text-[12px] text-notion-gray">{r.project}</span>
             )}
@@ -267,9 +267,8 @@ function ReferenceEntry({ reference: r }: { reference: Reference }) {
       <OriginalLanguageNote reference={r} />
 
       <div className="mt-3.5 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--hairline)] pt-3">
-        <Link
+        <ModalLink
           href={localePath(locale, `/references/${r.slug}`)}
-          scroll={false}
           data-analytics-event="reference_open"
           data-analytics-prop-slug={r.slug}
           data-analytics-prop-source="project_references"
@@ -278,7 +277,7 @@ function ReferenceEntry({ reference: r }: { reference: Reference }) {
         >
           {ui.references.single}
           <ArrowUpRight size={12} strokeWidth={2} className="opacity-70" />
-        </Link>
+        </ModalLink>
         <span className="ml-auto flex items-center gap-1.5">
           <span className="text-[12px] text-notion-gray">
             {ui.references.source}
@@ -343,9 +342,8 @@ export function ProjectReferencesModal({
           </ul>
 
           <div className="mt-6 border-t border-[var(--hairline)] pt-4">
-            <Link
+            <ModalLink
               href={localePath(locale, `/projects/${project.slug}`)}
-              scroll={false}
               data-analytics-event="project_open"
               data-analytics-prop-slug={project.slug}
               data-analytics-prop-source="project_references"
@@ -353,7 +351,7 @@ export function ProjectReferencesModal({
             >
               {ui.references.toProject}
               <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
-            </Link>
+            </ModalLink>
           </div>
         </div>
       </>
