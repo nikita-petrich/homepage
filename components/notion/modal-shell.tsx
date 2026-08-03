@@ -51,8 +51,14 @@ export function ModalShell({
       <DialogContent
         showCloseButton={false}
         style={{ maxWidth: `min(${px}px, calc(100% - 2rem))` }}
+        /* `block`, not the shadcn default `grid`: the cover sizes itself from
+           an aspect-ratio over a percentage width, which a grid row cannot
+           resolve — Chromium sized that row to 0px, so the cover overflowed it
+           and its absolutely positioned <img> painted straight over the meta
+           table and the whole modal header. Normal block flow gives the cover a
+           definite width, so the ratio resolves. */
         className={cn(
-          "w-full gap-0 overflow-y-auto rounded-xl p-0 shadow-xl",
+          "block w-full overflow-y-auto rounded-xl p-0 shadow-xl",
           "max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-4rem)]",
         )}
       >
