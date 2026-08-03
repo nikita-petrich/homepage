@@ -38,10 +38,21 @@ export const contact = [
   { icon: "globe", text: "https://sequenz.io", href: "https://sequenz.io" },
 ];
 
-/* An array value is rendered as one line per entry — for facts that carry
-   several independent statements and would otherwise wrap awkwardly in the
-   210px sidebar. */
-export const facts = [
+/* A fact is one headline value. `details` carries the qualifiers that narrow
+   it down ("Remote — but on-site how often?"): they are rendered as a small
+   bulleted key/value list under the value, so the 210px sidebar keeps one
+   answer per fact instead of three equally loud lines that wrap into each
+   other. The type is spelled out rather than inferred so `details` stays
+   optional across the array. */
+type Fact = {
+  label: ReturnType<typeof t>;
+  /** Key into FACT_ICONS in components/notion/blocks.tsx. */
+  icon: string;
+  value: ReturnType<typeof t>;
+  details?: { key: ReturnType<typeof t>; value: ReturnType<typeof t> }[];
+};
+
+export const facts: Fact[] = [
   {
     label: t("Erfahrung", "Experience"),
     icon: "briefcase",
@@ -65,10 +76,16 @@ export const facts = [
   {
     label: t("Einsatzort", "Location"),
     icon: "map-pin",
-    value: [
-      t("Remote (bevorzugt)", "Remote (preferred)"),
-      t("Vor Ort: München · 1–2 Tage/Woche", "On-site: Munich · 1–2 days/week"),
-      t("Reisen: 1–2 Tage/Monat", "Travel: 1–2 days/month"),
+    value: t("Remote (bevorzugt)", "Remote (preferred)"),
+    details: [
+      {
+        key: t("Vor Ort", "On-site"),
+        value: t("München · 1–2 Tage/Woche", "Munich · 1–2 days/week"),
+      },
+      {
+        key: t("Reisen", "Travel"),
+        value: t("1–2 Tage/Monat", "1–2 days/month"),
+      },
     ],
   },
   {

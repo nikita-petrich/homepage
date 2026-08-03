@@ -176,15 +176,27 @@ export function FactLine({ item }: { item: FactItem }) {
         ) : null}
         {item.label}
       </div>
-      {Array.isArray(item.value) ? (
-        <div className="flex flex-col gap-[2px] font-semibold">
-          {item.value.map((line) => (
-            <div key={line}>{line}</div>
+      <div className="font-semibold">{item.value}</div>
+      {/* Qualifiers under the headline value. The flex row puts the dot in its
+          own gutter, so a value that wraps ("München · 1–2 Tage/Woche" in the
+          210px sidebar) stays indented under its own text instead of running
+          back to the margin and reading like the next fact. */}
+      {item.details?.length ? (
+        <ul className="mt-[3px] flex flex-col gap-[3px]">
+          {item.details.map((detail) => (
+            <li key={detail.key} className="flex gap-[7px] text-[13px] leading-[1.35]">
+              <span
+                aria-hidden
+                className="mt-[7px] h-[3px] w-[3px] shrink-0 rounded-full bg-notion-gray opacity-70"
+              />
+              <span className="min-w-0">
+                <span className="text-notion-gray">{detail.key}: </span>
+                <span className="font-medium">{detail.value}</span>
+              </span>
+            </li>
           ))}
-        </div>
-      ) : (
-        <div className="font-semibold">{item.value}</div>
-      )}
+        </ul>
+      ) : null}
     </div>
   );
 }
