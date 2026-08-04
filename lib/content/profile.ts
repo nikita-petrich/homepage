@@ -20,6 +20,12 @@ export const profile = {
   accent: accentColor,
   /* Tagline above the name in the cover banner and on the social card. */
   tagline: t("Freiberuflich · Remote · München", "Freelance · Remote · Munich"),
+  /* The guiding principle, quoted under the role in the cover banner the way
+     the CV quotes it under the name. The intro spells it out again in full. */
+  slogan: t(
+    "„Was zweimal manuell passiert, wird automatisiert“",
+    "“Anything done manually twice gets automated”",
+  ),
 };
 
 export const cvFiles = [
