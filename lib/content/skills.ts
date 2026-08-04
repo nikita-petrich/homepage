@@ -61,7 +61,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "08",
     name: t("DevOps, Cloud & Infrastruktur", "DevOps, cloud & infrastructure"),
-    items: techList(["Docker", "Docker Compose", "CI/CD", "Continuous Integration", "GitHub Actions", "GitLab CI", "Azure Pipelines", "Jenkins", "Nginx", "Sentry", "Monitoring", "Observability", "Linux", "Ubuntu", "Self-Hosting", "Microsoft Azure", "Azure Functions", "Azure App Service", "Azure Blob Storage", "Azure SQL", "Google Cloud Platform (GCP)", "Amazon Web Services (AWS)", "Hetzner", "IONOS", "Digital Ocean", "Vercel", "Supabase", "Firebase", "Cloud Functions", "Cloud Storage", "Firebase Cloud Messaging (FCM)", "Firebase Hosting", "DevOps", "DevSecOps"]),
+    items: techList(["Docker", "Docker Compose", "GitHub Actions", "GitLab CI", "Azure Pipelines", "Jenkins", "Nginx", "Sentry", "Monitoring", "Observability", "Linux", "Ubuntu", "Self-Hosting", "Microsoft Azure", "Azure Functions", "Azure App Service", "Azure Blob Storage", "Azure SQL", "Google Cloud Platform (GCP)", "Amazon Web Services (AWS)", "Hetzner", "IONOS", "Digital Ocean", "Vercel", "Supabase", "Firebase", "Cloud Functions", "Cloud Storage", "Firebase Cloud Messaging (FCM)", "Firebase Hosting", "DevOps", "DevSecOps"]),
   },
   {
     num: "09",
@@ -71,45 +71,57 @@ export const skills: SkillCategorySource[] = [
   {
     num: "10",
     name: t("Architektur & Prinzipien", "Architecture & principles"),
-    items: techList(["Software-Architektur", "Clean Architecture", "Clean Code", "SOLID", "Design Patterns", "Domain-Driven Design", "Separation of Concerns", "Dependency Injection", "Microservices", "Event-Driven Architecture", "Monorepo", "Nx", "Turborepo", "Skalierbare Architektur", "Systemintegration", "Plattform-Migration", "Middleware", "API-First", "Resilience Patterns", "Typsicherheit", "MVP-Entwicklung"]),
+    items: techList(["Software-Architektur", "Clean Architecture", "SOLID", "Design Patterns", "Domain-Driven Design", "Separation of Concerns", "Dependency Injection", "Microservices", "Event-Driven Architecture", "Monorepo", "Nx", "Turborepo", "Skalierbare Architektur", "Systemintegration", "Plattform-Migration", "Middleware", "API-First", "Resilience Patterns", "Typsicherheit", "MVP-Entwicklung"]),
   },
+  /* Methodology is split in two on purpose: the process models a team agrees
+     on (11) and the engineering practices that run inside them (12). Lumping
+     both together with job descriptions ("IT-Beratung") and working modes
+     ("Remote Work") is what makes the usual consultant profile unreadable —
+     those live in 13 and 18 instead. Tools stay out of both — the pipelines
+     that run CI are under DevOps (08), the test runners under Testing & QA
+     (15) — so a practice is never listed twice as its own tooling. */
   {
     num: "11",
-    name: t("Methodik & Zusammenarbeit", "Methodology & collaboration"),
-    items: techList(["Agile Methoden", "Scrum", "Kanban", "Scrumban", "Code Reviews", "Test-Driven Development (TDD)", "Softwareentwicklung", "Projektmanagement", "IT-Beratung", "Requirements Engineering", "Remote Work", "Public Speaking"]),
+    name: t("Vorgehen & Methodik", "Ways of working & methodology"),
+    items: techList(["Agile Methoden", "Scrum", "Kanban", "Scrumban", "Requirements Engineering"]),
   },
   {
     num: "12",
-    name: t("Business & Strategie", "Business & strategy"),
-    items: techList(["IT-Strategie", "Digitalstrategie", "Digitale Transformation", "Prozessdigitalisierung", "Produktverantwortung", "Entrepreneurship"]),
+    name: t("Engineering-Praktiken", "Engineering practices"),
+    items: techList(["Clean Code", "Code Reviews", "Test-Driven Development (TDD)", "Continuous Integration", "CI/CD"]),
   },
   {
     num: "13",
+    name: t("Beratung & Business", "Consulting & business"),
+    items: techList(["IT-Beratung", "Softwareentwicklung", "Projektmanagement", "IT-Strategie", "Digitalstrategie", "Digitale Transformation", "Prozessdigitalisierung", "Produktverantwortung", "Entrepreneurship", "Public Speaking"]),
+  },
+  {
+    num: "14",
     name: t("Datenschutz & Compliance", "Data protection & compliance"),
     items: techList(["DSGVO", "Privacy by Design", "Datenminimierung", "Auftragsverarbeitungsvertrag (AVV)", "EU AI Act", "AI Governance", "GoBD", "Revisionssicherheit", "EU-Hosting", "Digitale Souveränität", "Barrierefreiheitsstärkungsgesetz (BFSG)", "European Accessibility Act (EAA)"]),
   },
   {
-    num: "14",
+    num: "15",
     name: t("Testing & QA", "Testing & QA"),
     items: techList(["Jest", "Vitest", "Cypress", "Playwright", "React Testing Library", "Unit Testing", "Integrationstests", "End-to-End-Tests", "Postman", "API-Testing", "Testautomatisierung"]),
   },
   {
-    num: "15",
+    num: "16",
     name: "Tooling",
     items: techList(["Git", "GitHub", "GitLab", "Husky", "Visual Studio Code", "Visual Studio", "Jira", "Linear", "Slack", "Azure DevOps", "Bluedot", "HubSpot", "Cal.com", "n8n", "Google Workspace (Meet, APIs)", "Amplitude", "Product Analytics"]),
   },
   {
-    num: "16",
+    num: "17",
     name: t("Domänen & Branchen", "Domains & industries"),
     items: techList(["LegalTech", "GovTech", "Kanzleisoftware", "Notariat", "Mandantenportal", "Dokumentenmanagement", "HealthTech", "Medizintechnik", "Instandhaltungsmanagement", "ERP", "Warenwirtschaft", "Lagerverwaltung", "Rechnungsstellung", "Auftragsverwaltung", "CRM", "Buchhaltung", "Stammdatenverwaltung", "Multi-Tenancy", "Stripe", "SEPA", "Zahlungsabwicklung", "Logistik", "Tourenplanung", "PDF-Generierung", "Digitale Archivführung", "EdTech", "E-Learning", "Learning Management System (LMS)", "Social Media", "IoT", "Device Pairing", "Consumer Electronics", "SaaS", "Plattformentwicklung"]),
   },
   {
-    num: "17",
+    num: "18",
     name: t("Rollen & Profil", "Roles & profile"),
-    /* Left out of the schema.org `knowsAbout` list: roles, languages and
-       location are not subject matter a person "knows about" (jobTitle and
-       address already carry those). */
+    /* Left out of the schema.org `knowsAbout` list: roles, languages, working
+       mode and location are not subject matter a person "knows about"
+       (jobTitle and address already carry those). */
     subjectMatter: false,
-    items: techList(["Senior Full-Stack Engineer", "AI Engineer", "Software Engineer", "Freelance Developer", "Interim CTO", "Technischer Berater", "Fachinformatiker Anwendungsentwicklung", "Deutsch (Muttersprache)", "Englisch B2", "München", "DACH"]),
+    items: techList(["Senior Full-Stack Engineer", "AI Engineer", "Software Engineer", "Freelance Developer", "Interim CTO", "Technischer Berater", "Fachinformatiker Anwendungsentwicklung", "Remote Work", "Deutsch (Muttersprache)", "Englisch B2", "München", "DACH"]),
   },
 ];
