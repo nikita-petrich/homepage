@@ -13,7 +13,7 @@ export const alt = ogImageAlt;
 export const size = ogImageSize;
 export const contentType = ogImageContentType;
 
-/* One card per language — the tagline above the name is the only translated
+/* One card per language — the role above the name is the only translated
    element, so both cards stay visually identical. */
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -47,16 +47,20 @@ export default async function Image({
             padding: "0 90px",
           }}
         >
+          {/* Same order as the cover banner: the role is the accent eyebrow
+              above the name, so the card and the page open with one line. It
+              is longer than the tagline it replaced, hence the smaller size
+              and tighter tracking — 1020px of usable width has to hold it. */}
           <div
             style={{
-              fontSize: 30,
+              fontSize: 26,
               fontWeight: 600,
-              letterSpacing: "0.18em",
+              letterSpacing: "0.14em",
               textTransform: "uppercase",
               color: "#bb4d00",
             }}
           >
-            {profile.tagline}
+            {profile.role}
           </div>
           <div
             style={{
@@ -68,16 +72,6 @@ export default async function Image({
             }}
           >
             Nikita Petrich
-          </div>
-          <div
-            style={{
-              marginTop: 10,
-              fontSize: 42,
-              fontWeight: 600,
-              color: "#525252",
-            }}
-          >
-            Senior Full-Stack &amp; AI Engineer
           </div>
           <div
             style={{

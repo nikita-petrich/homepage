@@ -92,10 +92,6 @@ const ui = {
     /* Same reason as language.switchLabelFor: the trigger's visible text is the
        current view's name, so the accessible name has to lead with it. */
     switchView: t("{view} – Ansicht wechseln", "{view} – switch view"),
-    sort: t("Sortierung", "Sorting"),
-    sortByDate: t("Datum", "Date"),
-    newestFirst: t("Neueste zuerst", "Newest first"),
-    oldestFirst: t("Älteste zuerst", "Oldest first"),
     search: t("Suchen", "Search"),
     searchPlaceholder: t("Suchen…", "Search…"),
     searchLabel: t("Durchsuchen", "Search entries"),
