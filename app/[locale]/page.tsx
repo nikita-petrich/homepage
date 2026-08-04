@@ -167,7 +167,7 @@ export default async function Page({
                 data-analytics-prop-placement="hero"
                 className="mt-4 inline-flex w-fit items-center rounded-lg bg-primary px-4 py-2.5 text-[14px] font-medium text-primary-foreground shadow-sm transition-colors hover:brightness-95"
               >
-                {ui.topbar.booking}
+                {ui.home.ctaButton}
               </a>
             </Callout>
 
