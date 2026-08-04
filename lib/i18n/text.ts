@@ -44,7 +44,7 @@ function isI18nText(value: unknown): value is I18nText {
   );
 }
 
-export function localize<T>(value: T, locale: Locale): Localized<T> {
+function localize<T>(value: T, locale: Locale): Localized<T> {
   if (isI18nText(value)) return value[locale] as Localized<T>;
 
   if (Array.isArray(value)) {

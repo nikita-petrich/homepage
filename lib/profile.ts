@@ -11,7 +11,7 @@ export const profileRole = "Senior Full-Stack & AI Engineer";
 
 /* Scheduling links are localized: each language points at its own booking
    page so the visitor lands in the right one. */
-export const bookingUrls: Record<Locale, string> = {
+const bookingUrls: Record<Locale, string> = {
   de: "https://calendar.notion.so/meet/petrichnikita/erstgespraech-30-min",
   en: "https://calendar.notion.so/meet/petrichnikita/initial-consultation-30-min",
 };
