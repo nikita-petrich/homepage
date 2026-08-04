@@ -40,6 +40,10 @@ const german = t("Deutsch", "German");
 
 const label = {
   role: t("Rolle", "Role"),
+  /* Every project carries this one, and its value always leads with the team
+     size — a headcount ("3 Personen", "~20 Engineers") or "Solo" for the
+     one-person projects. Qualifiers ("Kundenprojekt", the disciplines) follow
+     after the separator. */
   team: t("Team", "Team"),
   location: t("Standort", "Location"),
   language: t("Sprache", "Language"),
@@ -365,7 +369,10 @@ export const projects: ProjectSource[] = [
       { label: label.role, value: t("Frontend Engineer", "Frontend engineer") },
       {
         label: label.team,
-        value: t("Interdisziplinär · inkl. Hardware", "Interdisciplinary · incl. hardware"),
+        value: t(
+          "3 Personen · Frontend, Embedded/Hardware, Lead",
+          "3 people · frontend, embedded/hardware, lead",
+        ),
       },
       { label: label.location, value: t("Frankfurt, DE · Remote", "Frankfurt, DE · remote") },
       { label: label.language, value: t("Deutsch & Englisch", "German & English") },
