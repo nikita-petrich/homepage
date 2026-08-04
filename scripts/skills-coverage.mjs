@@ -47,6 +47,7 @@ register("./lib/ts-loader.mjs", import.meta.url);
 
 const { skills } = await import("../lib/content/skills.ts");
 const { projects } = await import("../lib/content/projects.ts");
+const { certificates } = await import("../lib/content/certificates.ts");
 const { germanTerm, unplacedTopics, withDerivedSkills } = await import(
   "../lib/content/derive.ts"
 );
@@ -85,6 +86,43 @@ for (const project of resolved) {
   }
 }
 
+/* Certificates are the site's second kind of evidence, and the weaker one: a
+   course proves the subject was taught, a project proves it was used. Reported
+   separately for that reason — a skill backed only by a certificate is a fair
+   claim, but not the same claim.
+
+   Only the fields that describe the course count. URLs and slugs are skipped:
+   "react" inside a course link would otherwise back React. */
+const certificateText = certificates.map((c) =>
+  [
+    c.title,
+    germanTerm(c.cat),
+    ...c.tags.map(germanTerm),
+    germanTerm(c.summary),
+    ...(c.outcomes ?? []).map(germanTerm),
+    ...(c.curriculum ?? []).flatMap((s) => [
+      germanTerm(s.title),
+      ...(s.lessons ?? []),
+    ]),
+  ].join(" • "),
+);
+
+/* Whole-term matches only. A plain substring search backs "NAT" from
+   "alternative" and "Go" from "Google" — and a taught-skill list that includes
+   terms nobody taught is worse than one that misses a few. */
+const wholeTerm = (term) =>
+  new RegExp(
+    `(?<![\\p{L}\\p{N}])${term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![\\p{L}\\p{N}])`,
+    "iu",
+  );
+
+const taught = new Set();
+for (const term of taxonomy.keys()) {
+  if (attachments.has(term)) continue;
+  const pattern = wholeTerm(term);
+  if (certificateText.some((text) => pattern.test(text))) taught.add(term);
+}
+
 const unknown = resolved.flatMap((p) =>
   p.terms.filter((term) => !taxonomy.has(term)).map((term) => [p.slug, term]),
 );
@@ -101,7 +139,11 @@ console.log(
 );
 console.log(
   `  ${bold(`${covered.length}/${taxonomy.size}`)} skills ` +
-    `(${pct(covered.length, taxonomy.size)}) backed by at least one project\n`,
+    `(${pct(covered.length, taxonomy.size)}) backed by at least one project`,
+);
+console.log(
+  `  ${taught.size} more taught by a certificate · ` +
+    `${bold(String(taxonomy.size - covered.length - taught.size))} backed by neither\n`,
 );
 
 console.log(bold("Per category"));
@@ -117,7 +159,12 @@ for (const category of skills) {
     ).padEnd(3)} ${pct(hit, category.items.length).padStart(4)}` +
       (category.subjectMatter === false ? dim("  not subject matter") : ""),
   );
-  if (missing.length) console.log(dim(`     unbacked: ${missing.join(" · ")}`));
+  const courseOnly = missing.filter((term) => taught.has(term));
+  const neither = missing.filter((term) => !taught.has(term));
+  if (courseOnly.length) {
+    console.log(dim(`     taught only: ${courseOnly.join(" · ")}`));
+  }
+  if (neither.length) console.log(dim(`     unbacked:    ${neither.join(" · ")}`));
 }
 
 console.log(`\n${bold("Per project")}`);
