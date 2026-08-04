@@ -200,7 +200,25 @@ term reads the same everywhere.
 ### Profile photo
 
 The sidebar photo is `public/assets/profile.jpg`. Replace that file to change
-the photo (it is rendered via `next/image` in a `1 / 1.1` frame).
+the photo (it is rendered via `next/image` in a `1 / 1.1` frame). The same file
+is read at build time by `app/[locale]/opengraph-image.tsx` and drawn into the
+social-share card in the same frame, so one replacement covers both.
+
+### Social-share card
+
+`app/[locale]/opengraph-image.tsx` draws the 1200×630 preview that Slack,
+LinkedIn, WhatsApp and iMessage show for a shared link — profile photo, name,
+role, the guiding principle from `lib/content/profile.ts` and the first three
+entries of its `focus` list, one card per language, in the cover banner's
+order. Everything on it comes from the content tree, so editing the role, the
+slogan or the focus order changes the card on the next build; nothing has to be
+redrawn by hand.
+
+The card is prerendered at build time, and its URL carries a content hash, so a
+changed card gets a new `og:image` URL. Chat clients still cache the preview
+they fetched first: in Slack a link keeps its old card until that cache expires
+(roughly 30 minutes), so check a change with a fresh URL — `?x=1` appended is
+enough — rather than by reposting the same link.
 
 ### Project cover images
 
