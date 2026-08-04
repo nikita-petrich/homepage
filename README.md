@@ -70,7 +70,7 @@ languages:
 - Language routing via `proxy.ts` (the Next 16 name for the middleware
   convention) — no i18n library
 - Optional cookieless analytics: self-hosted [Umami](https://umami.is/) behind
-  a first-party proxy (see `docs/TRACKING-CONCEPT.md`)
+  a first-party proxy
 
 ## Project structure
 
@@ -140,10 +140,6 @@ lib/
     terms.ts            Shared translations of technology/skill terms
   references.json       Testimonials (shared with the PDF CV)
   analytics/            consent.ts, track.ts, use-search-tracking.ts
-docs/
-  AUDIT-REPORT.md        Security/GDPR/quality audit (2026-07)
-  IMPLEMENTATION-PLAN.md Remediation & tracking plan
-  TRACKING-CONCEPT.md    Analytics design (two-tier, GDPR)
 public/
   cv/                   Downloadable CV PDFs (DE / EN)
   certificates/         Certificate PDFs (/certificates/<slug>.pdf, permanent)
@@ -168,8 +164,7 @@ pnpm lint && pnpm typecheck
 
 Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_UMAMI_WEBSITE_ID` and
 `UMAMI_ORIGIN` to enable the cookieless stage-1 measurement. Without these
-variables the site runs with analytics fully disabled. Details and the legal
-rationale: `docs/TRACKING-CONCEPT.md`.
+variables the site runs with analytics fully disabled.
 
 ## Deployment
 
