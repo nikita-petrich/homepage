@@ -9,6 +9,14 @@ export type SkillCategorySource = {
   kind?: SkillKind;
   /** Whether the items are subject matter for schema.org `knowsAbout`. */
   subjectMatter?: boolean;
+  /* How many leading items of `items` are job titles, for the schema.org
+     `jobTitle` array (components/notion/json-ld.tsx). Only the roles category
+     sets it. The category also carries the context facts — working mode,
+     languages, location — and those are emphatically not job titles: without
+     this boundary the markup claimed "München" and "Englisch B2" as roles this
+     person holds. Titles are therefore kept at the front of the list and
+     counted, rather than the whole category being piped into `jobTitle`. */
+  jobTitles?: number;
   items: (I18nText | string)[];
 };
 
@@ -206,6 +214,10 @@ export const skills: SkillCategorySource[] = [
        mode and location are not subject matter a person "knows about"
        (jobTitle and address already carry those). */
     subjectMatter: false,
+    /* The first 13 items are titles; everything after "Fachinformatiker
+       Anwendungsentwicklung" is context. Keep new titles above that line and
+       new context facts below it. */
+    jobTitles: 13,
     items: techList(["Senior Full-Stack Engineer", "AI Engineer", "Software Engineer", "Softwareentwickler", "Fullstack-Entwickler", "Frontend-Entwickler", "Backend-Entwickler", "Webentwickler", "Softwarearchitekt", "Freelance Developer", "Freiberuflicher Softwareentwickler", "Technischer Berater", "Fachinformatiker Anwendungsentwicklung", "Remote Work", "Deutsch (Muttersprache)", "Englisch B2", "Business English", "München", "DACH"]),
   },
 ];

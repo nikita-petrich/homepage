@@ -168,6 +168,28 @@ export const intro: IntroLine[] = [
           "I'm a freelance Senior Full-Stack & AI Engineer focused on LLM integration, RAG and AI-driven automation – from architecture to production. My results: ",
         ),
       },
+      /* Order matters here. The logistics figure is the largest and the one a
+         reader is most likely to bounce off, so it no longer opens the list:
+         the two immediately credible numbers come first, and the big one
+         arrives last with the mechanism attached — it is what the automated
+         route documents replaced, not an unexplained headline. */
+      { t: t("40 Stunden/Monat", "40 hours/month"), b: true },
+      {
+        t: t(
+          " weniger Verwaltungsarbeit im Handel, ",
+          " less administrative work in retail, ",
+        ),
+      },
+      {
+        t: t("70 % weniger Rückfragen", "70 % fewer enquiries"),
+        b: true,
+      },
+      {
+        t: t(
+          " im Notariat und – weil Tourunterlagen nicht mehr je Fahrt von Hand zusammengestellt werden – ",
+          " at a notary's office and — because route documents are no longer assembled by hand for every trip — ",
+        ),
+      },
       {
         t: t(
           "bis zu 1.000 Stunden pro Mitarbeiter und Jahr",
@@ -176,23 +198,11 @@ export const intro: IntroLine[] = [
         b: true,
       },
       {
-        t: t(
-          " durch ein Tourverwaltungssystem in der Logistik, ",
-          " through a tour-management system in logistics, ",
-        ),
-      },
-      { t: t("40 Stunden/Monat", "40 hours/month"), b: true },
-      { t: t(" im Handel, ", " in retail, ") },
-      {
-        t: t("70 % weniger Rückfragen", "70 % fewer enquiries"),
-        b: true,
-      },
-      {
         /* Same attribution the project pages carry — the figures are the
            clients' own, and saying so is what makes them worth quoting. */
         t: t(
-          " im Notariat – jeweils nach Angaben der Kunden bzw. Anbieter. Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
-          " at a notary's office — each figure as reported by the client or provider. I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
+          " in der Logistik; jeweils nach Angaben der Kunden bzw. Anbieter. Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
+          " in logistics; each figure as reported by the client or provider. I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
         ),
       },
       {
@@ -266,7 +276,9 @@ export const intro: IntroLine[] = [
    below: the banner has one row of space, so it carries the specialism and the
    two stack halves, and `focus` carries the full picture. */
 export const bannerTags = [
-  "LLM-Integration",
+  /* Translated, like the same term two blocks down in `focus` — the German
+     spelling was left standing in the hero's very first chip. */
+  t("LLM-Integration", "LLM integration"),
   "RAG",
   t("KI-Engineering", "AI engineering"),
   "Agentic Coding",

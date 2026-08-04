@@ -113,15 +113,19 @@ const ui = {
       "Anforderungen, Zeitraum, Auslastung",
       "Requirements, timeframe, capacity",
     ),
-    /* Pre-filled so the reply contains the four things needed to answer at all
-       — the alternative is a blank mail and two rounds of questions. */
+    /* Pre-filled so the reply contains the things needed to answer at all — the
+       alternative is a blank mail and two rounds of questions.
+
+       It asks for scope, not for the prospect's budget: while the key facts
+       say "Stundensatz auf Anfrage", asking them to name a number first reads
+       as a negotiation opener rather than as an offer. */
     closingBriefSubject: t(
       "Projektanfrage — Senior Full-Stack & AI Engineer",
       "Project enquiry — Senior Full-Stack & AI Engineer",
     ),
     closingBriefBody: t(
-      "Hallo Herr Petrich,\n\nkurz zum Vorhaben:\n\n- Projekt / Aufgabe:\n- Zeitraum & Auslastung:\n- Remote / vor Ort:\n- Budget bzw. Tagessatz-Rahmen:\n\nViele Grüße\n",
-      "Hello Nikita,\n\nbriefly about the project:\n\n- Project / task:\n- Timeframe & capacity:\n- Remote / on-site:\n- Budget or day-rate range:\n\nBest regards\n",
+      "Hallo Herr Petrich,\n\nkurz zum Vorhaben:\n\n- Projekt / Aufgabe:\n- Zeitraum & Auslastung:\n- Remote / vor Ort:\n- Technischer Rahmen (Stack, Bestandssystem):\n\nViele Grüße\n",
+      "Hello Nikita,\n\nbriefly about the project:\n\n- Project / task:\n- Timeframe & capacity:\n- Remote / on-site:\n- Technical context (stack, existing system):\n\nBest regards\n",
     ),
     closingCv: t("CV als PDF", "CV as a PDF"),
     closingCvSub: t("Deutsch oder Englisch", "German or English"),
@@ -161,8 +165,11 @@ const ui = {
     responsibilities: t("Aufgaben", "Responsibilities"),
     results: t("Ergebnis", "Outcome"),
     /* Separate heading from `results` on purpose — see the `outlook` comment in
-       lib/content/projects.ts. Says "target", not "outcome", in both languages. */
-    outlook: t("Zielbild (noch nicht erreicht)", "Target (not yet reached)"),
+       lib/content/projects.ts. Says "target", not "outcome", in both languages.
+       Just "Zielbild": the heading, the muted treatment and the dashed border
+       already say this is not a result, and the earlier
+       "(noch nicht erreicht)" read as *missed* rather than as *planned*. */
+    outlook: t("Zielbild", "Targets"),
     reference: t("Referenz", "Testimonial"),
     references: t("Referenzen", "Testimonials"),
     technologies: t("Technologien", "Technologies"),
