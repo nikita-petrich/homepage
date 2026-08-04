@@ -301,7 +301,7 @@ export const projects: ProjectSource[] = [
       "better-auth", "JWT", "Docker", "Linux", "Ubuntu", "TCP/IP",
       "IP-Netzwerke", "HTTP/HTTPS", "Google Cloud Platform (GCP)", "Vercel",
       "GitHub Actions", "CI/CD", "Continuous Integration", "Datadog",
-      "Monitoring", "Observability", "Playwright", "End-to-End-Tests",
+      "Monitoring", "Observability", "Jest", "Playwright", "End-to-End-Tests",
       "Claude Code", "Cursor AI", "Code Rabbit", "Agentic Coding",
       "Agentische Pull-Request-Workflows", "Code Reviews", "Linear", "Figma",
       "Slack", "Husky", "CLI (Command Line Interface)", "Google Calendar",
