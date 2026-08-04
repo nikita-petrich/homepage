@@ -152,7 +152,9 @@ export default async function Page({
           </aside>
 
           <div className="flex min-w-0 flex-col gap-10">
-            <Callout icon={false}>
+            {/* The callout's own Info icon is the only one in the block now —
+                the intro lines dropped their per-line icons. */}
+            <Callout>
               <IntroLines lines={intro} />
               <p className="mt-3 font-semibold text-[var(--accent-text)]">
                 {ui.home.ctaQuestion}
