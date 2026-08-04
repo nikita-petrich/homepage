@@ -41,7 +41,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "04",
     name: t("Backend & Frameworks", "Backend & frameworks"),
-    items: techList(["Node.js", "NestJS", "Express.js", "Fastify", "FastAPI", "Flask", "ASP.NET Core", ".NET Core", "GraphQL", "REST API", "OpenAPI", "Swagger", "WebSockets", "Webhooks", "Message Queues", "BullMQ", "RabbitMQ", "Backend-Entwicklung", "Objektorientierte Programmierung (OOP)"]),
+    items: techList(["Node.js", "NestJS", "Express.js", "Fastify", "FastAPI", "Flask", "ASP.NET Core", ".NET Core", "Headless CMS", "Strapi", "Directus", "GraphQL", "REST API", "OpenAPI", "Swagger", "WebSockets", "Webhooks", "Message Queues", "BullMQ", "RabbitMQ", "Backend-Entwicklung", "Objektorientierte Programmierung (OOP)"]),
   },
   {
     num: "05",
