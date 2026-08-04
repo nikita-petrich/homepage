@@ -1,10 +1,10 @@
 export type Theme = "light" | "dark";
 
-export const THEME_STORAGE_KEY = "np-theme";
+const THEME_STORAGE_KEY = "np-theme";
 
 /* Fired on window whenever the theme changes, so every toggle on the page
    stays in sync (top bar and, on the legal pages, the footer). */
-export const THEME_CHANGE_EVENT = "np:theme";
+const THEME_CHANGE_EVENT = "np:theme";
 
 /* Runs before the first paint, inlined into <head>. Without it the page would
  * render light and flip to dark once React hydrates.
@@ -35,7 +35,7 @@ export function currentTheme(): Theme {
 
 /* The theme the visitor should get: their stored choice, else the system
    preference. */
-export function preferredTheme(): Theme {
+function preferredTheme(): Theme {
   try {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
     if (stored === "light" || stored === "dark") return stored;

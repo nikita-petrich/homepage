@@ -32,7 +32,6 @@ const ui = {
   },
 
   theme: {
-    toggleLabel: t("Design wechseln", "Switch theme"),
     toLight: t("Zu hellem Design wechseln", "Switch to light theme"),
     toDark: t("Zu dunklem Design wechseln", "Switch to dark theme"),
   },
