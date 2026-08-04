@@ -5,10 +5,19 @@ import { techList } from "./terms";
 export type SkillCategorySource = {
   num: string;
   name: I18nText | string;
+  /** Group heading the category is listed under; "hard" when omitted. */
+  kind?: SkillKind;
   /** Whether the items are subject matter for schema.org `knowsAbout`. */
   subjectMatter?: boolean;
   items: (I18nText | string)[];
 };
+
+/* The skills section groups its cards under three headings: what is
+   demonstrable in code ("hard"), how the collaboration runs ("soft") and the
+   framing facts that are neither ("profile" — roles, languages, location).
+   Without that third group the profile card would end up filed under "Hard
+   Skills", which is the one place it does not belong. */
+export type SkillKind = "hard" | "soft" | "profile";
 
 /* The skill taxonomy doubles as the site's keyword surface: every item is
    rendered as a tag, is searchable in the skills gallery and feeds the
@@ -93,7 +102,9 @@ export const skills: SkillCategorySource[] = [
   {
     num: "13",
     name: t("Beratung & Business", "Consulting & business"),
-    items: techList(["IT-Beratung", "Softwareentwicklung", "Projektmanagement", "IT-Strategie", "Digitalstrategie", "Digitale Transformation", "Prozessdigitalisierung", "Produktverantwortung", "Entrepreneurship", "Public Speaking"]),
+    /* "Public Speaking" used to sit here; it is a presentation skill, so it
+       moved to the soft-skill category 19 rather than being listed twice. */
+    items: techList(["IT-Beratung", "Softwareentwicklung", "Projektmanagement", "IT-Strategie", "Digitalstrategie", "Digitale Transformation", "Prozessdigitalisierung", "Produktverantwortung", "Entrepreneurship"]),
   },
   {
     num: "14",
@@ -115,9 +126,37 @@ export const skills: SkillCategorySource[] = [
     name: t("Domänen & Branchen", "Domains & industries"),
     items: techList(["LegalTech", "GovTech", "Kanzleisoftware", "Notariat", "Mandantenportal", "Dokumentenmanagement", "HealthTech", "Medizintechnik", "Instandhaltungsmanagement", "ERP", "Warenwirtschaft", "Lagerverwaltung", "Rechnungsstellung", "Auftragsverwaltung", "CRM", "Buchhaltung", "Stammdatenverwaltung", "Multi-Tenancy", "Stripe", "SEPA", "Zahlungsabwicklung", "Logistik", "Tourenplanung", "PDF-Generierung", "Digitale Archivführung", "EdTech", "E-Learning", "Learning Management System (LMS)", "Social Media", "IoT", "Device Pairing", "Consumer Electronics", "SaaS", "Plattformentwicklung"]),
   },
+  /* Soft skills (19–21). Same card format as the hard skills on purpose: a
+     claim like "zuverlässig" is worth as little as the proof behind it, so the
+     items stay next to the technical taxonomy instead of becoming a separate
+     adjective list. They are split the way they are asked about — how someone
+     communicates, how they work in an existing team, and what can be relied on
+     — and they do count as `knowsAbout` subject matter: communication,
+     presentation and collaboration are skills, unlike the role and location
+     facts in 22. Wording overlaps deliberately with the "Arbeitsweise" tags in
+     the sidebar (lib/content/profile.ts) — same claims, both surfaces. */
   {
-    num: "18",
+    num: "19",
+    name: t("Kommunikation & Präsentation", "Communication & presentation"),
+    kind: "soft",
+    items: techList(["Professionelle Kommunikation", "Klare Kommunikation (Deutsch/Englisch)", "Proaktive Kommunikation", "Präsentationsfähigkeit", "Public Speaking", "Stakeholder-Kommunikation", "Konstruktives Feedback", "Technische Dokumentation"]),
+  },
+  {
+    num: "20",
+    name: t("Teamarbeit & Zusammenarbeit", "Teamwork & collaboration"),
+    kind: "soft",
+    items: techList(["Teamfähigkeit", "Integration in bestehende Teams", "Kollegiale Zusammenarbeit", "Wissenstransfer", "Remote-Zusammenarbeit", "Asynchrone Zusammenarbeit", "Interdisziplinäre Zusammenarbeit"]),
+  },
+  {
+    num: "21",
+    name: t("Verlässlichkeit & Arbeitshaltung", "Reliability & work ethic"),
+    kind: "soft",
+    items: techList(["Zuverlässigkeit", "Verantwortungsbewusstsein", "Eigenverantwortliches Arbeiten", "Schnelle Reaktionszeiten", "Ergebnisorientierung", "Lösungsorientierung", "Lernbereitschaft"]),
+  },
+  {
+    num: "22",
     name: t("Rollen & Profil", "Roles & profile"),
+    kind: "profile",
     /* Left out of the schema.org `knowsAbout` list: roles, languages, working
        mode and location are not subject matter a person "knows about"
        (jobTitle and address already carry those). */

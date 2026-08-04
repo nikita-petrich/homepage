@@ -107,6 +107,14 @@ const ui = {
     title: t("Meine Skills", "My skills"),
     searchPlaceholder: t("Skill suchen…", "Search skills…"),
     searchLabel: t("Skill suchen", "Search skills"),
+    /* Headings above the category cards, one per `kind` in
+       lib/content/skills.ts. "Hard Skills"/"Soft Skills" are the terms a German
+       job ad uses, so they stay English in the German version too. */
+    groups: {
+      hard: t("Hard Skills", "Hard skills"),
+      soft: t("Soft Skills", "Soft skills"),
+      profile: t("Profil", "Profile"),
+    },
   },
 
   projects: {
