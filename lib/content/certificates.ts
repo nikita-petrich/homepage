@@ -23,7 +23,12 @@ export type CertificateSource = {
       detail page at /certificates/<slug>. */
   slug: string;
   title: string;
-  issuer: "Scrimba" | "Code with Mosh" | "Udemy" | "Traversy Media";
+  issuer:
+    | "Scrimba"
+    | "Code with Mosh"
+    | "Udemy"
+    | "Traversy Media"
+    | "EnglishRadar";
   date: Text;
   /** ISO completion date, used for sorting (newest first). */
   sort: string;
@@ -57,6 +62,85 @@ export type CertificateSource = {
 
 /* Ordered newest first by default (mirrors the projects gallery). */
 export const certificates: CertificateSource[] = [
+  /* The one certificate here that is not a course in a technology: it is an
+     independently assessed language qualification, and the only external
+     evidence on the site for a claim the sidebar makes about him ("Englisch
+     B2"). 360 contact hours over twelve weeks full-time, with the level set by
+     the issuer's own assessment rather than self-declared — which is why the
+     language entry in lib/content/profile.ts now cites it. */
+  {
+    slug: "english-radar-business-english",
+    title: "Business English Online (Full-time)",
+    issuer: "EnglishRadar",
+    date: t("August 2026", "August 2026"),
+    sort: "2026-08-04",
+    detail: t("360 Std · 480 Lektionen · 12 Wochen", "360 hrs · 480 lessons · 12 weeks"),
+    cat: "Business English",
+    tags: [
+      "Business English",
+      "CEFR B2",
+      t("Verhandlungen", "Negotiations"),
+      t("Präsentationen", "Presentations"),
+    ],
+    preview: "/assets/certificates/english-radar-business-english.webp",
+    tilePreview: "/assets/certificates/english-radar-business-english-tile.webp",
+    summary: t(
+      "Vollzeit-Intensivkurs Business English bei EnglishRadar über zwölf Wochen mit 480 Lektionen (360 Stunden), abgeschlossen mit dem Niveau B2 (Upper Intermediate) nach GER. Der Kurs ist auf die englische Kommunikation im Arbeitsalltag ausgerichtet: Telefonate, Meetings, Präsentationen, Verhandlungen, E-Mails, Networking, Small Talk und Interviews. Das Niveau wurde von EnglishRadar unabhängig geprüft — vor dem Kurs online inklusive Sprechprüfung, währenddessen in wöchentlichen Einzel-Workshops und zum Abschluss über eine Sprech- und eine Schreibprüfung.",
+      "A twelve-week full-time intensive Business English course at EnglishRadar comprising 480 lessons (360 hours), completed at level B2 (upper intermediate) on the CEFR scale. The course targets English communication at work: telephoning, meetings, presentations, negotiations, emails, networking, small talk and interviews. The level was assessed independently by EnglishRadar — online before the course including a speaking assessment, during it in weekly one-to-one workshops, and at the end through a speaking assessment and a writing task.",
+    ),
+    facts: [
+      { label: t("Umfang", "Scope"), value: t("360 Std.", "360 hrs") },
+      { label: t("Lektionen", "Lessons"), value: "480" },
+      { label: t("Dauer", "Duration"), value: t("12 Wochen · Vollzeit", "12 weeks · full-time") },
+      {
+        label: t("Niveau", "Level"),
+        value: t("B2 (Upper Intermediate) · GER", "B2 (upper intermediate) · CEFR"),
+      },
+      {
+        label: t("Zeitraum", "Period"),
+        value: t("11.05.2026 – 31.07.2026", "11 May 2026 – 31 July 2026"),
+      },
+      { label: t("Zertifikatsnummer", "Certificate number"), value: "2608B002" },
+      { label: t("Ausgestellt", "Issued"), value: t("4. August 2026", "4 August 2026") },
+    ],
+    outcomes: [
+      t("Telefonate auf Englisch im beruflichen Kontext führen", "Handling work telephone calls in English"),
+      t("Meetings auf Englisch führen und moderieren", "Running and moderating meetings in English"),
+      t("Präsentationen auf Englisch halten", "Delivering presentations in English"),
+      t("Verhandlungen auf Englisch führen", "Conducting negotiations in English"),
+      t("Geschäftliche E-Mail-Korrespondenz auf Englisch", "Business email correspondence in English"),
+      t("Networking und Small Talk im beruflichen Umfeld", "Networking and small talk in a professional setting"),
+      t("Interviews und Gespräche auf Englisch führen", "Handling interviews and conversations in English"),
+    ],
+    curriculum: [
+      {
+        title: t("Kursinhalte", "Course content"),
+        meta: t("480 Lektionen · 360 Std.", "480 lessons · 360 hrs"),
+        lessons: [
+          "Telephoning",
+          "Meetings",
+          "Presentations",
+          "Negotiations",
+          "Emails",
+          "Networking",
+          "Small talk",
+          "Interviews",
+        ],
+      },
+      {
+        title: t("Prüfungsverfahren", "Assessment"),
+        lessons: [
+          "Before the course: English level of proficiency assessment online including speaking assessment",
+          "During the course: Weekly one-to-one workshops to assess progress",
+          "End of course: Speaking assessment and writing task",
+        ],
+      },
+    ],
+    curriculumNote: t(
+      "Kursinhalte und Prüfungsstufen wie auf dem Zertifikat ausgewiesen; EnglishRadar veröffentlicht keinen lektionsweisen Lehrplan.",
+      "Course content and assessment stages as stated on the certificate; EnglishRadar does not publish a lesson-by-lesson syllabus.",
+    ),
+  },
   {
     slug: "traversy-coding-with-ai",
     title: "Coding With AI: Planning To Production",

@@ -206,6 +206,6 @@ export const skills: SkillCategorySource[] = [
        mode and location are not subject matter a person "knows about"
        (jobTitle and address already carry those). */
     subjectMatter: false,
-    items: techList(["Senior Full-Stack Engineer", "AI Engineer", "Software Engineer", "Softwareentwickler", "Fullstack-Entwickler", "Frontend-Entwickler", "Backend-Entwickler", "Webentwickler", "Softwarearchitekt", "Freelance Developer", "Freiberuflicher Softwareentwickler", "Technischer Berater", "Fachinformatiker Anwendungsentwicklung", "Remote Work", "Deutsch (Muttersprache)", "Englisch B2", "München", "DACH"]),
+    items: techList(["Senior Full-Stack Engineer", "AI Engineer", "Software Engineer", "Softwareentwickler", "Fullstack-Entwickler", "Frontend-Entwickler", "Backend-Entwickler", "Webentwickler", "Softwarearchitekt", "Freelance Developer", "Freiberuflicher Softwareentwickler", "Technischer Berater", "Fachinformatiker Anwendungsentwicklung", "Remote Work", "Deutsch (Muttersprache)", "Englisch B2", "Business English", "München", "DACH"]),
   },
 ];
