@@ -8,6 +8,12 @@ import { localeMeta, localePath, type Locale } from "@/lib/i18n/config";
 
    Emitted per language: the skill terms it lists are the ones the page shows,
    and `inLanguage` names the language of the page it describes. */
+/* How many of a project's own tech terms reach its `keywords` string. The
+   curated list leads with the project's defining stack, so the head of it is
+   what distinguishes the project; the tail is breadth `knowsAbout` already
+   carries. */
+const PROJECT_KEYWORDS = 25;
+
 export function PersonJsonLd({ locale }: { locale: Locale }) {
   const { certificates, contact, profileLinks, projects, siteDescription, skills } =
     getContent(locale);
@@ -54,6 +60,27 @@ export function PersonJsonLd({ locale }: { locale: Locale }) {
       postalCode: "86561",
       addressCountry: "DE",
     },
+    /* The registered address is Aresing; every human-visible surface says
+       remote with on-site days in Munich, and the taxonomy claims München and
+       DACH. A crawler reading only the postal address indexed a town nobody
+       filters on, so the working region is stated separately from where the
+       post arrives. */
+    workLocation: [
+      { "@type": "Place", name: "Remote" },
+      {
+        "@type": "Place",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "München",
+          addressCountry: "DE",
+        },
+      },
+    ],
+    areaServed: [
+      { "@type": "Country", name: "DE" },
+      { "@type": "Country", name: "AT" },
+      { "@type": "Country", name: "CH" },
+    ],
     sameAs: profileLinks
       .filter((p) => p.href.startsWith("http"))
       .map((p) => p.href),
@@ -67,6 +94,12 @@ export function PersonJsonLd({ locale }: { locale: Locale }) {
       name: profileRole,
       occupationLocation: { "@type": "Country", name: "DE" },
     },
+    /* `keywords` is capped rather than carrying the whole tech list. Nine
+       comma-strings of up to ~130 terms each, on top of a ~330-term
+       `knowsAbout`, is the canonical keyword-stuffing signature — and it was
+       breadth stated twice, since every one of those terms is already in
+       `knowsAbout`. The cap keeps what distinguishes a project from the other
+       eight; the page itself still renders the full list. */
     subjectOf: projects.map((p) => ({
       "@type": "CreativeWork",
       name: p.name,
@@ -74,7 +107,9 @@ export function PersonJsonLd({ locale }: { locale: Locale }) {
       abstract: p.desc,
       url: `https://sequenz.io${localePath(locale, `/projects/${p.slug}`)}`,
       about: p.cat,
-      keywords: p.tech.join(", "),
+      keywords: [...new Set([...p.cardTags, ...p.tech.slice(0, PROJECT_KEYWORDS)])].join(
+        ", ",
+      ),
       inLanguage: localeMeta[locale].htmlLang,
     })),
     hasCredential: certificates.map((c) => ({
