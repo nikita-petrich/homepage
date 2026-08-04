@@ -50,6 +50,9 @@ const translations: Record<string, string> = {
   "Software-Architektur": "Software architecture",
   "Skalierbare Architektur": "Scalable architecture",
   Systemintegration: "System integration",
+  Schnittstellenentwicklung: "Interface development",
+  "API-Integration": "API integration",
+  "Drittsystem-Anbindung": "Third-party system integration",
   "Plattform-Migration": "Platform migration",
   Typsicherheit: "Type safety",
   "MVP-Entwicklung": "MVP development",
@@ -62,7 +65,10 @@ const translations: Record<string, string> = {
 
   // Ways of working
   "Agile Methoden": "Agile methods",
+  Anforderungsanalyse: "Requirements analysis",
+  Retrospektive: "Retrospective",
   "Code Reviews": "Code reviews",
+  "Legacy-Modernisierung": "Legacy modernisation",
   Softwareentwicklung: "Software development",
   Projektmanagement: "Project management",
   "IT-Beratung": "IT consulting",
@@ -132,7 +138,17 @@ const translations: Record<string, string> = {
   Lösungsorientierung: "Solution-oriented",
   Lernbereitschaft: "Willingness to learn",
 
-  // Roles & profile
+  /* Roles & profile.
+     Both spellings of every role exist on purpose: German ATS and freelancer
+     marketplaces match the person-noun ("Softwareentwickler"), international
+     clients read the English one. */
+  Softwareentwickler: "Software developer",
+  "Fullstack-Entwickler": "Full-stack developer",
+  "Frontend-Entwickler": "Frontend developer",
+  "Backend-Entwickler": "Backend developer",
+  Webentwickler: "Web developer",
+  Softwarearchitekt: "Software architect",
+  "Freiberuflicher Softwareentwickler": "Freelance software developer",
   "Technischer Berater": "Technical advisor",
   "Fachinformatiker Anwendungsentwicklung":
     "IT specialist for application development",

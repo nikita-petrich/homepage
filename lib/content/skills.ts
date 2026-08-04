@@ -79,7 +79,10 @@ export const skills: SkillCategorySource[] = [
   {
     num: "09",
     name: t("Netzwerke & Protokolle", "Networking & protocols"),
-    items: techList(["TCP/IP", "IP-Netzwerke", "DNS", "MAC-Adressen", "HTTP/HTTPS"]),
+    /* "MAC-Adressen" used to sit here. It is genuine IHK training content and
+       genuinely useless on a senior profile: a reader who meets it re-reads the
+       whole taxonomy as padding, which costs more than the term earns. */
+    items: techList(["TCP/IP", "IP-Netzwerke", "DNS", "HTTP/HTTPS"]),
   },
   {
     num: "10",
@@ -89,7 +92,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "11",
     name: t("Architektur & Prinzipien", "Architecture & principles"),
-    items: techList(["Software-Architektur", "Clean Architecture", "SOLID", "Design Patterns", "Domain-Driven Design", "Separation of Concerns", "Dependency Injection", "Microservices", "Event-Driven Architecture", "Monorepo", "Nx", "Turborepo", "Skalierbare Architektur", "Systemintegration", "Plattform-Migration", "Middleware", "API-First", "Resilience Patterns", "Typsicherheit", "MVP-Entwicklung"]),
+    items: techList(["Software-Architektur", "Clean Architecture", "SOLID", "Design Patterns", "Domain-Driven Design", "Separation of Concerns", "Dependency Injection", "Microservices", "Event-Driven Architecture", "Monorepo", "Nx", "Turborepo", "Skalierbare Architektur", "Systemintegration", "Schnittstellenentwicklung", "API-Integration", "Drittsystem-Anbindung", "Plattform-Migration", "Middleware", "API-First", "Resilience Patterns", "Typsicherheit", "MVP-Entwicklung"]),
   },
   /* Methodology is split in two on purpose: the process models a team agrees
      on (12) and the engineering practices that run inside them (13). Lumping
@@ -107,12 +110,16 @@ export const skills: SkillCategorySource[] = [
   {
     num: "12",
     name: t("Vorgehen & Methodik", "Ways of working & methodology"),
-    items: techList(["Agile Methoden", "Scrum", "Kanban", "Scrumban", "Requirements Engineering"]),
+    /* The Scrum ceremonies are spelled out rather than left implied in "Scrum":
+       German enterprise ATS filters match the ceremony names, and four projects
+       ran Scrum or Scrumban. "Anforderungsanalyse" is the German term a client
+       writes in a spec where this list says "Requirements Engineering". */
+    items: techList(["Agile Methoden", "Scrum", "Kanban", "Scrumban", "Requirements Engineering", "Anforderungsanalyse", "Sprint Planning", "Backlog Refinement", "Retrospektive", "Daily Stand-up"]),
   },
   {
     num: "13",
     name: t("Engineering-Praktiken", "Engineering practices"),
-    items: techList(["Clean Code", "Code Reviews", "Test-Driven Development (TDD)", "Continuous Integration", "Continuous Delivery"]),
+    items: techList(["Clean Code", "Code Reviews", "Refactoring", "Legacy-Modernisierung", "Test-Driven Development (TDD)", "Continuous Integration", "Continuous Delivery"]),
   },
   {
     num: "14",
@@ -134,7 +141,12 @@ export const skills: SkillCategorySource[] = [
   {
     num: "17",
     name: "Tooling",
-    items: techList(["Git", "GitHub", "GitLab", "Husky", "npm", "pnpm", "CLI (Command Line Interface)", "Windows CMD (Kommandozeile)", "Visual Studio Code", "Visual Studio", "Jira", "Confluence", "Linear", "Trello", "Azure DevOps", "Miro", "Slack", "Microsoft Teams", "Microsoft Outlook", "Gmail", "Google Calendar", "Google Workspace (Meet, APIs)", "Bluedot", "HubSpot", "Cal.com", "n8n", "Amplitude", "Product Analytics"]),
+    /* Office commodities are gone: "Windows CMD", "Gmail", "Microsoft Outlook".
+       Nobody staffs on them, no ATS filters for them, and listing them next to
+       "Model Context Protocol" invites the reader to discount both. Google
+       Calendar and Google Workspace stay — they were integrated against as APIs
+       at Manifest OS, which is a different claim from using them. */
+    items: techList(["Git", "GitHub", "GitLab", "Husky", "npm", "pnpm", "CLI (Command Line Interface)", "Visual Studio Code", "Visual Studio", "Jira", "Confluence", "Linear", "Trello", "Azure DevOps", "Miro", "Slack", "Microsoft Teams", "Google Calendar", "Google Workspace (Meet, APIs)", "Bluedot", "HubSpot", "Cal.com", "n8n", "Amplitude", "Product Analytics"]),
   },
   {
     num: "18",
@@ -145,29 +157,47 @@ export const skills: SkillCategorySource[] = [
      claim like "zuverlässig" is worth as little as the proof behind it, so the
      items stay next to the technical taxonomy instead of becoming a separate
      adjective list. They are split the way they are asked about — how someone
-     communicates, how they work in an existing team, and what can be relied on
-     — and they do count as `knowsAbout` subject matter: communication,
-     presentation and collaboration are skills, unlike the role and location
-     facts in 22. Wording overlaps deliberately with the "Arbeitsweise" tags in
-     the sidebar (lib/content/profile.ts) — same claims, both surfaces. */
+     communicates, how they work in an existing team, and what can be relied on.
+     Wording overlaps deliberately with the "Arbeitsweise" tags in the sidebar
+     (lib/content/profile.ts) — same claims, both surfaces.
+
+     All three are `subjectMatter: false`. They are worth showing a human, who
+     can weigh them against the testimonials that say the same thing with
+     evidence attached; they are not worth feeding to a parser. schema.org
+     `knowsAbout` means "subject matter this person knows about", and 22
+     adjectives — "Zuverlässigkeit", "Lernbereitschaft", "Teamfähigkeit" —
+     entering that list as claimed areas of expertise dilutes the ~300 genuine
+     technical topics next to them without matching a single search anyone
+     runs. */
   {
     num: "19",
     name: t("Kommunikation & Präsentation", "Communication & presentation"),
     kind: "soft",
+    subjectMatter: false,
     items: techList(["Professionelle Kommunikation", "Klare Kommunikation (Deutsch/Englisch)", "Proaktive Kommunikation", "Präsentationsfähigkeit", "Public Speaking", "Stakeholder-Kommunikation", "Konstruktives Feedback", "Technische Dokumentation"]),
   },
   {
     num: "20",
     name: t("Teamarbeit & Zusammenarbeit", "Teamwork & collaboration"),
     kind: "soft",
+    subjectMatter: false,
     items: techList(["Teamfähigkeit", "Integration in bestehende Teams", "Kollegiale Zusammenarbeit", "Wissenstransfer", "Remote-Zusammenarbeit", "Asynchrone Zusammenarbeit", "Interdisziplinäre Zusammenarbeit"]),
   },
   {
     num: "21",
     name: t("Verlässlichkeit & Arbeitshaltung", "Reliability & work ethic"),
     kind: "soft",
+    subjectMatter: false,
     items: techList(["Zuverlässigkeit", "Verantwortungsbewusstsein", "Eigenverantwortliches Arbeiten", "Schnelle Reaktionszeiten", "Ergebnisorientierung", "Lösungsorientierung", "Lernbereitschaft"]),
   },
+  /* Roles. This category is the site's job-title surface, and a German ATS or a
+     freelancermap boolean search matches on the person-noun ("Softwareentwickler"),
+     not on the activity noun ("Softwareentwicklung", which lives in 14). Both
+     spellings therefore have to exist, in both languages.
+
+     "Interim CTO" used to sit here and is gone: the only CTO title on the site
+     is the one he awarded himself on his own product, and an unbacked role tag
+     is the first thing a recruiter strikes from a profile. */
   {
     num: "22",
     name: t("Rollen & Profil", "Roles & profile"),
@@ -176,6 +206,6 @@ export const skills: SkillCategorySource[] = [
        mode and location are not subject matter a person "knows about"
        (jobTitle and address already carry those). */
     subjectMatter: false,
-    items: techList(["Senior Full-Stack Engineer", "AI Engineer", "Software Engineer", "Freelance Developer", "Interim CTO", "Technischer Berater", "Fachinformatiker Anwendungsentwicklung", "Remote Work", "Deutsch (Muttersprache)", "Englisch B2", "München", "DACH"]),
+    items: techList(["Senior Full-Stack Engineer", "AI Engineer", "Software Engineer", "Softwareentwickler", "Fullstack-Entwickler", "Frontend-Entwickler", "Backend-Entwickler", "Webentwickler", "Softwarearchitekt", "Freelance Developer", "Freiberuflicher Softwareentwickler", "Technischer Berater", "Fachinformatiker Anwendungsentwicklung", "Remote Work", "Deutsch (Muttersprache)", "Englisch B2", "München", "DACH"]),
   },
 ];

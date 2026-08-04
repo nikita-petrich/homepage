@@ -16,6 +16,7 @@ import {
 } from "@/components/notion/blocks";
 import { domainOf } from "@/lib/analytics/track";
 import { CertificateGallery } from "@/components/notion/certificates";
+import { ClosingCta } from "@/components/notion/closing-cta";
 import { CoverBanner } from "@/components/notion/cover-banner";
 import { CodeLogo } from "@/components/notion/icons";
 import { SkillsGallery } from "@/components/notion/galleries";
@@ -209,6 +210,10 @@ export default async function Page({
               </p>
               <CertificateGallery certificates={certificates} />
             </Section>
+
+            {/* The page used to end here, with its only CTA nine projects and
+                eight testimonials further up. */}
+            <ClosingCta locale={locale} />
           </div>
         </div>
       </main>

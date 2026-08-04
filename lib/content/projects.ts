@@ -35,7 +35,14 @@ export type ProjectSource = {
      entries: beyond that it reads as a claim rather than as a fact. */
   meta: { label: Text; value: Text | Text[] }[];
   responsibilities: Text[];
+  /** Delivered, past tense. Anything not yet measured belongs in `outlook`. */
   results: Text[];
+  /* Where a project has not launched yet, its targets are not results — and a
+     forecast sitting under the "Ergebnis" heading is what makes a reader start
+     re-checking the numbers that *are* measured. Targets get their own block,
+     labelled as a target, so the results list stays a list of things that
+     happened. */
+  outlook?: Text[];
   tech: Text[];
 };
 
@@ -144,16 +151,22 @@ export const projects: ProjectSource[] = [
         "Compliance built into the product design rather than retrofitted: the EU AI Act, the GDPR and the limits of the German Legal Services Act were part of the plan from the start.",
       ),
       t(
-        "Zielbild: bis zu 10.000 automatisierte Vorprüfungen pro Monat und bis zu 80 % weniger manuelle Fallannahme – in einem Markt mit 167.547 zugelassenen Rechtsanwältinnen und Rechtsanwälten (BRAK, 01.01.2026).",
-        "Target: up to 10,000 automated pre-assessments per month and up to 80 % less manual case intake — in a market of 167,547 admitted lawyers (German Federal Bar, 1 Jan 2026).",
-      ),
-      t(
-        "Planbarer Zustrom vorqualifizierter Mandate für angebundene Kanzleien statt aufwändiger manueller Ersteinschätzung.",
-        "A predictable inflow of pre-qualified cases for partner law firms instead of costly manual initial assessment.",
-      ),
-      t(
         "Auslieferung vollständig automatisiert: Tests, Build und Container-Deployment laufen über GitHub Actions, Fehler im Betrieb melden sich über Sentry – Releases ohne manuellen Eingriff, auch als Ein-Personen-Team.",
         "Delivery fully automated: tests, build and container deployment run through GitHub Actions, and production errors surface through Sentry — releases with no manual step, even as a one-person team.",
+      ),
+    ],
+    outlook: [
+      t(
+        "Angestrebt: bis zu 10.000 automatisierte Vorprüfungen pro Monat und bis zu 80 % weniger manuelle Fallannahme.",
+        "Targeted: up to 10,000 automated pre-assessments per month and up to 80 % less manual case intake.",
+      ),
+      t(
+        "Angestrebt: planbarer Zustrom vorqualifizierter Mandate für angebundene Kanzleien statt aufwändiger manueller Ersteinschätzung.",
+        "Targeted: a predictable inflow of pre-qualified cases for partner law firms instead of costly manual initial assessment.",
+      ),
+      t(
+        "Marktgröße zur Einordnung: 167.547 zugelassene Rechtsanwältinnen und Rechtsanwälte (BRAK, 01.01.2026).",
+        "Market size for context: 167,547 admitted lawyers in Germany (German Federal Bar, 1 Jan 2026).",
       ),
     ],
     tech: techList([
@@ -178,7 +191,7 @@ export const projects: ProjectSource[] = [
       "SEPA", "JWT", "OAuth 2.0", "Secure by Design", "IT-Sicherheit",
       "Ende-zu-Ende-Verschlüsselung", "Docker", "GitHub Actions", "CI/CD",
       "Continuous Integration", "DevOps", "Hetzner", "IONOS", "EU-Hosting",
-      "Linux", "Ubuntu", "TCP/IP", "IP-Netzwerke", "DNS", "HTTP/HTTPS",
+      "Linux", "Ubuntu",
       "Sentry", "Monitoring", "Observability", "Vitest",
       "Playwright", "Unit Testing", "Integrationstests", "End-to-End-Tests",
       "API-Testing", "Postman", "Testautomatisierung", "Zod", "DTOs", "Slack",
@@ -191,6 +204,8 @@ export const projects: ProjectSource[] = [
       "Auftragsverarbeitungsvertrag (AVV)", "Digitale Souveränität", "Kanban",
       "Projektmanagement", "IT-Strategie", "Digitalstrategie",
       "Digitale Transformation", "Softwareentwicklung", "Produktverantwortung", "Entrepreneurship",
+      "Schnittstellenentwicklung",
+      "API-Integration",
     ]),
   },
   {
@@ -204,9 +219,11 @@ export const projects: ProjectSource[] = [
       "AI-assisted immigration platform",
     ),
     cat: "LegalTech / Immigration",
+    /* The title three of this project's testimonials use for him
+       (lib/content/references.ts) — the site used to under-title it. */
     role: t(
-      "Full-Stack Engineer (KI-Feature-Integration)",
-      "Full-stack engineer (AI feature integration)",
+      "Senior Full-Stack Engineer (KI-Feature-Integration)",
+      "Senior full-stack engineer (AI feature integration)",
     ),
     dateRange: t(
       "12/2025 – 04/2026 · ~5 Monate",
@@ -216,12 +233,18 @@ export const projects: ProjectSource[] = [
     caption: t("B2X-Portal — Fallübersicht", "B2X portal — case overview"),
     cover: "/assets/projects/manifest-os.jpg",
     cardTags: ["LegalTech", t("KI-Features", "AI features")],
+    /* Leads with what he built, not with the client's valuation — the money
+       figure is the company's, and putting it first borrowed its weight. It
+       stays as the scale qualifier it actually is. */
     desc: t(
-      "KI-Feature-Integration in einer etablierten US-Einwanderungsplattform (~60 Mio. USD Bewertung) mit über 3.000 Kunden und über 100 Anwältinnen und Anwälten.",
-      "AI feature integration in an established US immigration platform (~USD 60 m valuation) with more than 3,000 clients and over 100 lawyers.",
+      "Produktive KI-Features (Lead-Anreicherung, Dokumentenklassifikation) und die Zusammenführung von vier Portalen in einer etablierten US-Einwanderungsplattform mit über 3.000 Kunden und über 100 Anwältinnen und Anwälten.",
+      "Production AI features (lead enrichment, document classification) and the consolidation of four portals in an established US immigration platform with more than 3,000 clients and over 100 lawyers.",
     ),
     meta: [
-      { label: label.role, value: t("Full-Stack Engineer", "Full-stack engineer") },
+      {
+        label: label.role,
+        value: t("Senior Full-Stack Engineer", "Senior full-stack engineer"),
+      },
       {
         label: label.team,
         value: t(
@@ -298,8 +321,8 @@ export const projects: ProjectSource[] = [
       "Anthropic Claude API", "Model Context Protocol (MCP)", "Bluedot",
       "HubSpot", "CRM", "Cal.com", "Amplitude", "Product Analytics",
       "PostgreSQL", "Redis", "MikroORM", "Drizzle ORM", "TanStack Query",
-      "better-auth", "JWT", "Docker", "Linux", "Ubuntu", "TCP/IP",
-      "IP-Netzwerke", "HTTP/HTTPS", "Google Cloud Platform (GCP)", "Vercel",
+      "better-auth", "JWT", "Docker", "Linux", "Ubuntu",
+      "Google Cloud Platform (GCP)", "Vercel",
       "GitHub Actions", "CI/CD", "Continuous Integration", "Datadog",
       "Monitoring", "Observability", "Jest", "Playwright", "End-to-End-Tests",
       "Claude Code", "Cursor AI", "Code Rabbit", "Agentic Coding",
@@ -310,6 +333,15 @@ export const projects: ProjectSource[] = [
       "Event-Driven Architecture", "Idempotenz", "Clean Architecture",
       "Agile Methoden", "Digitale Transformation", "Public Speaking",
       "Softwareentwicklung",
+      "Schnittstellenentwicklung",
+      "API-Integration",
+      "Drittsystem-Anbindung",
+      "Refactoring",
+      "Legacy-Modernisierung",
+      "Sprint Planning",
+      "Backlog Refinement",
+      "Retrospektive",
+      "Daily Stand-up",
     ]),
   },
   {
@@ -402,9 +434,11 @@ export const projects: ProjectSource[] = [
       "Clean Code", "SOLID", "Separation of Concerns", "Clean Architecture",
       "Domain-Driven Design", "Skalierbare Architektur", "MVP-Entwicklung",
       "Git", "GitHub", "npm", "CLI (Command Line Interface)", "Trello",
-      "GitHub Actions", "CI/CD", "Continuous Integration", "Linux", "TCP/IP",
-      "IP-Netzwerke", "DNS", "HTTP/HTTPS", "Digitale Transformation",
+      "GitHub Actions", "CI/CD", "Continuous Integration", "Linux",
+      "Digitale Transformation",
       "Softwareentwicklung",
+      "Schnittstellenentwicklung",
+      "API-Integration",
     ]),
   },
   {
@@ -508,12 +542,15 @@ export const projects: ProjectSource[] = [
       "Supabase Realtime", "WebSockets", "Supabase Edge Functions",
       "Row Level Security", "PostgreSQL", "Datenmodellierung", "Tailwind CSS",
       "shadcn/ui", "JWT", "Authentifizierung", "IT-Sicherheit", "Docker",
-      "Linux", "Ubuntu", "TCP/IP", "IP-Netzwerke", "DNS", "HTTP/HTTPS",
+      "Linux", "Ubuntu",
       "Vercel", "CI/CD", "GitHub Actions", "Continuous Integration", "Vitest",
       "Unit Testing", "npm", "CLI (Command Line Interface)", "Cursor AI",
       "Model Context Protocol (MCP)", "Agentic Coding", "MVP-Entwicklung",
       "Clean Code", "SOLID", "Clean Architecture", "Domain-Driven Design",
       "Digitale Transformation", "Softwareentwicklung",
+      "Schnittstellenentwicklung",
+      "API-Integration",
+      "Drittsystem-Anbindung",
     ]),
   },
   {
@@ -600,11 +637,14 @@ export const projects: ProjectSource[] = [
       "Dokumentenmanagement", "Digitale Archivführung", "Prozessdigitalisierung",
       "Digitale Transformation",
       "JWT", "OAuth 2.0", "Role-Based Access Control (RBAC)", "DSGVO", "Docker",
-      "Nginx", "Linux", "Ubuntu", "TCP/IP", "IP-Netzwerke", "HTTP/HTTPS",
+      "Nginx", "Linux", "Ubuntu",
       "GitLab", "GitLab CI", "npm", "CLI (Command Line Interface)", "Slack",
       "Confluence", "Clean Architecture", "Domain-Driven Design",
       "Code Reviews", "Requirements Engineering", "Agile Methoden",
       "Softwareentwicklung",
+      "Refactoring",
+      "Legacy-Modernisierung",
+      "Anforderungsanalyse",
     ]),
   },
   {
@@ -680,8 +720,8 @@ export const projects: ProjectSource[] = [
     ],
     results: [
       t(
-        "Laut Kunde bis zu 40 Stunden weniger Verwaltungsarbeit pro Monat – rund 480 Stunden im Jahr oder etwa 19.200 € bei kalkulatorisch 40 € Arbeitskosten je Stunde.",
-        "According to the client, up to 40 hours less administrative work per month — roughly 480 hours a year, or about € 19,200 at an assumed labour cost of € 40 per hour.",
+        "Laut Kunde bis zu 40 Stunden weniger Verwaltungsarbeit pro Monat – rund 480 Stunden im Jahr.",
+        "According to the client, up to 40 hours less administrative work per month — roughly 480 hours a year.",
       ),
       t(
         "Routineprozesse laufen laut Kunde mit bis zu 50 % weniger Zeitaufwand.",
@@ -711,7 +751,7 @@ export const projects: ProjectSource[] = [
       "Prozessdigitalisierung", "Digitale Transformation", "better-auth", "JWT",
       "Role-Based Access Control (RBAC)", "SSL/TLS", "IT-Sicherheit", "Docker",
       "Docker Compose", "Digital Ocean", "Self-Hosting", "Linux", "Ubuntu",
-      "TCP/IP", "IP-Netzwerke", "DNS", "HTTP/HTTPS", "Monitoring",
+      "Monitoring",
       "Observability", "CI/CD", "Continuous Integration", "GitHub",
       "GitHub Actions", "Husky", "npm", "CLI (Command Line Interface)", "Miro",
       "Unit Testing", "Testautomatisierung", "Claude Code", "Cursor AI",
@@ -720,6 +760,9 @@ export const projects: ProjectSource[] = [
       "Domain-Driven Design", "Skalierbare Architektur", "Clean Code", "SOLID",
       "Clean Architecture", "Requirements Engineering", "IT-Beratung",
       "Softwareentwicklung", "Produktverantwortung", "Entrepreneurship",
+      "Schnittstellenentwicklung",
+      "API-Integration",
+      "Anforderungsanalyse",
     ]),
   },
   {
@@ -788,8 +831,8 @@ export const projects: ProjectSource[] = [
     ],
     results: [
       t(
-        "Spart durch automatisierte Dokumentenprozesse laut Kunde bis zu 1.000 Stunden pro Mitarbeiter und Jahr – bei kalkulatorisch 40 € Arbeitskosten je Stunde rund 40.000 € jährlich.",
-        "According to the client, automated document processes save up to 1,000 hours per employee per year — about € 40,000 annually at an assumed labour cost of € 40 per hour.",
+        "Spart durch automatisierte Dokumentenprozesse laut Kunde bis zu 1.000 Stunden pro Mitarbeiter und Jahr in der Tourabwicklung – die Tourunterlagen, die vorher je Tour von Hand zusammengestellt wurden, entstehen seither aus den erfassten Daten.",
+        "According to the client, automated document processes save up to 1,000 hours per employee per year in trip handling — the route documents, previously assembled by hand for every trip, have since been generated from the captured data.",
       ),
       t(
         "Laut Kunde bis zu 30 % höhere Logistikeffizienz durch die durchgängige Verwaltung der Versandtouren.",
@@ -818,7 +861,7 @@ export const projects: ProjectSource[] = [
       "Systemintegration", "better-auth", "JWT", "Authentifizierung",
       "Role-Based Access Control (RBAC)", "IT-Sicherheit", "Docker",
       "Docker Compose", "Digital Ocean", "Self-Hosting", "Linux", "Ubuntu",
-      "TCP/IP", "IP-Netzwerke", "DNS", "HTTP/HTTPS", "Nginx", "Monitoring",
+      "Nginx", "Monitoring",
       "Observability", "CI/CD", "Continuous Integration", "GitHub Actions",
       "Husky", "npm", "CLI (Command Line Interface)",
       "Unit Testing", "Testautomatisierung", "Claude Code", "Cursor AI",
@@ -828,6 +871,8 @@ export const projects: ProjectSource[] = [
       "Clean Code", "SOLID", "Clean Architecture",
       "Requirements Engineering",
       "IT-Beratung", "Softwareentwicklung", "Produktverantwortung",
+      "Schnittstellenentwicklung",
+      "Anforderungsanalyse",
     ]),
   },
   {
@@ -914,7 +959,7 @@ export const projects: ProjectSource[] = [
       "Backend-Entwicklung", "Web-Entwicklung", "MongoDB", "Mongoose", "NoSQL",
       "TypeORM", "Datenmodellierung", "Microsoft Azure", "Azure DevOps",
       "Azure Pipelines", "Azure App Service", "Azure Functions",
-      "Azure Blob Storage", "Docker", "TCP/IP", "IP-Netzwerke", "HTTP/HTTPS",
+      "Azure Blob Storage", "Docker",
       "CI/CD", "Continuous Integration", "npm",
       "CLI (Command Line Interface)", "Microsoft Teams", "JWT", "OAuth 2.0",
       "Single Sign-On (SSO)", "Microsoft Entra ID (ehem. Azure Active Directory)",
@@ -923,6 +968,11 @@ export const projects: ProjectSource[] = [
       "Microservices", "Domain-Driven Design", "Skalierbare Architektur",
       "Event-Driven Architecture", "Clean Architecture",
       "Agile Methoden", "Digitale Transformation", "Softwareentwicklung",
+      "Sprint Planning",
+      "Backlog Refinement",
+      "Retrospektive",
+      "Daily Stand-up",
+      "Schnittstellenentwicklung",
     ]),
   },
   {
@@ -1018,11 +1068,13 @@ export const projects: ProjectSource[] = [
       "Stammdatenverwaltung", "Dokumentenmanagement",
       "Instandhaltungsmanagement", "Prozessdigitalisierung",
       "Digitale Transformation", "Microsoft Azure",
-      "Azure SQL", "Azure DevOps", "Docker", "TCP/IP", "IP-Netzwerke",
-      "HTTP/HTTPS", "CI/CD", "Continuous Integration",
+      "Azure SQL", "Azure DevOps", "Docker",
+      "CI/CD", "Continuous Integration",
       "npm", "CLI (Command Line Interface)", "Visual Studio",
       "Visual Studio Code", "Microsoft Teams", "Clean Architecture",
       "Domain-Driven Design", "Agile Methoden", "Softwareentwicklung",
+      "Schnittstellenentwicklung",
+      "Anforderungsanalyse",
     ]),
   },
 ];
