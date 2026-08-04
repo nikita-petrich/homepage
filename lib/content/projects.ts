@@ -156,17 +156,16 @@ export const projects: ProjectSource[] = [
       ),
     ],
     outlook: [
+      /* No "Angestrebt:" prefix per bullet — the heading above them already
+         says these are targets, and repeating it three times in four lines
+         reads as an apology rather than as precision. */
       t(
-        "Angestrebt: bis zu 10.000 automatisierte Vorprüfungen pro Monat und bis zu 80 % weniger manuelle Fallannahme.",
-        "Targeted: up to 10,000 automated pre-assessments per month and up to 80 % less manual case intake.",
+        "Bis zu 10.000 automatisierte Vorprüfungen pro Monat und bis zu 80 % weniger manuelle Fallannahme.",
+        "Up to 10,000 automated pre-assessments per month and up to 80 % less manual case intake.",
       ),
       t(
-        "Angestrebt: planbarer Zustrom vorqualifizierter Mandate für angebundene Kanzleien statt aufwändiger manueller Ersteinschätzung.",
-        "Targeted: a predictable inflow of pre-qualified cases for partner law firms instead of costly manual initial assessment.",
-      ),
-      t(
-        "Marktgröße zur Einordnung: 167.547 zugelassene Rechtsanwältinnen und Rechtsanwälte (BRAK, 01.01.2026).",
-        "Market size for context: 167,547 admitted lawyers in Germany (German Federal Bar, 1 Jan 2026).",
+        "Planbarer Zustrom vorqualifizierter Mandate für angebundene Kanzleien statt aufwändiger manueller Ersteinschätzung.",
+        "A predictable inflow of pre-qualified cases for partner law firms instead of costly manual initial assessment.",
       ),
     ],
     tech: techList([
@@ -338,10 +337,6 @@ export const projects: ProjectSource[] = [
       "Drittsystem-Anbindung",
       "Refactoring",
       "Legacy-Modernisierung",
-      "Sprint Planning",
-      "Backlog Refinement",
-      "Retrospektive",
-      "Daily Stand-up",
     ]),
   },
   {
@@ -968,10 +963,6 @@ export const projects: ProjectSource[] = [
       "Microservices", "Domain-Driven Design", "Skalierbare Architektur",
       "Event-Driven Architecture", "Clean Architecture",
       "Agile Methoden", "Digitale Transformation", "Softwareentwicklung",
-      "Sprint Planning",
-      "Backlog Refinement",
-      "Retrospektive",
-      "Daily Stand-up",
       "Schnittstellenentwicklung",
     ]),
   },

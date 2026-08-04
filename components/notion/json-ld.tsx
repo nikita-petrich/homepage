@@ -28,8 +28,13 @@ export function PersonJsonLd({ locale }: { locale: Locale }) {
   /* The role names the taxonomy carries, as alternate job titles. A German ATS
      matching "Softwareentwickler" against a profile whose only machine-readable
      title is "Senior Full-Stack & AI Engineer" scores it zero, so every
-     spelling the profile legitimately answers to is listed. */
-  const roleTitles = skills.find((c) => c.kind === "profile")?.items ?? [];
+     spelling the profile legitimately answers to is listed.
+
+     Only the leading `jobTitles` entries of that category, never the whole
+     thing: it also holds the working mode, the languages and the location, and
+     emitting those here claimed "München" and "Englisch B2" as job titles. */
+  const roles = skills.find((c) => c.kind === "profile");
+  const roleTitles = roles ? roles.items.slice(0, roles.jobTitles ?? 0) : [];
 
   /* Projects and certificates were the richest content on the page and were
      invisible to a parser — nine documented engagements and eight credentials
