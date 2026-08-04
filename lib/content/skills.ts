@@ -41,12 +41,12 @@ export const skills: SkillCategorySource[] = [
   {
     num: "04",
     name: t("Backend & Frameworks", "Backend & frameworks"),
-    items: techList(["Node.js", "NestJS", "Express.js", "Fastify", "FastAPI", "Flask", "ASP.NET Core", ".NET Core", "MERN", "MEAN", "Headless CMS", "Strapi", "Directus", "GraphQL", "REST API", "OpenAPI", "Swagger", "gRPC", "WebSockets", "Webhooks", "Message Queues", "BullMQ", "RabbitMQ", "Backend-Entwicklung", "Objektorientierte Programmierung (OOP)"]),
+    items: techList(["Node.js", "NestJS", "Express.js", "Fastify", "FastAPI", "Flask", "ASP.NET Core", "ASP.NET Core Web API", ".NET Core", "MERN", "MEAN", "Headless CMS", "Strapi", "Directus", "GraphQL", "REST API", "OpenAPI", "Swagger", "gRPC", "WebSockets", "Webhooks", "Message Queues", "BullMQ", "RabbitMQ", "Backend-Entwicklung", "Objektorientierte Programmierung (OOP)"]),
   },
   {
     num: "05",
     name: "Frontend",
-    items: techList(["React", "Next.js", "Angular", "React Native", "Ionic", "Capacitor", "Cross-Platform-Entwicklung", "iOS", "Android", "Redux", "NgRx", "RxJS", "TanStack Query", "React Hook Form", "React Router", "Axios", "Zod", "Tailwind CSS", "shadcn/ui", "Material UI (MUI)", "Fluent UI", "Single Page Application (SPA)", "Progressive Web App (PWA)", "Server-Side Rendering (SSR)", "Internationalisierung (i18n)", "Frontend-Entwicklung", "Web-Entwicklung"]),
+    items: techList(["React", "Next.js", "Angular", "React Native", "Ionic", "Capacitor", "Cross-Platform-Entwicklung", "iOS", "Android", "Redux", "NgRx", "RxJS", "TanStack Query", "React Hook Form", "React Router", "Axios", "Zod", "Tailwind CSS", "shadcn/ui", "Material UI (MUI)", "Angular Material", "Fluent UI", "Single Page Application (SPA)", "Progressive Web App (PWA)", "Server-Side Rendering (SSR)", "Internationalisierung (i18n)", "Frontend-Entwicklung", "Web-Entwicklung"]),
   },
   {
     num: "06",
@@ -61,7 +61,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "08",
     name: t("DevOps, Cloud & Infrastruktur", "DevOps, cloud & infrastructure"),
-    items: techList(["Docker", "Docker Compose", "GitHub Actions", "GitLab CI", "Azure Pipelines", "Jenkins", "Nginx", "Sentry", "Monitoring", "Observability", "Linux", "Ubuntu", "Self-Hosting", "Microsoft Azure", "Azure Functions", "Azure App Service", "Azure Blob Storage", "Azure SQL", "Google Cloud Platform (GCP)", "Amazon Web Services (AWS)", "Hetzner", "IONOS", "Digital Ocean", "Vercel", "Supabase", "Firebase", "Cloud Functions", "Cloud Storage", "Firebase Cloud Messaging (FCM)", "Firebase Hosting", "DevOps", "DevSecOps"]),
+    items: techList(["Docker", "Docker Compose", "GitHub Actions", "GitLab CI", "Azure Pipelines", "Jenkins", "Nginx", "Sentry", "Monitoring", "Observability", "Linux", "Ubuntu", "Self-Hosting", "Microsoft Azure", "Azure Functions", "Azure App Service", "Azure Blob Storage", "Azure SQL", "Google Cloud Platform (GCP)", "Amazon Web Services (AWS)", "Hetzner", "IONOS", "Digital Ocean", "Vercel", "Supabase", "Supabase Realtime", "Firebase", "Cloud Functions", "Cloud Storage", "Firebase Cloud Messaging (FCM)", "Firebase Hosting", "DevOps", "DevSecOps"]),
   },
   /* Network fundamentals sit apart from DevOps (08): 08 is about running
      services, 09 about the layer underneath them — addressing, name
@@ -117,12 +117,12 @@ export const skills: SkillCategorySource[] = [
   {
     num: "17",
     name: "Tooling",
-    items: techList(["Git", "GitHub", "GitLab", "Husky", "npm", "pnpm", "CLI (Command Line Interface)", "Windows CMD (Kommandozeile)", "Visual Studio Code", "Visual Studio", "Jira", "Confluence", "Linear", "Azure DevOps", "Miro", "Slack", "Microsoft Teams", "Microsoft Outlook", "Gmail", "Google Calendar", "Google Workspace (Meet, APIs)", "Bluedot", "HubSpot", "Cal.com", "n8n", "Amplitude", "Product Analytics"]),
+    items: techList(["Git", "GitHub", "GitLab", "Husky", "npm", "pnpm", "CLI (Command Line Interface)", "Windows CMD (Kommandozeile)", "Visual Studio Code", "Visual Studio", "Jira", "Confluence", "Linear", "Trello", "Azure DevOps", "Miro", "Slack", "Microsoft Teams", "Microsoft Outlook", "Gmail", "Google Calendar", "Google Workspace (Meet, APIs)", "Bluedot", "HubSpot", "Cal.com", "n8n", "Amplitude", "Product Analytics"]),
   },
   {
     num: "18",
     name: t("Domänen & Branchen", "Domains & industries"),
-    items: techList(["LegalTech", "GovTech", "Kanzleisoftware", "Notariat", "Mandantenportal", "Dokumentenmanagement", "HealthTech", "Medizintechnik", "Instandhaltungsmanagement", "ERP", "Warenwirtschaft", "Lagerverwaltung", "Rechnungsstellung", "Auftragsverwaltung", "CRM", "Buchhaltung", "Stammdatenverwaltung", "Multi-Tenancy", "Stripe", "SEPA", "Zahlungsabwicklung", "Logistik", "Tourenplanung", "PDF-Generierung", "Digitale Archivführung", "EdTech", "E-Learning", "Learning Management System (LMS)", "Social Media", "IoT", "Device Pairing", "Consumer Electronics", "SaaS", "Plattformentwicklung"]),
+    items: techList(["LegalTech", "GovTech", "Kanzleisoftware", "Notariat", "Mandantenportal", "Dokumentenmanagement", "HealthTech", "Medizintechnik", "Instandhaltungsmanagement", "ERP", "Warenwirtschaft", "Lagerverwaltung", "Rechnungsstellung", "Auftragsverwaltung", "CRM", "Buchhaltung", "Stammdatenverwaltung", "Multi-Tenancy", "Stripe", "SEPA", "Zahlungsabwicklung", "Logistik", "Tourenplanung", "PDF-Generierung", "DOCX-Generierung", "Digitale Archivführung", "EdTech", "E-Learning", "Learning Management System (LMS)", "Video-Streaming", "Social Media", "IoT", "Device Pairing", "Consumer Electronics", "SaaS", "Plattformentwicklung"]),
   },
   {
     num: "19",
