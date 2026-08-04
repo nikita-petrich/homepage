@@ -72,6 +72,12 @@ const ui = {
       "Passt das zu Ihrem Vorhaben?",
       "Does this fit what you have in mind?",
     ),
+    /* The hero button spells out that the intro call is free — the top bar
+       keeps the shorter topbar.booking label where space is tight. */
+    ctaButton: t(
+      "Kostenloses Erstgespräch buchen",
+      "Book a free intro call",
+    ),
     referencesIntro: t(
       "Was Kund:innen und Projektbeteiligte über die Zusammenarbeit sagen. Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt) nachprüfbar.",
       "What clients and project colleagues say about working together. Every testimonial is verifiable through its source (LinkedIn / Malt).",
