@@ -162,8 +162,8 @@ export const intro: IntroLine[] = [
       },
       {
         t: t(
-          "bis zu 1.000 Stunden/Jahr eingespart",
-          "up to 1,000 hours/year saved",
+          "bis zu 1.000 Stunden/Jahr pro Mitarbeiter eingespart",
+          "up to 1,000 hours/year per employee saved",
         ),
         b: true,
       },
@@ -197,7 +197,20 @@ export const intro: IntroLine[] = [
   },
   {
     spans: [
-      { t: t("Ich arbeite ", "I work ") },
+      { t: t("Mein Leitsatz: ", "My guiding principle: ") },
+      {
+        t: t(
+          "Was zweimal manuell passiert, wird automatisiert.",
+          "anything done manually twice gets automated.",
+        ),
+        b: true,
+      },
+      {
+        t: t(
+          " Wiederkehrende Handgriffe sind für mich der Ausgangspunkt jeder Automatisierung – dort entstehen die Zahlen oben. Ich arbeite ",
+          " Recurring manual steps are where I start every automation – that's where the numbers above come from. I work ",
+        ),
+      },
       {
         t: t(
           "eigenverantwortlich, remote und asynchron",
