@@ -105,6 +105,7 @@ const translations: Record<string, string> = {
   Logistik: "Logistics",
   Tourenplanung: "Route planning",
   "PDF-Generierung": "PDF generation",
+  "DOCX-Generierung": "DOCX generation",
   "Digitale Archivführung": "Digital archiving",
   Plattformentwicklung: "Platform development",
 

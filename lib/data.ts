@@ -2,6 +2,7 @@ import type { Locale } from "./i18n/config";
 import { localizedMemo, type Localized } from "./i18n/text";
 
 import { certificates } from "./content/certificates";
+import { withDerivedSkills } from "./content/derive";
 import {
   approach,
   contact,
@@ -60,6 +61,11 @@ export type TocItem = Content["sections"][number];
 export { referenceSources };
 export { bookingUrl, bookingUrlFor, profileName, profileRole } from "./profile";
 
+/* Domain and methodology terms live in `cat`, `cardTags` and the meta grid
+   rather than in a project's `tech` list; ./content/derive.ts folds them in, so
+   everything downstream sees one complete skill list per project. */
+const projectsWithSkills = projects.map(withDerivedSkills);
+
 const content = {
   profile,
   siteDescription,
@@ -73,7 +79,7 @@ const content = {
   intro,
   focus,
   sections,
-  projects,
+  projects: projectsWithSkills,
   skills,
   certificates,
   references,
