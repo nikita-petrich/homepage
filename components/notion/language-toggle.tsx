@@ -15,6 +15,7 @@ import {
 } from "@/lib/i18n/config";
 import { rememberLocale } from "@/lib/i18n/cookie";
 import { useI18n } from "@/lib/i18n/provider";
+import { format } from "@/lib/i18n/text";
 
 import { Flag } from "./icons";
 
@@ -65,7 +66,9 @@ export function LanguageToggle({ className }: { className?: string }) {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label={ui.language.switchLabel}
+        aria-label={format(ui.language.switchLabelFor, {
+          code: localeMeta[locale].short,
+        })}
         title={ui.language.switchLabel}
         data-analytics-event="language_menu_open"
         className={cn(

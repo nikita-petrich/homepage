@@ -31,6 +31,11 @@ export function NotionTopBar() {
         className="-mx-1 flex min-h-[24px] shrink-0 items-center gap-2 px-1 text-[14px] font-medium"
       >
         <CodeLogo size={18} className="shrink-0" />
+        {/* Below sm the visible name is gone and the logo is a decorative SVG,
+            which left the link with no accessible name at all. The screen-reader
+            copy fills that gap and is display:none from sm up, where the visible
+            name takes over — so the link is announced once, never twice. */}
+        <span className="sr-only sm:hidden">{profileName}</span>
         <span className="hidden truncate sm:inline">{profileName}</span>
       </Link>
       {/* Positioning context for the CV menu, so it aligns with the bar's

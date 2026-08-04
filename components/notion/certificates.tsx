@@ -42,9 +42,10 @@ const documentLabel = (c: Certificate, ui: Ui) =>
     ? format(ui.certificates.viewOnIssuer, { issuer: c.issuer })
     : ui.certificates.openPdf;
 
-/* "… als PDF in neuem Tab öffnen" / "… as the original …" */
+/* "PDF öffnen – Zertifikat „…“ als PDF in neuem Tab öffnen" / "… the original …" */
 const documentAriaLabel = (c: Certificate, ui: Ui) =>
   format(ui.certificates.openDocument, {
+    label: documentLabel(c, ui),
     title: c.title,
     kind: c.externalUrl ? ui.certificates.kindOriginal : ui.certificates.kindPdf,
   });
@@ -217,7 +218,12 @@ function CertificateTable({ certificates: rows }: { certificates: Certificate[] 
 
 /* Opens the certificate document in a new tab from inside a card or dialog
    link. Rendered as a span with a link role: a nested <a> inside the card's
-   <Link> would be invalid HTML. */
+   <Link> would be invalid HTML.
+
+   The label's own line box is 18px tall, short of the 24x24 CSS px WCAG 2.2
+   asks of a pointer target, so the base class carries a min height. Callers
+   lay the contents out with `items-center`, which keeps the extra height
+   symmetric around the text — the label does not move. */
 function DocumentAction({
   cert,
   className,
@@ -255,7 +261,7 @@ function DocumentAction({
           open();
         }
       }}
-      className={cn("relative z-[1] cursor-pointer", className)}
+      className={cn("relative z-[1] min-h-[24px] cursor-pointer", className)}
     >
       {children}
     </span>

@@ -16,6 +16,10 @@ const ui = {
 
   language: {
     switchLabel: t("Sprache wählen", "Choose language"),
+    /* WCAG 2.5.3 (Label in Name): the button shows nothing but the locale code,
+       so the accessible name has to start with that code — a voice-control user
+       says what they can see ("click DE"), not what the aria-label invented. */
+    switchLabelFor: t("{code} – Sprache wählen", "{code} – choose language"),
     current: t("Aktuelle Sprache: {language}", "Current language: {language}"),
     menuLabel: t("Sprache", "Language"),
   },
@@ -85,7 +89,9 @@ const ui = {
   gallery: {
     view: t("Galerie", "Gallery"),
     table: t("Tabelle", "Table"),
-    switchView: t("Ansicht wechseln", "Switch view"),
+    /* Same reason as language.switchLabelFor: the trigger's visible text is the
+       current view's name, so the accessible name has to lead with it. */
+    switchView: t("{view} – Ansicht wechseln", "{view} – switch view"),
     sort: t("Sortierung", "Sorting"),
     sortByDate: t("Datum", "Date"),
     newestFirst: t("Neueste zuerst", "Newest first"),
@@ -177,9 +183,12 @@ const ui = {
       "Zertifikat „{title}“ von {issuer}, ausgestellt {date}",
       "Certificate “{title}” from {issuer}, issued {date}",
     ),
+    /* Leads with {label} — the control's own visible text — so the accessible
+       name contains it (WCAG 2.5.3), then adds the context the visible text
+       leaves out: which certificate, and that it opens in a new tab. */
     openDocument: t(
-      "Zertifikat „{title}“ als {kind} in neuem Tab öffnen",
-      "Open certificate “{title}” as {kind} in a new tab",
+      "{label} – Zertifikat „{title}“ als {kind} in neuem Tab öffnen",
+      "{label} – open certificate “{title}” as {kind} in a new tab",
     ),
     kindOriginal: t("Original", "the original"),
     kindPdf: t("PDF", "a PDF"),

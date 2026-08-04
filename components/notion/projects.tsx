@@ -27,15 +27,17 @@ function ProjectCover({
   className,
   captionClass,
   numBadge = false,
-  priority = false,
+  preload = false,
 }: {
   project: Project;
   className?: string;
   captionClass?: string;
   numBadge?: boolean;
   /** Set on the detail view, where the cover is the LCP element above the
-      fold. The gallery cards stay lazy — they sit far below it. */
-  priority?: boolean;
+      fold. The gallery cards stay lazy — they sit far below it. Next 16
+      deprecated `priority` in favour of `preload`, which only emits the
+      <link rel=preload>; the request priority is a separate prop now. */
+  preload?: boolean;
 }) {
   return (
     <div
@@ -48,7 +50,8 @@ function ProjectCover({
           alt={project.caption}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px"
-          priority={priority}
+          preload={preload}
+          fetchPriority={preload ? "high" : undefined}
           className="object-cover"
         />
       ) : (
@@ -252,7 +255,7 @@ export function ProjectModal({
             project={project}
             className="aspect-[16/8]"
             captionClass="text-[13px]"
-            priority
+            preload
           />
         ) : (
           <div

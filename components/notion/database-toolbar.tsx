@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpDown, ChevronDown, LayoutGrid, Search, Table2, X } from "lucide-react";
 
 import { useUi } from "@/lib/i18n/provider";
+import { format } from "@/lib/i18n/text";
 import type { Ui } from "@/lib/i18n/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -77,7 +78,9 @@ export function DatabaseToolbar({
               variant="secondary"
               size="sm"
               className="gap-1.5"
-              aria-label={ui.gallery.switchView}
+              aria-label={format(ui.gallery.switchView, {
+                view: current.label(ui),
+              })}
             >
               <span className="flex h-4 w-4 items-center justify-center">
                 {current.icon}
