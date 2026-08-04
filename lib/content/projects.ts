@@ -140,6 +140,10 @@ export const projects: ProjectSource[] = [
         "Planbarer Zustrom vorqualifizierter Mandate für angebundene Kanzleien statt aufwändiger manueller Ersteinschätzung.",
         "A predictable inflow of pre-qualified cases for partner law firms instead of costly manual initial assessment.",
       ),
+      t(
+        "Auslieferung vollständig automatisiert: Tests, Build und Container-Deployment laufen über GitHub Actions, Fehler im Betrieb melden sich über Sentry – Releases ohne manuellen Eingriff, auch als Ein-Personen-Team.",
+        "Delivery fully automated: tests, build and container deployment run through GitHub Actions, and production errors surface through Sentry — releases with no manual step, even as a one-person team.",
+      ),
     ],
     tech: techList([
       "TypeScript", "Python", "Next.js", "React", "FastAPI", "LLM-Integration",
@@ -147,7 +151,8 @@ export const projects: ProjectSource[] = [
       "Prompt Engineering", "Embeddings", "pgvector", "OCR", "Dokumentenanalyse",
       "LangChain", "PostgreSQL", "Redis", "Tailwind CSS", "shadcn/ui", "Stripe",
       "JWT", "OAuth 2.0", "Docker", "GitHub Actions", "CI/CD", "Hetzner", "Linux",
-      "Ubuntu", "Slack", "Husky", "Microservices", "Clean Architecture", "SaaS",
+      "Ubuntu", "Sentry", "Monitoring", "Vitest", "Playwright", "Zod", "DTOs",
+      "Slack", "Husky", "Microservices", "Clean Architecture", "SaaS",
       "EU AI Act", "DSGVO", "Privacy by Design", "Produktverantwortung",
     ]),
   },
@@ -327,6 +332,10 @@ export const projects: ProjectSource[] = [
         "A codebase ready for handover: consistent structure, reusable components, unit tests and type safety throughout — the client's team can carry on without a ramp-up hurdle.",
       ),
       t(
+        "Drei Auslieferungswege aus einer Pipeline: Web-Deployment über Firebase Hosting, iOS- und Android-Builds über GitHub Actions – ein Stand, alle drei Plattformen.",
+        "Three delivery paths from one pipeline: web deployment via Firebase Hosting, iOS and Android builds through GitHub Actions — one revision, all three platforms.",
+      ),
+      t(
         "Von der ersten Zeile bis zur Übergabe in rund zwei Monaten.",
         "From the first line of code to handover in around two months.",
       ),
@@ -390,8 +399,12 @@ export const projects: ProjectSource[] = [
         "Integration of Supabase for authentication, data storage and real-time synchronisation (including row level security).",
       ),
       t(
-        "Performante PWA-Architektur (Next.js) mit responsivem UI, Unit-Tests und CI/CD-Pipeline.",
-        "A fast PWA architecture (Next.js) with responsive UI, unit tests and a CI/CD pipeline.",
+        "Performante PWA-Architektur (Next.js) mit responsivem UI und Unit-Tests (Vitest).",
+        "A fast PWA architecture (Next.js) with responsive UI and unit tests (Vitest).",
+      ),
+      t(
+        "Automatisierte Auslieferung über eine CI/CD-Pipeline (GitHub Actions) auf Basis containerisierter Builds (Docker): jeder Stand war ohne manuellen Build-Schritt vorführbar.",
+        "Automated delivery through a CI/CD pipeline (GitHub Actions) on top of containerised builds (Docker): every revision was ready to demo without a manual build step.",
       ),
       t(
         "Definition und Umsetzung typsicherer Datenmodelle und API-Schnittstellen (TypeScript, DTOs, Zod).",
@@ -422,6 +435,10 @@ export const projects: ProjectSource[] = [
       t(
         "Vertrauensvolle, funktionsübergreifende Zusammenarbeit mit dem Hardware-Team über die gesamte Projektlaufzeit – trotz kurzer Taktung ohne Reibungsverluste an der Geräte-App-Schnittstelle.",
         "Trusted, cross-functional collaboration with the hardware team throughout the project — no friction at the device-app interface despite the tight schedule.",
+      ),
+      t(
+        "CI/CD-Pipelines und Unit-Tests vom Kunden in der Referenz ausdrücklich als Beitrag zu Qualität, Sicherheit und Zuverlässigkeit hervorgehoben.",
+        "The client's testimonial explicitly names the CI/CD pipelines and unit tests as contributing to the quality, security and reliability of the applications.",
       ),
     ],
     tech: techList([
@@ -580,6 +597,10 @@ export const projects: ProjectSource[] = [
         "Technical advice for the client on approaches, architecture and process optimisation.",
       ),
       t(
+        "Selbst gehostete Auslieferung auf Linux-Servern (Docker) mit CI/CD-Pipeline (GitHub Actions) und automatischen Qualitätsprüfungen vor jedem Commit (Husky).",
+        "Self-hosted delivery on Linux servers (Docker) with a CI/CD pipeline (GitHub Actions) and automated quality checks before every commit (Husky).",
+      ),
+      t(
         "Alleinverantwortung für Architektur (Clean Architecture), Deployment und laufende Betreuung (nebenberuflich): Wartung, Security-Updates und Weiterentwicklung.",
         "Sole responsibility for the architecture (clean architecture), deployment and ongoing support (side project): maintenance, security updates and further development.",
       ),
@@ -596,6 +617,10 @@ export const projects: ProjectSource[] = [
       t(
         "Durchgängig digitale, GoBD-konforme Abläufe mit direkter Kopplung von Lager und Buchhaltung.",
         "End-to-end digital, GoBD-compliant workflows with warehouse and accounting directly coupled.",
+      ),
+      t(
+        "Seit der Einführung im Dauerbetrieb: Auslieferung, Security-Updates und Weiterentwicklung laufen automatisiert weiter, ohne dass der Kunde eine eigene IT dafür vorhalten muss.",
+        "In continuous operation since go-live: delivery, security updates and further development keep running automatically, without the client having to maintain an IT function for it.",
       ),
     ],
     tech: techList([
@@ -666,8 +691,12 @@ export const projects: ProjectSource[] = [
         "Audit-proof archiving of completed trips including the proofs uploaded at the end of each trip.",
       ),
       t(
-        "Alleinverantwortung für Backend-Architektur (NestJS, Clean Architecture), rollenbasierte Zugriffssteuerung (better-auth) und das selbst gehostete Deployment (Docker, Nginx) inkl. laufender Wartung (nebenberuflich).",
-        "Sole responsibility for the backend architecture (NestJS, clean architecture), role-based access control (better-auth) and the self-hosted deployment (Docker, Nginx) including ongoing maintenance (side project).",
+        "Alleinverantwortung für Backend-Architektur (NestJS, Clean Architecture), rollenbasierte Zugriffssteuerung (better-auth) und das selbst gehostete Deployment inkl. laufender Wartung (nebenberuflich).",
+        "Sole responsibility for the backend architecture (NestJS, clean architecture), role-based access control (better-auth) and the self-hosted deployment including ongoing maintenance (side project).",
+      ),
+      t(
+        "Automatisierte Auslieferung der selbst gehosteten Umgebung: CI/CD-Pipeline (GitHub Actions), containerisierter Build (Docker) hinter Nginx als Reverse Proxy, Qualitätsprüfungen vor jedem Commit (Husky).",
+        "Automated delivery of the self-hosted environment: CI/CD pipeline (GitHub Actions), containerised build (Docker) behind Nginx as a reverse proxy, quality checks before every commit (Husky).",
       ),
     ],
     results: [
@@ -682,6 +711,10 @@ export const projects: ProjectSource[] = [
       t(
         "Deutlich reduzierte Übertragungsfehler; jede Tour ist mit Unterlagen und Nachweisen revisionssicher archiviert.",
         "Markedly fewer transcription errors; every trip is archived audit-proof together with its documents and proofs.",
+      ),
+      t(
+        "Seit 2021 durchgehend im Einsatz für die Hilfstransporte – selbst gehostet, mit automatisierter Auslieferung und laufender Wartung aus einer Hand.",
+        "In continuous use for the aid transports since 2021 — self-hosted, with automated delivery and ongoing maintenance from one source.",
       ),
     ],
     tech: techList([
