@@ -26,7 +26,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "01",
     name: t("KI, LLM & AI Engineering", "AI, LLM & AI engineering"),
-    items: techList(["LLM-Integration", "RAG (Retrieval Augmented Generation)", "Prompt Engineering", "Embeddings", "Vektordatenbanken", "pgvector", "Semantische Suche", "Dokumentenanalyse", "OCR", "LangChain", "OpenAI API", "Azure OpenAI", "Anthropic Claude API", "Hugging Face", "Ollama", "KI-Agenten", "Agentic Software Engineering", "KI-gestützte Automatisierung", "AI Engineering", "Künstliche Intelligenz", "DSGVO-konforme KI-Architektur"]),
+    items: techList(["LLM-Integration", "RAG (Retrieval Augmented Generation)", "Prompt Engineering", "Embeddings", "Vektordatenbanken", "pgvector", "Semantische Suche", "Dokumentenanalyse", "OCR", "LangChain", "OpenAI API", "Azure OpenAI", "Anthropic Claude API", "Hugging Face", "Ollama", "KI-Agenten", "Agentic Software Engineering", "KI-gestützte Automatisierung", "AI Engineering", "GenAI", "Künstliche Intelligenz", "DSGVO-konforme KI-Architektur"]),
   },
   {
     num: "02",
@@ -41,7 +41,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "04",
     name: t("Backend & Frameworks", "Backend & frameworks"),
-    items: techList(["Node.js", "NestJS", "Express.js", "Fastify", "FastAPI", "Flask", "ASP.NET Core", ".NET Core", "Headless CMS", "Strapi", "Directus", "GraphQL", "REST API", "OpenAPI", "Swagger", "WebSockets", "Webhooks", "Message Queues", "BullMQ", "RabbitMQ", "Backend-Entwicklung", "Objektorientierte Programmierung (OOP)"]),
+    items: techList(["Node.js", "NestJS", "Express.js", "Fastify", "FastAPI", "Flask", "ASP.NET Core", ".NET Core", "MERN", "MEAN", "Headless CMS", "Strapi", "Directus", "GraphQL", "REST API", "OpenAPI", "Swagger", "WebSockets", "Webhooks", "Message Queues", "BullMQ", "RabbitMQ", "Backend-Entwicklung", "Objektorientierte Programmierung (OOP)"]),
   },
   {
     num: "05",
@@ -96,7 +96,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "15",
     name: "Tooling",
-    items: techList(["Git", "GitHub", "GitLab", "Husky", "Visual Studio Code", "Visual Studio", "Jira", "Linear", "Slack", "Azure DevOps", "Bluedot", "HubSpot", "Cal.com", "Google Workspace (Meet, APIs)", "Amplitude", "Product Analytics"]),
+    items: techList(["Git", "GitHub", "GitLab", "Husky", "Visual Studio Code", "Visual Studio", "Jira", "Linear", "Slack", "Azure DevOps", "Bluedot", "HubSpot", "Cal.com", "n8n", "Google Workspace (Meet, APIs)", "Amplitude", "Product Analytics"]),
   },
   {
     num: "16",

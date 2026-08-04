@@ -220,8 +220,8 @@ export const projects: ProjectSource[] = [
         "Resilience of the event-driven services (NestJS, BullMQ): retry strategies, idempotency and defined behaviour when the AI and transcription services fail.",
       ),
       t(
-        "Umsetzung im Monorepo mit klar abgegrenzten Feature-Modulen für eine zukünftig möglichst schnelle Aufteilung in Microservices, mit typsicheren Schnittstellen (TypeScript, DTOs) sowie automatisierten Tests (Jest, Playwright) im CI/CD-Prozess.",
-        "Delivery within a monorepo with clearly scoped feature modules, so it can be split into microservices quickly later on, with type-safe interfaces (TypeScript, DTOs) and automated tests (Jest, Playwright) in the CI/CD pipeline.",
+        "Umsetzung im Monorepo mit klar abgegrenzten Feature-Modulen für eine spätere Aufteilung in Microservices – typsichere Schnittstellen (TypeScript, DTOs) und automatisierte Tests (Jest, Playwright) im CI/CD-Prozess.",
+        "Delivery within a monorepo with clearly scoped feature modules for a later split into microservices — type-safe interfaces (TypeScript, DTOs) and automated tests (Jest, Playwright) in the CI/CD pipeline.",
       ),
       t(
         "Enge Zusammenarbeit in Code-Reviews und Einsatz KI-gestützter Werkzeuge (Claude Code, Cursor AI, Code Rabbit) zur Sicherung von Qualität und Entwicklungstempo.",
@@ -242,8 +242,8 @@ export const projects: ProjectSource[] = [
         "Refactoring initiatives in the migrated B2B and ops areas: existing structures simplified and geared towards better maintainability.",
       ),
       t(
-        "Laut Anbieter über 3.000 Kunden, 150+ Corporate-Programme und bis zu 15 % höhere Genehmigungsraten gegenüber dem USCIS-Durchschnitt (Team-Ergebnis).",
-        "According to the provider: more than 3,000 clients, 150+ corporate programmes and up to 15 % higher approval rates than the USCIS average (a team result).",
+        "Laut Anbieter über 3.000 Kunden, 150+ Corporate-Programme, über 100 Anwältinnen und Anwälte und bis zu 15 % höhere Genehmigungsraten gegenüber dem USCIS-Durchschnitt (Team-Ergebnis).",
+        "According to the provider: more than 3,000 clients, 150+ corporate programmes, over 100 lawyers and up to 15 % higher approval rates than the USCIS average (a team result).",
       ),
     ],
     tech: techList([
@@ -586,8 +586,8 @@ export const projects: ProjectSource[] = [
     ],
     results: [
       t(
-        "Laut Kunde bis zu 40 Stunden weniger Verwaltungsarbeit pro Monat – rund 480 Stunden im Jahr oder etwa 19.200 € bei kalkulatorisch 40 € Arbeitskosten je Stunde.",
-        "According to the client, up to 40 hours less administrative work per month — roughly 480 hours a year, or about € 19,200 at an assumed labour cost of € 40 per hour.",
+        "Laut Kunde bis zu 40 Stunden weniger Verwaltungsarbeit pro Monat – rund 480 Stunden oder 19.200 € im Jahr (bei kalkulatorisch 40 € je Stunde).",
+        "According to the client, up to 40 hours less administrative work per month — roughly 480 hours or € 19,200 a year (at an assumed € 40 per hour).",
       ),
       t(
         "Routineprozesse laufen laut Kunde mit bis zu 50 % weniger Zeitaufwand.",
