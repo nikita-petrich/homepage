@@ -26,18 +26,20 @@ export const profile = {
   ),
 };
 
+/* The page count used to be the subtitle here. Ten pages is not a selling
+   point — it is a warning — so the line says what the file is instead. */
 export const cvFiles = [
   {
     href: "/cv/CV_Nikita_Petrich_DE.pdf",
     label: t("CV Deutsch", "CV German"),
     flag: "/assets/flags/de.svg",
-    sub: t("PDF · 10 Seiten", "PDF · 10 pages"),
+    sub: t("PDF · zum Weiterleiten", "PDF · ready to forward"),
   },
   {
     href: "/cv/CV_Nikita_Petrich_EN.pdf",
     label: t("CV Englisch", "CV English"),
     flag: "/assets/flags/gb.svg",
-    sub: t("PDF · 10 Seiten", "PDF · 10 pages"),
+    sub: t("PDF · zum Weiterleiten", "PDF · ready to forward"),
   },
 ];
 
@@ -113,7 +115,12 @@ export const languages = [
   {
     flag: "/assets/flags/gb.svg",
     text: t("Englisch", "English"),
-    sub: t("B2 · US/EU-Remote", "B2 · US/EU remote"),
+    /* The CEFR level alone reads as a self-downgrade next to a five-month,
+       English-only US engagement — so the evidence sits next to it. */
+    sub: t(
+      "B2 · 5 Monate US-Projekt (EN)",
+      "B2 · 5-month US engagement (EN)",
+    ),
   },
 ];
 
@@ -162,8 +169,8 @@ export const intro: IntroLine[] = [
       },
       {
         t: t(
-          "bis zu 1.000 Stunden/Jahr eingespart",
-          "up to 1,000 hours/year saved",
+          "bis zu 1.000 Stunden pro Mitarbeiter und Jahr",
+          "up to 1,000 hours per employee per year",
         ),
         b: true,
       },
@@ -180,9 +187,11 @@ export const intro: IntroLine[] = [
         b: true,
       },
       {
+        /* Same attribution the project pages carry — the figures are the
+           clients' own, and saying so is what makes them worth quoting. */
         t: t(
-          " im Notariat. Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
-          " at a notary's office. I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
+          " im Notariat – jeweils nach Angaben der Kunden bzw. Anbieter. Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
+          " at a notary's office — each figure as reported by the client or provider. I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
         ),
       },
       {
@@ -247,6 +256,27 @@ export const intro: IntroLine[] = [
   },
 ];
 
+/* The chips in the cover banner — the first technical claim a visitor reads,
+   above the fold and before the sidebar. They used to be plain strings living
+   in the component, which left the English hero opening with the untranslated
+   "DSGVO-konform"; they are localised content like everything else now.
+
+   Deliberately a short list, and deliberately not the same list as `focus`
+   below: the banner has one row of space, so it carries the specialism and the
+   two stack halves, and `focus` carries the full picture. */
+export const bannerTags = [
+  "LLM-Integration",
+  "RAG",
+  t("KI-Engineering", "AI engineering"),
+  "Agentic Coding",
+  "TypeScript",
+  "Python",
+  "Backend (NestJS · Node.js · FastAPI)",
+  "Frontend (Next.js · React · Angular)",
+  "Clean Architecture",
+  t("DSGVO-konform", "GDPR-compliant"),
+];
+
 export const focus = [
   t("LLM-Integration", "LLM integration"),
   "RAG",
@@ -275,6 +305,11 @@ export const sections = [
   { id: "references", label: t("Referenzen", "Testimonials"), level: 1 as const },
   { id: "skills", label: t("Skills", "Skills"), level: 1 as const },
   { id: "certificates", label: t("Zertifikate", "Certificates"), level: 1 as const },
+  {
+    id: "contact-cta",
+    label: t("Zusammenarbeit", "Working together"),
+    level: 1 as const,
+  },
 ];
 
 /* Description of the site itself — metadata, social card, JSON-LD. */

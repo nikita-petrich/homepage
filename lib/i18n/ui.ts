@@ -63,7 +63,8 @@ const ui = {
     focus: t("Schwerpunkt", "Focus"),
     projects: t("Projekte", "Projects"),
     references: t("Referenzen", "Testimonials"),
-    skills: t("Skills & Fähigkeiten", "Skills & capabilities"),
+    /* Not "Skills & Fähigkeiten" — that is the same word twice in German. */
+    skills: t("Skills & Technologien", "Skills & technologies"),
     certificates: t("Zertifikate", "Certificates"),
   },
 
@@ -90,6 +91,40 @@ const ui = {
       "Alle Zertifikate auf einer Seite",
       "All certificates on one page",
     ),
+
+    /* The closing call to action. The hero CTA used to be the only one on the
+       page: a visitor who was finally convinced — after nine projects, eight
+       testimonials, the skills database and the certificates — had to scroll
+       all the way back up to act on it.
+
+       Three routes rather than one, because the three visitors who get this far
+       want different things. An agency recruiter sourcing for a client will not
+       book a calendar slot on first contact; they send a spec and ask for a
+       rate, and the artefact they need is the CV to forward. */
+    closingTitle: t("Zusammenarbeit", "Working together"),
+    closingLead: t(
+      "Sie haben ein Projekt, das zu diesem Profil passt? Drei Wege, je nachdem, wie konkret es schon ist.",
+      "Have a project that fits this profile? Three ways in, depending on how firm it already is.",
+    ),
+    closingCall: t("Kostenloses Erstgespräch buchen", "Book a free intro call"),
+    closingCallSub: t("30 Minuten · unverbindlich", "30 minutes · no strings"),
+    closingBrief: t("Projektanfrage senden", "Send a project brief"),
+    closingBriefSub: t(
+      "Anforderungen, Zeitraum, Auslastung",
+      "Requirements, timeframe, capacity",
+    ),
+    /* Pre-filled so the reply contains the four things needed to answer at all
+       — the alternative is a blank mail and two rounds of questions. */
+    closingBriefSubject: t(
+      "Projektanfrage — Senior Full-Stack & AI Engineer",
+      "Project enquiry — Senior Full-Stack & AI Engineer",
+    ),
+    closingBriefBody: t(
+      "Hallo Herr Petrich,\n\nkurz zum Vorhaben:\n\n- Projekt / Aufgabe:\n- Zeitraum & Auslastung:\n- Remote / vor Ort:\n- Budget bzw. Tagessatz-Rahmen:\n\nViele Grüße\n",
+      "Hello Nikita,\n\nbriefly about the project:\n\n- Project / task:\n- Timeframe & capacity:\n- Remote / on-site:\n- Budget or day-rate range:\n\nBest regards\n",
+    ),
+    closingCv: t("CV als PDF", "CV as a PDF"),
+    closingCvSub: t("Deutsch oder Englisch", "German or English"),
   },
 
   gallery: {
@@ -125,6 +160,9 @@ const ui = {
     colCategory: t("Kategorie", "Category"),
     responsibilities: t("Aufgaben", "Responsibilities"),
     results: t("Ergebnis", "Outcome"),
+    /* Separate heading from `results` on purpose — see the `outlook` comment in
+       lib/content/projects.ts. Says "target", not "outcome", in both languages. */
+    outlook: t("Zielbild (noch nicht erreicht)", "Target (not yet reached)"),
     reference: t("Referenz", "Testimonial"),
     references: t("Referenzen", "Testimonials"),
     technologies: t("Technologien", "Technologies"),

@@ -19,20 +19,22 @@ export function CvDownload({
   variant = "hero",
   className,
 }: {
-  variant?: "hero" | "topbar";
+  /** "closing" is the compact outline button inside the closing CTA card. */
+  variant?: "hero" | "topbar" | "closing";
   className?: string;
 }) {
   const { locale, ui } = useI18n();
   const cvFiles = getContent(locale).cvFiles;
   const isTopbar = variant === "topbar";
+  const isCompact = isTopbar || variant === "closing";
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant={isTopbar ? "outline" : "default"}
-          size={isTopbar ? "sm" : "lg"}
-          className={cn(isTopbar ? "h-[30px]" : "text-[15px]", className)}
+          variant={isCompact ? "outline" : "default"}
+          size={isCompact ? "sm" : "lg"}
+          className={cn(isCompact ? "h-[30px]" : "text-[15px]", className)}
           data-analytics-event="cv_menu_open"
           data-analytics-prop-placement={variant}
           aria-label={isTopbar ? ui.cv.open : undefined}
