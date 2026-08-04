@@ -126,15 +126,18 @@ export const approach = [
   t("klare Kommunikation (DE/EN)", "clear communication (DE/EN)"),
 ];
 
-/* Methods actually used in the projects (see each project's "Methodik"),
-   mirrored from the "Methodik & Zusammenarbeit" skill category so the
-   sidebar and the skills database never claim different things. */
+/* Methods actually used in the projects (see each project's "Methodik" and
+   tech list), mirrored from the "Vorgehen & Methodik" and
+   "Engineering-Praktiken" skill categories so the sidebar and the skills
+   database never claim different things. Process models first, then the
+   practices that run inside them — the same split the categories make. */
 export const methods = [
   "Scrum",
   "Scrumban",
   "Kanban",
-  t("Code Reviews", "Code reviews"),
   "Requirements Engineering",
+  t("Code Reviews", "Code reviews"),
+  "CI/CD",
 ];
 
 export const profileLinks = [
