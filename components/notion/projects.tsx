@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ArrowUpRight, Calendar, Quote } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import type { Project, Reference } from "@/lib/data";
+import type { Project, ProjectMeta, Reference } from "@/lib/data";
 import { localePath } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/provider";
 import { format } from "@/lib/i18n/text";
@@ -73,9 +73,12 @@ function ProjectCover({
 /* The meta values are part of the search surface: role, methodology, team size
    and location are shown on every project but would otherwise be
    unsearchable, so a query like "Scrum" or "Remote" would find nothing. */
+const metaValues = (m: ProjectMeta) =>
+  Array.isArray(m.value) ? m.value : [m.value];
+
 const projectSearchText = (p: Project) =>
   `${p.name} ${p.subtitle} ${p.cat} ${p.desc} ${p.tech.join(" ")} ${p.meta
-    .map((m) => m.value)
+    .flatMap(metaValues)
     .join(" ")}`;
 const projectSortKey = (p: Project) => p.sort;
 
@@ -306,8 +309,21 @@ export function ProjectModal({
                 <div className="text-[10px] font-semibold tracking-[0.06em] text-notion-gray uppercase">
                   {m.label}
                 </div>
-                <div className="mt-1 text-[13px] leading-[1.35] break-words text-notion-text">
-                  <MetaValue value={m.value} />
+                {/* A cell with several values stacks them; one value renders
+                    exactly as it did before the list case existed. The cells
+                    are narrow enough that a value wraps on phones, which would
+                    leave its tail sitting flush above the next value and
+                    reading as one line — so a multi-value cell hangs its wrapped
+                    lines, keeping each value's first line on the left edge. */}
+                <div className="mt-1 flex flex-col gap-[3px] text-[13px] leading-[1.35] break-words text-notion-text">
+                  {metaValues(m).map((v, _i, all) => (
+                    <span
+                      key={v}
+                      className={cn(all.length > 1 && "pl-2.5 -indent-2.5")}
+                    >
+                      <MetaValue value={v} />
+                    </span>
+                  ))}
                 </div>
               </div>
             ))}
