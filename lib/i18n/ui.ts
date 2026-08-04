@@ -57,7 +57,12 @@ const ui = {
     contact: t("Kontakt", "Contact"),
     facts: t("Eckdaten", "Key facts"),
     profiles: t("Profile", "Profiles"),
-    methods: t("Methodik", "Methodology"),
+    /* "Methodik" alone was wrong for half the list: Scrum, Scrumban and Kanban
+       are process models, but Requirements Engineering is a discipline and
+       Code Reviews and CI/CD are engineering practices. The heading names both
+       halves — the same split the skills database makes in categories 12
+       ("Vorgehen & Methodik") and 13 ("Engineering-Praktiken"). */
+    methods: t("Methodik & Praktiken", "Methodology & practices"),
     languages: t("Sprachen", "Languages"),
     approach: t("Arbeitsweise", "Ways of working"),
     focus: t("Schwerpunkt", "Focus"),
@@ -92,10 +97,6 @@ const ui = {
     /* Same reason as language.switchLabelFor: the trigger's visible text is the
        current view's name, so the accessible name has to lead with it. */
     switchView: t("{view} – Ansicht wechseln", "{view} – switch view"),
-    sort: t("Sortierung", "Sorting"),
-    sortByDate: t("Datum", "Date"),
-    newestFirst: t("Neueste zuerst", "Newest first"),
-    oldestFirst: t("Älteste zuerst", "Oldest first"),
     search: t("Suchen", "Search"),
     searchPlaceholder: t("Suchen…", "Search…"),
     searchLabel: t("Durchsuchen", "Search entries"),

@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   ArrowUpRight,
-  Calendar,
   ExternalLink,
   Quote,
 } from "lucide-react";
@@ -412,9 +411,8 @@ function ReferenceTable({ references: rows }: { references: Reference[] }) {
 }
 
 export function ReferenceGallery({ references }: { references: Reference[] }) {
-  const { ui } = useI18n();
   const [view, setView] = useState<GalleryView>("gallery");
-  const { query, setQuery, sortDirLabel, toggleSort, visible } = useGallery(
+  const { query, setQuery, visible } = useGallery(
     references,
     referenceSearchText,
     referenceSortKey,
@@ -427,10 +425,6 @@ export function ReferenceGallery({ references }: { references: Reference[] }) {
       <DatabaseToolbar
         view={view}
         onViewChange={setView}
-        sortProp={ui.gallery.sortByDate}
-        sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
-        sortDirLabel={sortDirLabel}
-        onToggleSortDir={toggleSort}
         query={query}
         onQueryChange={setQuery}
       />

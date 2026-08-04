@@ -47,8 +47,11 @@ const bannerTags = [
   "Agentic Coding",
   "TypeScript",
   "Python",
+  /* The two stack halves, spelled out the same way the "Schwerpunkt" list does
+     it — the banner used to name only Next.js, which read as frontend-only. */
+  "Backend (NestJS · Node.js · FastAPI)",
+  "Frontend (Next.js · React · Angular)",
   "Clean Architecture",
-  "Next.js",
   "DSGVO-konform",
 ];
 
@@ -91,17 +94,16 @@ export function CoverBanner({ locale }: { locale: Locale }) {
         className="flex min-w-0 flex-1 flex-col items-end justify-center gap-[clamp(7px,0.9vw,12px)] px-[clamp(22px,4vw,80px)] py-[clamp(22px,3vw,34px)] text-right [&>*]:max-w-[620px]"
         style={{ backgroundImage: bannerBg }}
       >
+        {/* The role sits above the name in the accent eyebrow slot: it is what a
+            visitor has to read first, and it says "freiberuflich" itself — so
+            the old "Freiberuflich · Remote · München" line is gone. */}
         <div className="text-[clamp(10px,1vw,13px)] font-bold tracking-[0.12em] text-[var(--primary)] uppercase">
-          {profile.tagline}
+          {profile.role}
         </div>
 
         <h1 className="text-[clamp(23px,3.4vw,44px)] leading-[1.1] font-bold tracking-[-0.01em] text-[var(--foreground)]">
           {profileName}
         </h1>
-
-        <div className="text-[clamp(13px,1.5vw,20px)] font-medium text-[var(--banner-text-soft)]">
-          {profile.role}
-        </div>
 
         <div className="text-[clamp(11px,1.25vw,16px)] font-medium text-[var(--primary)] italic">
           {profile.slogan}
@@ -118,13 +120,8 @@ export function CoverBanner({ locale }: { locale: Locale }) {
             </span>
           ))}
         </div>
-
-        <div className="mt-[3px] text-[clamp(13px,1.4vw,18px)] font-bold text-[var(--foreground)]">
-          https://sequenz.io
-        </div>
-        <div className="text-[clamp(11px,1.2vw,15px)] text-[var(--banner-meta)]">
-          n.petrich@sequenz.io
-        </div>
+        {/* No website/e-mail line here: the sidebar's "Kontakt" block right
+            below carries both, and the topbar has the booking call to action. */}
       </div>
     </div>
   );

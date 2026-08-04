@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import type { TocItem } from "@/lib/data";
@@ -68,9 +69,16 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
             (/#projects), can be copied, middle-clicked or opened in a new tab,
             and deep links keep working without JavaScript. The scroll offset
             under the sticky top bar comes from `scroll-mt-20` on each Section,
-            the easing from `scroll-smooth` on <html>. */}
+            the easing from `scroll-smooth` on <html>.
+
+            next/link rather than a bare <a>: a browser-native hash navigation
+            writes a history entry the router knows nothing about, and on the
+            way back Next then keeps the current tree — which still holds an
+            open @modal slot, so a project dialog opened from "#projects" could
+            never be closed again. Link routes the click through the router, so
+            the entry carries its FlightRouterState and the slot resets. */}
         {items.map((item) => (
-          <a
+          <Link
             key={item.id}
             href={`#${item.id}`}
             onClick={() => track("toc_navigate", { section_id: item.id })}
@@ -84,7 +92,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
             )}
           >
             {item.label}
-          </a>
+          </Link>
         ))}
       </nav>
 

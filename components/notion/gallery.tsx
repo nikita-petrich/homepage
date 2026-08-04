@@ -5,17 +5,15 @@ import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useUi } from "@/lib/i18n/provider";
 
-/* Shared search/sort state for the three card galleries (projects,
-   references, certificates): case-insensitive substring filter over a
-   per-item search text, sorted by a stable sort key (newest first by
-   default). */
+/* Shared search state for the three card galleries (projects, references,
+   certificates): case-insensitive substring filter over a per-item search
+   text. The order is fixed — newest first by a stable sort key — so there is
+   no sort control to drive; only the query is state. */
 export function useGallery<T>(
   items: readonly T[],
   searchText: (item: T) => string,
   sortKey: (item: T) => string,
 ) {
-  const ui = useUi();
-  const [asc, setAsc] = useState(false); // false = newest first
   const [query, setQuery] = useState("");
 
   const visible = useMemo(() => {
@@ -23,22 +21,12 @@ export function useGallery<T>(
     const list = items.filter(
       (item) => !q || searchText(item).toLowerCase().includes(q),
     );
-    return [...list].sort((a, b) => {
-      const cmp = sortKey(a).localeCompare(sortKey(b));
-      return asc ? cmp : -cmp;
-    });
+    return [...list].sort((a, b) => -sortKey(a).localeCompare(sortKey(b)));
     // searchText/sortKey are module-level constants at every call site.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, query, asc]);
+  }, [items, query]);
 
-  return {
-    query,
-    setQuery,
-    asc,
-    toggleSort: () => setAsc((v) => !v),
-    sortDirLabel: asc ? ui.gallery.oldestFirst : ui.gallery.newestFirst,
-    visible,
-  };
+  return { query, setQuery, visible };
 }
 
 export function EmptyState() {

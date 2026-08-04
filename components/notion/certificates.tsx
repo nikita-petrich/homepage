@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   ArrowUpRight,
   Award,
-  Calendar,
   ChevronRight,
   ExternalLink,
   FileText,
@@ -275,7 +274,7 @@ export function CertificateGallery({
 }) {
   const { locale, ui } = useI18n();
   const [view, setView] = useState<GalleryView>("gallery");
-  const { query, setQuery, sortDirLabel, toggleSort, visible } = useGallery(
+  const { query, setQuery, visible } = useGallery(
     certificates,
     certificateSearchText,
     certificateSortKey,
@@ -288,10 +287,6 @@ export function CertificateGallery({
       <DatabaseToolbar
         view={view}
         onViewChange={setView}
-        sortProp={ui.gallery.sortByDate}
-        sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
-        sortDirLabel={sortDirLabel}
-        onToggleSortDir={toggleSort}
         query={query}
         onQueryChange={setQuery}
       />
