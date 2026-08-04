@@ -70,7 +70,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "09",
     name: t("Netzwerke & Protokolle", "Networking & protocols"),
-    items: techList(["TCP/IP", "IP-Netzwerke", "DNS", "NAT", "MAC-Adressen", "HTTP/HTTPS"]),
+    items: techList(["TCP/IP", "IP-Netzwerke", "DNS", "MAC-Adressen", "HTTP/HTTPS"]),
   },
   {
     num: "10",
@@ -92,7 +92,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "12",
     name: t("Vorgehen & Methodik", "Ways of working & methodology"),
-    items: techList(["Agile Methoden", "Scrum", "Kanban", "Scrumban", "SAFe (Scaled Agile Framework)", "Requirements Engineering"]),
+    items: techList(["Agile Methoden", "Scrum", "Kanban", "Scrumban", "Requirements Engineering"]),
   },
   {
     num: "13",
