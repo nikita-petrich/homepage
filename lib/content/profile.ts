@@ -162,8 +162,8 @@ export const intro: IntroLine[] = [
       },
       {
         t: t(
-          "bis zu 1.000 Stunden/Jahr eingespart",
-          "up to 1,000 hours/year saved",
+          "bis zu 1.000 Stunden/Jahr pro Mitarbeiter eingespart",
+          "up to 1,000 hours/year per employee saved",
         ),
         b: true,
       },
