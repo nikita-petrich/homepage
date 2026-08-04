@@ -152,7 +152,9 @@ export default async function Page({
           </aside>
 
           <div className="flex min-w-0 flex-col gap-10">
-            <Callout icon={false}>
+            {/* The callout's own Info icon is the only one in the block now —
+                the intro lines dropped their per-line icons. */}
+            <Callout>
               <IntroLines lines={intro} />
               <p className="mt-3 font-semibold text-[var(--accent-text)]">
                 {ui.home.ctaQuestion}
@@ -165,7 +167,7 @@ export default async function Page({
                 data-analytics-prop-placement="hero"
                 className="mt-4 inline-flex w-fit items-center rounded-lg bg-primary px-4 py-2.5 text-[14px] font-medium text-primary-foreground shadow-sm transition-colors hover:brightness-95"
               >
-                {ui.topbar.booking}
+                {ui.home.ctaButton}
               </a>
             </Callout>
 

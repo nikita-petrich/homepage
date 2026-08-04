@@ -48,6 +48,7 @@ export type ProjectMeta = Project["meta"][number];
 export type Certificate = Localized<CertificateSource>;
 export type CertificateSection = Localized<CertificateSectionSource>;
 export type SkillCategory = Localized<SkillCategorySource>;
+export type { SkillKind } from "./content/skills";
 export type Reference = Localized<ReferenceSourceEntry>;
 export type InfoItem = Content["contact"][number];
 export type FactItem = Content["facts"][number];
