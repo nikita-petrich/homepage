@@ -144,160 +144,103 @@ export const profileLinks = [
   { label: "Malt", href: "https://www.malt.de/profile/nikitapetrich" },
 ];
 
-/* The "about" block. Each line makes one point: focus, guiding principle, way
-   of building, way of working, stack, track record. Bold marks the proof
-   points — the principle, the concrete numbers and the lead technologies.
-   Kept short on purpose: the
-   projects and the CV carry the detail, this block only has to make a reader
-   want them. */
+/* The "about" block. Four paragraphs: positioning with the proof numbers,
+   way of working, stack, track record. Bold marks the proof points — the
+   concrete savings and the scale figures. The closing question and the
+   booking button under the callout carry the CTA, so the text itself stops
+   after the track record. */
 export type IntroLine = { spans: RichLine };
 
 export const intro: IntroLine[] = [
   {
     spans: [
-      { t: t("Schwerpunkt auf KI: ", "Focused on AI: ") },
       {
         t: t(
-          "LLM-Integration, RAG und KI-gestützte Automatisierung",
-          "LLM integration, RAG and AI-driven automation",
+          "Ich bin freiberuflicher Senior Full-Stack & AI Engineer mit Schwerpunkt auf LLM-Integration, RAG und KI-gestützter Automatisierung – von der Architektur bis zum Produktivbetrieb. Meine Ergebnisse: ",
+          "I'm a freelance Senior Full-Stack & AI Engineer focused on LLM integration, RAG and AI-driven automation – from architecture to production. My results: ",
+        ),
+      },
+      {
+        t: t(
+          "bis zu 1.000 Stunden/Jahr eingespart",
+          "up to 1,000 hours/year saved",
         ),
         b: true,
       },
       {
         t: t(
-          " – von der Architektur bis zum stabilen Produktivbetrieb.",
-          " – from architecture all the way to stable production.",
+          " durch ein Tourverwaltungssystem in der Logistik, ",
+          " through a tour-management system in logistics, ",
+        ),
+      },
+      { t: t("40 Stunden/Monat", "40 hours/month"), b: true },
+      { t: t(" im Handel, ", " in retail, ") },
+      {
+        t: t("70 % weniger Rückfragen", "70 % fewer enquiries"),
+        b: true,
+      },
+      {
+        t: t(
+          " im Notariat. Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
+          " at a notary's office. I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
+        ),
+      },
+      {
+        t: t(
+          "vollständige Cross-Platform-App in rund zwei Monaten",
+          "complete cross-platform app in roughly two months",
+        ),
+        b: true,
+      },
+      { t: t(" – als alleiniger Entwickler.", " – as the sole developer.") },
+    ],
+  },
+  {
+    spans: [
+      { t: t("Ich arbeite ", "I work ") },
+      {
+        t: t(
+          "eigenverantwortlich, remote und asynchron",
+          "independently, remote and asynchronously",
+        ),
+        b: true,
+      },
+      {
+        t: t(
+          ": klares Ziel genügt, dokumentierte Entscheidungen und getesteter Code sind Standard. Kommunikation auf Deutsch und Englisch.",
+          ": a clear goal is enough – documented decisions and tested code are the standard. Communication in German and English.",
         ),
       },
     ],
   },
   {
     spans: [
-      { t: t("Mein Leitsatz: ", "My guiding principle: ") },
+      { t: t("Tech-Stack:", "Tech stack:"), b: true },
       {
         t: t(
-          "Was zweimal manuell passiert, wird automatisiert.",
-          "anything done manually twice gets automated.",
-        ),
-        b: true,
-      },
-      { t: t(" In der Logistik sind das ", " In logistics that means ") },
-      {
-        t: t(
-          "bis zu 1.000 Stunden pro Mitarbeiter und Jahr",
-          "up to 1,000 hours per employee per year",
-        ),
-        b: true,
-      },
-      { t: t(", im Handel ", "; in retail, ") },
-      { t: t("bis zu 40 Stunden pro Monat", "up to 40 hours a month"), b: true },
-      { t: t(", im Notariat ", "; at a notary's office, ") },
-      { t: t("bis zu 70 %", "up to 70 %"), b: true },
-      {
-        t: t(
-          " weniger telefonische Rückfragen.",
-          " fewer phone enquiries.",
+          " TypeScript/Python, NestJS/FastAPI, Next.js/React/Angular, PostgreSQL, Docker, CI/CD, Azure/GCP – Clean Architecture, DSGVO-Konformität und Secure by Design von Anfang an.",
+          " TypeScript/Python, NestJS/FastAPI, Next.js/React/Angular, PostgreSQL, Docker, CI/CD, Azure/GCP – Clean Architecture, GDPR compliance and Secure by Design from day one.",
         ),
       },
     ],
   },
   {
     spans: [
-      { t: t("Durchgängig ", "I work consistently with ") },
       {
-        t: t(
-          "Agentic-Coding- und AI-Engineering-Workflows",
-          "agentic coding and AI engineering workflows",
-        ),
+        t: t("Über 7 Jahre Erfahrung", "More than 7 years of experience"),
         b: true,
       },
       {
         t: t(
-          " (Claude Code, Cursor, Code Rabbit, MCP) – spezifikationsgetrieben, mit KI-gestützter Testgenerierung. Das Ergebnis: eine vollständige Cross-Platform-App ",
-          " (Claude Code, Cursor, Code Rabbit, MCP) – spec-driven, with AI-assisted test generation. The result: a complete cross-platform app ",
+          " in LegalTech, HealthTech, E-Commerce, EdTech und Logistik – im 20-köpfigen Team (LegalTech-Plattform, ",
+          " in LegalTech, HealthTech, e-commerce, EdTech and logistics – on a 20-person team (LegalTech platform, ",
         ),
       },
-      { t: t("in rund zwei Monaten", "in roughly two months"), b: true },
-      { t: t(", als alleiniger Entwickler.", ", as the sole developer.") },
-    ],
-  },
-  {
-    spans: [
+      { t: t("3.000+ Kunden", "3,000+ customers"), b: true },
       {
         t: t(
-          "Eigenverantwortlich, remote und asynchron.",
-          "Independently, remote and asynchronously.",
-        ),
-        b: true,
-      },
-      {
-        t: t(
-          " Ich brauche keine tägliche Steuerung, sondern ein klares Ziel – und melde mich, bevor etwas ins Rutschen kommt. Kommunikation auf Deutsch und Englisch.",
-          " I don't need daily direction, just a clear goal – and I speak up before anything slips. I communicate in German and English.",
-        ),
-      },
-    ],
-  },
-  {
-    spans: [
-      { t: t("Technisch ", "Technically ") },
-      { t: t("TypeScript und Python", "TypeScript and Python"), b: true },
-      {
-        t: t(
-          ", Backend mit ",
-          ", backends with ",
-        ),
-      },
-      {
-        t: t("NestJS, Node.js und FastAPI", "NestJS, Node.js and FastAPI"),
-        b: true,
-      },
-      { t: t(", Frontend mit ", ", frontends with ") },
-      {
-        t: t("Next.js, React und Angular", "Next.js, React and Angular"),
-        b: true,
-      },
-      {
-        t: t(
-          ", dazu PostgreSQL, Docker und CI/CD. Clean Architecture und Microservices als Standard, ",
-          ", plus PostgreSQL, Docker and CI/CD. Clean Architecture and microservices as standard, ",
-        ),
-      },
-      {
-        t: t(
-          "DSGVO-Konformität und Secure by Design",
-          "GDPR compliance and Secure by Design",
-        ),
-        b: true,
-      },
-      { t: t(" von Beginn an.", " from day one.") },
-    ],
-  },
-  {
-    spans: [
-      { t: t("Erprobt im ", "Proven inside a ") },
-      {
-        t: t("20-köpfigen Engineering-Team", "20-person engineering team"),
-        b: true,
-      },
-      {
-        t: t(
-          " an einer LegalTech-Plattform mit ",
-          " on a LegalTech platform with ",
-        ),
-      },
-      { t: t("über 3.000 Kunden", "more than 3,000 customers"), b: true },
-      {
-        t: t(
-          " und als alleiniger Entwickler mit voller Produktverantwortung – in ",
-          " and as a sole developer with full product ownership – over ",
-        ),
-      },
-      { t: t("über sieben Jahren", "seven years"), b: true },
-      {
-        t: t(
-          " quer durch LegalTech, HealthTech, E-Commerce, EdTech und Logistik.",
-          " across LegalTech, HealthTech, e-commerce, EdTech and logistics.",
+          ") wie auch als alleiniger Entwickler mit voller Produktverantwortung.",
+          ") as well as sole developer with full product ownership.",
         ),
       },
     ],
