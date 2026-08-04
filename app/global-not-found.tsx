@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import { InlineScript } from "@/components/inline-script";
 import { defaultLocale, localeMeta, localePath } from "@/lib/i18n/config";
 import { getUi } from "@/lib/i18n/ui";
 import { themeInitScript } from "@/lib/theme";
@@ -39,7 +40,10 @@ export default function GlobalNotFound() {
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Same pre-paint theme script as the locale layout, and for the same
+            reason it goes through InlineScript: this page is rendered on
+            demand, so React reaches it on the client too. */}
+        <InlineScript html={themeInitScript} />
       </head>
       <body>
         <main className="mx-auto flex min-h-screen max-w-[720px] flex-col items-start justify-center gap-4 px-6 sm:px-8">
