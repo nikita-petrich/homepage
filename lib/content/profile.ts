@@ -115,15 +115,16 @@ export const languages = [
   {
     flag: "/assets/flags/gb.svg",
     text: t("Englisch", "English"),
-    /* Leads with what the certificate actually attests — running meetings,
-       presentations and negotiations in English — rather than with the CEFR
-       letter. The letter is what a filter matches; the competency is what a
-       client is really asking about, and B2 alone undersells a five-month
-       English-only engagement. Not a self-assessment either way: the level was
-       set by EnglishRadar's own testing, hence the link. */
+    /* Three things in ~45 characters: the competency, that the level is
+       assessed rather than self-declared, and the field evidence. The full
+       version — meetings, presentations, negotiations — spelled the syllabus
+       out and wrapped to five underlined lines in the 210px sidebar, against
+       this component's own warning; it is one click away on the certificate.
+       "US-Projekt" earns its place over the syllabus: five months of
+       English-only work with a New York client outweighs a course outline. */
     sub: t(
-      "Business English (Meetings, Präsentationen, Verhandlungen) · B2 zertifiziert",
-      "Business English (meetings, presentations, negotiations) · B2 certified",
+      "Business English · B2 zertifiziert · US-Projekt",
+      "Business English · B2 certified · US engagement",
     ),
     href: "/certificates/english-radar-business-english",
   },
@@ -168,8 +169,12 @@ export const intro: IntroLine[] = [
     spans: [
       {
         t: t(
-          "Ich bin freiberuflicher Senior Full-Stack & AI Engineer mit Schwerpunkt auf LLM-Integration, RAG und KI-gestützter Automatisierung – von der Architektur bis zum Produktivbetrieb. Meine Ergebnisse: ",
-          "I'm a freelance Senior Full-Stack & AI Engineer focused on LLM integration, RAG and AI-driven automation – from architecture to production. My results: ",
+          /* The attribution leads the list rather than trailing it. It used to
+             sit at the end, where "jeweils" governed all three figures in one
+             sentence; splitting that sentence left it hanging off the last one,
+             so two client numbers were being asserted as the site's own. */
+          "Ich bin freiberuflicher Senior Full-Stack & AI Engineer mit Schwerpunkt auf LLM-Integration, RAG und KI-gestützter Automatisierung – von der Architektur bis zum Produktivbetrieb. Meine Ergebnisse, jeweils nach Angaben der Kunden bzw. Anbieter: ",
+          "I'm a freelance Senior Full-Stack & AI Engineer focused on LLM integration, RAG and AI-driven automation – from architecture to production. My results, each as reported by the client or provider: ",
         ),
       },
       /* Order matters here, and so does sentence length. The logistics figure
@@ -190,9 +195,12 @@ export const intro: IntroLine[] = [
         b: true,
       },
       {
+        /* "spart" — the same verb the project page uses. Splitting this out of
+           the previous sentence had left the biggest number on the site as a
+           bare apposition with nothing in the clause that saved anything. */
         t: t(
-          " im Notariat. In der Logistik entstehen die Tourunterlagen, die vorher je Fahrt von Hand zusammengestellt wurden, seither aus den erfassten Daten – ",
-          " at a notary's office. In logistics, the route documents that used to be assembled by hand for every trip are now generated from the captured data — ",
+          " im Notariat. In der Logistik spart die automatisierte Erzeugung der Tourunterlagen – vorher je Fahrt von Hand zusammengestellt – ",
+          " at a notary's office. In logistics, generating the route documents automatically — they used to be assembled by hand for every trip — saves ",
         ),
       },
       {
@@ -203,11 +211,9 @@ export const intro: IntroLine[] = [
         b: true,
       },
       {
-        /* Same attribution the project pages carry — the figures are the
-           clients' own, and saying so is what makes them worth quoting. */
         t: t(
-          "; jeweils nach Angaben der Kunden bzw. Anbieter. Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
-          "; each figure as reported by the client or provider. I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
+          ". Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
+          ". I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
         ),
       },
       {
@@ -255,37 +261,40 @@ export const intro: IntroLine[] = [
         t: t("Über 7 Jahre Erfahrung", "More than 7 years of experience"),
         b: true,
       },
+      /* The seniority signal. Nothing here is a new claim, and each half names
+         its own scope — which is the part the first version left out. Stating
+         "Ich verantworte Architektur und Betrieb end-to-end" unqualified read
+         as full-time commercial ownership, while every project backing it is
+         the own product or a system maintained alongside client work. A reader
+         who found "nebenberuflich" two clicks later would discount the whole
+         paragraph; naming the two tracks up front costs nothing and survives
+         the cross-read. */
       {
         t: t(
-          " in LegalTech, HealthTech, E-Commerce, EdTech und Logistik. Ich verantworte ",
-          " in LegalTech, HealthTech, e-commerce, EdTech and logistics. I take ",
+          " in LegalTech, HealthTech, E-Commerce, EdTech und Logistik. In Kundenprojekten liefere ich im bestehenden Team: bei einer LegalTech-Plattform mit ",
+          " in LegalTech, HealthTech, e-commerce, EdTech and logistics. On client engagements I deliver inside the existing team: on a LegalTech platform with ",
         ),
       },
-      /* The seniority signal, and nothing here is a new claim: the two halves
-         restate what the project pages document — end-to-end architecture and
-         operations ownership on four projects (one of them running in
-         production since 2021), and delivery inside a grown engineering
-         organisation on the Manifest OS engagement. The site had the evidence
-         and stated it only two clicks deep, where a client reading the first
-         screen never reaches it. */
+      { t: t("3.000+ Kunden", "3,000+ customers"), b: true },
+      {
+        /* Attributed here too — the project page says "laut Anbieter", and the
+           intro was quoting the same number as if it were its own. */
+        t: t(
+          " (laut Anbieter) als einer von rund 20 Engineers in vier Teams – dort produktive KI-Features und, im Viererteam, die Zusammenführung von vier Portalen zu einem. Daneben verantworte ich ",
+          " (per the provider) as one of some 20 engineers across four teams – production AI features there and, in a team of four, the consolidation of four portals into one. Alongside that I own ",
+        ),
+      },
       {
         t: t(
           "Architektur und Betrieb end-to-end",
-          "end-to-end ownership of architecture and operations",
+          "architecture and operations end-to-end",
         ),
         b: true,
       },
       {
         t: t(
-          " – ein System läuft seit 2021 durchgehend im Produktivbetrieb – und liefere ebenso in gewachsenen Engineering-Organisationen: bei einer LegalTech-Plattform mit ",
-          " – one system has been running in production continuously since 2021 – and deliver just as well inside grown engineering organisations: on a LegalTech platform with ",
-        ),
-      },
-      { t: t("3.000+ Kunden", "3,000+ customers"), b: true },
-      {
-        t: t(
-          " im Verbund aus rund 20 Engineers in vier Teams, unter anderem bei der Zusammenführung von vier Portalen zu einem.",
-          " within a group of some 20 engineers across four teams, including the consolidation of four portals into one.",
+          " – auf meinem Eigenprodukt und auf zwei Kundensystemen, die ich nebenberuflich weiterbetreue; eines davon läuft seit 2021 durchgehend im Produktivbetrieb.",
+          " – on my own product and on two client systems I keep maintaining alongside client work; one of them has been running in production continuously since 2021.",
         ),
       },
     ],
