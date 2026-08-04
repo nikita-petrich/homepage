@@ -37,7 +37,6 @@ const soloClient = t("Solo · Kundenprojekt", "Solo · client project");
 const internalSystem = t("Internes System", "Internal system");
 const selfDirected = t("Eigenverantwortlich", "Self-directed");
 const german = t("Deutsch", "German");
-const english = t("Englisch", "English");
 
 const label = {
   role: t("Rolle", "Role"),
@@ -76,7 +75,13 @@ export const projects: ProjectSource[] = [
     ),
     meta: [
       { label: label.role, value: t("Gründer & CTO", "Founder & CTO") },
-      { label: label.team, value: t("Solo · Eigenprodukt", "Solo · own product") },
+      {
+        label: label.team,
+        value: t(
+          "Solo · Eigenprodukt (nebenberuflich)",
+          "Solo · own product (side project)",
+        ),
+      },
       {
         label: label.location,
         value: t("Niedersachsen, DE · Remote", "Lower Saxony, DE · remote"),
@@ -106,8 +111,16 @@ export const projects: ProjectSource[] = [
         "RAG-based guidance section with articles and recommended next steps for those affected.",
       ),
       t(
+        "Abdeckung mehrerer Rechtsbereiche (Rechts-, Sozial- und Arbeitswesen) über eine erweiterbare, mehrsprachige und barrierearme Weboberfläche.",
+        "Coverage of several legal areas (civil, social and employment law) through an extensible, multilingual and low-barrier web interface.",
+      ),
+      t(
         "Gesamtverantwortung für Tech-Stack, Hosting auf EU-Infrastruktur und ein Secure-by-Design-Compliance-Konzept (EU AI Act, DSGVO, RDG).",
         "End-to-end responsibility for the tech stack, hosting on EU infrastructure and a secure-by-design compliance concept (EU AI Act, GDPR, German Legal Services Act).",
+      ),
+      t(
+        "Aufbau typsicherer End-to-End-Datenflüsse (TypeScript, DTOs, Zod) mit automatisierter CI/CD-Auslieferung (GitHub Actions, Docker), Monitoring/Fehler-Tracking (Sentry) und Test-Abdeckung (Vitest, Playwright).",
+        "Type-safe end-to-end data flows (TypeScript, DTOs, Zod) with automated CI/CD delivery (GitHub Actions, Docker), monitoring and error tracking (Sentry) and test coverage (Vitest, Playwright).",
       ),
     ],
     results: [
@@ -123,6 +136,10 @@ export const projects: ProjectSource[] = [
         "Zielbild: bis zu 10.000 automatisierte Vorprüfungen pro Monat und bis zu 80 % weniger manuelle Fallannahme – in einem Markt mit 167.547 zugelassenen Rechtsanwältinnen und Rechtsanwälten (BRAK, 01.01.2026).",
         "Target: up to 10,000 automated pre-assessments per month and up to 80 % less manual case intake — in a market of 167,547 admitted lawyers (German Federal Bar, 1 Jan 2026).",
       ),
+      t(
+        "Planbarer Zustrom vorqualifizierter Mandate für angebundene Kanzleien statt aufwändiger manueller Ersteinschätzung.",
+        "A predictable inflow of pre-qualified cases for partner law firms instead of costly manual initial assessment.",
+      ),
     ],
     tech: techList([
       "TypeScript", "Python", "Next.js", "React", "FastAPI", "LLM-Integration",
@@ -130,7 +147,7 @@ export const projects: ProjectSource[] = [
       "Prompt Engineering", "Embeddings", "pgvector", "OCR", "Dokumentenanalyse",
       "LangChain", "PostgreSQL", "Redis", "Tailwind CSS", "shadcn/ui", "Stripe",
       "JWT", "OAuth 2.0", "Docker", "GitHub Actions", "CI/CD", "Hetzner", "Linux",
-      "Ubuntu", "Slack", "Microservices", "Clean Architecture", "SaaS",
+      "Ubuntu", "Slack", "Husky", "Microservices", "Clean Architecture", "SaaS",
       "EU AI Act", "DSGVO", "Privacy by Design", "Produktverantwortung",
     ]),
   },
@@ -202,6 +219,14 @@ export const projects: ProjectSource[] = [
         "Resilienz der ereignisgetriebenen Services (NestJS, BullMQ): Retry-Strategien, Idempotenz und definiertes Verhalten bei Ausfällen der KI- und Transkriptions-Dienste.",
         "Resilience of the event-driven services (NestJS, BullMQ): retry strategies, idempotency and defined behaviour when the AI and transcription services fail.",
       ),
+      t(
+        "Umsetzung im Monorepo mit klar abgegrenzten Feature-Modulen für eine zukünftig möglichst schnelle Aufteilung in Microservices, mit typsicheren Schnittstellen (TypeScript, DTOs) sowie automatisierten Tests (Jest, Playwright) im CI/CD-Prozess.",
+        "Delivery within a monorepo with clearly scoped feature modules, so it can be split into microservices quickly later on, with type-safe interfaces (TypeScript, DTOs) and automated tests (Jest, Playwright) in the CI/CD pipeline.",
+      ),
+      t(
+        "Enge Zusammenarbeit in Code-Reviews und Einsatz KI-gestützter Werkzeuge (Claude Code, Cursor AI, Code Rabbit) zur Sicherung von Qualität und Entwicklungstempo.",
+        "Close collaboration in code reviews and use of AI-assisted tools (Claude Code, Cursor AI, Code Rabbit) to safeguard quality and development pace.",
+      ),
     ],
     results: [
       t(
@@ -230,7 +255,7 @@ export const projects: ProjectSource[] = [
       "better-auth", "JWT", "Docker", "Linux", "Ubuntu",
       "Google Cloud Platform (GCP)", "GitHub Actions", "CI/CD", "Claude Code",
       "Cursor AI", "Code Rabbit", "Linear", "Figma", "Slack", "Playwright",
-      "Microservices", "Event-Driven Architecture", "Idempotenz",
+      "Husky", "Microservices", "Event-Driven Architecture", "Idempotenz",
       "Clean Architecture",
     ]),
   },
@@ -343,7 +368,7 @@ export const projects: ProjectSource[] = [
         value: t("Interdisziplinär · inkl. Hardware", "Interdisciplinary · incl. hardware"),
       },
       { label: label.location, value: t("Frankfurt, DE · Remote", "Frankfurt, DE · remote") },
-      { label: label.language, value: english },
+      { label: label.language, value: t("Deutsch & Englisch", "German & English") },
       { label: label.visibility, value: internalSystem },
       { label: label.method, value: selfDirected },
     ],
@@ -368,6 +393,18 @@ export const projects: ProjectSource[] = [
         "Performante PWA-Architektur (Next.js) mit responsivem UI, Unit-Tests und CI/CD-Pipeline.",
         "A fast PWA architecture (Next.js) with responsive UI, unit tests and a CI/CD pipeline.",
       ),
+      t(
+        "Definition und Umsetzung typsicherer Datenmodelle und API-Schnittstellen (TypeScript, DTOs, Zod).",
+        "Definition and implementation of type-safe data models and API interfaces (TypeScript, DTOs, Zod).",
+      ),
+      t(
+        "Enge, englischsprachige Abstimmung mit dem Hardware-Team zur Definition der Geräte-App-Kommunikation und der Setup-Protokolle.",
+        "Close coordination in English with the hardware team to define the device-app communication and the setup protocols.",
+      ),
+      t(
+        "Beratung und Navigation des Kunden von der ersten Idee bis zum umsetzbaren MVP-Konzept.",
+        "Advising and guiding the client from the initial idea to an actionable MVP concept.",
+      ),
     ],
     results: [
       t(
@@ -381,6 +418,10 @@ export const projects: ProjectSource[] = [
       t(
         "Skalierbare, dokumentierte Architektur als tragfähige Grundlage für den Produktlaunch.",
         "A scalable, documented architecture as a solid basis for the product launch.",
+      ),
+      t(
+        "Vertrauensvolle, funktionsübergreifende Zusammenarbeit mit dem Hardware-Team über die gesamte Projektlaufzeit – trotz kurzer Taktung ohne Reibungsverluste an der Geräte-App-Schnittstelle.",
+        "Trusted, cross-functional collaboration with the hardware team throughout the project — no friction at the device-app interface despite the tight schedule.",
       ),
     ],
     tech: techList([
@@ -440,6 +481,14 @@ export const projects: ProjectSource[] = [
         "Eigeninitiative in der Codebasis: wiederverwendbare Komponenten eingeführt, bestehenden Code refactored und Altfehler behoben – ausgerichtet auf langfristig tragfähige Lösungen.",
         "Initiative within the codebase: introduced reusable components, refactored existing code and fixed long-standing bugs — aimed at solutions that hold up over time.",
       ),
+      t(
+        "Einheitliche Formular-Validierung (React Hook Form) zur Beschleunigung der Feature-Entwicklung im gesamten Team.",
+        "Unified form validation (React Hook Form) to speed up feature development across the whole team.",
+      ),
+      t(
+        "Enge Abstimmung mit Design und Backend im Scrumban-Rhythmus, um neue Anforderungen zügig in nutzbare Oberflächen zu übersetzen.",
+        "Close coordination with design and backend in a Scrumban rhythm, turning new requirements into usable interfaces quickly.",
+      ),
     ],
     results: [
       t(
@@ -453,6 +502,10 @@ export const projects: ProjectSource[] = [
       t(
         "Laut Anbieter spürbar reduzierter Verwaltungsaufwand durch durchgängig digitale Prozesse.",
         "According to the provider, noticeably less administrative effort thanks to end-to-end digital processes.",
+      ),
+      t(
+        "Konsistentes, modernes UI über Mandanten- und Notarportal hinweg, das Vertrauen bei Mandanten und Effizienz im Notariat gleichermaßen stärkt.",
+        "A consistent, modern UI across the client and notary portals, strengthening client trust and the notary office's efficiency alike.",
       ),
     ],
     tech: techList([
@@ -476,8 +529,8 @@ export const projects: ProjectSource[] = [
     cat: t("Handel & Kfz-Gewerbe", "Retail & automotive trade"),
     role: t("Sole Developer · Full-Stack & AI", "Sole developer · full-stack & AI"),
     dateRange: t(
-      "01/2024 – 12/2024 · ~12 Monate · lfd. Wartung",
-      "01/2024 – 12/2024 · ~12 months · ongoing maintenance",
+      "01/2024 – 12/2024 · ~12 Monate · lfd. Wartung (nebenberuflich)",
+      "01/2024 – 12/2024 · ~12 months · ongoing maintenance (side project)",
     ),
     sort: "2024-01",
     caption: t(
@@ -515,12 +568,20 @@ export const projects: ProjectSource[] = [
         "A resilient data synchronisation service (“pipe service”) for supplier catalogues — up to 20 m CSV rows over TLS with a queue, caching, retry logic, validation and deduplication.",
       ),
       t(
-        "Rollenbasierte Zugriffssteuerung (better-auth); typsichere GraphQL- und REST-Schnittstellen (NestJS, MikroORM, DTOs).",
-        "Role-based access control (better-auth); type-safe GraphQL and REST interfaces (NestJS, MikroORM, DTOs).",
+        "Rekursive Auflösung von Fremdschlüssel-Abhängigkeiten in den Eingabedialogen für eine konsistente Stammdatenpflege.",
+        "Recursive resolution of foreign-key dependencies in the input dialogs, for consistent master data maintenance.",
       ),
       t(
-        "Alleinverantwortung für Architektur (Clean Architecture), Deployment und laufende Wartung.",
-        "Sole responsibility for the architecture (clean architecture), deployment and ongoing maintenance.",
+        "Kunden- und Stammdatenverwaltung mit rollenbasierter Zugriffssteuerung (Admin, Mitarbeiter, Steuerberater) und Authentifizierung via better-auth; typsichere GraphQL- und REST-Schnittstellen (NestJS, MikroORM, DTOs).",
+        "Customer and master data management with role-based access control (admin, staff, tax adviser) and authentication via better-auth; type-safe GraphQL and REST interfaces (NestJS, MikroORM, DTOs).",
+      ),
+      t(
+        "Technische Beratung des Kunden zu Lösungsansätzen, Architektur und Prozessoptimierung.",
+        "Technical advice for the client on approaches, architecture and process optimisation.",
+      ),
+      t(
+        "Alleinverantwortung für Architektur (Clean Architecture), Deployment und laufende Betreuung (nebenberuflich): Wartung, Security-Updates und Weiterentwicklung.",
+        "Sole responsibility for the architecture (clean architecture), deployment and ongoing support (side project): maintenance, security updates and further development.",
       ),
     ],
     results: [
@@ -544,8 +605,9 @@ export const projects: ProjectSource[] = [
       "Redis", "MikroORM", "TanStack Query", "Tailwind CSS", "Warenwirtschaft",
       "Lagerverwaltung", "Buchhaltung", "ERP", "GoBD", "better-auth", "JWT",
       "Role-Based Access Control (RBAC)", "Docker", "Self-Hosting", "Linux",
-      "Ubuntu", "CI/CD", "GitHub", "GitHub Actions", "Claude Code", "Cursor AI",
-      "Model Context Protocol (MCP)", "Microservices", "Clean Architecture",
+      "Ubuntu", "CI/CD", "GitHub", "GitHub Actions", "Husky", "Claude Code",
+      "Cursor AI", "Model Context Protocol (MCP)", "Microservices",
+      "Clean Architecture",
     ]),
   },
   {
@@ -561,8 +623,8 @@ export const projects: ProjectSource[] = [
     cat: t("Logistik & Transport", "Logistics & transport"),
     role: t("Sole Developer · Full-Stack & AI", "Sole developer · full-stack & AI"),
     dateRange: t(
-      "02/2021 – 05/2023 · ~2 J. 4 Mon. · lfd. Wartung",
-      "02/2021 – 05/2023 · ~2 yrs 4 mos · ongoing maintenance",
+      "02/2021 – 05/2023 · ~2 J. 4 Mon. · lfd. Wartung (nebenberuflich)",
+      "02/2021 – 05/2023 · ~2 yrs 4 mos · ongoing maintenance (side project)",
     ),
     sort: "2021-02",
     caption: t(
@@ -604,18 +666,18 @@ export const projects: ProjectSource[] = [
         "Audit-proof archiving of completed trips including the proofs uploaded at the end of each trip.",
       ),
       t(
-        "Alleinverantwortung für Backend-Architektur (NestJS, Clean Architecture), rollenbasierte Zugriffssteuerung (better-auth) und das selbst gehostete Deployment (Docker, Nginx) inkl. laufender Wartung.",
-        "Sole responsibility for the backend architecture (NestJS, clean architecture), role-based access control (better-auth) and the self-hosted deployment (Docker, Nginx) including ongoing maintenance.",
+        "Alleinverantwortung für Backend-Architektur (NestJS, Clean Architecture), rollenbasierte Zugriffssteuerung (better-auth) und das selbst gehostete Deployment (Docker, Nginx) inkl. laufender Wartung (nebenberuflich).",
+        "Sole responsibility for the backend architecture (NestJS, clean architecture), role-based access control (better-auth) and the self-hosted deployment (Docker, Nginx) including ongoing maintenance (side project).",
       ),
     ],
     results: [
       t(
-        "Spart durch automatisierte Dokumentenprozesse laut Kunde bis zu 1.000 Stunden pro Jahr – bei kalkulatorisch 40 € Arbeitskosten je Stunde rund 40.000 € jährlich.",
-        "According to the client, automated document processes save up to 1,000 hours a year — about € 40,000 annually at an assumed labour cost of € 40 per hour.",
+        "Spart durch automatisierte Dokumentenprozesse laut Kunde bis zu 1.000 Stunden pro Mitarbeiter und Jahr – bei kalkulatorisch 40 € Arbeitskosten je Stunde rund 40.000 € jährlich.",
+        "According to the client, automated document processes save up to 1,000 hours per employee per year — about € 40,000 annually at an assumed labour cost of € 40 per hour.",
       ),
       t(
-        "Laut Kunde bis zu 20 % höhere Logistikeffizienz durch die durchgängige Verwaltung der Versandtouren.",
-        "According to the client, up to 20 % higher logistics efficiency thanks to end-to-end management of the shipping trips.",
+        "Laut Kunde bis zu 30 % höhere Logistikeffizienz durch die durchgängige Verwaltung der Versandtouren.",
+        "According to the client, up to 30 % higher logistics efficiency thanks to end-to-end management of the shipping trips.",
       ),
       t(
         "Deutlich reduzierte Übertragungsfehler; jede Tour ist mit Unterlagen und Nachweisen revisionssicher archiviert.",
@@ -626,10 +688,11 @@ export const projects: ProjectSource[] = [
       "TypeScript", "Node.js", "NestJS", "Next.js", "React", "Fastify",
       "REST API", "GraphQL", "PostgreSQL", "Redis", "MikroORM", "React Router",
       "Tailwind CSS", "Single Page Application (SPA)", "Logistik",
-      "Tourenplanung", "PDF-Generierung", "Digitale Archivführung",
+      "Tourenplanung", "PDF-Generierung", "DOCX-Generierung",
+      "Digitale Archivführung",
       "better-auth", "JWT", "Authentifizierung",
       "Role-Based Access Control (RBAC)", "Docker", "Self-Hosting", "Linux",
-      "Ubuntu", "CI/CD", "GitHub Actions", "Claude Code", "Cursor AI",
+      "Ubuntu", "CI/CD", "GitHub Actions", "Husky", "Claude Code", "Cursor AI",
       "Model Context Protocol (MCP)", "Slack", "Nginx", "Microservices",
       "Clean Architecture",
     ]),
@@ -662,7 +725,7 @@ export const projects: ProjectSource[] = [
       { label: label.role, value: t("Full-Stack Engineer", "Full-stack engineer") },
       { label: label.team, value: t("5–10 Personen", "5–10 people") },
       { label: label.location, value: t("Bremen, DE · Remote", "Bremen, DE · remote") },
-      { label: label.language, value: english },
+      { label: label.language, value: t("Deutsch & Englisch", "German & English") },
       { label: label.website, value: "xu.de" },
       { label: label.method, value: "Scrum" },
     ],
@@ -678,6 +741,10 @@ export const projects: ProjectSource[] = [
       t(
         "Experten- und Community-Foren für den Austausch zwischen Teilnehmenden und Fachleuten.",
         "Expert and community forums for exchange between participants and specialists.",
+      ),
+      t(
+        "Full-Stack-Entwicklung über alle Plattform-Module hinweg im agilen Scrum-Team – von der Kursverwaltung bis zur Zertifikats-Engine, in Frontend und Backend.",
+        "Full-stack development across all platform modules within an agile Scrum team — from course management to the certificate engine, in frontend and backend alike.",
       ),
       t(
         "Skalierbare Backend-Services (NestJS, GraphQL) mit klar abgegrenzten Domänen in Microservice-Architektur.",
@@ -700,6 +767,10 @@ export const projects: ProjectSource[] = [
       t(
         "Zertifikate werden ohne manuelle Nacharbeit ausgestellt, der Lernfortschritt ist je Mandant auswertbar.",
         "Certificates are issued without manual rework, and learning progress can be evaluated per tenant.",
+      ),
+      t(
+        "Enge, funktionsübergreifende Zusammenarbeit mit Produkt und Design über zweieinhalb Jahre – vom ersten Ausbau bis zum produktiven Betrieb bei mehreren Großkunden.",
+        "Close, cross-functional collaboration with product and design over two and a half years — from the first build-out to production use at several major clients.",
       ),
     ],
     tech: techList([
@@ -757,16 +828,16 @@ export const projects: ProjectSource[] = [
         "Device and master data management (hospital, location, device specifications).",
       ),
       t(
-        "Detaillierte Wartungshistorie je Gerät.",
-        "Detailed maintenance history for every device.",
+        "Detaillierte Wartungshistorie je Gerät (Zeitpunkt und Art der durchgeführten Arbeiten) sowie gerätebezogenes Dokumentenmanagement.",
+        "Detailed maintenance history for every device (when work was done and what kind) plus device-related document management.",
       ),
       t(
         "Störungserfassung durch das Pflegepersonal als Einstieg in den Wartungsprozess der Medizintechnik.",
         "Fault reporting by nursing staff as the entry point into the medical engineering maintenance process.",
       ),
       t(
-        "Mandantenfähige Filterung nach Krankenhaus (Multi-Tenancy) und Authentifizierung gegen den Microsoft-Entra-ID-Tenant (ehem. Azure Active Directory) des jeweiligen Hauses.",
-        "Multi-tenant filtering by hospital and authentication against each hospital's Microsoft Entra ID tenant (formerly Azure Active Directory).",
+        "Mandantenfähige Filterung nach Krankenhaus (Multi-Tenancy) sowie Anbindung der Microsoft-Anmeldung über O365 Identity.",
+        "Multi-tenant filtering by hospital, plus integration of the Microsoft sign-in via O365 Identity.",
       ),
       t(
         "REST-API mit ASP.NET Core (Swagger/OpenAPI); Datenmodellierung mit Entity Framework Core (Code-First) auf MSSQL.",
@@ -775,16 +846,20 @@ export const projects: ProjectSource[] = [
     ],
     results: [
       t(
-        "Mandantenfähige Geräteverwaltung für mehrere Krankenhäuser – Stammdaten und Wartungshistorie je Gerät an einer Stelle.",
-        "Multi-tenant device management for several hospitals — master data and maintenance history per device in one place.",
+        "Mandantenfähige Geräteverwaltung für mehrere Krankenhäuser – Stammdaten, Wartungshistorie und Dokumentenmanagement je Gerät an einer Stelle.",
+        "Multi-tenant device management for several hospitals — master data, maintenance history and document management per device in one place.",
       ),
       t(
         "Störungsmeldungen des Pflegepersonals laufen ohne Umweg in den Wartungsprozess der Medizintechnik.",
         "Fault reports from nursing staff feed straight into the medical engineering maintenance process.",
       ),
       t(
-        "Sauber geschichtete .NET-Architektur: Code-First-Datenmodell (Entity Framework Core, MSSQL), dokumentierte REST-API (Swagger/OpenAPI) und Authentifizierung gegen Microsoft Entra ID.",
-        "A cleanly layered .NET architecture: code-first data model (Entity Framework Core, MSSQL), documented REST API (Swagger/OpenAPI) and authentication against Microsoft Entra ID.",
+        "Sauber geschichtete .NET-Architektur: Code-First-Datenmodell (Entity Framework Core, MSSQL), dokumentierte REST-API (Swagger/OpenAPI) und Authentifizierung über O365 Identity.",
+        "A cleanly layered .NET architecture: code-first data model (Entity Framework Core, MSSQL), documented REST API (Swagger/OpenAPI) and authentication via O365 Identity.",
+      ),
+      t(
+        "Über ein Jahr Mitwirkung in einem kleinen, eng abgestimmten Team an einer sicherheitskritischen Anwendung im Krankenhausumfeld – mit Fokus auf Sorgfalt, Nachvollziehbarkeit und stabile Auslieferung.",
+        "More than a year contributing within a small, closely aligned team on a safety-critical application in a hospital setting — with a focus on rigour, traceability and stable delivery.",
       ),
     ],
     tech: techList([
@@ -792,10 +867,10 @@ export const projects: ProjectSource[] = [
       "Swagger", "TypeScript", "React", "Entity Framework Core",
       "Datenmodellierung", "Microsoft SQL Server (MSSQL)", "Fluent UI", "Redux",
       "React Router", "Axios", "Single Page Application (SPA)",
-      "Dependency Injection", "JWT",
-      "Microsoft Entra ID (ehem. Azure Active Directory)",
+      "Dependency Injection", "JWT", "O365 Identity",
       "Role-Based Access Control (RBAC)", "Multi-Tenancy",
-      "Stammdatenverwaltung", "Microsoft Azure", "Azure SQL", "Azure DevOps",
+      "Stammdatenverwaltung", "Dokumentenmanagement", "Microsoft Azure",
+      "Azure SQL", "Azure DevOps",
       "Docker", "CI/CD", "Clean Architecture",
     ]),
   },

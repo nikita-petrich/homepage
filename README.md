@@ -60,6 +60,20 @@ languages:
 - 🇩🇪 `public/cv/CV_Nikita_Petrich_DE.pdf`
 - 🇬🇧 `public/cv/CV_Nikita_Petrich_EN.pdf`
 
+Both files are generated and committed:
+
+```bash
+node scripts/cv/build.mjs           # rewrites both PDFs
+node scripts/cv/build.mjs --html    # keeps the intermediate HTML in .cv-build/
+```
+
+The wording lives in `scripts/cv/content.mjs`, the print layout in
+`scripts/cv/template.mjs`; Chromium prints the pages. The CV is denser than the
+website — more bullets per project, its own register — so it keeps its own copy
+of the text rather than being generated from `lib/content/*`. The two must
+still state the same facts: when a date, a number or a claim changes, change it
+in both places.
+
 ## Tech stack
 
 - [Next.js 16](https://nextjs.org/) (App Router, TypeScript, Turbopack)
@@ -191,7 +205,8 @@ wording next to each other:
 Testimonials live in `lib/references.json` — the file the PDF CV shares — and
 their translations in `lib/content/references.ts`; both are validated at build
 time, including a check that the original wording still matches the JSON. The
-CV PDFs are generated separately and committed under `public/cv/`.
+CV PDFs are built from `scripts/cv/` and committed under `public/cv/` (see
+[CV download](#cv-download)).
 
 Technology and skill terms are translated once in `lib/content/terms.ts` and
 reused by the projects, the skills database and the schema.org markup, so a

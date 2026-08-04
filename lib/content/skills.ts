@@ -66,7 +66,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "09",
     name: t("Auth & Security", "Auth & security"),
-    items: techList(["JWT", "OAuth 2.0", "Single Sign-On (SSO)", "better-auth", "Firebase Authentication", "Firebase Security Rules", "Authentifizierung", "Role-Based Access Control (RBAC)", "Row Level Security", "SSL/TLS", "Ende-zu-Ende-Verschlüsselung", "Microsoft Entra ID (ehem. Azure Active Directory)", "Secure by Design", "IT-Sicherheit"]),
+    items: techList(["JWT", "OAuth 2.0", "Single Sign-On (SSO)", "better-auth", "Firebase Authentication", "Firebase Security Rules", "Authentifizierung", "Role-Based Access Control (RBAC)", "Row Level Security", "SSL/TLS", "Ende-zu-Ende-Verschlüsselung", "O365 Identity", "Microsoft Entra ID (ehem. Azure Active Directory)", "Secure by Design", "IT-Sicherheit"]),
   },
   {
     num: "10",
@@ -96,7 +96,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "15",
     name: "Tooling",
-    items: techList(["Git", "GitHub", "GitLab", "Visual Studio Code", "Visual Studio", "Jira", "Linear", "Slack", "Azure DevOps", "Bluedot", "HubSpot", "Cal.com", "Google Workspace (Meet, APIs)", "Amplitude", "Product Analytics"]),
+    items: techList(["Git", "GitHub", "GitLab", "Husky", "Visual Studio Code", "Visual Studio", "Jira", "Linear", "Slack", "Azure DevOps", "Bluedot", "HubSpot", "Cal.com", "Google Workspace (Meet, APIs)", "Amplitude", "Product Analytics"]),
   },
   {
     num: "16",

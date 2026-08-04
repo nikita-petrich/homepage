@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
 import { cn } from "@/lib/utils";
-import { getContent, profileName, profileRole } from "@/lib/data";
+import { getContent, profileName } from "@/lib/data";
 import type { Locale } from "@/lib/i18n/config";
 
 /* The warm light band behind the certificate/reference covers and the project
@@ -96,7 +96,7 @@ export function CoverBanner({ locale }: { locale: Locale }) {
         </h1>
 
         <div className="text-[clamp(13px,1.5vw,20px)] font-medium text-[var(--banner-text-soft)]">
-          {profileRole}
+          {profile.role}
         </div>
 
         <div className="mt-[2px] flex flex-wrap justify-end gap-[7px]">

@@ -1,5 +1,5 @@
 import { t } from "@/lib/i18n/text";
-import { accentColor, bookingUrl, profileName, profileRole } from "@/lib/profile";
+import { accentColor, bookingUrl, profileName } from "@/lib/profile";
 
 /* Identity, sidebar and hero content. Every visible string carries both
    languages via t(); anything without it (names, URLs, technologies) is
@@ -10,7 +10,12 @@ export type RichLine = Span[];
 
 export const profile = {
   name: profileName,
-  role: profileRole,
+  /* The freelance status is part of how the role is presented — the neutral
+     `profileRole` stays the machine-readable jobTitle in the schema.org markup. */
+  role: t(
+    "Freiberuflicher Senior Full-Stack & AI Engineer",
+    "Freelance Senior Full-Stack & AI Engineer",
+  ),
   booking: bookingUrl,
   accent: accentColor,
   /* Tagline above the name in the cover banner and on the social card. */
@@ -22,13 +27,13 @@ export const cvFiles = [
     href: "/cv/CV_Nikita_Petrich_DE.pdf",
     label: t("CV Deutsch", "CV German"),
     flag: "/assets/flags/de.svg",
-    sub: t("PDF · 10 Seiten", "PDF · 10 pages"),
+    sub: t("PDF · 13 Seiten", "PDF · 13 pages"),
   },
   {
     href: "/cv/CV_Nikita_Petrich_EN.pdf",
     label: t("CV Englisch", "CV English"),
     flag: "/assets/flags/gb.svg",
-    sub: t("PDF · 10 Seiten", "PDF · 10 pages"),
+    sub: t("PDF · 13 Seiten", "PDF · 13 pages"),
   },
 ];
 
@@ -83,8 +88,8 @@ export const facts: Fact[] = [
         value: t("München · 1–2 Tage/Woche", "Munich · 1–2 days/week"),
       },
       {
-        key: t("Reisen", "Travel"),
-        value: t("1–2 Tage/Monat", "1–2 days/month"),
+        key: t("Fernreisen", "Long-distance travel"),
+        value: t("1–2 Tage/Monat (bei Bedarf)", "1–2 days/month (if needed)"),
       },
     ],
   },
