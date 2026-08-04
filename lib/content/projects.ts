@@ -18,6 +18,9 @@ export type ProjectSource = {
   companyUrl?: string;
   subtitle: Text;
   cat: Text;
+  /** Headline role, shown next to the date on the detail view. Where a project
+      involved more than one role, this is the leading one — the full set
+      belongs in the "Rolle" meta cell, which takes a list. */
   role: Text;
   dateRange: Text;
   sort: string;
@@ -26,7 +29,11 @@ export type ProjectSource = {
   cover?: string;
   cardTags: Text[];
   desc: Text;
-  meta: { label: Text; value: Text }[];
+  /* A cell may hold several values — two roles held in the same project, say.
+     They render as stacked lines in one cell rather than as separate cells, so
+     the six-cell grid keeps its shape. Keep such a list to two or three
+     entries: beyond that it reads as a claim rather than as a fact. */
+  meta: { label: Text; value: Text | Text[] }[];
   responsibilities: Text[];
   results: Text[];
   tech: Text[];
