@@ -178,7 +178,13 @@ export const intro: RichLine[] = [
         " That applies to my clients' processes as much as to my own work. In logistics, a route management system I built saves ",
       ),
     },
-    { t: t("bis zu 1.000 Stunden pro Jahr", "up to 1,000 hours a year"), b: true },
+    {
+      t: t(
+        "bis zu 1.000 Stunden pro Mitarbeiter und Jahr",
+        "up to 1,000 hours per employee per year",
+      ),
+      b: true,
+    },
     {
       t: t(
         " durch automatisierte Dokumentenprozesse, im Handel ",
