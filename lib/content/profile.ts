@@ -27,13 +27,13 @@ export const cvFiles = [
     href: "/cv/CV_Nikita_Petrich_DE.pdf",
     label: t("CV Deutsch", "CV German"),
     flag: "/assets/flags/de.svg",
-    sub: t("PDF · 13 Seiten", "PDF · 13 pages"),
+    sub: t("PDF · 10 Seiten", "PDF · 10 pages"),
   },
   {
     href: "/cv/CV_Nikita_Petrich_EN.pdf",
     label: t("CV Englisch", "CV English"),
     flag: "/assets/flags/gb.svg",
-    sub: t("PDF · 13 Seiten", "PDF · 13 pages"),
+    sub: t("PDF · 10 Seiten", "PDF · 10 pages"),
   },
 ];
 
