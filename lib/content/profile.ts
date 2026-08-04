@@ -115,11 +115,12 @@ export const languages = [
   {
     flag: "/assets/flags/gb.svg",
     text: t("Englisch", "English"),
-    /* The CEFR level alone reads as a self-downgrade next to a five-month,
-       English-only US engagement — so the evidence sits next to it. */
+    /* Not a self-assessment: the level was set by EnglishRadar's own testing
+       (see lib/content/certificates.ts), which is a different claim from the
+       CEFR letter on its own and the reason the issuer is named here. */
     sub: t(
-      "B2 · 5 Monate US-Projekt (EN)",
-      "B2 · 5-month US engagement (EN)",
+      "B2 · zertifiziert (EnglishRadar) · US-Projekt",
+      "B2 · certified (EnglishRadar) · US engagement",
     ),
   },
 ];

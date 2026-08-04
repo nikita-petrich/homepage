@@ -265,8 +265,8 @@ const ui = {
       "Completed courses, each with its certificate as a PDF. Clicking a card shows the full scope — key facts, contents and the syllabus down to the individual lesson; the certificate itself opens in a new tab.",
     ),
     pageDescription: t(
-      "Alle {count} Weiterbildungs-Zertifikate von Nikita Petrich mit Umfang, Kursaufbau und dem Zertifikat als PDF — von Scrimba, Code with Mosh und Udemy.",
-      "All {count} course certificates held by Nikita Petrich, with scope, syllabus and the certificate as a PDF — from Scrimba, Code with Mosh and Udemy.",
+      "Alle {count} Zertifikate von Nikita Petrich mit Umfang, Kursaufbau und dem Zertifikat als PDF — von Scrimba, Code with Mosh, Udemy, Traversy Media und EnglishRadar.",
+      "All {count} certificates held by Nikita Petrich, with scope, syllabus and the certificate as a PDF — from Scrimba, Code with Mosh, Udemy, Traversy Media and EnglishRadar.",
     ),
   },
 
