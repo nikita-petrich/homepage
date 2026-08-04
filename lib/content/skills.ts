@@ -70,7 +70,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "08",
     name: t("DevOps, Cloud & Infrastruktur", "DevOps, cloud & infrastructure"),
-    items: techList(["Docker", "Docker Compose", "GitHub Actions", "GitLab CI", "Azure Pipelines", "Jenkins", "Nginx", "Sentry", "Monitoring", "Observability", "Linux", "Ubuntu", "Self-Hosting", "Microsoft Azure", "Azure Functions", "Azure App Service", "Azure Blob Storage", "Azure SQL", "Google Cloud Platform (GCP)", "Amazon Web Services (AWS)", "Hetzner", "IONOS", "Digital Ocean", "Vercel", "Supabase", "Firebase", "Cloud Functions", "Cloud Storage", "Firebase Cloud Messaging (FCM)", "Firebase Hosting", "DevOps", "DevSecOps"]),
+    items: techList(["Docker", "Docker Compose", "CI/CD", "GitHub Actions", "GitLab CI", "Azure Pipelines", "Jenkins", "Nginx", "Sentry", "Monitoring", "Observability", "Linux", "Ubuntu", "Self-Hosting", "Microsoft Azure", "Azure Functions", "Azure App Service", "Azure Blob Storage", "Azure SQL", "Google Cloud Platform (GCP)", "Amazon Web Services (AWS)", "Hetzner", "IONOS", "Digital Ocean", "Vercel", "Supabase", "Firebase", "Cloud Functions", "Cloud Storage", "Firebase Cloud Messaging (FCM)", "Firebase Hosting", "DevOps", "DevSecOps"]),
   },
   /* Network fundamentals sit apart from DevOps (08): 08 is about running
      services, 09 about the layer underneath them — addressing, name
@@ -97,7 +97,13 @@ export const skills: SkillCategorySource[] = [
      ("Remote Work") is what makes the usual consultant profile unreadable —
      those live in 14 and 22 instead. Tools stay out of both — the pipelines
      that run CI are under DevOps (08), the test runners under Testing & QA
-     (16) — so a practice is never listed twice as its own tooling. */
+     (16) — so a practice is never listed twice as its own tooling.
+
+     That is also why 13 spells out "Continuous Integration" and "Continuous
+     Delivery" while the abbreviation "CI/CD" sits in 08: written out, the
+     terms name the discipline (integrate daily, stay releasable); abbreviated,
+     everyone reads "the pipeline", which is tooling. The short form still has
+     to exist somewhere or the skills search would stop finding it. */
   {
     num: "12",
     name: t("Vorgehen & Methodik", "Ways of working & methodology"),
@@ -106,7 +112,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "13",
     name: t("Engineering-Praktiken", "Engineering practices"),
-    items: techList(["Clean Code", "Code Reviews", "Test-Driven Development (TDD)", "Continuous Integration", "CI/CD"]),
+    items: techList(["Clean Code", "Code Reviews", "Test-Driven Development (TDD)", "Continuous Integration", "Continuous Delivery"]),
   },
   {
     num: "14",

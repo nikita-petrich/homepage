@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Calendar, Quote } from "lucide-react";
+import { ArrowUpRight, Quote } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import type { Project, ProjectMeta, Reference } from "@/lib/data";
@@ -138,9 +138,9 @@ function ProjectTable({ projects: rows }: { projects: Project[] }) {
 }
 
 export function ProjectGallery({ projects }: { projects: Project[] }) {
-  const { locale, ui } = useI18n();
+  const { locale } = useI18n();
   const [view, setView] = useState<GalleryView>("gallery");
-  const { query, setQuery, sortDirLabel, toggleSort, visible } = useGallery(
+  const { query, setQuery, visible } = useGallery(
     projects,
     projectSearchText,
     projectSortKey,
@@ -153,10 +153,6 @@ export function ProjectGallery({ projects }: { projects: Project[] }) {
       <DatabaseToolbar
         view={view}
         onViewChange={setView}
-        sortProp={ui.gallery.sortByDate}
-        sortPropIcon={<Calendar size={14} strokeWidth={1.9} />}
-        sortDirLabel={sortDirLabel}
-        onToggleSortDir={toggleSort}
         query={query}
         onQueryChange={setQuery}
       />

@@ -18,8 +18,6 @@ export const profile = {
   ),
   booking: bookingUrl,
   accent: accentColor,
-  /* Tagline above the name in the cover banner and on the social card. */
-  tagline: t("Freiberuflich · Remote · München", "Freelance · Remote · Munich"),
   /* The guiding principle, quoted under the role in the cover banner the way
      the CV quotes it under the name. The intro spells it out again in full. */
   slogan: t(
@@ -127,18 +125,16 @@ export const approach = [
 ];
 
 /* Methods actually used in the projects (see each project's "Methodik" and
-   tech list), mirrored from the "Vorgehen & Methodik" and
-   "Engineering-Praktiken" skill categories so the sidebar and the skills
-   database never claim different things. Process models first, then the
-   practices that run inside them — the same split the categories make. */
-export const methods = [
-  "Scrum",
-  "Scrumban",
-  "Kanban",
-  "Requirements Engineering",
-  t("Code Reviews", "Code reviews"),
-  "CI/CD",
-];
+   tech list), mirrored from the "Vorgehen & Methodik" skill category so the
+   sidebar and the skills database never claim different things.
+
+   Only what the heading promises: process models, plus Requirements
+   Engineering, which category 12 files here too. Code reviews and CI/CD used
+   to sit in this list and do not belong under "Methodik" — the first is an
+   engineering practice, the second reads as a pipeline. Both stay on the page
+   elsewhere: CI/CD in the focus tags and the skills database, code reviews in
+   the skills database. */
+export const methods = ["Scrum", "Scrumban", "Kanban", "Requirements Engineering"];
 
 export const profileLinks = [
   { label: "Website", href: "https://sequenz.io" },
@@ -148,18 +144,16 @@ export const profileLinks = [
   { label: "Malt", href: "https://www.malt.de/profile/nikitapetrich" },
 ];
 
-/* The "about" block. Each line leads with an icon (keyed into INTRO_ICONS in
-   components/notion/blocks.tsx, the same way the Eckdaten facts do it) and
-   makes one point: focus, guiding principle, way of building, way of working,
-   stack, track record. Bold marks the proof points — the principle, the
-   concrete numbers and the lead technologies. Kept short on purpose: the
+/* The "about" block. Each line makes one point: focus, guiding principle, way
+   of building, way of working, stack, track record. Bold marks the proof
+   points — the principle, the concrete numbers and the lead technologies.
+   Kept short on purpose: the
    projects and the CV carry the detail, this block only has to make a reader
    want them. */
-export type IntroLine = { icon: string; spans: RichLine };
+export type IntroLine = { spans: RichLine };
 
 export const intro: IntroLine[] = [
   {
-    icon: "sparkles",
     spans: [
       { t: t("Schwerpunkt auf KI: ", "Focused on AI: ") },
       {
@@ -178,7 +172,6 @@ export const intro: IntroLine[] = [
     ],
   },
   {
-    icon: "zap",
     spans: [
       { t: t("Mein Leitsatz: ", "My guiding principle: ") },
       {
@@ -209,7 +202,6 @@ export const intro: IntroLine[] = [
     ],
   },
   {
-    icon: "bot",
     spans: [
       { t: t("Durchgängig ", "I work consistently with ") },
       {
@@ -230,7 +222,6 @@ export const intro: IntroLine[] = [
     ],
   },
   {
-    icon: "globe",
     spans: [
       {
         t: t(
@@ -248,7 +239,6 @@ export const intro: IntroLine[] = [
     ],
   },
   {
-    icon: "layers",
     spans: [
       { t: t("Technisch ", "Technically ") },
       { t: t("TypeScript und Python", "TypeScript and Python"), b: true },
@@ -284,7 +274,6 @@ export const intro: IntroLine[] = [
     ],
   },
   {
-    icon: "briefcase",
     spans: [
       { t: t("Erprobt im ", "Proven inside a ") },
       {

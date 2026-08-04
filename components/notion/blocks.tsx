@@ -1,20 +1,17 @@
 import {
-  Bot,
   Briefcase,
   CalendarCheck,
   Globe,
   GraduationCap,
   Handshake,
   Info,
-  Layers,
   Mail,
   MapPin,
   Phone,
-  Sparkles,
   Wallet,
-  Zap,
   type LucideIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -33,16 +30,6 @@ const FACT_ICONS: Record<string, LucideIcon> = {
   "graduation-cap": GraduationCap,
   "map-pin": MapPin,
   handshake: Handshake,
-};
-
-/* Intro icons — one per line of the "about" block, same lucide treatment. */
-const INTRO_ICONS: Record<string, LucideIcon> = {
-  sparkles: Sparkles,
-  briefcase: Briefcase,
-  zap: Zap,
-  bot: Bot,
-  globe: Globe,
-  layers: Layers,
 };
 
 /* Contact icons — same lucide treatment as the Eckdaten (fact) icons. */
@@ -85,12 +72,15 @@ export function Section({
     <section id={id} className={cn("min-w-0 scroll-mt-20", className)}>
       <Heading className={headingClass}>
         {/* A section with an id is a shareable URL: the heading itself is the
-            anchor (plain <a href="#id">, so it works without JavaScript, can be
-            copied or middle-clicked, and pins the hash in the address bar). The
-            "#" marker only shows on hover/keyboard focus. The scroll offset
-            under the sticky top bar comes from `scroll-mt-20` above. */}
+            anchor (it renders as <a href="#id">, so it works without
+            JavaScript, can be copied or middle-clicked, and pins the hash in
+            the address bar). The "#" marker only shows on hover/keyboard focus.
+            The scroll offset under the sticky top bar comes from `scroll-mt-20`
+            above. next/link for the same reason as the table of contents: a
+            native hash jump leaves a history entry without a router tree, and
+            going back to it would leave an open modal stuck on screen. */}
         {id ? (
-          <a
+          <Link
             href={`#${id}`}
             className="group/anchor inline-flex items-baseline gap-1.5"
           >
@@ -103,7 +93,7 @@ export function Section({
             >
               #
             </span>
-          </a>
+          </Link>
         ) : (
           title
         )}
@@ -148,40 +138,27 @@ export function Callout({
   );
 }
 
-/* The "about" block: one icon-led line per point, so a reader can skim the
-   claims without reading the prose. The icon column matches the sidebar facts,
-   which keeps the two halves of the page reading as one system. */
+/* The "about" block: one paragraph per point, so a reader can skim the claims
+   without reading the prose. Each line used to lead with its own icon; six of
+   them in one callout read as decoration rather than structure, so the block
+   now carries the single Info icon of its surrounding Callout and the bold
+   proof points do the skimming. */
 export function IntroLines({ lines }: { lines: IntroLine[] }) {
   return (
     <div className="flex flex-col gap-[10px]">
-      {lines.map((line, i) => {
-        const Icon = INTRO_ICONS[line.icon];
-        return (
-          <p key={i} className="flex gap-3">
-            <span className="mt-[5px] shrink-0">
-              {Icon ? (
-                <Icon
-                  size={15}
-                  strokeWidth={2}
-                  className="text-notion-gray opacity-80"
-                  aria-hidden
-                />
-              ) : null}
-            </span>
-            <span>
-              {line.spans.map((span, j) =>
-                span.b ? (
-                  <strong key={j} className="font-semibold">
-                    {span.t}
-                  </strong>
-                ) : (
-                  <span key={j}>{span.t}</span>
-                ),
-              )}
-            </span>
-          </p>
-        );
-      })}
+      {lines.map((line, i) => (
+        <p key={i}>
+          {line.spans.map((span, j) =>
+            span.b ? (
+              <strong key={j} className="font-semibold">
+                {span.t}
+              </strong>
+            ) : (
+              <span key={j}>{span.t}</span>
+            ),
+          )}
+        </p>
+      ))}
     </div>
   );
 }

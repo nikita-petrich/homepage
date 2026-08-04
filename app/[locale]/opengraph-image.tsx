@@ -6,12 +6,13 @@ import { ImageResponse } from "next/og";
 import { getContent } from "@/lib/data";
 import { defaultLocale, isLocale, locales } from "@/lib/i18n/config";
 import { ogImageAlt, ogImageContentType, ogImageSize } from "@/lib/metadata";
-import { profileName, profileRole, siteUrl } from "@/lib/profile";
+import { profileName, siteUrl } from "@/lib/profile";
 
 /* Social-share card (Slack, LinkedIn, WhatsApp, iMessage …), generated at build
-   time: profile photo, name, role, guiding principle and the three focus areas
-   — the same facts a reader would look for after clicking, so the card already
-   answers "who is this" before anyone opens the link.
+   time in the cover-banner design: warm gradient, accent bar, and the banner's
+   own order — role, name, guiding principle, focus tags. The photo leads,
+   because that is what a card for a person is for: the reader knows who is
+   behind the link before opening it.
    Alt text and dimensions come from lib/metadata.ts, which also hands them to
    the routes that build their own openGraph block.
 
@@ -25,7 +26,7 @@ export const contentType = ogImageContentType;
 
 /* Geist is the site's typeface (see app/[locale]/layout.tsx). next/font serves
    it as woff2, which Satori cannot parse — the same package ships TrueType
-   next to it, and that is what `fonts` below wants. Two weights only: the
+   next to it, and that is what `fonts` below wants. Three faces only: the
    500KB budget an ImageResponse bundle has to stay inside covers the fonts,
    the photo and the markup together. */
 const geistDir = "node_modules/geist/dist/fonts/geist-sans";
@@ -33,8 +34,8 @@ const geistDir = "node_modules/geist/dist/fonts/geist-sans";
 /** Primary amber, as in app/icon.tsx — keep it in sync with `--primary`. */
 const accent = "#bb4d00";
 
-/* One card per language — the tagline, the guiding principle and the focus
-   areas are translated, the rest is identical in both. */
+/* One card per language — the role, the guiding principle and the focus areas
+   are translated, the rest is identical in both. */
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
@@ -49,10 +50,11 @@ export default async function Image({
 
   /* Read straight from disk instead of fetching the deployed URL: the card is
      prerendered during `next build`, when no server is listening yet. */
-  const [photo, regular, bold] = await Promise.all([
+  const [photo, regular, bold, italic] = await Promise.all([
     readFile(join(process.cwd(), "public/assets/profile.jpg"), "base64"),
     readFile(join(process.cwd(), geistDir, "Geist-Regular.ttf")),
     readFile(join(process.cwd(), geistDir, "Geist-Bold.ttf")),
+    readFile(join(process.cwd(), geistDir, "Geist-Italic.ttf")),
   ]);
 
   return new ImageResponse(
@@ -76,15 +78,32 @@ export default async function Image({
             padding: "0 72px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
+          {/* Same order as the cover banner: the role is the accent eyebrow
+              above the name, so the card and the page open with one line. It
+              is long, so it spans the full width instead of sharing a row with
+              the photo — at 26pt it needs a little over 900 of the 1042
+              points between the paddings. */}
+          <div
+            style={{
+              fontSize: 26,
+              fontWeight: 700,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: accent,
+            }}
+          >
+            {profile.role}
+          </div>
+
+          <div style={{ marginTop: 36, display: "flex", alignItems: "center", gap: 48 }}>
             {/* Same 1 / 1.1 portrait frame the sidebar uses (app/[locale]/page.tsx),
                 anchored to the top edge so the crop never cuts into the face. */}
             <img
               /* The card as a whole carries the alt text — see `alt` above. */
               alt=""
               src={`data:image/jpeg;base64,${photo}`}
-              width={262}
-              height={288}
+              width={230}
+              height={253}
               style={{
                 borderRadius: 20,
                 objectFit: "cover",
@@ -95,19 +114,7 @@ export default async function Image({
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div
                 style={{
-                  fontSize: 27,
-                  fontWeight: 700,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: accent,
-                }}
-              >
-                {profile.tagline}
-              </div>
-              <div
-                style={{
-                  marginTop: 16,
-                  fontSize: 78,
+                  fontSize: 76,
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
                   color: "#171717",
@@ -115,19 +122,23 @@ export default async function Image({
               >
                 {profileName}
               </div>
-              <div style={{ marginTop: 8, fontSize: 37, color: "#525252" }}>
-                {profileRole}
+              {/* Quoted in accent italic, as the banner quotes it under the name. */}
+              <div
+                style={{
+                  marginTop: 14,
+                  fontSize: 29,
+                  fontStyle: "italic",
+                  color: accent,
+                }}
+              >
+                {profile.slogan}
               </div>
             </div>
           </div>
 
-          <div style={{ marginTop: 40, fontSize: 32, color: "#404040" }}>
-            {profile.slogan}
-          </div>
-
           <div
             style={{
-              marginTop: 34,
+              marginTop: 40,
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -157,6 +168,7 @@ export default async function Image({
       fonts: [
         { name: "Geist", data: Uint8Array.from(regular).buffer, weight: 400, style: "normal" },
         { name: "Geist", data: Uint8Array.from(bold).buffer, weight: 700, style: "normal" },
+        { name: "Geist", data: Uint8Array.from(italic).buffer, weight: 400, style: "italic" },
       ],
     },
   );

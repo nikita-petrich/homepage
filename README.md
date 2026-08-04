@@ -209,9 +209,10 @@ social-share card in the same frame, so one replacement covers both.
 `app/[locale]/opengraph-image.tsx` draws the 1200×630 preview that Slack,
 LinkedIn, WhatsApp and iMessage show for a shared link — profile photo, name,
 role, the guiding principle from `lib/content/profile.ts` and the first three
-entries of its `focus` list, one card per language. Everything on it comes from
-the content tree, so editing the tagline, the slogan or the focus order changes
-the card on the next build; nothing has to be redrawn by hand.
+entries of its `focus` list, one card per language, in the cover banner's
+order. Everything on it comes from the content tree, so editing the role, the
+slogan or the focus order changes the card on the next build; nothing has to be
+redrawn by hand.
 
 The card is prerendered at build time, and its URL carries a content hash, so a
 changed card gets a new `og:image` URL. Chat clients still cache the preview
