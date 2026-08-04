@@ -138,7 +138,7 @@ export default async function Page({
             <Section title={ui.sections.languages} size="h3" id="languages">
               <div className="flex flex-col">
                 {languages.map((item) => (
-                  <LangLine key={item.text} item={item} />
+                  <LangLine key={item.text} item={item} locale={locale} />
                 ))}
               </div>
             </Section>

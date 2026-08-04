@@ -83,9 +83,11 @@ const ui = {
       "Was Kund:innen und Projektbeteiligte über die Zusammenarbeit sagen. Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt) nachprüfbar.",
       "What clients and project colleagues say about working together. Every testimonial is verifiable through its source (LinkedIn / Malt).",
     ),
+    /* "Zertifikate", not "Weiterbildungen": the list is no longer only
+       technology courses — the language qualification is assessed, not taught. */
     certificatesIntro: t(
-      "Abgeschlossene Weiterbildungen. Jede Karte zeigt den vollständigen Umfang — Eckdaten, Inhalte und Kursaufbau — und verlinkt das Zertifikat als PDF.",
-      "Completed courses. Each card shows the full scope — key facts, contents and syllabus — and links to the certificate as a PDF.",
+      "Abgeschlossene Weiterbildungen und geprüfte Qualifikationen. Jede Karte zeigt den vollständigen Umfang — Eckdaten, Inhalte und Kursaufbau — und verlinkt das Zertifikat als PDF.",
+      "Completed courses and assessed qualifications. Each card shows the full scope — key facts, contents and syllabus — and links to the certificate as a PDF.",
     ),
     certificatesLink: t(
       "Alle Zertifikate auf einer Seite",
