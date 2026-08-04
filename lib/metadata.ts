@@ -7,8 +7,9 @@ import {
   locales,
   type Locale,
 } from "./i18n/config";
+import { profileName, profileRole } from "./profile";
 
-export const siteName = "Nikita Petrich";
+export const siteName = profileName;
 
 /* The shared social card rendered by app/[locale]/opengraph-image.tsx, which
    imports these constants so alt text and dimensions live in one place.
@@ -18,7 +19,7 @@ export const siteName = "Nikita Petrich";
    block, so the image has to be carried along explicitly — otherwise the
    project, reference and legal pages would share with no preview image at
    all. */
-export const ogImageAlt = "Nikita Petrich — Senior Full-Stack & AI Engineer";
+export const ogImageAlt = `${profileName} — ${profileRole}`;
 export const ogImageSize = { width: 1200, height: 630 };
 export const ogImageContentType = "image/png";
 

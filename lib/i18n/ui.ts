@@ -72,6 +72,12 @@ const ui = {
       "Passt das zu Ihrem Vorhaben?",
       "Does this fit what you have in mind?",
     ),
+    /* The hero button spells out that the intro call is free — the top bar
+       keeps the shorter topbar.booking label where space is tight. */
+    ctaButton: t(
+      "Kostenloses Erstgespräch buchen",
+      "Book a free intro call",
+    ),
     referencesIntro: t(
       "Was Kund:innen und Projektbeteiligte über die Zusammenarbeit sagen. Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt) nachprüfbar.",
       "What clients and project colleagues say about working together. Every testimonial is verifiable through its source (LinkedIn / Malt).",
@@ -92,10 +98,6 @@ const ui = {
     /* Same reason as language.switchLabelFor: the trigger's visible text is the
        current view's name, so the accessible name has to lead with it. */
     switchView: t("{view} – Ansicht wechseln", "{view} – switch view"),
-    sort: t("Sortierung", "Sorting"),
-    sortByDate: t("Datum", "Date"),
-    newestFirst: t("Neueste zuerst", "Newest first"),
-    oldestFirst: t("Älteste zuerst", "Oldest first"),
     search: t("Suchen", "Search"),
     searchPlaceholder: t("Suchen…", "Search…"),
     searchLabel: t("Durchsuchen", "Search entries"),
@@ -107,6 +109,14 @@ const ui = {
     title: t("Meine Skills", "My skills"),
     searchPlaceholder: t("Skill suchen…", "Search skills…"),
     searchLabel: t("Skill suchen", "Search skills"),
+    /* Headings above the category cards, one per `kind` in
+       lib/content/skills.ts. "Hard Skills"/"Soft Skills" are the terms a German
+       job ad uses, so they stay English in the German version too. */
+    groups: {
+      hard: t("Hard Skills", "Hard skills"),
+      soft: t("Soft Skills", "Soft skills"),
+      profile: t("Profil", "Profile"),
+    },
   },
 
   projects: {
