@@ -1,21 +1,25 @@
 import {
+  Bot,
   Briefcase,
   CalendarCheck,
   Globe,
   GraduationCap,
   Handshake,
   Info,
+  Layers,
   Mail,
   MapPin,
   Phone,
+  Sparkles,
   Wallet,
+  Zap,
   type LucideIcon,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import type { FactItem, InfoItem, Language, RichLine } from "@/lib/data";
+import type { FactItem, InfoItem, IntroLine, Language } from "@/lib/data";
 
 import { Flag } from "./icons";
 
@@ -29,6 +33,16 @@ const FACT_ICONS: Record<string, LucideIcon> = {
   "graduation-cap": GraduationCap,
   "map-pin": MapPin,
   handshake: Handshake,
+};
+
+/* Intro icons — one per line of the "about" block, same lucide treatment. */
+const INTRO_ICONS: Record<string, LucideIcon> = {
+  sparkles: Sparkles,
+  briefcase: Briefcase,
+  zap: Zap,
+  bot: Bot,
+  globe: Globe,
+  layers: Layers,
 };
 
 /* Contact icons — same lucide treatment as the Eckdaten (fact) icons. */
@@ -100,40 +114,74 @@ export function Section({
   );
 }
 
-export function RichText({ lines }: { lines: RichLine[] }) {
+/* A Notion callout: tinted panel, no outline, a marker glyph in its own column
+   at the top left. Pass `icon={false}` when the content brings its own icons
+   per line, as the about block does. */
+export function Callout({
+  icon = true,
+  children,
+}: {
+  icon?: boolean;
+  children: React.ReactNode;
+}) {
   return (
-    <>
-      {lines.map((line, i) => (
-        <p key={i} className={i < lines.length - 1 ? "mb-[10px]" : undefined}>
-          {line.map((span, j) =>
-            span.b ? (
-              <strong key={j} className="font-semibold">
-                {span.t}
-              </strong>
-            ) : (
-              <span key={j}>{span.t}</span>
-            ),
-          )}
-        </p>
-      ))}
-    </>
+    <div
+      className={cn(
+        "rounded-[10px] bg-[var(--surface-muted)] px-4 py-4",
+        icon && "flex gap-3",
+      )}
+    >
+      {/* Same treatment as the sidebar contact/fact icons: 15px glyph, nudged
+          down to sit on the first line's centre. */}
+      {icon ? (
+        <div className="mt-[5px] shrink-0">
+          <Info
+            size={15}
+            strokeWidth={2}
+            className="text-notion-gray opacity-80"
+            aria-hidden
+          />
+        </div>
+      ) : null}
+      <div className="text-[15px] leading-[1.65]">{children}</div>
+    </div>
   );
 }
 
-export function Callout({ children }: { children: React.ReactNode }) {
+/* The "about" block: one icon-led line per point, so a reader can skim the
+   claims without reading the prose. The icon column matches the sidebar facts,
+   which keeps the two halves of the page reading as one system. */
+export function IntroLines({ lines }: { lines: IntroLine[] }) {
   return (
-    <div className="flex gap-3 rounded-[10px] border border-[var(--border)] bg-[var(--surface)] px-4 py-4">
-      {/* Same treatment as the sidebar contact/fact icons: 15px lucide glyph in
-          muted grey, nudged down to sit on the first line's centre. */}
-      <div className="mt-[5px] shrink-0">
-        <Info
-          size={15}
-          strokeWidth={2}
-          className="text-notion-gray opacity-80"
-          aria-hidden
-        />
-      </div>
-      <div className="text-[15px] leading-[1.65]">{children}</div>
+    <div className="flex flex-col gap-[10px]">
+      {lines.map((line, i) => {
+        const Icon = INTRO_ICONS[line.icon];
+        return (
+          <p key={i} className="flex gap-3">
+            <span className="mt-[5px] shrink-0">
+              {Icon ? (
+                <Icon
+                  size={15}
+                  strokeWidth={2}
+                  className="text-notion-gray opacity-80"
+                  aria-hidden
+                />
+              ) : null}
+            </span>
+            <span>
+              {line.spans.map((span, j) =>
+                span.b ? (
+                  <strong key={j} className="font-semibold">
+                    {span.t}
+                  </strong>
+                ) : (
+                  <span key={j}>{span.t}</span>
+                ),
+              )}
+            </span>
+          </p>
+        );
+      })}
     </div>
   );
 }

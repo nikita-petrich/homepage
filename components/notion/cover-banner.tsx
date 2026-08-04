@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
 import { cn } from "@/lib/utils";
-import { getContent, profileName, profileRole } from "@/lib/data";
+import { getContent, profileName } from "@/lib/data";
 import type { Locale } from "@/lib/i18n/config";
 
 /* The warm light band behind the certificate/reference covers and the project
@@ -69,7 +69,11 @@ export function CoverBanner({ locale }: { locale: Locale }) {
     /* Full-bleed Notion-style cover: edge to edge, no rounding or shadow. The
        amber code-logo tile in app/[locale]/page.tsx overlaps its bottom edge,
        the way a Notion page icon sits on the cover image. */
-    <div className="flex w-full border-t-[3px] border-b border-t-[var(--primary)] border-b-[var(--border-strong)]">
+    <div className="relative flex w-full border-b border-b-[var(--border-strong)]">
+      {/* The accent edge runs down the left side, matching the certificate and
+          testimonial covers. */}
+      <div className="absolute inset-y-0 left-0 z-[1] w-[5px] bg-[var(--accent-o)]" />
+
       {/* Left — dark terminal-style code strip, hidden on narrow screens. */}
       <div
         className="relative hidden shrink-0 basis-[37%] flex-col justify-center px-[clamp(20px,3.2vw,64px)] py-[clamp(22px,2.6vw,34px)] sm:flex"
@@ -96,7 +100,11 @@ export function CoverBanner({ locale }: { locale: Locale }) {
         </h1>
 
         <div className="text-[clamp(13px,1.5vw,20px)] font-medium text-[var(--banner-text-soft)]">
-          {profileRole}
+          {profile.role}
+        </div>
+
+        <div className="text-[clamp(11px,1.25vw,16px)] font-medium text-[var(--primary)] italic">
+          {profile.slogan}
         </div>
 
         <div className="mt-[2px] flex flex-wrap justify-end gap-[7px]">

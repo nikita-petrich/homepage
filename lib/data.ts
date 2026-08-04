@@ -24,7 +24,11 @@ import type { CertificateSectionSource, CertificateSource } from "./content/cert
 import type { ProjectSource } from "./content/projects";
 import type { ReferenceSourceEntry } from "./content/references";
 import type { SkillCategorySource } from "./content/skills";
-import type { RichLine as RichLineSource, Span as SpanSource } from "./content/profile";
+import type {
+  IntroLine as IntroLineSource,
+  RichLine as RichLineSource,
+  Span as SpanSource,
+} from "./content/profile";
 
 /* The page content, assembled from lib/content/* and resolved for one locale.
  *
@@ -37,6 +41,7 @@ export type { ReferenceSource } from "./content/references";
 
 export type Span = Localized<SpanSource>;
 export type RichLine = Localized<RichLineSource>;
+export type IntroLine = Localized<IntroLineSource>;
 export type Project = Localized<ProjectSource>;
 export type ProjectMeta = Project["meta"][number];
 export type Certificate = Localized<CertificateSource>;
