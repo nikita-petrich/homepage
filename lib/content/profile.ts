@@ -115,13 +115,17 @@ export const languages = [
   {
     flag: "/assets/flags/gb.svg",
     text: t("Englisch", "English"),
-    /* Not a self-assessment: the level was set by EnglishRadar's own testing
-       (see lib/content/certificates.ts), which is a different claim from the
-       CEFR letter on its own and the reason the issuer is named here. */
+    /* Leads with what the certificate actually attests — running meetings,
+       presentations and negotiations in English — rather than with the CEFR
+       letter. The letter is what a filter matches; the competency is what a
+       client is really asking about, and B2 alone undersells a five-month
+       English-only engagement. Not a self-assessment either way: the level was
+       set by EnglishRadar's own testing, hence the link. */
     sub: t(
-      "B2 · zertifiziert (EnglishRadar) · US-Projekt",
-      "B2 · certified (EnglishRadar) · US engagement",
+      "Business English (Meetings, Präsentationen, Verhandlungen) · B2 zertifiziert",
+      "Business English (meetings, presentations, negotiations) · B2 certified",
     ),
+    href: "/certificates/english-radar-business-english",
   },
 ];
 
@@ -168,11 +172,12 @@ export const intro: IntroLine[] = [
           "I'm a freelance Senior Full-Stack & AI Engineer focused on LLM integration, RAG and AI-driven automation – from architecture to production. My results: ",
         ),
       },
-      /* Order matters here. The logistics figure is the largest and the one a
-         reader is most likely to bounce off, so it no longer opens the list:
-         the two immediately credible numbers come first, and the big one
-         arrives last with the mechanism attached — it is what the automated
-         route documents replaced, not an unexplained headline. */
+      /* Order matters here, and so does sentence length. The logistics figure
+         is the largest and the one a reader is most likely to bounce off, so
+         the two immediately credible numbers come first and it arrives last —
+         in a sentence of its own, with the mechanism in front of it rather than
+         wedged into an em-dash aside. Three bold figures in one 60-word run did
+         not survive a skim, which is the only way this paragraph is read. */
       { t: t("40 Stunden/Monat", "40 hours/month"), b: true },
       {
         t: t(
@@ -186,8 +191,8 @@ export const intro: IntroLine[] = [
       },
       {
         t: t(
-          " im Notariat und – weil Tourunterlagen nicht mehr je Fahrt von Hand zusammengestellt werden – ",
-          " at a notary's office and — because route documents are no longer assembled by hand for every trip — ",
+          " im Notariat. In der Logistik entstehen die Tourunterlagen, die vorher je Fahrt von Hand zusammengestellt wurden, seither aus den erfassten Daten – ",
+          " at a notary's office. In logistics, the route documents that used to be assembled by hand for every trip are now generated from the captured data — ",
         ),
       },
       {
@@ -201,8 +206,8 @@ export const intro: IntroLine[] = [
         /* Same attribution the project pages carry — the figures are the
            clients' own, and saying so is what makes them worth quoting. */
         t: t(
-          " in der Logistik; jeweils nach Angaben der Kunden bzw. Anbieter. Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
-          " in logistics; each figure as reported by the client or provider. I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
+          "; jeweils nach Angaben der Kunden bzw. Anbieter. Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
+          "; each figure as reported by the client or provider. I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
         ),
       },
       {
@@ -252,15 +257,35 @@ export const intro: IntroLine[] = [
       },
       {
         t: t(
-          " in LegalTech, HealthTech, E-Commerce, EdTech und Logistik – im 20-köpfigen Team (LegalTech-Plattform, ",
-          " in LegalTech, HealthTech, e-commerce, EdTech and logistics – on a 20-person team (LegalTech platform, ",
+          " in LegalTech, HealthTech, E-Commerce, EdTech und Logistik. Ich verantworte ",
+          " in LegalTech, HealthTech, e-commerce, EdTech and logistics. I take ",
+        ),
+      },
+      /* The seniority signal, and nothing here is a new claim: the two halves
+         restate what the project pages document — end-to-end architecture and
+         operations ownership on four projects (one of them running in
+         production since 2021), and delivery inside a grown engineering
+         organisation on the Manifest OS engagement. The site had the evidence
+         and stated it only two clicks deep, where a client reading the first
+         screen never reaches it. */
+      {
+        t: t(
+          "Architektur und Betrieb end-to-end",
+          "end-to-end ownership of architecture and operations",
+        ),
+        b: true,
+      },
+      {
+        t: t(
+          " – ein System läuft seit 2021 durchgehend im Produktivbetrieb – und liefere ebenso in gewachsenen Engineering-Organisationen: bei einer LegalTech-Plattform mit ",
+          " – one system has been running in production continuously since 2021 – and deliver just as well inside grown engineering organisations: on a LegalTech platform with ",
         ),
       },
       { t: t("3.000+ Kunden", "3,000+ customers"), b: true },
       {
         t: t(
-          ") wie auch als alleiniger Entwickler mit voller Produktverantwortung.",
-          ") as well as sole developer with full product ownership.",
+          " im Verbund aus rund 20 Engineers in vier Teams, unter anderem bei der Zusammenführung von vier Portalen zu einem.",
+          " within a group of some 20 engineers across four teams, including the consolidation of four portals into one.",
         ),
       },
     ],
@@ -311,6 +336,12 @@ export const focus = [
 export const sections = [
   { id: "contact", label: t("Kontakt", "Contact"), level: 2 as const },
   { id: "facts", label: t("Eckdaten", "Key facts"), level: 2 as const },
+  /* Both of these render on the page and were missing from this list, so the
+     navigation skipped them. "Profile" matters most: the platform links
+     (LinkedIn, GitHub, freelancermap, Malt) are the fastest route from here to
+     somewhere a recruiter can already message him. */
+  { id: "profiles", label: t("Profile", "Profiles"), level: 2 as const },
+  { id: "methods", label: t("Methodik", "Methodology"), level: 2 as const },
   { id: "languages", label: t("Sprachen", "Languages"), level: 2 as const },
   { id: "approach", label: t("Arbeitsweise", "Ways of working"), level: 2 as const },
   { id: "focus", label: t("Schwerpunkt", "Focus"), level: 1 as const },

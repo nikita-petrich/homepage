@@ -74,11 +74,19 @@ export const certificates: CertificateSource[] = [
     issuer: "EnglishRadar",
     date: t("August 2026", "August 2026"),
     sort: "2026-08-04",
-    detail: t("360 Std · 480 Lektionen · 12 Wochen", "360 hrs · 480 lessons · 12 weeks"),
+    /* The period is on the card, not only in the dialog's facts grid. It is the
+       load-bearing fact: a reader comparing the newest client engagement
+       (ending 04/2026) against "verfügbar ab sofort" is looking for exactly
+       these three months, and burying them one click deep means the answer is
+       on the site but not on the page. */
+    detail: t(
+      "11.05.–31.07.2026 · Vollzeit · 360 Std",
+      "11 May – 31 July 2026 · full-time · 360 hrs",
+    ),
     cat: "Business English",
     tags: [
       "Business English",
-      "CEFR B2",
+      t("GER B2", "CEFR B2"),
       t("Verhandlungen", "Negotiations"),
       t("Präsentationen", "Presentations"),
     ],

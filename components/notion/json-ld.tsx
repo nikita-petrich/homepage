@@ -59,11 +59,13 @@ export function PersonJsonLd({ locale }: { locale: Locale }) {
       .map((p) => p.href),
     knowsAbout,
     knowsLanguage: ["de", "en"],
+    /* No `skills` here. It used to repeat all ~330 `knowsAbout` terms as one
+       comma-separated string — the same list twice, and in the shape a parser
+       reads as keyword stuffing. `knowsAbout` is the field that carries them. */
     hasOccupation: {
       "@type": "Occupation",
       name: profileRole,
       occupationLocation: { "@type": "Country", name: "DE" },
-      skills: knowsAbout.join(", "),
     },
     subjectOf: projects.map((p) => ({
       "@type": "CreativeWork",
