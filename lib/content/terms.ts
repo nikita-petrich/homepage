@@ -108,6 +108,29 @@ const translations: Record<string, string> = {
   "Digitale Archivführung": "Digital archiving",
   Plattformentwicklung: "Platform development",
 
+  // Soft skills
+  "Professionelle Kommunikation": "Professional communication",
+  "Klare Kommunikation (Deutsch/Englisch)": "Clear communication (German/English)",
+  "Proaktive Kommunikation": "Proactive communication",
+  Präsentationsfähigkeit: "Presentation skills",
+  "Stakeholder-Kommunikation": "Stakeholder communication",
+  "Konstruktives Feedback": "Constructive feedback",
+  "Technische Dokumentation": "Technical documentation",
+  Teamfähigkeit: "Teamwork",
+  "Integration in bestehende Teams": "Fitting into existing teams",
+  "Kollegiale Zusammenarbeit": "Collegial collaboration",
+  Wissenstransfer: "Knowledge sharing",
+  "Remote-Zusammenarbeit": "Remote collaboration",
+  "Asynchrone Zusammenarbeit": "Asynchronous collaboration",
+  "Interdisziplinäre Zusammenarbeit": "Cross-functional collaboration",
+  Zuverlässigkeit: "Reliability",
+  Verantwortungsbewusstsein: "Sense of responsibility",
+  "Eigenverantwortliches Arbeiten": "Self-directed working",
+  "Schnelle Reaktionszeiten": "Fast response times",
+  Ergebnisorientierung: "Results-driven",
+  Lösungsorientierung: "Solution-oriented",
+  Lernbereitschaft: "Willingness to learn",
+
   // Roles & profile
   "Technischer Berater": "Technical advisor",
   "Fachinformatiker Anwendungsentwicklung":

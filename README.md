@@ -134,7 +134,7 @@ lib/
   content/
     profile.ts          Identity, sidebar, intro, focus, TOC
     projects.ts         The nine reference projects
-    skills.ts           Skill taxonomy (17 categories)
+    skills.ts           Skill taxonomy (22 categories: hard, soft, profile)
     certificates.ts     Certificates incl. syllabi
     references.ts       Testimonials + translations, validated at build
     terms.ts            Shared translations of technology/skill terms
