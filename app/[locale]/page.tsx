@@ -152,7 +152,7 @@ export default async function Page({
           </aside>
 
           <div className="flex min-w-0 flex-col gap-10">
-            <Callout emoji="💡">
+            <Callout icon={false}>
               <IntroLines lines={intro} />
               <p className="mt-3 font-semibold text-[var(--accent-text)]">
                 {ui.home.ctaQuestion}

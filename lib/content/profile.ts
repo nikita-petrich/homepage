@@ -148,7 +148,7 @@ export const profileLinks = [
 /* The "about" block. Each line leads with an icon (keyed into INTRO_ICONS in
    components/notion/blocks.tsx, the same way the Eckdaten facts do it) and
    makes one point: focus, guiding principle, way of building, way of working,
-   stack and track record. Bold marks the proof points — the principle, the
+   stack, track record. Bold marks the proof points — the principle, the
    concrete numbers and the lead technologies. Kept short on purpose: the
    projects and the CV carry the detail, this block only has to make a reader
    want them. */
@@ -251,8 +251,23 @@ export const intro: IntroLine[] = [
       { t: t("TypeScript und Python", "TypeScript and Python"), b: true },
       {
         t: t(
-          ", Clean Architecture und Microservices als Standard, ",
-          ", Clean Architecture and microservices as standard, ",
+          ", Backend mit ",
+          ", backends with ",
+        ),
+      },
+      {
+        t: t("NestJS, Node.js und FastAPI", "NestJS, Node.js and FastAPI"),
+        b: true,
+      },
+      { t: t(", Frontend mit ", ", frontends with ") },
+      {
+        t: t("Next.js, React und Angular", "Next.js, React and Angular"),
+        b: true,
+      },
+      {
+        t: t(
+          ", dazu PostgreSQL, Docker und CI/CD. Clean Architecture und Microservices als Standard, ",
+          ", plus PostgreSQL, Docker and CI/CD. Clean Architecture and microservices as standard, ",
         ),
       },
       {
@@ -262,7 +277,13 @@ export const intro: IntroLine[] = [
         ),
         b: true,
       },
-      { t: t(" von Beginn an. Erprobt im ", " from day one. Proven inside a ") },
+      { t: t(" von Beginn an.", " from day one.") },
+    ],
+  },
+  {
+    icon: "briefcase",
+    spans: [
+      { t: t("Erprobt im ", "Proven inside a ") },
       {
         t: t("20-köpfigen Engineering-Team", "20-person engineering team"),
         b: true,

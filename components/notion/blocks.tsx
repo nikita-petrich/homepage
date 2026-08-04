@@ -38,6 +38,7 @@ const FACT_ICONS: Record<string, LucideIcon> = {
 /* Intro icons — one per line of the "about" block, same lucide treatment. */
 const INTRO_ICONS: Record<string, LucideIcon> = {
   sparkles: Sparkles,
+  briefcase: Briefcase,
   zap: Zap,
   bot: Bot,
   globe: Globe,
@@ -113,30 +114,26 @@ export function Section({
   );
 }
 
-/* A Notion callout: tinted panel, no outline, an emoji in its own column at the
-   top left. `emoji` replaces the default ⓘ glyph; pass `icon={false}` when the
-   content brings its own icons per line. */
+/* A Notion callout: tinted panel, no outline, a marker glyph in its own column
+   at the top left. Pass `icon={false}` when the content brings its own icons
+   per line, as the about block does. */
 export function Callout({
   icon = true,
-  emoji,
   children,
 }: {
   icon?: boolean;
-  emoji?: string;
   children: React.ReactNode;
 }) {
-  const marker = emoji ?? (icon ? "info" : null);
-
   return (
     <div
       className={cn(
         "rounded-[10px] bg-[var(--surface-muted)] px-4 py-4",
-        marker && "flex gap-3",
+        icon && "flex gap-3",
       )}
     >
       {/* Same treatment as the sidebar contact/fact icons: 15px glyph, nudged
           down to sit on the first line's centre. */}
-      {marker === "info" ? (
+      {icon ? (
         <div className="mt-[5px] shrink-0">
           <Info
             size={15}
@@ -145,13 +142,6 @@ export function Callout({
             aria-hidden
           />
         </div>
-      ) : marker ? (
-        <div
-          className="mt-[1px] shrink-0 text-[17px] leading-[1.4]"
-          aria-hidden
-        >
-          {marker}
-        </div>
       ) : null}
       <div className="text-[15px] leading-[1.65]">{children}</div>
     </div>
@@ -159,8 +149,8 @@ export function Callout({
 }
 
 /* The "about" block: one icon-led line per point, so a reader can skim the
-   five claims without reading the prose. The icon column matches the sidebar
-   facts, which keeps the two halves of the page reading as one system. */
+   claims without reading the prose. The icon column matches the sidebar facts,
+   which keeps the two halves of the page reading as one system. */
 export function IntroLines({ lines }: { lines: IntroLine[] }) {
   return (
     <div className="flex flex-col gap-[10px]">
