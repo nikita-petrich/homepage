@@ -125,18 +125,16 @@ export const approach = [
 ];
 
 /* Methods actually used in the projects (see each project's "Methodik" and
-   tech list), mirrored from the "Vorgehen & Methodik" and
-   "Engineering-Praktiken" skill categories so the sidebar and the skills
-   database never claim different things. Process models first, then the
-   practices that run inside them — the same split the categories make. */
-export const methods = [
-  "Scrum",
-  "Scrumban",
-  "Kanban",
-  "Requirements Engineering",
-  t("Code Reviews", "Code reviews"),
-  "CI/CD",
-];
+   tech list), mirrored from the "Vorgehen & Methodik" skill category so the
+   sidebar and the skills database never claim different things.
+
+   Only what the heading promises: process models, plus Requirements
+   Engineering, which category 12 files here too. Code reviews and CI/CD used
+   to sit in this list and do not belong under "Methodik" — the first is an
+   engineering practice, the second reads as a pipeline. Both stay on the page
+   elsewhere: CI/CD in the focus tags and the skills database, code reviews in
+   the skills database. */
+export const methods = ["Scrum", "Scrumban", "Kanban", "Requirements Engineering"];
 
 export const profileLinks = [
   { label: "Website", href: "https://sequenz.io" },
