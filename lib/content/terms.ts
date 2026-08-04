@@ -55,6 +55,11 @@ const translations: Record<string, string> = {
   "MVP-Entwicklung": "MVP development",
   "Video-Streaming": "Video streaming",
 
+  // Networking
+  "IP-Netzwerke": "IP networks",
+  "MAC-Adressen": "MAC addresses",
+  "Windows CMD (Kommandozeile)": "Windows CMD (command line)",
+
   // Ways of working
   "Agile Methoden": "Agile methods",
   "Code Reviews": "Code reviews",
