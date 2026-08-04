@@ -57,12 +57,7 @@ const ui = {
     contact: t("Kontakt", "Contact"),
     facts: t("Eckdaten", "Key facts"),
     profiles: t("Profile", "Profiles"),
-    /* "Methodik" alone was wrong for half the list: Scrum, Scrumban and Kanban
-       are process models, but Requirements Engineering is a discipline and
-       Code Reviews and CI/CD are engineering practices. The heading names both
-       halves — the same split the skills database makes in categories 12
-       ("Vorgehen & Methodik") and 13 ("Engineering-Praktiken"). */
-    methods: t("Methodik & Praktiken", "Methodology & practices"),
+    methods: t("Methodik", "Methodology"),
     languages: t("Sprachen", "Languages"),
     approach: t("Arbeitsweise", "Ways of working"),
     focus: t("Schwerpunkt", "Focus"),
