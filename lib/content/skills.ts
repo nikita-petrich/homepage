@@ -61,7 +61,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "08",
     name: t("DevOps, Cloud & Infrastruktur", "DevOps, cloud & infrastructure"),
-    items: techList(["Docker", "Docker Compose", "GitHub Actions", "GitLab CI", "Azure Pipelines", "Jenkins", "Nginx", "Sentry", "Datadog", "Monitoring", "Observability", "Linux", "Ubuntu", "Self-Hosting", "Microsoft Azure", "Azure Functions", "Azure App Service", "Azure Blob Storage", "Azure SQL", "Google Cloud Platform (GCP)", "Amazon Web Services (AWS)", "Hetzner", "IONOS", "Digital Ocean", "Vercel", "Supabase", "Supabase Realtime", "Firebase", "Cloud Functions", "Cloud Storage", "Firebase Cloud Messaging (FCM)", "Firebase Hosting", "DevOps", "DevSecOps"]),
+    items: techList(["Docker", "Docker Compose", "GitHub Actions", "GitLab CI", "Azure Pipelines", "Jenkins", "Nginx", "Sentry", "Datadog", "Monitoring", "Observability", "Linux", "Ubuntu", "Self-Hosting", "Microsoft Azure", "Azure Functions", "Azure App Service", "Azure Blob Storage", "Azure SQL", "Google Cloud Platform (GCP)", "Amazon Web Services (AWS)", "Hetzner", "IONOS", "Digital Ocean", "Vercel", "Supabase", "Supabase Realtime", "Supabase Edge Functions", "Firebase", "Cloud Functions", "Cloud Storage", "Firebase Cloud Messaging (FCM)", "Firebase Hosting", "DevOps", "DevSecOps"]),
   },
   /* Network fundamentals sit apart from DevOps (08): 08 is about running
      services, 09 about the layer underneath them — addressing, name
