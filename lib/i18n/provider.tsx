@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useMemo } from "react";
 
-import { localePath, type Locale } from "./config";
+import type { Locale } from "./config";
 import type { Ui } from "./ui";
 
 type I18nValue = { locale: Locale; ui: Ui };
@@ -35,10 +35,4 @@ export function useUi(): Ui {
 
 export function useLocale(): Locale {
   return useI18n().locale;
-}
-
-/* Builds a href in the active locale: href("/projects/aitoi") → "/en/projects/aitoi" */
-export function useLocaleHref(): (path?: string) => string {
-  const { locale } = useI18n();
-  return useMemo(() => (path?: string) => localePath(locale, path), [locale]);
 }
