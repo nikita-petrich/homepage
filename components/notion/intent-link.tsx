@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 /* A <Link> that prefetches on intent (hover, touch, keyboard focus) instead of
  * on entering the viewport.
  *
- * The home page lists nine projects, eight testimonials and nine certificates,
+ * The home page lists nine projects, nine testimonials and nine certificates,
  * every card a link into an intercepting route. Next prefetches links as they
  * scroll into view, and because each card route is intercepted the router asks
  * for it several times over — 117 RSC requests, 549 KiB, for 28 distinct

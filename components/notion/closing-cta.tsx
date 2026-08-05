@@ -9,7 +9,7 @@ import { CvDownload } from "./cv-download";
 /* The closing call to action.
  *
  * The hero callout used to hold the page's only CTA. Everything that makes the
- * case — nine projects, eight testimonials, the skills database, the
+ * case — nine projects, nine testimonials, the skills database, the
  * certificates — sits *below* it, so the visitor who was finally convinced had
  * to scroll back past all of it to act. This block catches them where the
  * reading actually ends.
