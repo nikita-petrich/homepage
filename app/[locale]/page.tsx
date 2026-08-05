@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 
@@ -19,6 +18,7 @@ import { CertificateGallery } from "@/components/notion/certificates";
 import { ClosingCta } from "@/components/notion/closing-cta";
 import { CoverBanner } from "@/components/notion/cover-banner";
 import { CodeLogo } from "@/components/notion/icons";
+import { IntentLink } from "@/components/notion/intent-link";
 import { SkillsGallery } from "@/components/notion/galleries";
 import { ProjectGallery } from "@/components/notion/projects";
 import { ReferenceGallery } from "@/components/notion/references";
@@ -198,14 +198,14 @@ export default async function Page({
             <Section title={ui.sections.certificates} level="h2" id="certificates">
               <p className="mb-4 text-[14px] leading-[1.6] text-notion-gray">
                 {ui.home.certificatesIntro}{" "}
-                <Link
+                <IntentLink
                   href={localePath(locale, "/certificates")}
                   data-analytics-event="certificates_overview_open"
                   data-analytics-prop-source="home_section"
                   className="font-medium text-[var(--accent-text)] underline underline-offset-2"
                 >
                   {ui.home.certificatesLink}
-                </Link>
+                </IntentLink>
                 .
               </p>
               <CertificateGallery certificates={certificates} />
