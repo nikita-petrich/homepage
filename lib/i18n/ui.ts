@@ -39,6 +39,10 @@ const ui = {
   cv: {
     button: t("CV", "CV"),
     buttonSuffix: t(" herunterladen", " download"),
+    /* Inside the closing CTA card the heading above the button already says
+       "CV als PDF", so the button only has to name the action — and the full
+       label would not fit into a third of the card row anyway. */
+    buttonShort: t("Herunterladen", "Download"),
     menuTitle: t("Lebenslauf als PDF", "Résumé as PDF"),
   },
 
