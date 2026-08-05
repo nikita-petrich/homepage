@@ -26,12 +26,12 @@ export const referenceSources: Record<
   { label: string; href: string }
 >;
 
+/* "Projektteam" covers everyone Nikita built the product with, whichever of
+   the small teams they led or sat in — Manifest OS was one squad split across
+   four domain teams, and he implemented in the neighbouring ones regularly. */
 const relation = {
   team: t("Projektteam", "Project team"),
   client: t("Kunde", "Client"),
-  /* Same company, but neither the project team nor a line manager — a lead
-     from a neighbouring team who worked with Nikita across that boundary. */
-  otherTeam: t("Anderes Team", "Another team"),
 };
 
 /* Project labels shown on a testimonial — the project name plus its subtitle,
@@ -117,7 +117,7 @@ const translations: Record<string, Translation> = {
   "nikita-herndlhofer": {
     original: "en",
     role: "Tech Lead Platform",
-    relation: relation.otherTeam,
+    relation: relation.team,
     project: projectLabel["manifest-os"],
     quote: t(
       "Als Tech Lead aus einem anderen Team hatte ich die Gelegenheit, mit Nikita an mehreren Projekten zusammenzuarbeiten. Nikita hat durchgehend starke Umsetzung, sicheres Urteilsvermögen und die Fähigkeit gezeigt, Dinge effizient zum Abschluss zu bringen — auch über Teamgrenzen hinweg!",
