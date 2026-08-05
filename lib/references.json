@@ -59,6 +59,22 @@
       "short": "Nikita designed and implemented the application-wide event tracking, instrumented all relevant business user flows and created the data foundation that made weaknesses and friction points in the user journey visible in the first place … He grasped requirements quickly, identified gaps himself and asked targeted questions rather than making assumptions."
     },
     {
+      "slug": "nikita-herndlhofer",
+      "name": "Nikita Herndlhofer",
+      "role": "Head of Platform",
+      "company": "Manifest Law",
+      "companyUrl": "https://manifestlaw.com",
+      "relation": "Anderes Team",
+      "projectSlug": "manifest-os",
+      "project": "Manifest OS — KI-gestützte Einwanderungsplattform",
+      "sources": [
+        "LinkedIn"
+      ],
+      "sort": "2025-12",
+      "quote": "As a tech lead from another team, I’ve had the opportunity to collaborate with Nikita on several projects. Nikita consistently delivered strong execution, sound judgment, and the ability to get things done efficiently, even across team boundaries!",
+      "short": "Nikita consistently delivered strong execution, sound judgment, and the ability to get things done efficiently, even across team boundaries!"
+    },
+    {
       "slug": "suraj-kakar",
       "name": "Suraj Kakar",
       "role": "Executive Director, Private Markets Distribution & Capital Raising",

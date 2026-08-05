@@ -96,7 +96,7 @@ const ui = {
     ),
 
     /* The closing call to action. The hero CTA used to be the only one on the
-       page: a visitor who was finally convinced — after nine projects, eight
+       page: a visitor who was finally convinced — after nine projects, nine
        testimonials, the skills database and the certificates — had to scroll
        all the way back up to act on it.
 

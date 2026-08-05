@@ -212,7 +212,7 @@ export default async function Page({
             </Section>
 
             {/* The page used to end here, with its only CTA nine projects and
-                eight testimonials further up. */}
+                nine testimonials further up. */}
             <ClosingCta locale={locale} />
           </div>
         </div>
