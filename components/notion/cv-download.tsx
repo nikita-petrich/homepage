@@ -37,13 +37,17 @@ export function CvDownload({
           className={cn(isCompact ? "h-[30px]" : "text-[15px]", className)}
           data-analytics-event="cv_menu_open"
           data-analytics-prop-placement={variant}
-          aria-label={isTopbar ? ui.cv.open : undefined}
         >
           <Download strokeWidth={2} />
-          <span className={isTopbar ? "hidden sm:inline" : undefined}>
+          {/* In the topbar the label collapses with the viewport, but it stays
+              in the accessibility tree rather than being replaced by an
+              aria-label: a name that reads "CV-Download öffnen" while the
+              button says "CV herunterladen" is a WCAG 2.5.3 (Label in Name)
+              failure, and leaves voice control with nothing to say. */}
+          <span className={isTopbar ? "sr-only sm:not-sr-only" : undefined}>
             {ui.cv.button}
           </span>
-          <span className={isTopbar ? "hidden md:inline" : undefined}>
+          <span className={isTopbar ? "sr-only md:not-sr-only" : undefined}>
             {ui.cv.buttonSuffix}
           </span>
           <ChevronDown strokeWidth={2} className="opacity-70" />

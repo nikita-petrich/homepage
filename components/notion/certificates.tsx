@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowUpRight,
   Award,
@@ -24,6 +23,7 @@ import { DatabaseToolbar, type GalleryView } from "./database-toolbar";
 import { AccentTag, SkillTag } from "./blocks";
 import { bannerBg } from "./cover-banner";
 import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
+import { IntentLink } from "./intent-link";
 import { ModalShell } from "./modal-shell";
 
 /* Permanent, shareable link to the certificate document itself: the
@@ -184,7 +184,7 @@ function CertificateTable({ certificates: rows }: { certificates: Certificate[] 
           <div />
         </div>
         {rows.map((c) => (
-          <Link
+          <IntentLink
             key={c.slug}
             href={localePath(locale, certPageHref(c))}
             scroll={false}
@@ -192,10 +192,6 @@ function CertificateTable({ certificates: rows }: { certificates: Certificate[] 
             data-analytics-prop-slug={c.slug}
             data-analytics-prop-issuer={c.issuer}
             data-analytics-prop-source="table"
-            aria-label={format(ui.certificates.open, {
-              title: c.title,
-              issuer: c.issuer,
-            })}
             className={cn(
               "grid items-center gap-3 border-b border-[var(--hairline-faint)] px-3 py-2.5 text-[13px] transition-colors last:border-0 hover:bg-[var(--surface-hover-soft)]",
               CERTIFICATE_COLS,
@@ -209,7 +205,7 @@ function CertificateTable({ certificates: rows }: { certificates: Certificate[] 
               <AccentTag label={c.cat} />
             </div>
             <ArrowUpRight size={14} strokeWidth={2} className="text-notion-gray" />
-          </Link>
+          </IntentLink>
         ))}
       </div>
     </TableShell>
@@ -299,7 +295,7 @@ export function CertificateGallery({
       ) : (
         <GalleryGrid>
           {visible.map((c) => (
-            <Link
+            <IntentLink
               key={c.slug}
               href={localePath(locale, certPageHref(c))}
               scroll={false}
@@ -307,10 +303,6 @@ export function CertificateGallery({
               data-analytics-prop-slug={c.slug}
               data-analytics-prop-issuer={c.issuer}
               data-analytics-prop-source="gallery"
-              aria-label={format(ui.certificates.open, {
-                title: c.title,
-                issuer: c.issuer,
-              })}
               style={{ boxShadow: "var(--notion-card-shadow)" }}
               className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-[var(--surface)] text-left transition-colors hover:bg-[var(--surface-hover-soft)]"
             >
@@ -357,7 +349,7 @@ export function CertificateGallery({
                   </DocumentAction>
                 </div>
               </div>
-            </Link>
+            </IntentLink>
           ))}
         </GalleryGrid>
       )}

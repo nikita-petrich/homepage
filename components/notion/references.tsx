@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import {
   ArrowUpRight,
   ExternalLink,
@@ -20,6 +19,7 @@ import { AccentTag } from "./blocks";
 import { CompanyLine } from "./company-line";
 import { bannerBg } from "./cover-banner";
 import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
+import { IntentLink } from "./intent-link";
 import { ModalLink } from "./modal-nav";
 import { ModalShell } from "./modal-shell";
 
@@ -103,15 +103,19 @@ function OriginalLanguageNote({ reference: r }: { reference: Reference }) {
 /* Compact card in the gallery grid — same footprint as the project cards.
    The quote is clamped to a preview; the full text lives in the dialog. */
 function ReferenceCard({ reference: r }: { reference: Reference }) {
-  const { locale, ui } = useI18n();
+  const { locale } = useI18n();
+  /* No aria-label: the accessible name is computed from the card's own content,
+     so it contains the text a sighted visitor reads. An "Open testimonial by X"
+     override reads better in isolation but drops everything the card shows,
+     which is a WCAG 2.5.3 (Label in Name) failure — the project cards have
+     always worked this way. */
   return (
-    <Link
+    <IntentLink
       href={localePath(locale, `/references/${r.slug}`)}
       scroll={false}
       data-analytics-event="reference_open"
       data-analytics-prop-slug={r.slug}
       data-analytics-prop-source="gallery"
-      aria-label={format(ui.references.open, { name: r.name })}
       style={{ boxShadow: "var(--notion-card-shadow)" }}
       className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-[var(--surface)] text-left transition-colors hover:bg-[var(--surface-hover-soft)]"
     >
@@ -138,7 +142,7 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
           </span>
         </div>
       </div>
-    </Link>
+    </IntentLink>
   );
 }
 
@@ -271,7 +275,10 @@ function ReferenceEntry({ reference: r }: { reference: Reference }) {
           data-analytics-event="reference_open"
           data-analytics-prop-slug={r.slug}
           data-analytics-prop-source="project_references"
-          aria-label={format(ui.references.openSingle, { name: r.name })}
+          aria-label={format(ui.references.openSingle, {
+            label: ui.references.single,
+            name: r.name,
+          })}
           className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--surface-chip)] px-[7px] py-[3px] text-[12px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
         >
           {ui.references.single}
@@ -385,14 +392,13 @@ function ReferenceTable({ references: rows }: { references: Reference[] }) {
           <div>{ui.references.colRelation}</div>
         </div>
         {rows.map((r) => (
-          <Link
+          <IntentLink
             key={r.slug}
             href={localePath(locale, `/references/${r.slug}`)}
             scroll={false}
             data-analytics-event="reference_open"
             data-analytics-prop-slug={r.slug}
             data-analytics-prop-source="table"
-            aria-label={format(ui.references.open, { name: r.name })}
             className={cn(
               "grid items-center gap-3 border-b border-[var(--hairline-faint)] px-3 py-2.5 text-[13px] transition-colors last:border-0 hover:bg-[var(--surface-hover-soft)]",
               REFERENCE_COLS,
@@ -403,7 +409,7 @@ function ReferenceTable({ references: rows }: { references: Reference[] }) {
             <div className="min-w-0">
               <AccentTag label={r.relation} />
             </div>
-          </Link>
+          </IntentLink>
         ))}
       </div>
     </TableShell>
