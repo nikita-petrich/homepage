@@ -68,9 +68,12 @@ const ui = {
   },
 
   home: {
+    /* The last line of the about block, rendered as its accented closing line
+       directly above the booking button — which is why the invitation lives
+       here rather than as a sixth intro paragraph. */
     ctaQuestion: t(
-      "Passt das zu Ihrem Vorhaben?",
-      "Does this fit what you have in mind?",
+      "Passt das zu Ihrem Vorhaben? Dann freue ich mich auf ein unverbindliches Erstgespräch.",
+      "Does this fit what you have in mind? Then I'd be glad to have a no-obligation intro call.",
     ),
     /* The hero button spells out that the intro call is free — the top bar
        keeps the shorter topbar.booking label where space is tight. */
