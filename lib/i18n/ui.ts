@@ -215,6 +215,23 @@ const ui = {
       "Übersetzt aus dem Original ({language}) — der Wortlaut steht bei der verlinkten Quelle.",
       "Translated from the original ({language}) — the wording as written is at the linked source.",
     ),
+    /* Shown in place of the line above once the reader has switched the quote
+       to the original: the text on screen is now the wording as written. */
+    originalShown: t(
+      "Original ({language}) — der Wortlaut, wie er bei der verlinkten Quelle steht.",
+      "Original ({language}) — the wording as it stands at the linked source.",
+    ),
+    /* The button that swaps the quote between the two. Short labels: the line
+       next to it already names the language. */
+    showOriginal: t("Original anzeigen", "Show the original"),
+    showTranslation: t("Übersetzung anzeigen", "Show the translation"),
+    /* Leads with {label} — the button's visible text — so the accessible name
+       contains it (WCAG 2.5.3), same as openSingle. The name is what tells the
+       buttons apart when several testimonials are stacked on one page. */
+    toggleOriginal: t(
+      "{label} – Referenz von {name}",
+      "{label} – testimonial by {name}",
+    ),
     metaDescription: t(
       "{name} ({role}) über die Zusammenarbeit mit Nikita Petrich.",
       "{name} ({role}) on working with Nikita Petrich.",

@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   ArrowUpRight,
   ExternalLink,
+  Languages,
   Quote,
 } from "lucide-react";
 
@@ -86,17 +87,73 @@ function ReferenceCover({ reference: r }: { reference: Reference }) {
 }
 
 /* A testimonial is quoted in the language it was written in; the other
-   language shows a translation. This line names the original so the reader can
-   check the wording at the source (LinkedIn / Malt). */
-function OriginalLanguageNote({ reference: r }: { reference: Reference }) {
+   language shows a translation. This renders the quote together with the line
+   naming the original — and, when the visitor is reading the translation, a
+   button that swaps the text for the original wording. Checking it against the
+   source (LinkedIn / Malt) stays one click away; showing it here saves the
+   trip. */
+function ReferenceQuote({
+  reference: r,
+  className,
+  /** The compact listing sets the quote in German quotation marks. */
+  quoted = false,
+}: {
+  reference: Reference;
+  className?: string;
+  quoted?: boolean;
+}) {
   const { locale, ui } = useI18n();
-  if (r.originalLocale === locale) return null;
+  const [showOriginal, setShowOriginal] = useState(false);
+  /* Nothing to switch to when the page is already in the original language. */
+  const translated = r.originalLocale !== locale;
+  const isOriginal = translated && showOriginal;
+  const text = isOriginal ? r.quoteOriginal : r.quote;
+  const label = isOriginal
+    ? ui.references.showTranslation
+    : ui.references.showOriginal;
+
   return (
-    <p className="mt-2 text-[12px] text-notion-gray italic">
-      {format(ui.references.originalLanguage, {
-        language: ui.languageName[r.originalLocale],
-      })}
-    </p>
+    <>
+      <blockquote
+        id={`reference-quote-${r.slug}`}
+        /* The original is in the other language — say so, or a screen reader
+           keeps reading it with the page's pronunciation rules. */
+        lang={isOriginal ? r.originalLocale : undefined}
+        className={className}
+      >
+        {quoted ? `„${text}“` : text}
+      </blockquote>
+
+      {translated ? (
+        <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
+          <p className="text-[12px] text-notion-gray italic">
+            {format(
+              isOriginal
+                ? ui.references.originalShown
+                : ui.references.originalLanguage,
+              { language: ui.languageName[r.originalLocale] },
+            )}
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowOriginal((v) => !v)}
+            aria-pressed={showOriginal}
+            aria-controls={`reference-quote-${r.slug}`}
+            aria-label={format(ui.references.toggleOriginal, {
+              label,
+              name: r.name,
+            })}
+            data-analytics-event="reference_original_toggle"
+            data-analytics-prop-slug={r.slug}
+            data-analytics-prop-to={isOriginal ? "translation" : "original"}
+            className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--surface-chip)] px-[7px] py-[3px] text-[12px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
+          >
+            <Languages size={12} strokeWidth={2} className="opacity-70" />
+            {label}
+          </button>
+        </div>
+      ) : null}
+    </>
   );
 }
 
@@ -196,10 +253,10 @@ export function ReferenceDetail({
           className="mb-3 text-[var(--accent-o)]"
           aria-hidden
         />
-        <blockquote className="text-[15px] leading-[1.7] whitespace-pre-line text-notion-text">
-          {r.quote}
-        </blockquote>
-        <OriginalLanguageNote reference={r} />
+        <ReferenceQuote
+          reference={r}
+          className="text-[15px] leading-[1.7] whitespace-pre-line text-notion-text"
+        />
 
         <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--hairline)] pt-4">
           <AccentTag label={r.relation} />
@@ -282,10 +339,11 @@ function ReferenceEntry({ reference: r }: { reference: Reference }) {
         <AccentTag label={r.relation} />
       </div>
 
-      <blockquote className="mt-3 text-[14px] leading-[1.65] whitespace-pre-line text-notion-text">
-        {`„${r.quote}“`}
-      </blockquote>
-      <OriginalLanguageNote reference={r} />
+      <ReferenceQuote
+        reference={r}
+        quoted
+        className="mt-3 text-[14px] leading-[1.65] whitespace-pre-line text-notion-text"
+      />
 
       <div className="mt-3.5 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--hairline)] pt-3">
         <ModalLink
