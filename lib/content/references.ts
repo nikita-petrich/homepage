@@ -8,7 +8,7 @@ import { projects } from "./projects";
  * shares — that file stays the single source of the quotes and is not touched
  * here.
  *
- * Every recommendation was written in one language: five in German, three in
+ * Every recommendation was written in one language: four in German, five in
  * English. Both language versions of the site show every testimonial, so the
  * counterpart is a translation, and each entry records which side is the
  * original — the UI says so, and the source link (LinkedIn / Malt) always
@@ -26,6 +26,9 @@ export const referenceSources: Record<
   { label: string; href: string }
 >;
 
+/* "Projektteam" covers everyone Nikita built the product with, whichever of
+   the small teams they led or sat in — Manifest OS was one squad split across
+   four domain teams, and he implemented in the neighbouring ones regularly. */
 const relation = {
   team: t("Projektteam", "Project team"),
   client: t("Kunde", "Client"),
@@ -108,6 +111,21 @@ const translations: Record<string, Translation> = {
     short: t(
       "Nikita hat das anwendungsweite Event-Tracking konzipiert und implementiert, alle relevanten geschäftlichen User-Flows instrumentiert und damit die Datengrundlage geschaffen, die Schwachstellen und Reibungspunkte in der User Journey überhaupt erst sichtbar macht … Er hat Anforderungen schnell erfasst, Lücken selbst erkannt und gezielt nachgefragt, statt Annahmen zu treffen.",
       "Nikita designed and implemented the application-wide event tracking, instrumented all relevant business user flows and created the data foundation that made weaknesses and friction points in the user journey visible in the first place … He grasped requirements quickly, identified gaps himself and asked targeted questions rather than making assumptions.",
+    ),
+  },
+
+  "nikita-herndlhofer": {
+    original: "en",
+    role: "Tech Lead Platform",
+    relation: relation.team,
+    project: projectLabel["manifest-os"],
+    quote: t(
+      "Als Tech Lead aus einem anderen Team hatte ich die Gelegenheit, mit Nikita an mehreren Projekten zusammenzuarbeiten. Nikita hat durchgehend starke Umsetzung, sicheres Urteilsvermögen und die Fähigkeit gezeigt, Dinge effizient zum Abschluss zu bringen — auch über Teamgrenzen hinweg!",
+      "As a tech lead from another team, I’ve had the opportunity to collaborate with Nikita on several projects. Nikita consistently delivered strong execution, sound judgment, and the ability to get things done efficiently, even across team boundaries!",
+    ),
+    short: t(
+      "Nikita hat durchgehend starke Umsetzung, sicheres Urteilsvermögen und die Fähigkeit gezeigt, Dinge effizient zum Abschluss zu bringen — auch über Teamgrenzen hinweg!",
+      "Nikita consistently delivered strong execution, sound judgment, and the ability to get things done efficiently, even across team boundaries!",
     ),
   },
 
@@ -206,6 +224,10 @@ export type ReferenceSourceEntry = {
   sources: ReferenceSource[];
   /** ISO date for sorting (newest first), mirroring the related project. */
   sort: string;
+  /** Editorial override for the gallery order, compared in place of `sort`.
+      Only for a card whose position is a deliberate choice rather than its
+      date — `sort` stays the honest date either way. */
+  order?: string;
   /** Language the recommendation was written in. */
   originalLocale: Locale;
   /** Full testimonial — original on one side, translation on the other. */
@@ -230,6 +252,7 @@ function buildReferences(data: unknown): ReferenceSourceEntry[] {
       projectSlug?: string;
       sources: ReferenceSource[];
       sort: string;
+      order?: string;
       quote: string;
       short: string;
     };
@@ -279,6 +302,7 @@ function buildReferences(data: unknown): ReferenceSourceEntry[] {
       projectSlug: r.projectSlug,
       sources: r.sources,
       sort: r.sort,
+      order: r.order,
       role: translation.role,
       relation: translation.relation,
       project: translation.project,
