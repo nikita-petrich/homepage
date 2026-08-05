@@ -55,7 +55,11 @@ export function ClosingCta({ locale }: { locale: Locale }) {
         {ui.home.closingLead}
       </p>
 
-      <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+      {/* Three-up only from lg. The reading column is 612px at its widest and
+          the sidebar already claims 300px from ~768px on, so at sm and md a
+          third of the row is 80–125px — narrow enough that "Erstgespräch"
+          spills out of its own card. Below lg the routes stack instead. */}
+      <div className="mt-4 grid grid-cols-1 gap-2.5 lg:grid-cols-3">
         <a
           href={bookingUrlFor(locale)}
           target="_blank"
