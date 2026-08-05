@@ -404,7 +404,9 @@ export function ProjectReferencesModal({
    the dialog. Each card has a permanent URL (/references/<slug>). */
 const referenceSearchText = (r: Reference) =>
   `${r.name} ${r.role} ${r.company ?? ""} ${r.project} ${r.quote}`;
-const referenceSortKey = (r: Reference) => r.sort;
+/* `order` before `sort`: the gallery is otherwise strictly newest-first, and
+   one card is placed by choice rather than by its date (see references.ts). */
+const referenceSortKey = (r: Reference) => r.order ?? r.sort;
 
 /* Table view: same row target/analytics as the gallery cards. */
 const REFERENCE_COLS =
