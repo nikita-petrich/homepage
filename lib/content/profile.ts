@@ -157,181 +157,205 @@ export const profileLinks = [
   { label: "Malt", href: "https://www.malt.de/profile/nikitapetrich" },
 ];
 
-/* The "about" block. Four paragraphs: positioning with the proof numbers,
-   way of working, stack, track record. Bold marks the proof points — the
-   concrete savings and the scale figures. The closing question and the
-   booking button under the callout carry the CTA, so the text itself stops
-   after the track record. */
+/* The "about" block. Five paragraphs: positioning, the guiding principle with
+   the proof numbers behind it, how that principle applies to the development
+   itself, the way of working, and the track record. Bold marks what a skimming
+   reader should come away with — the role, the principle, the savings and the
+   scale figures. The closing question and the booking button under the callout
+   carry the CTA, so the text itself stops after the track record. */
 export type IntroLine = { spans: RichLine };
 
 export const intro: IntroLine[] = [
   {
     spans: [
+      { t: t("Ich bin ", "I am a ") },
       {
         t: t(
-          /* The attribution leads the list rather than trailing it. It used to
-             sit at the end, where "jeweils" governed all three figures in one
-             sentence; splitting that sentence left it hanging off the last one,
-             so two client numbers were being asserted as the site's own. */
-          "Ich bin freiberuflicher Senior Full-Stack & AI Engineer mit Schwerpunkt auf LLM-Integration, RAG und KI-gestützter Automatisierung – von der Architektur bis zum Produktivbetrieb. Meine Ergebnisse, jeweils nach Angaben der Kunden bzw. Anbieter: ",
-          "I am a freelance Senior Full-Stack & AI Engineer focused on LLM integration, RAG and AI-driven automation – from architecture to production. My results, each as reported by the client or provider: ",
-        ),
-      },
-      /* Order matters here, and so does sentence length. The logistics figure
-         is the largest and the one a reader is most likely to bounce off, so
-         the two immediately credible numbers come first and it arrives last —
-         in a sentence of its own, with the mechanism in front of it rather than
-         wedged into an em-dash aside. Three bold figures in one 60-word run did
-         not survive a skim, which is the only way this paragraph is read.
-
-         "bis zu" on the first two, and "telefonische" on the second: the
-         project pages bound these figures and the intro had quietly dropped the
-         bounds while adding an attribution header that invites the reader to
-         trust them. A click-through must not contradict the summary. */
-      { t: t("bis zu 40 Stunden/Monat", "up to 40 hours/month"), b: true },
-      {
-        t: t(
-          " weniger Verwaltungsarbeit im Handel, ",
-          " less administrative work in retail, ",
-        ),
-      },
-      {
-        t: t(
-          "bis zu 70 % weniger telefonische Rückfragen",
-          "up to 70 % fewer phone enquiries",
+          "freiberuflicher Senior Full-Stack & AI Engineer",
+          "freelance Senior Full-Stack & AI Engineer",
         ),
         b: true,
       },
+      { t: t(" mit Schwerpunkt auf ", " focused on ") },
       {
-        /* "spart" — the same verb the project page uses. Splitting this out of
-           the previous sentence had left the biggest number on the site as a
-           bare apposition with nothing in the clause that saved anything.
-
-           "je Tour" is the word the system itself uses — it is a
-           Tourverwaltung, and the result line this summarises says "je Tour". */
         t: t(
-          " im Notariat. In der Logistik spart die automatisierte Erzeugung der Tourunterlagen – vorher je Tour von Hand zusammengestellt – ",
-          " at a notary's office. In logistics, generating the route documents automatically — they used to be assembled by hand for every trip — saves ",
-        ),
-      },
-      {
-        /* main arrived at the same correction independently ("bis zu 1.000
-           Stunden/Jahr pro Mitarbeiter eingespart"): the figure is per employee.
-           This wording keeps that, and adds the bound, the verb in the clause
-           before it and the mechanism it came out of. */
-        t: t(
-          "bis zu 1.000 Stunden pro Mitarbeiter und Jahr",
-          "up to 1,000 hours per employee per year",
+          "KI: LLM-Integration, RAG und KI-gestützter Automatisierung",
+          "AI: LLM integration, RAG and AI-assisted automation",
         ),
         b: true,
       },
-      {
-        t: t(
-          ". Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
-          ". I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
-        ),
-      },
-      {
-        t: t(
-          "vollständige Cross-Platform-App in rund zwei Monaten",
-          "complete cross-platform app in roughly two months",
-        ),
-        b: true,
-      },
-      { t: t(" – als alleiniger Entwickler.", " – as the sole developer.") },
+      { t: t(" – von der Architektur bis zum ", " – from architecture through to ") },
+      { t: t("stabilen Produktivbetrieb", "stable production operation"), b: true },
+      { t: "." },
     ],
   },
   {
     spans: [
-      { t: t("Mein Leitsatz: ", "My guiding principle: ") },
+      /* Label and principle are one bold run: the markdown marks both, and two
+         adjacent <strong>s would render identically anyway. */
       {
         t: t(
-          "Was zweimal manuell passiert, wird automatisiert.",
-          "anything done manually twice gets automated.",
+          "Mein Leitsatz: Was zweimal manuell passiert, wird automatisiert.",
+          "My guiding principle: anything done manually twice gets automated.",
         ),
         b: true,
       },
       {
         t: t(
-          " Wiederkehrende Handgriffe sind für mich der Ausgangspunkt jeder Automatisierung – dort entstehen die Zahlen oben. Ich arbeite ",
-          " Recurring manual steps are where I start every automation – that's where the numbers above come from. I work ",
+          " Das gilt für die Prozesse meiner Kunden genauso wie für meine eigene Arbeit. In der ",
+          " That applies to my clients' processes just as much as to my own work. In ",
         ),
       },
+      { t: t("Logistik", "logistics"), b: true },
+      {
+        t: t(
+          " spart ein von mir entwickeltes Tourverwaltungssystem bis zu ",
+          ", a route management system I built saves up to ",
+        ),
+      },
+      {
+        t: t(
+          "1.000 Stunden pro Mitarbeiter und Jahr",
+          "1,000 hours per employee per year",
+        ),
+        b: true,
+      },
+      {
+        t: t(
+          " durch automatisierte Dokumentenprozesse, im ",
+          " through automated document processes; in ",
+        ),
+      },
+      { t: t("Handel", "retail"), b: true },
+      { t: t(" bis zu ", ", up to ") },
+      {
+        t: t(
+          "40 Stunden Verwaltungsaufwand pro Monat",
+          "40 hours of administrative work per month",
+        ),
+        b: true,
+      },
+      { t: t(", im ", "; at a ") },
+      { t: t("Notariat", "notary's office"), b: true },
+      {
+        t: t(
+          " sinken telefonische Rückfragen der Mandanten um bis zu ",
+          ", clients' phone enquiries drop by up to ",
+        ),
+      },
+      { t: "70 %", b: true },
+      { t: "." },
+    ],
+  },
+  {
+    spans: [
+      {
+        t: t(
+          "Auch meine Entwicklung folgt diesem Prinzip: Ich arbeite mit ",
+          "My own development follows the same principle: I work with ",
+        ),
+      },
+      {
+        t: t(
+          "modernen Agentic-Coding- und AI-Engineering-Workflows",
+          "modern agentic coding and AI engineering workflows",
+        ),
+        b: true,
+      },
+      { t: t(" – ", " – ") },
+      {
+        t: t(
+          "spezifikationsgetrieben, KI-gestützt und mit automatisierten Tests und Reviews",
+          "spec-driven, AI-assisted and with automated tests and reviews",
+        ),
+        b: true,
+      },
+      { t: t(". Das ermöglicht ", ". That gives me ") },
+      {
+        t: t(
+          "hohe Umsetzungsgeschwindigkeit bei gleichbleibender Qualität",
+          "high delivery speed at consistent quality",
+        ),
+        b: true,
+      },
+      { t: t(", ohne Kompromisse bei ", ", with no compromise on ") },
+      {
+        t: t(
+          "Wartbarkeit, Nachvollziehbarkeit und Stabilität",
+          "maintainability, traceability and stability",
+        ),
+        b: true,
+      },
+      { t: "." },
+    ],
+  },
+  {
+    spans: [
+      { t: t("Ich arbeite ", "I work ") },
       {
         t: t(
           "eigenverantwortlich, remote und asynchron",
-          "independently, remote and asynchronously",
+          "independently, remotely and asynchronously",
         ),
         b: true,
       },
       {
         t: t(
-          ": klares Ziel genügt, dokumentierte Entscheidungen und getesteter Code sind Standard. Kommunikation auf Deutsch und Englisch.",
-          ": a clear goal is enough – documented decisions and tested code are the standard. Communication in German and English.",
+          ". Ein klares Ziel genügt – den Weg dorthin strukturiere ich selbst. ",
+          ". A clear goal is enough – I structure the path there myself. ",
         ),
       },
+      {
+        t: t(
+          "Entscheidungen dokumentiere ich, Code kommt getestet und review-fähig",
+          "I document decisions, code arrives tested and ready for review",
+        ),
+        b: true,
+      },
+      {
+        t: t(
+          ", und technische Risiken spreche ich früh an. Kommunikation auf ",
+          ", and I raise technical risks early. Communication in ",
+        ),
+      },
+      { t: t("Deutsch und Englisch", "German and English"), b: true },
+      { t: "." },
     ],
   },
   {
     spans: [
-      { t: t("Tech-Stack:", "Tech stack:"), b: true },
+      { t: t("Über ", "More than ") },
+      { t: t("7 Jahre Erfahrung", "7 years of experience"), b: true },
+      { t: t(" in ", " in ") },
       {
         t: t(
-          " TypeScript/Python, NestJS/FastAPI, Next.js/React/Angular, PostgreSQL, Docker, CI/CD, Azure/GCP – Clean Architecture, DSGVO-Konformität und Secure by Design von Anfang an.",
-          " TypeScript/Python, NestJS/FastAPI, Next.js/React/Angular, PostgreSQL, Docker, CI/CD, Azure/GCP – Clean Architecture, GDPR compliance and Secure by Design from day one.",
-        ),
-      },
-    ],
-  },
-  {
-    spans: [
-      {
-        t: t("Über 7 Jahre Erfahrung", "More than 7 years of experience"),
-        b: true,
-      },
-      /* The seniority signal. Nothing here is a new claim, and each half names
-         its own scope — which is the part the first version left out. Stating
-         "Ich verantworte Architektur und Betrieb end-to-end" unqualified read
-         as full-time commercial ownership, while every project backing it is
-         the own product or a system maintained alongside client work. A reader
-         who found "nebenberuflich" two clicks later would discount the whole
-         paragraph; naming the two tracks up front costs nothing and survives
-         the cross-read. */
-      {
-        /* Both delivery modes, each with its own scope. The first version of
-           this paragraph claimed end-to-end ownership unqualified, which the
-           "nebenberuflich" tags two clicks away undercut; the second scoped it
-           so tightly that the three systems built alone for paying clients
-           disappeared, leaving a team contributor and a side-project owner.
-           Both halves are on the project pages: the ~20-engineer engagement,
-           and RateUp / Accounting OS / LadeTrans as sole-developer builds. */
-        t: t(
-          " in LegalTech, HealthTech, E-Commerce, EdTech und Logistik. In größeren Organisationen liefere ich im bestehenden Team: bei einer LegalTech-Plattform mit ",
-          " in LegalTech, HealthTech, e-commerce, EdTech and logistics. In larger organisations I deliver inside the existing team: on a LegalTech platform with ",
-        ),
-      },
-      { t: t("3.000+ Kunden", "3,000+ customers"), b: true },
-      {
-        /* Attributed here too — the project page says "laut Anbieter", and the
-           intro was quoting the same number as if it were its own. */
-        t: t(
-          " (laut Anbieter) als einer von rund 20 Engineers in vier Teams – dort produktive KI-Features und, im Viererteam, die Zusammenführung von vier Portalen zu einem. Drei Kundensysteme habe ich als alleiniger Entwickler gebaut; bei zweien – über rund 12 bzw. 28 Monate – verantworte ich ",
-          " (according to the provider) as one of some 20 engineers across four teams – production AI features there and, in a team of four, the consolidation of four portals into one. Three client systems I built as the sole developer; on two of them – over roughly 12 and 28 months – I own ",
-        ),
-      },
-      {
-        t: t(
-          "Architektur und Betrieb end-to-end",
-          "architecture and operations end-to-end",
+          "LegalTech, HealthTech, E-Commerce, EdTech und Logistik",
+          "LegalTech, HealthTech, e-commerce, EdTech and logistics",
         ),
         b: true,
       },
+      { t: t(" – sowohl als Teil eines ", " – both as part of a ") },
+      {
+        t: t("20-köpfigen Engineering-Teams", "20-strong engineering team"),
+        b: true,
+      },
+      { t: t(" an einer ", " on an ") },
       {
         t: t(
-          " und übernehme weiterhin die laufende Wartung. Eines davon läuft seit 2021 durchgehend im Produktivbetrieb.",
-          " and still handle the ongoing maintenance. One of them has been running in production continuously since 2021.",
+          "KI-gestützten LegalTech-Plattform mit über 3.000 Kunden",
+          "AI-assisted LegalTech platform with more than 3,000 customers",
         ),
+        b: true,
       },
+      { t: t(" als auch als ", " and as the ") },
+      {
+        t: t(
+          "alleiniger Entwickler mit Verantwortung für Architektur, Betrieb und Weiterentwicklung",
+          "sole developer responsible for architecture, operations and further development",
+        ),
+        b: true,
+      },
+      { t: "." },
     ],
   },
 ];
