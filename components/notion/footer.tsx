@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
-
 import { profileName } from "@/lib/data";
 import { localePath } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/provider";
 
 import { CookieSettingsButton } from "./cookie-settings-button";
+import { IntentLink } from "./intent-link";
 
 /* Site-wide footer with the legally required links (Impressum, Datenschutz)
    and the re-entry point for the consent settings. Rendered from the root
@@ -27,18 +26,18 @@ export function Footer() {
           aria-label={ui.footer.legalNav}
           className="flex flex-wrap items-center justify-center gap-x-4"
         >
-          <Link
+          <IntentLink
             href={localePath(locale, "/imprint")}
             className="inline-block py-1 hover:underline"
           >
             {ui.footer.imprint}
-          </Link>
-          <Link
+          </IntentLink>
+          <IntentLink
             href={localePath(locale, "/privacy")}
             className="inline-block py-1 hover:underline"
           >
             {ui.footer.privacy}
-          </Link>
+          </IntentLink>
           <CookieSettingsButton />
         </nav>
       </div>

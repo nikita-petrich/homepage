@@ -40,7 +40,6 @@ const ui = {
     button: t("CV", "CV"),
     buttonSuffix: t(" herunterladen", " download"),
     menuTitle: t("Lebenslauf als PDF", "Résumé as PDF"),
-    open: t("CV-Download öffnen", "Open CV download"),
   },
 
   footer: {
@@ -193,11 +192,12 @@ const ui = {
     colName: t("Name", "Name"),
     colCompany: t("Firma", "Company"),
     colRelation: t("Bezug", "Relation"),
-    open: t("Referenz von {name} öffnen", "Open testimonial by {name}"),
     dialogLabel: t("Referenz von {name}", "Testimonial by {name}"),
+    /* Leads with {label} — the button's visible text — so the accessible
+       name contains it (WCAG 2.5.3), same as certificates.openDocument. */
     openSingle: t(
-      "Referenz von {name} einzeln öffnen",
-      "Open the testimonial by {name} on its own page",
+      "{label} – Referenz von {name} öffnen",
+      "{label} – open the testimonial by {name} on its own page",
     ),
     single: t("Einzelansicht", "Single view"),
     source: t("Quelle:", "Source:"),
@@ -234,10 +234,6 @@ const ui = {
     colIssuer: t("Aussteller", "Issuer"),
     colCategory: t("Kategorie", "Category"),
     dialogLabel: t("Zertifikat: {title}", "Certificate: {title}"),
-    open: t(
-      "Zertifikat „{title}“ ({issuer}) — Details ansehen",
-      "Certificate “{title}” ({issuer}) — view details",
-    ),
     previewAlt: t(
       "Zertifikat „{title}“ von {issuer}, ausgestellt {date}",
       "Certificate “{title}” from {issuer}, issued {date}",

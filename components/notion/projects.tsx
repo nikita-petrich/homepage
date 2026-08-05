@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowUpRight, Quote } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -17,6 +16,7 @@ import { AccentTag, SkillTag } from "./blocks";
 import { CompanyLine } from "./company-line";
 import { GitCodeMotif, bannerBg } from "./cover-banner";
 import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
+import { IntentLink } from "./intent-link";
 import { ModalLink } from "./modal-nav";
 import { ModalShell } from "./modal-shell";
 
@@ -103,7 +103,7 @@ function ProjectTable({ projects: rows }: { projects: Project[] }) {
           <div>{ui.projects.colCategory}</div>
         </div>
         {rows.map((p) => (
-          <Link
+          <IntentLink
             key={p.num}
             href={localePath(locale, `/projects/${p.slug}`)}
             scroll={false}
@@ -130,7 +130,7 @@ function ProjectTable({ projects: rows }: { projects: Project[] }) {
             <div className="min-w-0">
               <AccentTag label={p.cat} />
             </div>
-          </Link>
+          </IntentLink>
         ))}
       </div>
     </TableShell>
@@ -164,7 +164,7 @@ export function ProjectGallery({ projects }: { projects: Project[] }) {
       ) : (
         <GalleryGrid>
           {visible.map((p) => (
-            <Link
+            <IntentLink
               key={p.num}
               href={localePath(locale, `/projects/${p.slug}`)}
               scroll={false}
@@ -202,7 +202,7 @@ export function ProjectGallery({ projects }: { projects: Project[] }) {
                   ))}
                 </div>
               </div>
-            </Link>
+            </IntentLink>
           ))}
         </GalleryGrid>
       )}
