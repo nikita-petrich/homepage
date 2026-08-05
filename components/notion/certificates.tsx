@@ -415,10 +415,189 @@ function CurriculumSection({
   );
 }
 
-/* Shared by the intercepting modal route and the standalone page, which each
-   pass their own onClose. Explains the scope of the certificate in full and
-   links to the document itself in a new tab — via the preview at the top and
-   via the primary action button. */
+/* The certificate in full: the scope of the course and links to the document
+   itself in a new tab — via the preview at the top and via the primary action
+   button. Body of the dialog and of the standalone page at
+   /certificates/<slug>, which server-renders it (see ./detail-page.tsx). */
+export function CertificateDetail({
+  certificate: c,
+  heading: Heading = "h2",
+}: {
+  certificate: Certificate;
+  /** h1 on the standalone page, h2 inside the dialog. */
+  heading?: "h1" | "h2";
+}) {
+  const { ui } = useI18n();
+  const docHref = certHref(c);
+  const verifyUrl = c.verifyUrl ?? c.externalUrl;
+
+  return (
+    <>
+      {/* The preview is the most obvious place to click for the document
+          itself, so it is a real link — a plain <a>, opened in a new tab. */}
+      <a
+        href={docHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-analytics-event="certificate_document_open"
+        data-analytics-prop-slug={c.slug}
+        data-analytics-prop-issuer={c.issuer}
+        data-analytics-prop-target={c.externalUrl ? "external" : "pdf"}
+        data-analytics-prop-source="modal_preview"
+        aria-label={documentAriaLabel(c, ui)}
+        className="group relative block"
+      >
+        <CertificateCover cert={c} variant="modal" />
+        <span className="pointer-events-none absolute right-3 bottom-3 z-[1] inline-flex items-center gap-1.5 rounded-md bg-[var(--overlay-panel)] px-2.5 py-1.5 text-[12px] font-medium text-notion-soft opacity-0 shadow-sm backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+          {c.externalUrl ? (
+            <ExternalLink size={13} strokeWidth={2} />
+          ) : (
+            <FileText size={13} strokeWidth={2} />
+          )}
+          {ui.certificates.openInNewTab}
+        </span>
+      </a>
+
+      <div className="px-6 py-7 sm:px-10 sm:py-9">
+        <div className="text-[12px] font-semibold tracking-[0.06em] text-[var(--accent-text)] uppercase">
+          {c.cat}
+        </div>
+        <Heading className="mt-2 text-[26px] leading-[1.2] font-bold tracking-[-0.01em]">
+          {c.title}
+        </Heading>
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-[13px] text-notion-gray">
+          <IssuerPill issuer={c.issuer} />
+          <span>
+            {c.date}
+            {c.detail ? ` · ${c.detail}` : ""}
+          </span>
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center gap-2.5">
+          <a
+            href={docHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-analytics-event="certificate_document_open"
+            data-analytics-prop-slug={c.slug}
+            data-analytics-prop-issuer={c.issuer}
+            data-analytics-prop-target={c.externalUrl ? "external" : "pdf"}
+            data-analytics-prop-source="modal_button"
+            className={primaryAction}
+          >
+            {c.externalUrl ? (
+              <ExternalLink size={15} strokeWidth={2} />
+            ) : (
+              <FileText size={15} strokeWidth={2} />
+            )}
+            {c.externalUrl
+              ? format(ui.certificates.viewCertificateOnIssuer, {
+                  issuer: c.issuer,
+                })
+              : ui.certificates.openCertificatePdf}
+          </a>
+          {verifyUrl && !c.externalUrl ? (
+            <a
+              href={verifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-analytics-event="certificate_verify_click"
+              data-analytics-prop-slug={c.slug}
+              data-analytics-prop-issuer={c.issuer}
+              className={secondaryAction}
+            >
+              <ShieldCheck size={15} strokeWidth={2} />
+              {format(ui.certificates.verifyOnIssuer, { issuer: c.issuer })}
+            </a>
+          ) : null}
+          {c.courseUrl ? (
+            <a
+              href={c.courseUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-analytics-event="certificate_course_click"
+              data-analytics-prop-slug={c.slug}
+              data-analytics-prop-issuer={c.issuer}
+              className={secondaryAction}
+            >
+              <ArrowUpRight size={15} strokeWidth={2} />
+              {ui.certificates.coursePage}
+            </a>
+          ) : null}
+        </div>
+
+        <p className="mt-6 text-[15px] leading-[1.6] text-notion-text">
+          {c.summary}
+        </p>
+
+        {c.facts?.length ? (
+          <div className="mt-[22px] grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--hairline)] sm:grid-cols-3">
+            {c.facts.map((f) => (
+              <div key={f.label} className="bg-[var(--surface-muted)] px-3.5 py-2.5">
+                <div className="text-[10px] font-semibold tracking-[0.06em] text-notion-gray uppercase">
+                  {f.label}
+                </div>
+                <div className="mt-1 text-[13px] leading-[1.35] text-notion-text">
+                  {f.value}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        {c.outcomes?.length ? (
+          <>
+            <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+              {ui.certificates.outcomes}
+            </h3>
+            <ul className="flex flex-col gap-[9px]">
+              {c.outcomes.map((o) => (
+                <li key={o} className="flex gap-2.5 text-[14px] leading-[1.55]">
+                  <span className="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--notion-text)]" />
+                  <span>{o}</span>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : null}
+
+        {c.curriculum?.length ? (
+          <>
+            <h3 className="mt-6 mb-1 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+              {ui.certificates.curriculum}
+            </h3>
+            {c.curriculumNote ? (
+              <p className="mb-1.5 text-[12px] leading-[1.5] text-notion-gray">
+                {c.curriculumNote}
+              </p>
+            ) : null}
+            <div className="rounded-lg border border-[var(--border-soft)] bg-[var(--surface-muted)] px-4 py-1">
+              {c.curriculum.map((section, i) => (
+                <CurriculumSection
+                  key={section.title}
+                  section={section}
+                  open={i === 0}
+                />
+              ))}
+            </div>
+          </>
+        ) : null}
+
+        <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+          {ui.certificates.topics}
+        </h3>
+        <div className="flex flex-wrap gap-[6px]">
+          {c.tags.map((t) => (
+            <SkillTag key={t} label={t} />
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* The dialog an intercepted card click opens; the standalone route renders
+   CertificateDetail directly. */
 export function CertificateModal({
   certificate: c,
   onClose,
@@ -427,175 +606,12 @@ export function CertificateModal({
   onClose: () => void;
 }) {
   const { ui } = useI18n();
-  const docHref = certHref(c);
-  const verifyUrl = c.verifyUrl ?? c.externalUrl;
-
   return (
     <ModalShell
       label={format(ui.certificates.dialogLabel, { title: c.title })}
       onClose={onClose}
     >
-      <>
-        {/* The preview is the most obvious place to click for the document
-            itself, so it is a real link — a plain <a>, opened in a new tab. */}
-        <a
-          href={docHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-analytics-event="certificate_document_open"
-          data-analytics-prop-slug={c.slug}
-          data-analytics-prop-issuer={c.issuer}
-          data-analytics-prop-target={c.externalUrl ? "external" : "pdf"}
-          data-analytics-prop-source="modal_preview"
-          aria-label={documentAriaLabel(c, ui)}
-          className="group relative block"
-        >
-          <CertificateCover cert={c} variant="modal" />
-          <span className="pointer-events-none absolute right-3 bottom-3 z-[1] inline-flex items-center gap-1.5 rounded-md bg-[var(--overlay-panel)] px-2.5 py-1.5 text-[12px] font-medium text-notion-soft opacity-0 shadow-sm backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-            {c.externalUrl ? (
-              <ExternalLink size={13} strokeWidth={2} />
-            ) : (
-              <FileText size={13} strokeWidth={2} />
-            )}
-            {ui.certificates.openInNewTab}
-          </span>
-        </a>
-
-        <div className="px-6 py-7 sm:px-10 sm:py-9">
-          <div className="text-[12px] font-semibold tracking-[0.06em] text-[var(--accent-text)] uppercase">
-            {c.cat}
-          </div>
-          <h2 className="mt-2 text-[26px] leading-[1.2] font-bold tracking-[-0.01em]">
-            {c.title}
-          </h2>
-          <div className="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-[13px] text-notion-gray">
-            <IssuerPill issuer={c.issuer} />
-            <span>
-              {c.date}
-              {c.detail ? ` · ${c.detail}` : ""}
-            </span>
-          </div>
-
-          <div className="mt-5 flex flex-wrap items-center gap-2.5">
-            <a
-              href={docHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-analytics-event="certificate_document_open"
-              data-analytics-prop-slug={c.slug}
-              data-analytics-prop-issuer={c.issuer}
-              data-analytics-prop-target={c.externalUrl ? "external" : "pdf"}
-              data-analytics-prop-source="modal_button"
-              className={primaryAction}
-            >
-              {c.externalUrl ? (
-                <ExternalLink size={15} strokeWidth={2} />
-              ) : (
-                <FileText size={15} strokeWidth={2} />
-              )}
-              {c.externalUrl
-                ? format(ui.certificates.viewCertificateOnIssuer, {
-                    issuer: c.issuer,
-                  })
-                : ui.certificates.openCertificatePdf}
-            </a>
-            {verifyUrl && !c.externalUrl ? (
-              <a
-                href={verifyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-analytics-event="certificate_verify_click"
-                data-analytics-prop-slug={c.slug}
-                data-analytics-prop-issuer={c.issuer}
-                className={secondaryAction}
-              >
-                <ShieldCheck size={15} strokeWidth={2} />
-                {format(ui.certificates.verifyOnIssuer, { issuer: c.issuer })}
-              </a>
-            ) : null}
-            {c.courseUrl ? (
-              <a
-                href={c.courseUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-analytics-event="certificate_course_click"
-                data-analytics-prop-slug={c.slug}
-                data-analytics-prop-issuer={c.issuer}
-                className={secondaryAction}
-              >
-                <ArrowUpRight size={15} strokeWidth={2} />
-                {ui.certificates.coursePage}
-              </a>
-            ) : null}
-          </div>
-
-          <p className="mt-6 text-[15px] leading-[1.6] text-notion-text">
-            {c.summary}
-          </p>
-
-          {c.facts?.length ? (
-            <div className="mt-[22px] grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--hairline)] sm:grid-cols-3">
-              {c.facts.map((f) => (
-                <div key={f.label} className="bg-[var(--surface-muted)] px-3.5 py-2.5">
-                  <div className="text-[10px] font-semibold tracking-[0.06em] text-notion-gray uppercase">
-                    {f.label}
-                  </div>
-                  <div className="mt-1 text-[13px] leading-[1.35] text-notion-text">
-                    {f.value}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : null}
-
-          {c.outcomes?.length ? (
-            <>
-              <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-                {ui.certificates.outcomes}
-              </h3>
-              <ul className="flex flex-col gap-[9px]">
-                {c.outcomes.map((o) => (
-                  <li key={o} className="flex gap-2.5 text-[14px] leading-[1.55]">
-                    <span className="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--notion-text)]" />
-                    <span>{o}</span>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : null}
-
-          {c.curriculum?.length ? (
-            <>
-              <h3 className="mt-6 mb-1 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-                {ui.certificates.curriculum}
-              </h3>
-              {c.curriculumNote ? (
-                <p className="mb-1.5 text-[12px] leading-[1.5] text-notion-gray">
-                  {c.curriculumNote}
-                </p>
-              ) : null}
-              <div className="rounded-lg border border-[var(--border-soft)] bg-[var(--surface-muted)] px-4 py-1">
-                {c.curriculum.map((section, i) => (
-                  <CurriculumSection
-                    key={section.title}
-                    section={section}
-                    open={i === 0}
-                  />
-                ))}
-              </div>
-            </>
-          ) : null}
-
-          <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-            {ui.certificates.topics}
-          </h3>
-          <div className="flex flex-wrap gap-[6px]">
-            {c.tags.map((t) => (
-              <SkillTag key={t} label={t} />
-            ))}
-          </div>
-        </div>
-      </>
+      <CertificateDetail certificate={c} />
     </ModalShell>
   );
 }
