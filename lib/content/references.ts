@@ -8,7 +8,7 @@ import { projects } from "./projects";
  * shares — that file stays the single source of the quotes and is not touched
  * here.
  *
- * Every recommendation was written in one language: five in German, three in
+ * Every recommendation was written in one language: four in German, five in
  * English. Both language versions of the site show every testimonial, so the
  * counterpart is a translation, and each entry records which side is the
  * original — the UI says so, and the source link (LinkedIn / Malt) always
@@ -29,6 +29,9 @@ export const referenceSources: Record<
 const relation = {
   team: t("Projektteam", "Project team"),
   client: t("Kunde", "Client"),
+  /* Same company, but neither the project team nor a line manager — a lead
+     from a neighbouring team who worked with Nikita across that boundary. */
+  otherTeam: t("Anderes Team", "Another team"),
 };
 
 /* Project labels shown on a testimonial — the project name plus its subtitle,
@@ -108,6 +111,21 @@ const translations: Record<string, Translation> = {
     short: t(
       "Nikita hat das anwendungsweite Event-Tracking konzipiert und implementiert, alle relevanten geschäftlichen User-Flows instrumentiert und damit die Datengrundlage geschaffen, die Schwachstellen und Reibungspunkte in der User Journey überhaupt erst sichtbar macht … Er hat Anforderungen schnell erfasst, Lücken selbst erkannt und gezielt nachgefragt, statt Annahmen zu treffen.",
       "Nikita designed and implemented the application-wide event tracking, instrumented all relevant business user flows and created the data foundation that made weaknesses and friction points in the user journey visible in the first place … He grasped requirements quickly, identified gaps himself and asked targeted questions rather than making assumptions.",
+    ),
+  },
+
+  "nikita-herndlhofer": {
+    original: "en",
+    role: "Head of Platform",
+    relation: relation.otherTeam,
+    project: projectLabel["manifest-os"],
+    quote: t(
+      "Als Tech Lead aus einem anderen Team hatte ich die Gelegenheit, mit Nikita an mehreren Projekten zusammenzuarbeiten. Nikita hat durchgehend starke Umsetzung, sicheres Urteilsvermögen und die Fähigkeit gezeigt, Dinge effizient zum Abschluss zu bringen — auch über Teamgrenzen hinweg!",
+      "As a tech lead from another team, I’ve had the opportunity to collaborate with Nikita on several projects. Nikita consistently delivered strong execution, sound judgment, and the ability to get things done efficiently, even across team boundaries!",
+    ),
+    short: t(
+      "Nikita hat durchgehend starke Umsetzung, sicheres Urteilsvermögen und die Fähigkeit gezeigt, Dinge effizient zum Abschluss zu bringen — auch über Teamgrenzen hinweg!",
+      "Nikita consistently delivered strong execution, sound judgment, and the ability to get things done efficiently, even across team boundaries!",
     ),
   },
 
