@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { CertificateDetail } from "@/components/notion/certificates";
+import { DetailPage } from "@/components/notion/detail-page";
 import { certificateSlugs, findCertificate } from "@/lib/data";
-import { isLocale } from "@/lib/i18n/config";
+import { isLocale, localePath } from "@/lib/i18n/config";
 import { format } from "@/lib/i18n/text";
 import { getUi } from "@/lib/i18n/ui";
 import { pageMetadata } from "@/lib/metadata";
-
-import { StandaloneCertificateDialog } from "./standalone";
 
 export function generateStaticParams() {
   return certificateSlugs.map((slug) => ({ slug }));
@@ -33,6 +33,10 @@ export async function generateMetadata({
   });
 }
 
+/* Opened directly (shared link, refresh, crawler) the certificate is a page of
+   its own, server-rendered; the back link follows the URL hierarchy up to the
+   overview. Clicking a card inside the site still opens the dialog, via the
+   intercepting route in app/[locale]/@modal. */
 export default async function CertificatePage({
   params,
 }: {
@@ -43,5 +47,12 @@ export default async function CertificatePage({
   const certificate = findCertificate(locale, slug);
   if (!certificate) notFound();
 
-  return <StandaloneCertificateDialog certificate={certificate} />;
+  return (
+    <DetailPage
+      backHref={localePath(locale, "/certificates")}
+      backLabel={getUi(locale).certificates.backToOverview}
+    >
+      <CertificateDetail certificate={certificate} heading="h1" />
+    </DetailPage>
+  );
 }

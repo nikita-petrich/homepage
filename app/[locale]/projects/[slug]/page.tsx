@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { DetailPage } from "@/components/notion/detail-page";
+import { ProjectDetail } from "@/components/notion/projects";
 import { findProject, projectSlugs, referencesForProject } from "@/lib/data";
-import { isLocale } from "@/lib/i18n/config";
+import { isLocale, localePath } from "@/lib/i18n/config";
+import { getUi } from "@/lib/i18n/ui";
 import { pageMetadata } from "@/lib/metadata";
-
-import { StandaloneProjectDialog } from "./standalone";
 
 export function generateStaticParams() {
   return projectSlugs.map((slug) => ({ slug }));
@@ -29,6 +30,10 @@ export async function generateMetadata({
   });
 }
 
+/* Opened directly (shared link, refresh, crawler) the project is a page of its
+   own, server-rendered — responsibilities, results and stack included. Clicking
+   a card inside the site still opens the dialog, via the intercepting route in
+   app/[locale]/@modal. */
 export default async function ProjectPage({
   params,
 }: {
@@ -40,9 +45,15 @@ export default async function ProjectPage({
   if (!project) notFound();
 
   return (
-    <StandaloneProjectDialog
-      project={project}
-      references={referencesForProject(locale, slug)}
-    />
+    <DetailPage
+      backHref={localePath(locale)}
+      backLabel={getUi(locale).topbar.home}
+    >
+      <ProjectDetail
+        project={project}
+        references={referencesForProject(locale, slug)}
+        heading="h1"
+      />
+    </DetailPage>
   );
 }
