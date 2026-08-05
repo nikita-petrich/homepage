@@ -116,7 +116,7 @@ const translations: Record<string, Translation> = {
 
   "nikita-herndlhofer": {
     original: "en",
-    role: "Head of Platform",
+    role: "Tech Lead Platform",
     relation: relation.otherTeam,
     project: projectLabel["manifest-os"],
     quote: t(
@@ -224,6 +224,10 @@ export type ReferenceSourceEntry = {
   sources: ReferenceSource[];
   /** ISO date for sorting (newest first), mirroring the related project. */
   sort: string;
+  /** Editorial override for the gallery order, compared in place of `sort`.
+      Only for a card whose position is a deliberate choice rather than its
+      date — `sort` stays the honest date either way. */
+  order?: string;
   /** Language the recommendation was written in. */
   originalLocale: Locale;
   /** Full testimonial — original on one side, translation on the other. */
@@ -248,6 +252,7 @@ function buildReferences(data: unknown): ReferenceSourceEntry[] {
       projectSlug?: string;
       sources: ReferenceSource[];
       sort: string;
+      order?: string;
       quote: string;
       short: string;
     };
@@ -297,6 +302,7 @@ function buildReferences(data: unknown): ReferenceSourceEntry[] {
       projectSlug: r.projectSlug,
       sources: r.sources,
       sort: r.sort,
+      order: r.order,
       role: translation.role,
       relation: translation.relation,
       project: translation.project,
