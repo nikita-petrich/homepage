@@ -16,6 +16,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { localePath, type Locale } from "@/lib/i18n/config";
 import type { FactItem, InfoItem, IntroLine, Language } from "@/lib/data";
 
 import { Flag } from "./icons";
@@ -242,7 +243,30 @@ export function FactLine({ item }: { item: FactItem }) {
   );
 }
 
-export function LangLine({ item }: { item: Language }) {
+export function LangLine({
+  item,
+  locale,
+}: {
+  item: Language;
+  locale: Locale;
+}) {
+  /* A level backed by a certificate links to it. The claim and its proof used
+     to sit three sections apart, with the reader expected to go and find the
+     connection — so the sub-line is the link when `href` is set, and plain text
+     when the level is a self-assessment, which is the honest difference. */
+  const level = item.href ? (
+    <Link
+      href={localePath(locale, item.href)}
+      className="block text-[13px] text-notion-gray underline decoration-[var(--border-strong)] underline-offset-2 transition-colors hover:text-[var(--accent-text)]"
+      data-analytics-event="certificate_open"
+      data-analytics-prop-source="languages"
+    >
+      {item.sub}
+    </Link>
+  ) : (
+    <span className="block text-[13px] text-notion-gray">{item.sub}</span>
+  );
+
   return (
     <div className="flex items-start gap-[8px] py-[4px] text-[15px] leading-[1.4]">
       {/* SVG flags are served as-is — the optimizer adds nothing for vectors. */}
@@ -254,7 +278,7 @@ export function LangLine({ item }: { item: Language }) {
           phrase in the 210px sidebar and read like one broken sentence. */}
       <span className="min-w-0">
         <span className="block font-semibold">{item.text}</span>
-        <span className="block text-[13px] text-notion-gray">{item.sub}</span>
+        {level}
       </span>
     </div>
   );

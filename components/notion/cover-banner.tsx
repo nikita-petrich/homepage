@@ -41,20 +41,6 @@ export function GitCodeMotif({ className }: { className?: string }) {
   );
 }
 
-const bannerTags = [
-  "LLM-Integration",
-  "RAG",
-  "Agentic Coding",
-  "TypeScript",
-  "Python",
-  /* The two stack halves, spelled out the same way the "Schwerpunkt" list does
-     it — the banner used to name only Next.js, which read as frontend-only. */
-  "Backend (NestJS · Node.js · FastAPI)",
-  "Frontend (Next.js · React · Angular)",
-  "Clean Architecture",
-  "DSGVO-konform",
-];
-
 /* Colours for the always-dark code panel, injected as local overrides of the
    diff/meta tokens so GitCodeMotif renders green "+" / amber "-" / grey lines
    on black regardless of the page theme. */
@@ -66,7 +52,7 @@ const codePanelStyle = {
 } as CSSProperties;
 
 export function CoverBanner({ locale }: { locale: Locale }) {
-  const { profile } = getContent(locale);
+  const { bannerTags, profile } = getContent(locale);
 
   return (
     /* Full-bleed Notion-style cover: edge to edge, no rounding or shadow. The

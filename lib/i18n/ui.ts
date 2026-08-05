@@ -62,7 +62,8 @@ const ui = {
     focus: t("Schwerpunkt", "Focus"),
     projects: t("Projekte", "Projects"),
     references: t("Referenzen", "Testimonials"),
-    skills: t("Skills & Fähigkeiten", "Skills & capabilities"),
+    /* Not "Skills & Fähigkeiten" — that is the same word twice in German. */
+    skills: t("Skills & Technologien", "Skills & technologies"),
     certificates: t("Zertifikate", "Certificates"),
   },
 
@@ -81,14 +82,54 @@ const ui = {
       "Was Kund:innen und Projektbeteiligte über die Zusammenarbeit sagen. Jede Empfehlung ist über ihre Quelle (LinkedIn / Malt) nachprüfbar.",
       "What clients and project colleagues say about working together. Every testimonial is verifiable through its source (LinkedIn / Malt).",
     ),
+    /* Not only "Weiterbildungen" any more: the list is no longer just
+       technology courses — the language qualification is assessed, not taught. */
     certificatesIntro: t(
-      "Abgeschlossene Weiterbildungen. Jede Karte zeigt den vollständigen Umfang — Eckdaten, Inhalte und Kursaufbau — und verlinkt das Zertifikat als PDF.",
-      "Completed courses. Each card shows the full scope — key facts, contents and syllabus — and links to the certificate as a PDF.",
+      "Abgeschlossene Weiterbildungen und geprüfte Qualifikationen. Jede Karte zeigt den vollständigen Umfang — Eckdaten, Inhalte und Kursaufbau — und verlinkt das Zertifikat als PDF.",
+      "Completed courses and assessed qualifications. Each card shows the full scope — key facts, contents and syllabus — and links to the certificate as a PDF.",
     ),
     certificatesLink: t(
       "Alle Zertifikate auf einer Seite",
       "All certificates on one page",
     ),
+
+    /* The closing call to action. The hero CTA used to be the only one on the
+       page: a visitor who was finally convinced — after nine projects, eight
+       testimonials, the skills database and the certificates — had to scroll
+       all the way back up to act on it.
+
+       Three routes rather than one, because the three visitors who get this far
+       want different things. An agency recruiter sourcing for a client will not
+       book a calendar slot on first contact; they send a spec and ask for a
+       rate, and the artefact they need is the CV to forward. */
+    closingTitle: t("Zusammenarbeit", "Working together"),
+    closingLead: t(
+      "Sie haben ein Projekt, das zu diesem Profil passt? Drei Wege, je nachdem, wie konkret es schon ist.",
+      "Have a project that fits this profile? Three ways in, depending on how firm it already is.",
+    ),
+    closingCall: t("Kostenloses Erstgespräch buchen", "Book a free intro call"),
+    closingCallSub: t("30 Minuten · unverbindlich", "30 minutes · no strings"),
+    closingBrief: t("Projektanfrage senden", "Send a project brief"),
+    closingBriefSub: t(
+      "Anforderungen, Zeitraum, Auslastung",
+      "Requirements, timeframe, capacity",
+    ),
+    /* Pre-filled so the reply contains the things needed to answer at all — the
+       alternative is a blank mail and two rounds of questions.
+
+       It asks for scope, not for the prospect's budget: while the key facts
+       say "Stundensatz auf Anfrage", asking them to name a number first reads
+       as a negotiation opener rather than as an offer. */
+    closingBriefSubject: t(
+      "Projektanfrage — Senior Full-Stack & AI Engineer",
+      "Project enquiry — Senior Full-Stack & AI Engineer",
+    ),
+    closingBriefBody: t(
+      "Hallo Herr Petrich,\n\nkurz zum Vorhaben:\n\n- Projekt / Aufgabe:\n- Zeitraum & Auslastung:\n- Remote / vor Ort:\n- Technischer Rahmen (Stack, Bestandssystem):\n\nViele Grüße\n",
+      "Hello Nikita,\n\nbriefly about the project:\n\n- Project / task:\n- Timeframe & capacity:\n- Remote / on-site:\n- Technical context (stack, existing system):\n\nBest regards\n",
+    ),
+    closingCv: t("CV als PDF", "CV as a PDF"),
+    closingCvSub: t("Deutsch oder Englisch", "German or English"),
   },
 
   gallery: {
@@ -124,6 +165,12 @@ const ui = {
     colCategory: t("Kategorie", "Category"),
     responsibilities: t("Aufgaben", "Responsibilities"),
     results: t("Ergebnis", "Outcome"),
+    /* Separate heading from `results` on purpose — see the `outlook` comment in
+       lib/content/projects.ts. Says "target", not "outcome", in both languages.
+       Just "Zielbild": the heading, the muted treatment and the dashed border
+       already say this is not a result, and the earlier
+       "(noch nicht erreicht)" read as *missed* rather than as *planned*. */
+    outlook: t("Zielbild", "Targets"),
     reference: t("Referenz", "Testimonial"),
     references: t("Referenzen", "Testimonials"),
     technologies: t("Technologien", "Technologies"),
@@ -226,8 +273,8 @@ const ui = {
       "Completed courses, each with its certificate as a PDF. Clicking a card shows the full scope — key facts, contents and the syllabus down to the individual lesson; the certificate itself opens in a new tab.",
     ),
     pageDescription: t(
-      "Alle {count} Weiterbildungs-Zertifikate von Nikita Petrich mit Umfang, Kursaufbau und dem Zertifikat als PDF — von Scrimba, Code with Mosh und Udemy.",
-      "All {count} course certificates held by Nikita Petrich, with scope, syllabus and the certificate as a PDF — from Scrimba, Code with Mosh and Udemy.",
+      "Alle {count} Zertifikate von Nikita Petrich mit Umfang, Kursaufbau und dem Zertifikat als PDF — von Scrimba, Code with Mosh, Udemy, Traversy Media und EnglishRadar.",
+      "All {count} certificates held by Nikita Petrich, with scope, syllabus and the certificate as a PDF — from Scrimba, Code with Mosh, Udemy, Traversy Media and EnglishRadar.",
     ),
   },
 

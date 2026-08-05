@@ -55,6 +55,7 @@ const issuerPill: Record<Certificate["issuer"], string> = {
   "Code with Mosh": "bg-[var(--pill-blue)] text-[var(--pill-blue-text)]",
   Udemy: "bg-[var(--pill-purple)] text-[var(--pill-purple-text)]",
   "Traversy Media": "bg-secondary text-secondary-foreground",
+  EnglishRadar: "bg-[var(--pill-blue)] text-[var(--pill-blue-text)]",
 };
 
 function IssuerPill({ issuer }: { issuer: Certificate["issuer"] }) {

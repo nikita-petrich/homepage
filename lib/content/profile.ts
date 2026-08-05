@@ -26,18 +26,20 @@ export const profile = {
   ),
 };
 
+/* The page count used to be the subtitle here. Ten pages is not a selling
+   point — it is a warning — so the line says what the file is instead. */
 export const cvFiles = [
   {
     href: "/cv/CV_Nikita_Petrich_DE.pdf",
     label: t("CV Deutsch", "CV German"),
     flag: "/assets/flags/de.svg",
-    sub: t("PDF · 10 Seiten", "PDF · 10 pages"),
+    sub: t("PDF · zum Weiterleiten", "PDF · ready to forward"),
   },
   {
     href: "/cv/CV_Nikita_Petrich_EN.pdf",
     label: t("CV Englisch", "CV English"),
     flag: "/assets/flags/gb.svg",
-    sub: t("PDF · 10 Seiten", "PDF · 10 pages"),
+    sub: t("PDF · zum Weiterleiten", "PDF · ready to forward"),
   },
 ];
 
@@ -113,7 +115,18 @@ export const languages = [
   {
     flag: "/assets/flags/gb.svg",
     text: t("Englisch", "English"),
-    sub: t("B2 · US/EU-Remote", "B2 · US/EU remote"),
+    /* Three things in ~45 characters: the competency, that the level is
+       assessed rather than self-declared, and the field evidence. The full
+       version — meetings, presentations, negotiations — spelled the syllabus
+       out and wrapped to five underlined lines in the 210px sidebar, against
+       this component's own warning; it is one click away on the certificate.
+       "US-Projekt" earns its place over the syllabus: five months of
+       English-only work with a New York client outweighs a course outline. */
+    sub: t(
+      "Business English · B2 zertifiziert · US-Projekt",
+      "Business English · B2 certified · US engagement",
+    ),
+    href: "/certificates/english-radar-business-english",
   },
 ];
 
@@ -156,33 +169,66 @@ export const intro: IntroLine[] = [
     spans: [
       {
         t: t(
-          "Ich bin freiberuflicher Senior Full-Stack & AI Engineer mit Schwerpunkt auf LLM-Integration, RAG und KI-gestützter Automatisierung – von der Architektur bis zum Produktivbetrieb. Meine Ergebnisse: ",
-          "I'm a freelance Senior Full-Stack & AI Engineer focused on LLM integration, RAG and AI-driven automation – from architecture to production. My results: ",
+          /* The attribution leads the list rather than trailing it. It used to
+             sit at the end, where "jeweils" governed all three figures in one
+             sentence; splitting that sentence left it hanging off the last one,
+             so two client numbers were being asserted as the site's own. */
+          "Ich bin freiberuflicher Senior Full-Stack & AI Engineer mit Schwerpunkt auf LLM-Integration, RAG und KI-gestützter Automatisierung – von der Architektur bis zum Produktivbetrieb. Meine Ergebnisse, jeweils nach Angaben der Kunden bzw. Anbieter: ",
+          "I am a freelance Senior Full-Stack & AI Engineer focused on LLM integration, RAG and AI-driven automation – from architecture to production. My results, each as reported by the client or provider: ",
+        ),
+      },
+      /* Order matters here, and so does sentence length. The logistics figure
+         is the largest and the one a reader is most likely to bounce off, so
+         the two immediately credible numbers come first and it arrives last —
+         in a sentence of its own, with the mechanism in front of it rather than
+         wedged into an em-dash aside. Three bold figures in one 60-word run did
+         not survive a skim, which is the only way this paragraph is read.
+
+         "bis zu" on the first two, and "telefonische" on the second: the
+         project pages bound these figures and the intro had quietly dropped the
+         bounds while adding an attribution header that invites the reader to
+         trust them. A click-through must not contradict the summary. */
+      { t: t("bis zu 40 Stunden/Monat", "up to 40 hours/month"), b: true },
+      {
+        t: t(
+          " weniger Verwaltungsarbeit im Handel, ",
+          " less administrative work in retail, ",
         ),
       },
       {
         t: t(
-          "bis zu 1.000 Stunden/Jahr pro Mitarbeiter eingespart",
-          "up to 1,000 hours/year per employee saved",
+          "bis zu 70 % weniger telefonische Rückfragen",
+          "up to 70 % fewer phone enquiries",
+        ),
+        b: true,
+      },
+      {
+        /* "spart" — the same verb the project page uses. Splitting this out of
+           the previous sentence had left the biggest number on the site as a
+           bare apposition with nothing in the clause that saved anything.
+
+           "je Tour" is the word the system itself uses — it is a
+           Tourverwaltung, and the result line this summarises says "je Tour". */
+        t: t(
+          " im Notariat. In der Logistik spart die automatisierte Erzeugung der Tourunterlagen – vorher je Tour von Hand zusammengestellt – ",
+          " at a notary's office. In logistics, generating the route documents automatically — they used to be assembled by hand for every trip — saves ",
+        ),
+      },
+      {
+        /* main arrived at the same correction independently ("bis zu 1.000
+           Stunden/Jahr pro Mitarbeiter eingespart"): the figure is per employee.
+           This wording keeps that, and adds the bound, the verb in the clause
+           before it and the mechanism it came out of. */
+        t: t(
+          "bis zu 1.000 Stunden pro Mitarbeiter und Jahr",
+          "up to 1,000 hours per employee per year",
         ),
         b: true,
       },
       {
         t: t(
-          " durch ein Tourverwaltungssystem in der Logistik, ",
-          " through a tour-management system in logistics, ",
-        ),
-      },
-      { t: t("40 Stunden/Monat", "40 hours/month"), b: true },
-      { t: t(" im Handel, ", " in retail, ") },
-      {
-        t: t("70 % weniger Rückfragen", "70 % fewer enquiries"),
-        b: true,
-      },
-      {
-        t: t(
-          " im Notariat. Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
-          " at a notary's office. I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
+          ". Dieselbe Konsequenz gilt für meine Entwicklung selbst: Mit Agentic-Coding-Workflows (Claude Code, Cursor, MCP) und spezifikationsgetriebenem Vorgehen entstand eine ",
+          ". I apply the same rigour to how I build: with agentic coding workflows (Claude Code, Cursor, MCP) and a spec-driven approach, I delivered a ",
         ),
       },
       {
@@ -243,21 +289,74 @@ export const intro: IntroLine[] = [
         t: t("Über 7 Jahre Erfahrung", "More than 7 years of experience"),
         b: true,
       },
+      /* The seniority signal. Nothing here is a new claim, and each half names
+         its own scope — which is the part the first version left out. Stating
+         "Ich verantworte Architektur und Betrieb end-to-end" unqualified read
+         as full-time commercial ownership, while every project backing it is
+         the own product or a system maintained alongside client work. A reader
+         who found "nebenberuflich" two clicks later would discount the whole
+         paragraph; naming the two tracks up front costs nothing and survives
+         the cross-read. */
       {
+        /* Both delivery modes, each with its own scope. The first version of
+           this paragraph claimed end-to-end ownership unqualified, which the
+           "nebenberuflich" tags two clicks away undercut; the second scoped it
+           so tightly that the three systems built alone for paying clients
+           disappeared, leaving a team contributor and a side-project owner.
+           Both halves are on the project pages: the ~20-engineer engagement,
+           and RateUp / Accounting OS / LadeTrans as sole-developer builds. */
         t: t(
-          " in LegalTech, HealthTech, E-Commerce, EdTech und Logistik – im 20-köpfigen Team (LegalTech-Plattform, ",
-          " in LegalTech, HealthTech, e-commerce, EdTech and logistics – on a 20-person team (LegalTech platform, ",
+          " in LegalTech, HealthTech, E-Commerce, EdTech und Logistik. In größeren Organisationen liefere ich im bestehenden Team: bei einer LegalTech-Plattform mit ",
+          " in LegalTech, HealthTech, e-commerce, EdTech and logistics. In larger organisations I deliver inside the existing team: on a LegalTech platform with ",
         ),
       },
       { t: t("3.000+ Kunden", "3,000+ customers"), b: true },
       {
+        /* Attributed here too — the project page says "laut Anbieter", and the
+           intro was quoting the same number as if it were its own. */
         t: t(
-          ") wie auch als alleiniger Entwickler mit voller Produktverantwortung.",
-          ") as well as sole developer with full product ownership.",
+          " (laut Anbieter) als einer von rund 20 Engineers in vier Teams – dort produktive KI-Features und, im Viererteam, die Zusammenführung von vier Portalen zu einem. Drei Kundensysteme habe ich als alleiniger Entwickler gebaut; bei zweien – über rund 12 bzw. 28 Monate – verantworte ich ",
+          " (according to the provider) as one of some 20 engineers across four teams – production AI features there and, in a team of four, the consolidation of four portals into one. Three client systems I built as the sole developer; on two of them – over roughly 12 and 28 months – I own ",
+        ),
+      },
+      {
+        t: t(
+          "Architektur und Betrieb end-to-end",
+          "architecture and operations end-to-end",
+        ),
+        b: true,
+      },
+      {
+        t: t(
+          " und übernehme weiterhin die laufende Wartung. Eines davon läuft seit 2021 durchgehend im Produktivbetrieb.",
+          " and still handle the ongoing maintenance. One of them has been running in production continuously since 2021.",
         ),
       },
     ],
   },
+];
+
+/* The chips in the cover banner — the first technical claim a visitor reads,
+   above the fold and before the sidebar. They used to be plain strings living
+   in the component, which left the English hero opening with the untranslated
+   "DSGVO-konform"; they are localised content like everything else now.
+
+   Deliberately a short list, and deliberately not the same list as `focus`
+   below: the banner has one row of space, so it carries the specialism and the
+   two stack halves, and `focus` carries the full picture. */
+export const bannerTags = [
+  /* Translated, like the same term two blocks down in `focus` — the German
+     spelling was left standing in the hero's very first chip. */
+  t("LLM-Integration", "LLM integration"),
+  "RAG",
+  t("KI-Engineering", "AI engineering"),
+  "Agentic Coding",
+  "TypeScript",
+  "Python",
+  "Backend (NestJS · Node.js · FastAPI)",
+  "Frontend (Next.js · React · Angular)",
+  "Clean Architecture",
+  t("DSGVO-konform", "GDPR-compliant"),
 ];
 
 export const focus = [
@@ -281,6 +380,12 @@ export const focus = [
 export const sections = [
   { id: "contact", label: t("Kontakt", "Contact"), level: 2 as const },
   { id: "facts", label: t("Eckdaten", "Key facts"), level: 2 as const },
+  /* Both of these render on the page and were missing from this list, so the
+     navigation skipped them. "Profile" matters most: the platform links
+     (LinkedIn, GitHub, freelancermap, Malt) are the fastest route from here to
+     somewhere a recruiter can already message him. */
+  { id: "profiles", label: t("Profile", "Profiles"), level: 2 as const },
+  { id: "methods", label: t("Methodik", "Methodology"), level: 2 as const },
   { id: "languages", label: t("Sprachen", "Languages"), level: 2 as const },
   { id: "approach", label: t("Arbeitsweise", "Ways of working"), level: 2 as const },
   { id: "focus", label: t("Schwerpunkt", "Focus"), level: 1 as const },
@@ -288,6 +393,11 @@ export const sections = [
   { id: "references", label: t("Referenzen", "Testimonials"), level: 1 as const },
   { id: "skills", label: t("Skills", "Skills"), level: 1 as const },
   { id: "certificates", label: t("Zertifikate", "Certificates"), level: 1 as const },
+  {
+    id: "contact-cta",
+    label: t("Zusammenarbeit", "Working together"),
+    level: 1 as const,
+  },
 ];
 
 /* Description of the site itself — metadata, social card, JSON-LD. */

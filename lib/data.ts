@@ -5,6 +5,7 @@ import { certificates } from "./content/certificates";
 import { withDerivedSkills } from "./content/derive";
 import {
   approach,
+  bannerTags,
   contact,
   cvFiles,
   facts,
@@ -66,6 +67,7 @@ const projectsWithSkills = projects.map(withDerivedSkills);
 const content = {
   profile,
   siteDescription,
+  bannerTags,
   cvFiles,
   contact,
   facts,

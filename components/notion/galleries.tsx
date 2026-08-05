@@ -72,7 +72,7 @@ export function SkillsGallery({ skills }: { skills: SkillCategory[] }) {
         <div className="flex flex-col gap-6">
           {groups.map((group) => (
             <div key={group.kind} className="flex flex-col gap-2.5">
-              {/* Inside the "Skills & Fähigkeiten" <h2>, so h3 — the group
+              {/* Inside the "Skills & Technologien" <h2>, so h3 — the group
                   headings are the section's only subheadings. The count is the
                   Notion database-group marker, not a claim about coverage. */}
               <h3 className="flex items-baseline gap-2 text-[15px] leading-[1.3] font-semibold">
