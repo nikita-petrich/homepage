@@ -12,7 +12,7 @@
  * versions are discarded and the banner is shown again.
  */
 
-export const CONSENT_VERSION = 1;
+const CONSENT_VERSION = 1;
 const STORAGE_KEY = "np-consent";
 
 /* Fired on window whenever the consent state changes. */
@@ -20,7 +20,7 @@ export const CONSENT_CHANGE_EVENT = "np:consent";
 /* Fired on window to re-open the banner (footer "Datenschutz-Einstellungen"). */
 export const OPEN_CONSENT_EVENT = "np:open-consent";
 
-export type ConsentState = {
+type ConsentState = {
   version: number;
   /** ISO timestamp of the decision. */
   timestamp: string;

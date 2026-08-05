@@ -22,7 +22,7 @@ import { projects } from "./content/projects";
 import { references, referenceSources } from "./content/references";
 import { skills } from "./content/skills";
 
-import type { CertificateSectionSource, CertificateSource } from "./content/certificates";
+import type { CertificateSource } from "./content/certificates";
 import type { ProjectSource } from "./content/projects";
 import type { ReferenceSourceEntry } from "./content/references";
 import type { SkillCategorySource } from "./content/skills";
@@ -47,15 +47,12 @@ export type IntroLine = Localized<IntroLineSource>;
 export type Project = Localized<ProjectSource>;
 export type ProjectMeta = Project["meta"][number];
 export type Certificate = Localized<CertificateSource>;
-export type CertificateSection = Localized<CertificateSectionSource>;
 export type SkillCategory = Localized<SkillCategorySource>;
 export type { SkillKind } from "./content/skills";
 export type Reference = Localized<ReferenceSourceEntry>;
 export type InfoItem = Content["contact"][number];
 export type FactItem = Content["facts"][number];
 export type Language = Content["languages"][number];
-export type ProfileLink = Content["profileLinks"][number];
-export type CvFile = Content["cvFiles"][number];
 export type TocItem = Content["sections"][number];
 
 /* Locale-independent: names, URLs. */

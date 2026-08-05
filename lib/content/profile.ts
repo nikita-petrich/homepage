@@ -182,11 +182,12 @@ export const intro: IntroLine[] = [
          the two immediately credible numbers come first and it arrives last —
          in a sentence of its own, with the mechanism in front of it rather than
          wedged into an em-dash aside. Three bold figures in one 60-word run did
-         not survive a skim, which is the only way this paragraph is read. */
-      /* "bis zu" on both, and "telefonische" on the second — the project pages
-         bound these figures and the intro had quietly dropped the bounds while
-         adding an attribution header that invites the reader to trust them. A
-         click-through must not contradict the summary. */
+         not survive a skim, which is the only way this paragraph is read.
+
+         "bis zu" on the first two, and "telefonische" on the second: the
+         project pages bound these figures and the intro had quietly dropped the
+         bounds while adding an attribution header that invites the reader to
+         trust them. A click-through must not contradict the summary. */
       { t: t("bis zu 40 Stunden/Monat", "up to 40 hours/month"), b: true },
       {
         t: t(
@@ -204,15 +205,20 @@ export const intro: IntroLine[] = [
       {
         /* "spart" — the same verb the project page uses. Splitting this out of
            the previous sentence had left the biggest number on the site as a
-           bare apposition with nothing in the clause that saved anything. */
+           bare apposition with nothing in the clause that saved anything.
+
+           "je Tour" is the word the system itself uses — it is a
+           Tourverwaltung, and the result line this summarises says "je Tour". */
         t: t(
-          /* "je Tour", the word the system itself uses — it is a
-             Tourverwaltung, and the result line it summarises says "je Tour". */
           " im Notariat. In der Logistik spart die automatisierte Erzeugung der Tourunterlagen – vorher je Tour von Hand zusammengestellt – ",
           " at a notary's office. In logistics, generating the route documents automatically — they used to be assembled by hand for every trip — saves ",
         ),
       },
       {
+        /* main arrived at the same correction independently ("bis zu 1.000
+           Stunden/Jahr pro Mitarbeiter eingespart"): the figure is per employee.
+           This wording keeps that, and adds the bound, the verb in the clause
+           before it and the mechanism it came out of. */
         t: t(
           "bis zu 1.000 Stunden pro Mitarbeiter und Jahr",
           "up to 1,000 hours per employee per year",
@@ -237,7 +243,20 @@ export const intro: IntroLine[] = [
   },
   {
     spans: [
-      { t: t("Ich arbeite ", "I work ") },
+      { t: t("Mein Leitsatz: ", "My guiding principle: ") },
+      {
+        t: t(
+          "Was zweimal manuell passiert, wird automatisiert.",
+          "anything done manually twice gets automated.",
+        ),
+        b: true,
+      },
+      {
+        t: t(
+          " Wiederkehrende Handgriffe sind für mich der Ausgangspunkt jeder Automatisierung – dort entstehen die Zahlen oben. Ich arbeite ",
+          " Recurring manual steps are where I start every automation – that's where the numbers above come from. I work ",
+        ),
+      },
       {
         t: t(
           "eigenverantwortlich, remote und asynchron",
