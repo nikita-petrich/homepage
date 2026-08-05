@@ -142,8 +142,93 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
   );
 }
 
-/* Full-content dialog, shared by the intercepting modal route and the
-   standalone page (each passes its own onClose). Mirrors ProjectModal. */
+/* One testimonial in full: the body of the dialog *and* of the standalone page
+   at /references/<slug>, which server-renders it (see ./detail-page.tsx).
+   Mirrors ProjectDetail. */
+export function ReferenceDetail({
+  reference: r,
+  heading: Heading = "h2",
+}: {
+  reference: Reference;
+  /** h1 on the standalone page, which is about this person; h2 in the dialog,
+      which opens over a page that has its own h1. */
+  heading?: "h1" | "h2";
+}) {
+  const { locale, ui } = useI18n();
+  return (
+    <>
+      <div
+        className="relative flex items-center gap-4 overflow-hidden px-6 py-6 sm:px-8"
+        style={{ backgroundImage: bannerBg }}
+      >
+        <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
+        <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--tag-bg)] text-[18px] font-semibold text-[var(--tag-text)]">
+          {initials(r.name)}
+        </span>
+        <div className="min-w-0">
+          <Heading className="text-[20px] leading-[1.2] font-bold tracking-[-0.01em]">
+            {r.name}
+          </Heading>
+          <div className="mt-1 flex flex-wrap items-center gap-1 text-[13px] leading-[1.45] text-notion-soft">
+            <span>{r.role}</span>
+            {r.company ? (
+              <>
+                <span aria-hidden>·</span>
+                <CompanyLine
+                  name={r.company}
+                  href={r.companyUrl}
+                  className="text-[13px]"
+                />
+              </>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <div className="px-6 py-7 sm:px-8">
+        <Quote
+          size={26}
+          strokeWidth={1.8}
+          className="mb-3 text-[var(--accent-o)]"
+          aria-hidden
+        />
+        <blockquote className="text-[15px] leading-[1.7] whitespace-pre-line text-notion-text">
+          {r.quote}
+        </blockquote>
+        <OriginalLanguageNote reference={r} />
+
+        <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--hairline)] pt-4">
+          <AccentTag label={r.relation} />
+          {r.projectSlug ? (
+            <ModalLink
+              href={localePath(locale, `/projects/${r.projectSlug}`)}
+              data-analytics-event="project_open"
+              data-analytics-prop-slug={r.projectSlug}
+              data-analytics-prop-source="reference_modal"
+              className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--surface-chip)] px-[7px] py-[3px] text-[12px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
+            >
+              {r.project}
+              <ArrowUpRight size={12} strokeWidth={2} className="opacity-70" />
+            </ModalLink>
+          ) : (
+            <span className="text-[12px] text-notion-gray">{r.project}</span>
+          )}
+          <span className="ml-auto flex items-center gap-1.5">
+            <span className="text-[12px] text-notion-gray">
+              {ui.references.source}
+            </span>
+            {r.sources.map((s) => (
+              <SourceTag key={s} source={s} />
+            ))}
+          </span>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* The dialog an intercepted card click opens, over the page the visitor came
+   from. The standalone route renders ReferenceDetail directly instead. */
 export function ReferenceModal({
   reference: r,
   onClose,
@@ -151,81 +236,14 @@ export function ReferenceModal({
   reference: Reference;
   onClose: () => void;
 }) {
-  const { locale, ui } = useI18n();
+  const { ui } = useI18n();
   return (
     <ModalShell
       label={format(ui.references.dialogLabel, { name: r.name })}
       onClose={onClose}
       maxWidthClass="max-w-[640px]"
     >
-      <>
-        <div
-          className="relative flex items-center gap-4 overflow-hidden px-6 py-6 sm:px-8"
-          style={{ backgroundImage: bannerBg }}
-        >
-          <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--tag-bg)] text-[18px] font-semibold text-[var(--tag-text)]">
-            {initials(r.name)}
-          </span>
-          <div className="min-w-0">
-            <h2 className="text-[20px] leading-[1.2] font-bold tracking-[-0.01em]">
-              {r.name}
-            </h2>
-            <div className="mt-1 flex flex-wrap items-center gap-1 text-[13px] leading-[1.45] text-notion-soft">
-              <span>{r.role}</span>
-              {r.company ? (
-                <>
-                  <span aria-hidden>·</span>
-                  <CompanyLine
-                    name={r.company}
-                    href={r.companyUrl}
-                    className="text-[13px]"
-                  />
-                </>
-              ) : null}
-            </div>
-          </div>
-        </div>
-
-        <div className="px-6 py-7 sm:px-8">
-          <Quote
-            size={26}
-            strokeWidth={1.8}
-            className="mb-3 text-[var(--accent-o)]"
-            aria-hidden
-          />
-          <blockquote className="text-[15px] leading-[1.7] whitespace-pre-line text-notion-text">
-            {r.quote}
-          </blockquote>
-          <OriginalLanguageNote reference={r} />
-
-          <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--hairline)] pt-4">
-            <AccentTag label={r.relation} />
-            {r.projectSlug ? (
-              <ModalLink
-                href={localePath(locale, `/projects/${r.projectSlug}`)}
-                data-analytics-event="project_open"
-                data-analytics-prop-slug={r.projectSlug}
-                data-analytics-prop-source="reference_modal"
-                className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--surface-chip)] px-[7px] py-[3px] text-[12px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
-              >
-                {r.project}
-                <ArrowUpRight size={12} strokeWidth={2} className="opacity-70" />
-              </ModalLink>
-            ) : (
-              <span className="text-[12px] text-notion-gray">{r.project}</span>
-            )}
-            <span className="ml-auto flex items-center gap-1.5">
-              <span className="text-[12px] text-notion-gray">
-                {ui.references.source}
-              </span>
-              {r.sources.map((s) => (
-                <SourceTag key={s} source={s} />
-              ))}
-            </span>
-          </div>
-        </div>
-      </>
+      <ReferenceDetail reference={r} />
     </ModalShell>
   );
 }
@@ -292,17 +310,16 @@ function ReferenceEntry({ reference: r }: { reference: Reference }) {
 
 /* All references for one project on a single permanent URL
    (/projects/<slug>/references) — shareable in an application or proposal
-   without the reader having to open one dialog per testimonial. Shared by the
-   intercepting modal route and the standalone page, which pass their own
-   onClose. */
-export function ProjectReferencesModal({
+   without the reader having to open one dialog per testimonial. Body of the
+   dialog and of the standalone page, which server-renders it. */
+export function ProjectReferencesDetail({
   project,
   references: projectRefs,
-  onClose,
+  heading: Heading = "h2",
 }: {
   project: Project;
   references: Reference[];
-  onClose: () => void;
+  heading?: "h1" | "h2";
 }) {
   const { locale, ui } = useI18n();
   const count =
@@ -311,49 +328,66 @@ export function ProjectReferencesModal({
       : format(ui.references.countMany, { count: projectRefs.length });
 
   return (
+    <>
+      <div
+        className="relative overflow-hidden px-6 py-6 sm:px-8"
+        style={{ backgroundImage: bannerBg }}
+      >
+        <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
+        <div className="flex items-center gap-2 text-[12px] font-semibold tracking-[0.06em] text-[var(--accent-text)] uppercase">
+          <Quote size={14} strokeWidth={2} aria-hidden />
+          {ui.projects.references}
+        </div>
+        <Heading className="mt-2 text-[22px] leading-[1.2] font-bold tracking-[-0.01em]">
+          {project.name}
+        </Heading>
+        <div className="mt-1 text-[13px] leading-[1.45] text-notion-soft">
+          {project.subtitle} · {count}
+        </div>
+      </div>
+
+      <div className="px-6 py-7 sm:px-8">
+        <ul className="flex flex-col gap-3.5">
+          {projectRefs.map((r) => (
+            <ReferenceEntry key={r.slug} reference={r} />
+          ))}
+        </ul>
+
+        <div className="mt-6 border-t border-[var(--hairline)] pt-4">
+          <ModalLink
+            href={localePath(locale, `/projects/${project.slug}`)}
+            data-analytics-event="project_open"
+            data-analytics-prop-slug={project.slug}
+            data-analytics-prop-source="project_references"
+            className="inline-flex items-center gap-1.5 rounded-md border border-[color-mix(in_srgb,var(--accent-o)_35%,transparent)] bg-[var(--accent-soft)] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[var(--accent-soft-hover)]"
+          >
+            {ui.references.toProject}
+            <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
+          </ModalLink>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* The dialog an intercepted click opens; the standalone route renders
+   ProjectReferencesDetail directly. */
+export function ProjectReferencesModal({
+  project,
+  references,
+  onClose,
+}: {
+  project: Project;
+  references: Reference[];
+  onClose: () => void;
+}) {
+  const { ui } = useI18n();
+  return (
     <ModalShell
       label={format(ui.references.projectDialogLabel, { project: project.name })}
       onClose={onClose}
     >
-      <>
-        <div
-          className="relative overflow-hidden px-6 py-6 sm:px-8"
-          style={{ backgroundImage: bannerBg }}
-        >
-          <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
-          <div className="flex items-center gap-2 text-[12px] font-semibold tracking-[0.06em] text-[var(--accent-text)] uppercase">
-            <Quote size={14} strokeWidth={2} aria-hidden />
-            {ui.projects.references}
-          </div>
-          <h2 className="mt-2 text-[22px] leading-[1.2] font-bold tracking-[-0.01em]">
-            {project.name}
-          </h2>
-          <div className="mt-1 text-[13px] leading-[1.45] text-notion-soft">
-            {project.subtitle} · {count}
-          </div>
-        </div>
-
-        <div className="px-6 py-7 sm:px-8">
-          <ul className="flex flex-col gap-3.5">
-            {projectRefs.map((r) => (
-              <ReferenceEntry key={r.slug} reference={r} />
-            ))}
-          </ul>
-
-          <div className="mt-6 border-t border-[var(--hairline)] pt-4">
-            <ModalLink
-              href={localePath(locale, `/projects/${project.slug}`)}
-              data-analytics-event="project_open"
-              data-analytics-prop-slug={project.slug}
-              data-analytics-prop-source="project_references"
-              className="inline-flex items-center gap-1.5 rounded-md border border-[color-mix(in_srgb,var(--accent-o)_35%,transparent)] bg-[var(--accent-soft)] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[var(--accent-soft-hover)]"
-            >
-              {ui.references.toProject}
-              <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
-            </ModalLink>
-          </div>
-        </div>
-      </>
+      <ProjectReferencesDetail project={project} references={references} />
     </ModalShell>
   );
 }

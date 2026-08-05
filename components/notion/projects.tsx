@@ -232,208 +232,230 @@ function MetaValue({ value }: { value: string }) {
   );
 }
 
-/* Shared by the intercepting modal route and the standalone page, which each
-   pass their own onClose. */
-export function ProjectModal({
+/* The project in full: the body of the dialog *and* of the standalone page at
+   /projects/<slug>. Nothing here is a portal or an effect, so the whole thing
+   is in the server-rendered HTML of that page — which is the point (see
+   ./detail-page.tsx). */
+export function ProjectDetail({
   project,
   references: projectRefs,
-  onClose,
+  heading: Heading = "h2",
 }: {
   project: Project;
   /** Testimonials for this project, resolved by the route that renders it. */
   references: Reference[];
-  onClose: () => void;
+  /** The standalone page is *about* this project, so there the name is the
+      document's h1; inside the dialog it stays a section heading under the
+      heading of the page the dialog opened over. */
+  heading?: "h1" | "h2";
 }) {
   const { locale, ui } = useI18n();
 
   return (
-    <ModalShell label={project.name} onClose={onClose}>
-      <>
-        {project.cover ? (
-          <ProjectCover
-            project={project}
-            className="aspect-[16/8]"
-            captionClass="text-[13px]"
-            preload
+    <>
+      {project.cover ? (
+        <ProjectCover
+          project={project}
+          className="aspect-[16/8]"
+          captionClass="text-[13px]"
+          preload
+        />
+      ) : (
+        <div
+          className="relative flex aspect-[16/8] w-full items-center overflow-hidden px-8 sm:px-12"
+          style={{ backgroundImage: bannerBg }}
+        >
+          <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
+          <GitCodeMotif className="text-[clamp(13px,2.6vw,20px)]" />
+        </div>
+      )}
+
+      <div className="px-6 py-7 sm:px-10 sm:py-9">
+        <div className="text-[12px] font-semibold tracking-[0.06em] text-[var(--accent-text)] uppercase">
+          {project.cat}
+        </div>
+        <div className="mt-2 flex items-center gap-2.5">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--notion-text)] text-[13px] font-semibold text-[var(--notion-bg)]">
+            {project.num}
+          </span>
+          <Heading className="text-[26px] leading-[1.2] font-bold tracking-[-0.01em]">
+            {project.name}
+          </Heading>
+        </div>
+        <div className="mt-1.5 text-[16px] font-semibold text-notion-soft">
+          {project.subtitle}
+        </div>
+        {project.company ? (
+          <CompanyLine
+            name={project.company}
+            href={project.companyUrl}
+            className="mt-1.5 text-[13px]"
           />
-        ) : (
-          <div
-            className="relative flex aspect-[16/8] w-full items-center overflow-hidden px-8 sm:px-12"
-            style={{ backgroundImage: bannerBg }}
-          >
-            <div className="absolute inset-y-0 left-0 w-[5px] bg-[var(--accent-o)]" />
-            <GitCodeMotif className="text-[clamp(13px,2.6vw,20px)]" />
-          </div>
-        )}
+        ) : null}
+        <div className="mt-2 text-[13px] text-notion-gray">
+          {project.dateRange} · {project.role}
+        </div>
 
-        <div className="px-6 py-7 sm:px-10 sm:py-9">
-          <div className="text-[12px] font-semibold tracking-[0.06em] text-[var(--accent-text)] uppercase">
-            {project.cat}
-          </div>
-          <div className="mt-2 flex items-center gap-2.5">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--notion-text)] text-[13px] font-semibold text-[var(--notion-bg)]">
-              {project.num}
-            </span>
-            <h2 className="text-[26px] leading-[1.2] font-bold tracking-[-0.01em]">
-              {project.name}
-            </h2>
-          </div>
-          <div className="mt-1.5 text-[16px] font-semibold text-notion-soft">
-            {project.subtitle}
-          </div>
-          {project.company ? (
-            <CompanyLine
-              name={project.company}
-              href={project.companyUrl}
-              className="mt-1.5 text-[13px]"
-            />
-          ) : null}
-          <div className="mt-2 text-[13px] text-notion-gray">
-            {project.dateRange} · {project.role}
-          </div>
-
-          <div className="mt-[18px] grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--hairline)] sm:grid-cols-3">
-            {/* min-w-0: grid items default to min-width:auto, so a long value
-                ("Direkte Produktverantwortung") widened its column past the
-                container and overflow-hidden clipped the text mid-word on
-                phones (≤375px). break-words handles unbreakable tokens. */}
-            {project.meta.map((m) => (
-              <div
-                key={m.label}
-                className="min-w-0 bg-[var(--surface-muted)] px-2.5 py-2 sm:px-3.5 sm:py-2.5"
-              >
-                <div className="text-[10px] font-semibold tracking-[0.06em] text-notion-gray uppercase">
-                  {m.label}
-                </div>
-                {/* A cell with several values stacks them; one value renders
-                    exactly as it did before the list case existed. The cells
-                    are narrow enough that a value wraps on phones, which would
-                    leave its tail sitting flush above the next value and
-                    reading as one line — so a multi-value cell hangs its wrapped
-                    lines, keeping each value's first line on the left edge. */}
-                <div className="mt-1 flex flex-col gap-[3px] text-[13px] leading-[1.35] break-words text-notion-text">
-                  {metaValues(m).map((v, _i, all) => (
-                    <span
-                      key={v}
-                      className={cn(all.length > 1 && "pl-2.5 -indent-2.5")}
-                    >
-                      <MetaValue value={v} />
-                    </span>
-                  ))}
-                </div>
+        <div className="mt-[18px] grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--hairline)] sm:grid-cols-3">
+          {/* min-w-0: grid items default to min-width:auto, so a long value
+              ("Direkte Produktverantwortung") widened its column past the
+              container and overflow-hidden clipped the text mid-word on
+              phones (≤375px). break-words handles unbreakable tokens. */}
+          {project.meta.map((m) => (
+            <div
+              key={m.label}
+              className="min-w-0 bg-[var(--surface-muted)] px-2.5 py-2 sm:px-3.5 sm:py-2.5"
+            >
+              <div className="text-[10px] font-semibold tracking-[0.06em] text-notion-gray uppercase">
+                {m.label}
               </div>
-            ))}
-          </div>
+              {/* A cell with several values stacks them; one value renders
+                  exactly as it did before the list case existed. The cells
+                  are narrow enough that a value wraps on phones, which would
+                  leave its tail sitting flush above the next value and
+                  reading as one line — so a multi-value cell hangs its wrapped
+                  lines, keeping each value's first line on the left edge. */}
+              <div className="mt-1 flex flex-col gap-[3px] text-[13px] leading-[1.35] break-words text-notion-text">
+                {metaValues(m).map((v, _i, all) => (
+                  <span
+                    key={v}
+                    className={cn(all.length > 1 && "pl-2.5 -indent-2.5")}
+                  >
+                    <MetaValue value={v} />
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
 
-          <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-            {ui.projects.responsibilities}
+        <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+          {ui.projects.responsibilities}
+        </h3>
+        <ul className="flex flex-col gap-[9px]">
+          {project.responsibilities.map((a, i) => (
+            <li key={i} className="flex gap-2.5 text-[14px] leading-[1.55]">
+              <span className="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--notion-text)]" />
+              <span>{a}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-[22px] rounded-lg border border-[var(--border-soft)] bg-[var(--accent-soft)] p-4">
+          <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-[var(--accent-text)] uppercase">
+            {ui.projects.results}
           </h3>
-          <ul className="flex flex-col gap-[9px]">
-            {project.responsibilities.map((a, i) => (
-              <li key={i} className="flex gap-2.5 text-[14px] leading-[1.55]">
-                <span className="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--notion-text)]" />
-                <span>{a}</span>
+          <ul className="flex flex-col gap-2">
+            {project.results.map((e, i) => (
+              <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
+                <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--accent-o)]" />
+                <span className="text-notion-soft">{e}</span>
               </li>
             ))}
           </ul>
+        </div>
 
-          <div className="mt-[22px] rounded-lg border border-[var(--border-soft)] bg-[var(--accent-soft)] p-4">
-            <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-[var(--accent-text)] uppercase">
-              {ui.projects.results}
+        {/* Targets, where a project has them — outside the accent-coloured
+            results panel and in the muted, neutral treatment, so a forecast
+            never borrows the visual weight the measured results carry. */}
+        {project.outlook && project.outlook.length > 0 && (
+          <div className="mt-3 rounded-lg border border-dashed border-[var(--border-soft)] p-4">
+            <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+              {ui.projects.outlook}
             </h3>
             <ul className="flex flex-col gap-2">
-              {project.results.map((e, i) => (
+              {project.outlook.map((e, i) => (
                 <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
-                  <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--accent-o)]" />
-                  <span className="text-notion-soft">{e}</span>
+                  <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--notion-divider)]" />
+                  <span className="text-notion-gray">{e}</span>
                 </li>
               ))}
             </ul>
           </div>
+        )}
 
-          {/* Targets, where a project has them — outside the accent-coloured
-              results panel and in the muted, neutral treatment, so a forecast
-              never borrows the visual weight the measured results carry. */}
-          {project.outlook && project.outlook.length > 0 && (
-            <div className="mt-3 rounded-lg border border-dashed border-[var(--border-soft)] p-4">
-              <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-                {ui.projects.outlook}
-              </h3>
-              <ul className="flex flex-col gap-2">
-                {project.outlook.map((e, i) => (
-                  <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
-                    <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--notion-divider)]" />
-                    <span className="text-notion-gray">{e}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {projectRefs.length > 0 && (
-            <>
-              <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-                {projectRefs.length > 1
-                  ? ui.projects.references
-                  : ui.projects.reference}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {projectRefs.map((r) => (
-                  <ModalLink
-                    key={r.slug}
-                    href={localePath(locale, `/references/${r.slug}`)}
-                    data-analytics-event="reference_open"
-                    data-analytics-prop-slug={r.slug}
-                    data-analytics-prop-source="project_modal"
-                    aria-label={format(ui.projects.viewReference, {
-                      name: r.name,
-                    })}
-                    className="inline-flex items-center gap-1.5 rounded-md border border-[color-mix(in_srgb,var(--accent-o)_35%,transparent)] bg-[var(--accent-soft)] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[var(--accent-soft-hover)]"
-                  >
-                    <Quote size={13} strokeWidth={2} className="shrink-0" />
-                    <span>{r.name}</span>
-                    <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
-                  </ModalLink>
-                ))}
-                {/* Every testimonial of this project on one shareable URL —
-                    only worth its own link once there is more than one. */}
-                {projectRefs.length > 1 && (
-                  <ModalLink
-                    href={localePath(
-                      locale,
-                      `/projects/${project.slug}/references`,
-                    )}
-                    data-analytics-event="project_references_open"
-                    data-analytics-prop-slug={project.slug}
-                    data-analytics-prop-source="project_modal"
-                    aria-label={format(ui.projects.viewAllReferences, {
+        {projectRefs.length > 0 && (
+          <>
+            <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+              {projectRefs.length > 1
+                ? ui.projects.references
+                : ui.projects.reference}
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {projectRefs.map((r) => (
+                <ModalLink
+                  key={r.slug}
+                  href={localePath(locale, `/references/${r.slug}`)}
+                  data-analytics-event="reference_open"
+                  data-analytics-prop-slug={r.slug}
+                  data-analytics-prop-source="project_modal"
+                  aria-label={format(ui.projects.viewReference, {
+                    name: r.name,
+                  })}
+                  className="inline-flex items-center gap-1.5 rounded-md border border-[color-mix(in_srgb,var(--accent-o)_35%,transparent)] bg-[var(--accent-soft)] px-2.5 py-1 text-[13px] font-medium text-[var(--accent-text)] transition-colors hover:bg-[var(--accent-soft-hover)]"
+                >
+                  <Quote size={13} strokeWidth={2} className="shrink-0" />
+                  <span>{r.name}</span>
+                  <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
+                </ModalLink>
+              ))}
+              {/* Every testimonial of this project on one shareable URL —
+                  only worth its own link once there is more than one. */}
+              {projectRefs.length > 1 && (
+                <ModalLink
+                  href={localePath(
+                    locale,
+                    `/projects/${project.slug}/references`,
+                  )}
+                  data-analytics-event="project_references_open"
+                  data-analytics-prop-slug={project.slug}
+                  data-analytics-prop-source="project_modal"
+                  aria-label={format(ui.projects.viewAllReferences, {
+                    count: projectRefs.length,
+                    project: project.name,
+                  })}
+                  className="inline-flex items-center gap-1.5 rounded-md bg-[var(--surface-chip)] px-2.5 py-1 text-[13px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
+                >
+                  <span>
+                    {format(ui.projects.viewAll, {
                       count: projectRefs.length,
-                      project: project.name,
                     })}
-                    className="inline-flex items-center gap-1.5 rounded-md bg-[var(--surface-chip)] px-2.5 py-1 text-[13px] font-medium text-notion-soft transition-colors hover:bg-[var(--surface-hover-strong)]"
-                  >
-                    <span>
-                      {format(ui.projects.viewAll, {
-                        count: projectRefs.length,
-                      })}
-                    </span>
-                    <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
-                  </ModalLink>
-                )}
-              </div>
-            </>
-          )}
+                  </span>
+                  <ArrowUpRight size={13} strokeWidth={2} className="opacity-70" />
+                </ModalLink>
+              )}
+            </div>
+          </>
+        )}
 
-          <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
-            {ui.projects.technologies}
-          </h3>
-          <div className="flex flex-wrap gap-[6px]">
-            {project.tech.map((t) => (
-              <SkillTag key={t} label={t} />
-            ))}
-          </div>
+        <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+          {ui.projects.technologies}
+        </h3>
+        <div className="flex flex-wrap gap-[6px]">
+          {project.tech.map((t) => (
+            <SkillTag key={t} label={t} />
+          ))}
         </div>
-      </>
+      </div>
+    </>
+  );
+}
+
+/* The dialog an intercepted card click opens, over the page the visitor came
+   from. Client-only by nature — see ./detail-page.tsx for the standalone
+   route, which renders the same body without the dialog around it. */
+export function ProjectModal({
+  project,
+  references,
+  onClose,
+}: {
+  project: Project;
+  references: Reference[];
+  onClose: () => void;
+}) {
+  return (
+    <ModalShell label={project.name} onClose={onClose}>
+      <ProjectDetail project={project} references={references} />
     </ModalShell>
   );
 }

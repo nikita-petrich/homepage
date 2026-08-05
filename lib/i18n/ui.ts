@@ -267,6 +267,9 @@ const ui = {
     topics: t("Themen", "Topics"),
     lessons: t("{count} Lektionen", "{count} lessons"),
     metaTitle: t("{title} — Zertifikat", "{title} — certificate"),
+    /* Back link of a single certificate page — one level up the URL, to the
+       overview, rather than all the way to the home page. */
+    backToOverview: t("Zu allen Zertifikaten", "Back to all certificates"),
     pageTitle: t("Zertifikate", "Certificates"),
     pageIntro: t(
       "Abgeschlossene Weiterbildungen mit dem jeweiligen Zertifikat als PDF. Ein Klick auf eine Karte zeigt den vollständigen Umfang — Eckdaten, Inhalte und den Kursaufbau bis zur einzelnen Lektion; das Zertifikat selbst öffnet sich in einem neuen Tab.",
