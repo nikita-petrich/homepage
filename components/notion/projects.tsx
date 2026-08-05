@@ -351,6 +351,25 @@ export function ProjectModal({
             </ul>
           </div>
 
+          {/* Targets, where a project has them — outside the accent-coloured
+              results panel and in the muted, neutral treatment, so a forecast
+              never borrows the visual weight the measured results carry. */}
+          {project.outlook && project.outlook.length > 0 && (
+            <div className="mt-3 rounded-lg border border-dashed border-[var(--border-soft)] p-4">
+              <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+                {ui.projects.outlook}
+              </h3>
+              <ul className="flex flex-col gap-2">
+                {project.outlook.map((e, i) => (
+                  <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
+                    <span className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--notion-divider)]" />
+                    <span className="text-notion-gray">{e}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {projectRefs.length > 0 && (
             <>
               <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
