@@ -26,7 +26,8 @@ export function CvDownload({
   const { locale, ui } = useI18n();
   const cvFiles = getContent(locale).cvFiles;
   const isTopbar = variant === "topbar";
-  const isCompact = isTopbar || variant === "closing";
+  const isClosing = variant === "closing";
+  const isCompact = isTopbar || isClosing;
 
   return (
     <DropdownMenu>
@@ -34,22 +35,41 @@ export function CvDownload({
         <Button
           variant={isCompact ? "outline" : "default"}
           size={isCompact ? "sm" : "lg"}
-          className={cn(isCompact ? "h-[30px]" : "text-[15px]", className)}
+          className={cn(
+            isCompact ? "h-[30px]" : "text-[15px]",
+            /* The button is whitespace-nowrap, so in a narrow container it
+               would otherwise grow past its parent instead of being clipped
+               to it. */
+            "max-w-full",
+            className,
+          )}
           data-analytics-event="cv_menu_open"
           data-analytics-prop-placement={variant}
         >
-          <Download strokeWidth={2} />
-          {/* In the topbar the label collapses with the viewport, but it stays
-              in the accessibility tree rather than being replaced by an
-              aria-label: a name that reads "CV-Download öffnen" while the
-              button says "CV herunterladen" is a WCAG 2.5.3 (Label in Name)
-              failure, and leaves voice control with nothing to say. */}
-          <span className={isTopbar ? "sr-only sm:not-sr-only" : undefined}>
-            {ui.cv.button}
-          </span>
-          <span className={isTopbar ? "sr-only md:not-sr-only" : undefined}>
-            {ui.cv.buttonSuffix}
-          </span>
+          {/* No download glyph in the closing card: a third of that row is
+              144px wide, and the German label only clears it once the icon is
+              gone. Nothing is lost — the card's own heading is "CV als PDF",
+              and the chevron still marks the button as the language chooser
+              its subline promises. */}
+          {!isClosing && <Download strokeWidth={2} />}
+          {isClosing ? (
+            <span className="min-w-0 truncate">{ui.cv.buttonShort}</span>
+          ) : (
+            <>
+              {/* In the topbar the label collapses with the viewport, but it
+                  stays in the accessibility tree rather than being replaced by
+                  an aria-label: a name that reads "CV-Download öffnen" while
+                  the button says "CV herunterladen" is a WCAG 2.5.3 (Label in
+                  Name) failure, and leaves voice control with nothing to
+                  say. */}
+              <span className={isTopbar ? "sr-only sm:not-sr-only" : undefined}>
+                {ui.cv.button}
+              </span>
+              <span className={isTopbar ? "sr-only md:not-sr-only" : undefined}>
+                {ui.cv.buttonSuffix}
+              </span>
+            </>
+          )}
           <ChevronDown strokeWidth={2} className="opacity-70" />
         </Button>
       </DropdownMenuTrigger>
