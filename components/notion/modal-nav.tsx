@@ -17,7 +17,7 @@ export function InterceptedModal({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useIsInterceptedModal() {
+function useIsInterceptedModal() {
   return useContext(InterceptedModalContext);
 }
 

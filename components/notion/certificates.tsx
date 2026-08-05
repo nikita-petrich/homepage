@@ -29,12 +29,12 @@ import { ModalShell } from "./modal-shell";
 /* Permanent, shareable link to the certificate document itself: the
    self-hosted PDF at /certificates/<slug>.pdf, or an official external URL when
    not yet hosted. Always opened in a new tab. */
-export const certHref = (c: Certificate) =>
+const certHref = (c: Certificate) =>
   c.externalUrl ?? `/certificates/${c.slug}.pdf`;
 
 /* Detail page with the full scope of the certificate. Opens as a dialog via
    the intercepting route and renders standalone on a hard load. */
-export const certPageHref = (c: Certificate) => `/certificates/${c.slug}`;
+const certPageHref = (c: Certificate) => `/certificates/${c.slug}`;
 
 const documentLabel = (c: Certificate, ui: Ui) =>
   c.externalUrl
