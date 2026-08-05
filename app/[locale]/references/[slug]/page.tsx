@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { DetailPage } from "@/components/notion/detail-page";
+import { ReferenceDetail } from "@/components/notion/references";
 import { findReference, referenceSlugs } from "@/lib/data";
-import { isLocale } from "@/lib/i18n/config";
+import { isLocale, localePath } from "@/lib/i18n/config";
 import { format } from "@/lib/i18n/text";
 import { getUi } from "@/lib/i18n/ui";
 import { pageMetadata } from "@/lib/metadata";
-
-import { StandaloneReferenceDialog } from "./standalone";
 
 export function generateStaticParams() {
   return referenceSlugs.map((slug) => ({ slug }));
@@ -36,6 +36,9 @@ export async function generateMetadata({
   });
 }
 
+/* Opened directly (shared link, refresh, crawler) the testimonial is a page of
+   its own, server-rendered. Clicking a card inside the site still opens the
+   dialog — that is the intercepting route in app/[locale]/@modal. */
 export default async function ReferencePage({
   params,
 }: {
@@ -46,5 +49,13 @@ export default async function ReferencePage({
   const reference = findReference(locale, slug);
   if (!reference) notFound();
 
-  return <StandaloneReferenceDialog reference={reference} />;
+  return (
+    <DetailPage
+      backHref={localePath(locale)}
+      backLabel={getUi(locale).topbar.home}
+      width="narrow"
+    >
+      <ReferenceDetail reference={reference} heading="h1" />
+    </DetailPage>
+  );
 }
