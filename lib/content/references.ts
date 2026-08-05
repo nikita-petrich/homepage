@@ -232,6 +232,11 @@ export type ReferenceSourceEntry = {
   originalLocale: Locale;
   /** Full testimonial — original on one side, translation on the other. */
   quote: I18nText;
+  /** The same testimonial in the language it was written in, as a plain string
+      so it survives `localize()` on both sides: a reader looking at the
+      translation can switch to the wording as written without leaving the
+      page. Identical to `quote` when the page is already in that language. */
+  quoteOriginal: string;
   /** Condensed pull-quote for the compact listing. */
   short: I18nText;
 };
@@ -308,6 +313,9 @@ function buildReferences(data: unknown): ReferenceSourceEntry[] {
       project: translation.project,
       originalLocale: translation.original,
       quote: translation.quote,
+      /* r.quote is the original wording by definition — the check above is what
+         keeps it that way. */
+      quoteOriginal: r.quote,
       short: translation.short,
     };
   });
