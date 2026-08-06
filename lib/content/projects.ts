@@ -402,8 +402,8 @@ export const projects: ProjectSource[] = [
         "Finished product handed over to the client — running as a cross-platform app on the web and as a native app on iOS and Android from one shared codebase.",
       ),
       t(
-        "Vollständig auf Firebase aufgesetzt: Authentifizierung, Datenhaltung, Media-Storage, Serverlogik und Auslieferung.",
-        "Built entirely on Firebase: authentication, data storage, media storage, server logic and delivery.",
+        "Vollständig auf Firebase aufgesetzt: Authentifizierung, Datenhaltung, Media-Storage und Auslieferung – der Zugriff läuft direkt über das Firebase-SDK, ohne eigene Serverschicht.",
+        "Built entirely on Firebase: authentication, data storage, media storage and delivery — access runs straight through the Firebase SDK, with no server layer of its own.",
       ),
       t(
         "Übergabefähige Codebasis: einheitliche Struktur, wiederverwendbare Komponenten und durchgängige Typsicherheit – das Kundenteam kann ohne Einarbeitungshürde weiterarbeiten.",
@@ -426,7 +426,7 @@ export const projects: ProjectSource[] = [
       "UI-Implementierung", "Nutzerführung", "Onboarding-Flows",
       "Frontend-Entwicklung", "Web-Entwicklung", "Firebase",
       "Firebase Authentication", "Firebase Security Rules", "Cloud Firestore",
-      "NoSQL", "Datenmodellierung", "Cloud Storage", "Cloud Functions",
+      "NoSQL", "Datenmodellierung", "Cloud Storage",
       "Firebase Hosting", "Authentifizierung",
       "IT-Sicherheit", "Social Media", "Typsicherheit",
       "Clean Code", "SOLID", "Separation of Concerns", "Clean Architecture",
@@ -490,6 +490,10 @@ export const projects: ProjectSource[] = [
       t(
         "Performante PWA-Architektur (Next.js) mit responsivem UI.",
         "A fast PWA architecture (Next.js) with a responsive UI.",
+      ),
+      t(
+        "CI-Pipeline (GitHub Actions) auf Basis containerisierter Builds (Docker): Unit-Tests (Vitest) und Build liefen bei jeder Änderung automatisch, ausgeliefert wurde manuell.",
+        "CI pipeline (GitHub Actions) on top of containerised builds (Docker): unit tests (Vitest) and the build ran automatically on every change; deployment was done by hand.",
       ),
       t(
         "Definition und Umsetzung typsicherer Datenmodelle und API-Schnittstellen (TypeScript, DTOs, Zod).",
