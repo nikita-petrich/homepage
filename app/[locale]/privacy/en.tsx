@@ -8,7 +8,7 @@ import { CookieSettingsButton } from "@/components/notion/cookie-settings-button
 export function PrivacyEn() {
   return (
     <>
-      <p className="text-notion-gray">Last updated: July 2026</p>
+      <p className="text-notion-gray">Last updated: August 2026</p>
 
       <LegalSection title="1. Controller">
         <p>
@@ -144,7 +144,49 @@ export function PrivacyEn() {
         </p>
       </LegalSection>
 
-      <LegalSection title="7. Third-party testimonials and recommendations">
+      <LegalSection title="7. The CV as a PDF, as a Word file and in Google Docs">
+        <p>
+          The CV is maintained in Google Docs and offered in the “CV download”
+          menu in three formats, which differ in data-protection terms:
+        </p>
+        <ul className="flex list-disc flex-col gap-1 pl-5">
+          <li>
+            <strong>PDF</strong> — delivered as a file from this website. No
+            connection to any third party is made.
+          </li>
+          <li>
+            <strong>Word (.docx)</strong> — on click, exported from the Google
+            document by my server and delivered to you by this website. Your
+            browser makes <strong>no</strong> connection to Google; Google sees
+            my server&apos;s request, not your IP address.
+          </li>
+          <li>
+            <strong>“Open in Google Docs”</strong> — a link to an external
+            service. Only if you follow it do you retrieve the document from
+            Google.
+          </li>
+        </ul>
+        <p>
+          Google Docs is provided by Google Ireland Limited, Gordon House,
+          Barrow Street, Dublin 4, Ireland. If you follow the link, Google
+          processes your IP address and further connection data under its own
+          responsibility; this may involve a transfer to Google LLC in the USA,
+          which is certified under the EU-US Data Privacy Framework. For details
+          see{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium underline underline-offset-2"
+          >
+            Google&apos;s privacy policy
+          </a>
+          . Using this link is voluntary — the PDF and the Word file contain the
+          same CV, with no connection to Google.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="8. Third-party testimonials and recommendations">
         <p>
           In the “Testimonials” section I publish recommendations from clients
           and project colleagues, with name, position, company and the text of
@@ -160,7 +202,7 @@ export function PrivacyEn() {
         </p>
       </LegalSection>
 
-      <LegalSection title="8. Your rights">
+      <LegalSection title="9. Your rights">
         <p>Under the GDPR you have the following rights:</p>
         <ul className="flex list-disc flex-col gap-1 pl-5">
           <li>access to the data processed (Art. 15 GDPR),</li>
@@ -193,14 +235,14 @@ export function PrivacyEn() {
         </p>
       </LegalSection>
 
-      <LegalSection title="9. No automated decision-making">
+      <LegalSection title="10. No automated decision-making">
         <p>
           Automated decision-making, including profiling within the meaning of
           Art. 22 GDPR, does not take place.
         </p>
       </LegalSection>
 
-      <LegalSection title="10. Changes to this policy">
+      <LegalSection title="11. Changes to this policy">
         <p>
           This privacy policy will be adjusted as soon as the data processing on
           this website changes. The version published here is the one that

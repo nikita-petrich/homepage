@@ -39,11 +39,33 @@ const ui = {
   cv: {
     button: t("CV", "CV"),
     buttonSuffix: t(" herunterladen", " download"),
-    /* Inside the closing CTA card the heading above the button already says
-       "CV als PDF", so the button only has to name the action — and the full
+    /* Inside the closing CTA card the heading above the button already names
+       the formats, so the button only has to name the action — and the full
        label would not fit into a third of the card row anyway. */
     buttonShort: t("Herunterladen", "Download"),
-    menuTitle: t("Lebenslauf als PDF", "Résumé as PDF"),
+    /* Not "als PDF" any more: the menu now holds three formats per language,
+       and the format is named on each entry. */
+    menuTitle: t("Lebenslauf", "Résumé"),
+
+    /* The three formats. Each subline says the one thing that decides between
+       them — layout, editability, or nothing to download at all. */
+    pdf: t("PDF herunterladen", "Download as PDF"),
+    pdfSub: t("Original-Layout · zum Weiterleiten", "Original layout · ready to forward"),
+    word: t("Word herunterladen", "Download as Word"),
+    /* Says where the file comes from, because that is the promise: it is not a
+       copy kept somewhere, it is this document, converted on the spot. */
+    wordSub: t("DOCX · direkt aus dem Dokument", "DOCX · straight from the document"),
+    doc: t("In Google Docs öffnen", "Open in Google Docs"),
+    docSub: t("Lesen ohne Download", "Read without downloading"),
+
+    /* Accessible names for the menu entries. Both lead with the entry's own
+       visible text (WCAG 2.5.3, Label in Name) and add the language, which is
+       otherwise only in the group heading above. */
+    itemLabel: t("{action} – {cv}", "{action} – {cv}"),
+    itemLabelNewTab: t(
+      "{action} – {cv}, in neuem Tab",
+      "{action} – {cv}, in a new tab",
+    ),
   },
 
   footer: {
@@ -134,8 +156,11 @@ const ui = {
       "Hallo Herr Petrich,\n\nkurz zum Vorhaben:\n\n- Projekt / Aufgabe:\n- Zeitraum & Auslastung:\n- Remote / vor Ort:\n- Technischer Rahmen (Stack, Bestandssystem):\n\nViele Grüße\n",
       "Hello Nikita,\n\nbriefly about the project:\n\n- Project / task:\n- Timeframe & capacity:\n- Remote / on-site:\n- Technical context (stack, existing system):\n\nBest regards\n",
     ),
-    closingCv: t("CV als PDF", "CV as a PDF"),
-    closingCvSub: t("Deutsch oder Englisch", "German or English"),
+    closingCv: t("Lebenslauf", "Résumé"),
+    /* Names the formats rather than the languages: the menu shows both flags
+       anyway, and "gibt es das auch als Word?" is the question this card is
+       here to answer. */
+    closingCvSub: t("PDF, Word oder Google Docs", "PDF, Word or Google Docs"),
   },
 
   gallery: {
