@@ -137,22 +137,26 @@ export const projects: ProjectSource[] = [
         "End-to-end responsibility for the tech stack, hosting on EU infrastructure and a secure-by-design compliance concept (EU AI Act, GDPR, German Legal Services Act).",
       ),
       t(
-        "Aufbau typsicherer End-to-End-Datenflüsse (TypeScript, DTOs, Zod) mit automatisierter CI/CD-Auslieferung (GitHub Actions, Docker), Monitoring/Fehler-Tracking (Sentry) und Test-Abdeckung (Vitest, Playwright).",
-        "Type-safe end-to-end data flows (TypeScript, DTOs, Zod) with automated CI/CD delivery (GitHub Actions, Docker), monitoring and error tracking (Sentry) and test coverage (Vitest, Playwright).",
+        "Aufbau typsicherer End-to-End-Datenflüsse (TypeScript, DTOs, Zod) mit automatisierter CI/CD-Auslieferung (GitHub Actions, Docker), Monitoring/Fehler-Tracking (Datadog) und Test-Abdeckung (Vitest, Jest, Playwright).",
+        "Type-safe end-to-end data flows (TypeScript, DTOs, Zod) with automated CI/CD delivery (GitHub Actions, Docker), monitoring and error tracking (Datadog) and test coverage (Vitest, Jest, Playwright).",
+      ),
+      t(
+        "Enge Zusammenarbeit in Code-Reviews und Einsatz KI-gestützter Werkzeuge (Claude Code, Cursor AI, Code Rabbit) zur Sicherung von Qualität und Entwicklungstempo.",
+        "Close collaboration in code reviews and use of AI-assisted tools (Claude Code, Cursor AI, Code Rabbit) to safeguard quality and development pace.",
       ),
     ],
     results: [
       t(
-        "MVP in Eigenregie umgesetzt – Architektur, Plattform und Betrieb auf EU-Infrastruktur aus einer Hand.",
-        "MVP delivered single-handedly — architecture, platform and operation on EU infrastructure from one source.",
+        "MVP in Eigenregie umgesetzt – Architektur, Plattform und Betrieb auf EU-Infrastruktur aus einer Hand. Der weitere Funktionsumfang ist in Arbeit.",
+        "MVP delivered single-handedly — architecture, platform and operation on EU infrastructure from one source. The remaining scope is in progress.",
       ),
       t(
         "Compliance im Produktdesign verankert statt nachgerüstet: EU AI Act, DSGVO und die Grenzen des RDG von Beginn an eingeplant.",
         "Compliance built into the product design rather than retrofitted: the EU AI Act, the GDPR and the limits of the German Legal Services Act were part of the plan from the start.",
       ),
       t(
-        "Auslieferung vollständig automatisiert: Tests, Build und Container-Deployment laufen über GitHub Actions, Fehler im Betrieb melden sich über Sentry – Releases ohne manuellen Eingriff, auch als Ein-Personen-Team.",
-        "Delivery fully automated: tests, build and container deployment run through GitHub Actions, and production errors surface through Sentry — releases with no manual step, even as a one-person team.",
+        "Auslieferung vollständig automatisiert: Tests, Build und Container-Deployment laufen über GitHub Actions, Fehler im Betrieb melden sich über Datadog – Releases ohne manuellen Eingriff, auch als Ein-Personen-Team.",
+        "Delivery fully automated: tests, build and container deployment run through GitHub Actions, and production errors surface through Datadog — releases with no manual step, even as a one-person team.",
       ),
     ],
     outlook: [
@@ -191,7 +195,7 @@ export const projects: ProjectSource[] = [
       "Ende-zu-Ende-Verschlüsselung", "Docker", "GitHub Actions", "CI/CD",
       "Continuous Integration", "DevOps", "Hetzner", "IONOS", "EU-Hosting",
       "Linux", "Ubuntu",
-      "Sentry", "Monitoring", "Observability", "Vitest",
+      "Datadog", "Monitoring", "Observability", "Vitest", "Jest",
       "Playwright", "Unit Testing", "Integrationstests", "End-to-End-Tests",
       "API-Testing", "Postman", "Testautomatisierung", "Zod", "DTOs", "Slack",
       "Husky", "pnpm", "CLI (Command Line Interface)", "Software-Architektur",
@@ -294,8 +298,8 @@ export const projects: ProjectSource[] = [
     ],
     results: [
       t(
-        "KI-Features im Produktivbetrieb: Erstgespräch-Leads und Falldokumente werden ohne manuelle Nacharbeit angereichert, klassifiziert und benannt.",
-        "AI features running in production: consultation leads and case documents are enriched, classified and named without manual rework.",
+        "KI-Features im Produktivbetrieb: Erstgespräch-Leads werden ohne manuelle Nacharbeit angereichert – Zusammenfassung, nächste Schritte und Zuständigkeit stehen direkt am Fall im System.",
+        "AI features running in production: consultation leads are enriched without manual rework — summary, next steps and ownership sit right on the case in the system.",
       ),
       t(
         "Anwendungsweites Event-Tracking als gemeinsame Datengrundlage für Produkt- und Data-Analytics etabliert.",
@@ -311,7 +315,7 @@ export const projects: ProjectSource[] = [
       ),
     ],
     tech: techList([
-      "TypeScript", "JavaScript", "Python", "SQL", "HTML", "CSS", "JSON", "YAML",
+      "TypeScript", "JavaScript", "SQL", "HTML", "CSS", "JSON", "YAML",
       "Next.js", "React", "Server-Side Rendering (SSR)", "NestJS", "Node.js",
       "Fastify", "Express.js", "Dependency Injection", "REST API", "Webhooks",
       "DTOs", "BullMQ", "RabbitMQ", "Caching", "Backend-Entwicklung",
@@ -372,8 +376,8 @@ export const projects: ProjectSource[] = [
     ],
     responsibilities: [
       t(
-        "Bewertungs-App im Social-Media-Umfeld aus einer einzigen Ionic-/Angular-Codebasis – als installierbare PWA im Web und als native Builds für iOS und Android (Capacitor).",
-        "Social media rating app from a single Ionic/Angular codebase — as an installable PWA on the web and as native builds for iOS and Android (Capacitor).",
+        "Bewertungs-App im Social-Media-Umfeld aus einer einzigen Ionic-/Angular-Codebasis – im Web und als native Builds für iOS und Android.",
+        "Social media rating app from a single Ionic/Angular codebase — on the web and as native builds for iOS and Android.",
       ),
       t(
         "Registrierung, Login und Onboarding inklusive Profilerstellung (Firebase Authentication), abgesichert über Firebase Security Rules.",
@@ -384,47 +388,47 @@ export const projects: ProjectSource[] = [
         "Social media feed with filters, own posts and media upload (Cloud Firestore, Cloud Storage).",
       ),
       t(
-        "Serverseitige Logik in Cloud Functions, Auslieferung über Firebase Hosting und eine CI/CD-Pipeline (GitHub Actions) für alle drei Plattformen.",
-        "Server-side logic in Cloud Functions, delivery via Firebase Hosting and a CI/CD pipeline (GitHub Actions) for all three platforms.",
+        "Auslieferung der Web-Fassung über Firebase Hosting mit CI/CD-Pipeline (GitHub Actions).",
+        "Delivery of the web version through Firebase Hosting with a CI/CD pipeline (GitHub Actions).",
       ),
       t(
-        "Wartbare Codebasis für die Übergabe: klar geschichtete Struktur, wiederverwendbare Komponenten, typsichere Modelle, Unit-Tests und durchgängiger Clean-Code-Stil (SOLID).",
-        "A maintainable codebase for handover: clearly layered structure, reusable components, type-safe models, unit tests and a consistent clean-code style (SOLID).",
+        "Wartbare Codebasis für die Übergabe: klar geschichtete Struktur, wiederverwendbare Komponenten, typsichere Modelle und durchgängiger Clean-Code-Stil (SOLID).",
+        "A maintainable codebase for handover: clearly layered structure, reusable components, type-safe models and a consistent clean-code style (SOLID).",
       ),
     ],
     results: [
       t(
-        "Fertiges Produkt an den Kunden übergeben – lauffähig als PWA im Web und als native App auf iOS und Android aus einer gemeinsamen Codebasis.",
-        "Finished product handed over to the client — running as a PWA on the web and as a native app on iOS and Android from one shared codebase.",
+        "Fertiges Produkt an den Kunden übergeben – lauffähig als Cross-Platform-App im Web und als native App auf iOS und Android aus einer gemeinsamen Codebasis.",
+        "Finished product handed over to the client — running as a cross-platform app on the web and as a native app on iOS and Android from one shared codebase.",
       ),
       t(
-        "Vollständig auf Firebase aufgesetzt: Authentifizierung, Datenhaltung, Media-Storage, Serverlogik und Auslieferung.",
-        "Built entirely on Firebase: authentication, data storage, media storage, server logic and delivery.",
+        "Vollständig auf Firebase aufgesetzt: Authentifizierung, Datenhaltung, Media-Storage und Auslieferung – der Zugriff läuft direkt über das Firebase-SDK, ohne eigene Serverschicht.",
+        "Built entirely on Firebase: authentication, data storage, media storage and delivery — access runs straight through the Firebase SDK, with no server layer of its own.",
       ),
       t(
-        "Übergabefähige Codebasis: einheitliche Struktur, wiederverwendbare Komponenten, Unit-Tests und durchgängige Typsicherheit – das Kundenteam kann ohne Einarbeitungshürde weiterarbeiten.",
-        "A codebase ready for handover: consistent structure, reusable components, unit tests and type safety throughout — the client's team can carry on without a ramp-up hurdle.",
+        "Übergabefähige Codebasis: einheitliche Struktur, wiederverwendbare Komponenten und durchgängige Typsicherheit – das Kundenteam kann ohne Einarbeitungshürde weiterarbeiten.",
+        "A codebase ready for handover: consistent structure, reusable components and type safety throughout — the client's team can carry on without a ramp-up hurdle.",
       ),
       t(
-        "Drei Auslieferungswege aus einer Pipeline: Web-Deployment über Firebase Hosting, iOS- und Android-Builds über GitHub Actions – ein Stand, alle drei Plattformen.",
-        "Three delivery paths from one pipeline: web deployment via Firebase Hosting, iOS and Android builds through GitHub Actions — one revision, all three platforms.",
+        "Ein Stand, drei Plattformen: Web-Deployment über Firebase Hosting, iOS- und Android-Builds aus derselben Codebasis.",
+        "One revision, three platforms: web deployment through Firebase Hosting, iOS and Android builds from the same codebase.",
       ),
       t(
-        "Von der ersten Zeile bis zur Übergabe in rund zwei Monaten.",
-        "From the first line of code to handover in around two months.",
+        "Auf einem bestehenden klickbaren Prototyp aufgesetzt und in rund zwei Monaten zum übergabefähigen Produkt gebracht.",
+        "Built on an existing clickable prototype and taken to a product ready for handover in around two months.",
       ),
     ],
     tech: techList([
       "TypeScript", "JavaScript", "HTML", "CSS", "JSON", "YAML", "Angular",
-      "Ionic", "Capacitor", "RxJS", "Komponentenbibliotheken",
+      "Ionic", "RxJS", "Komponentenbibliotheken",
       "Cross-Platform-Entwicklung", "iOS", "Android",
-      "Progressive Web App (PWA)", "Mobile First", "Responsive Design",
+      "Mobile First", "Responsive Design",
       "UI-Implementierung", "Nutzerführung", "Onboarding-Flows",
       "Frontend-Entwicklung", "Web-Entwicklung", "Firebase",
       "Firebase Authentication", "Firebase Security Rules", "Cloud Firestore",
-      "NoSQL", "Datenmodellierung", "Cloud Storage", "Cloud Functions",
-      "Firebase Cloud Messaging (FCM)", "Firebase Hosting", "Authentifizierung",
-      "IT-Sicherheit", "Social Media", "Typsicherheit", "Unit Testing",
+      "NoSQL", "Datenmodellierung", "Cloud Storage",
+      "Firebase Hosting", "Authentifizierung",
+      "IT-Sicherheit", "Social Media", "Typsicherheit",
       "Clean Code", "SOLID", "Separation of Concerns", "Clean Architecture",
       "Domain-Driven Design", "Skalierbare Architektur", "MVP-Entwicklung",
       "Git", "GitHub", "npm", "CLI (Command Line Interface)", "Trello",
@@ -484,12 +488,12 @@ export const projects: ProjectSource[] = [
         "Integration of Supabase for authentication, data storage and real-time synchronisation (including row level security).",
       ),
       t(
-        "Performante PWA-Architektur (Next.js) mit responsivem UI und Unit-Tests (Vitest).",
-        "A fast PWA architecture (Next.js) with responsive UI and unit tests (Vitest).",
+        "Performante PWA-Architektur (Next.js) mit responsivem UI.",
+        "A fast PWA architecture (Next.js) with a responsive UI.",
       ),
       t(
-        "Automatisierte Auslieferung über eine CI/CD-Pipeline (GitHub Actions) auf Basis containerisierter Builds (Docker): jeder Stand war ohne manuellen Build-Schritt vorführbar.",
-        "Automated delivery through a CI/CD pipeline (GitHub Actions) on top of containerised builds (Docker): every revision was ready to demo without a manual build step.",
+        "CI-Pipeline (GitHub Actions) auf Basis containerisierter Builds (Docker): Unit-Tests (Vitest) und Build liefen bei jeder Änderung automatisch, ausgeliefert wurde manuell.",
+        "CI pipeline (GitHub Actions) on top of containerised builds (Docker): unit tests (Vitest) and the build ran automatically on every change; deployment was done by hand.",
       ),
       t(
         "Definition und Umsetzung typsicherer Datenmodelle und API-Schnittstellen (TypeScript, DTOs, Zod).",
@@ -533,7 +537,7 @@ export const projects: ProjectSource[] = [
       "Design System", "Komponentenbibliotheken", "UI/UX Design", "Usability",
       "Prototyping", "React Hook Form", "DTOs", "Frontend-Entwicklung",
       "Backend-Entwicklung", "Web-Entwicklung", "Device Pairing", "Supabase",
-      "Supabase Realtime", "WebSockets", "Supabase Edge Functions",
+      "Supabase Realtime", "Supabase Edge Functions",
       "Row Level Security", "PostgreSQL", "Datenmodellierung", "Tailwind CSS",
       "shadcn/ui", "JWT", "Authentifizierung", "IT-Sicherheit", "Docker",
       "Linux", "Ubuntu",
@@ -729,6 +733,10 @@ export const projects: ProjectSource[] = [
         "Seit der Einführung im Dauerbetrieb: Auslieferung, Security-Updates und Weiterentwicklung laufen automatisiert weiter, ohne dass der Kunde eine eigene IT dafür vorhalten muss.",
         "In continuous operation since go-live: delivery, security updates and further development keep running automatically, without the client having to maintain an IT function for it.",
       ),
+      t(
+        "Tägliche automatische Synchronisation der Autoteile-Kataloge aller Lieferanten mit Accounting OS – Bestände und Preise stehen ohne manuellen Import bereit.",
+        "Daily automatic synchronisation of every supplier's car parts catalogue with Accounting OS — stock and prices are in place without a manual import.",
+      ),
     ],
     tech: techList([
       "TypeScript", "JavaScript", "SQL", "HTML", "CSS", "JSON", "YAML",
@@ -890,8 +898,8 @@ export const projects: ProjectSource[] = [
     cover: "/assets/projects/xu-navigator.jpg",
     cardTags: ["EdTech", "Microservices"],
     desc: t(
-      "Skalierbare Microservice-Lernplattform für Unternehmensmitarbeitende – im Einsatz bei Konzernen wie Daimler, VW und ThyssenKrupp.",
-      "Scalable microservice learning platform for corporate employees — in use at groups such as Daimler, VW and ThyssenKrupp.",
+      "Skalierbare Microservice-Lernplattform für Unternehmensmitarbeitende – im Einsatz bei Konzernen wie VW und ThyssenKrupp.",
+      "Scalable microservice learning platform for corporate employees — in use at groups such as VW and ThyssenKrupp.",
     ),
     meta: [
       { label: label.role, value: t("Full-Stack Engineer", "Full-stack engineer") },
@@ -929,8 +937,8 @@ export const projects: ProjectSource[] = [
     ],
     results: [
       t(
-        "Skalierbare Microservice-Plattform im produktiven Einsatz bei namhaften Konzernen (Daimler, VW, ThyssenKrupp u. a.).",
-        "A scalable microservice platform running in production at well-known corporations (Daimler, VW, ThyssenKrupp and others).",
+        "Skalierbare Microservice-Plattform im produktiven Einsatz bei namhaften Konzernen (VW, ThyssenKrupp u. a.).",
+        "A scalable microservice platform running in production at well-known corporations (VW, ThyssenKrupp and others).",
       ),
       t(
         "Mandantenspezifische Kursinhalte: jeder Konzern bespielt dieselbe Plattform mit eigenen Schulungen.",
