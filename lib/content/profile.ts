@@ -1,3 +1,4 @@
+import { experienceYears, experienceYearsPlus } from "@/lib/experience";
 import { t } from "@/lib/i18n/text";
 import { accentColor, bookingUrl, profileName } from "@/lib/profile";
 
@@ -67,7 +68,8 @@ export const facts: Fact[] = [
   {
     label: t("Erfahrung", "Experience"),
     icon: "briefcase",
-    value: t("7+ Jahre", "7+ years"),
+    /* Aus dem Startdatum gerechnet (lib/experience.ts), nicht gepflegt. */
+    value: t(`${experienceYearsPlus} Jahre`, `${experienceYearsPlus} years`),
   },
   {
     label: t("Verfügbar", "Availability"),
@@ -325,7 +327,13 @@ export const intro: IntroLine[] = [
   {
     spans: [
       { t: t("Über ", "More than ") },
-      { t: t("7 Jahre Erfahrung", "7 years of experience"), b: true },
+      {
+        t: t(
+          `${experienceYears} Jahre Erfahrung`,
+          `${experienceYears} years of experience`,
+        ),
+        b: true,
+      },
       { t: t(" in ", " in ") },
       {
         t: t(
@@ -426,6 +434,6 @@ export const sections = [
 
 /* Description of the site itself — metadata, social card, JSON-LD. */
 export const siteDescription = t(
-  "Freiberuflicher Senior Full-Stack & AI Engineer mit Schwerpunkt LLM-Integration, RAG und KI-gestützter Automatisierung. Über 7 Jahre Erfahrung in LegalTech, HealthTech, E-Commerce, EdTech und Logistik.",
-  "Freelance Senior Full-Stack & AI Engineer focused on LLM integration, RAG and AI-assisted automation. More than 7 years of experience in LegalTech, HealthTech, e-commerce, EdTech and logistics.",
+  `Freiberuflicher Senior Full-Stack & AI Engineer mit Schwerpunkt LLM-Integration, RAG und KI-gestützter Automatisierung. Über ${experienceYears} Jahre Erfahrung in LegalTech, HealthTech, E-Commerce, EdTech und Logistik.`,
+  `Freelance Senior Full-Stack & AI Engineer focused on LLM integration, RAG and AI-assisted automation. More than ${experienceYears} years of experience in LegalTech, HealthTech, e-commerce, EdTech and logistics.`,
 );

@@ -68,7 +68,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "06",
     name: t("Design & UX", "Design & UX"),
-    items: techList(["Figma", "Wireframing", "Prototyping", "Design System", "Design Tokens", "Komponentenbibliotheken", "Storybook", "UI/UX Design", "UI-Implementierung", "Responsive Design", "Mobile First", "Barrierefreiheit (WCAG)", "Usability", "Nutzerführung", "Onboarding-Flows", "Informationsarchitektur", "UX Writing", "Microcopy", "Design Reviews"]),
+    items: techList(["Figma", "Wireframing", "Prototyping", "Design System", "Design Tokens", "Komponentenbibliotheken", "Storybook", "UI/UX Design", "UI-Implementierung", "Responsive Design", "Mobile First", "Barrierefreiheit (WCAG)", "Usability", "Nutzerführung", "Onboarding-Flows", "Informationsarchitektur", "UX Writing"]),
   },
   {
     num: "07",
@@ -127,7 +127,7 @@ export const skills: SkillCategorySource[] = [
   {
     num: "13",
     name: t("Engineering-Praktiken", "Engineering practices"),
-    items: techList(["Clean Code", "Code Reviews", "Refactoring", "Legacy-Modernisierung", "Test-Driven Development (TDD)", "Continuous Integration", "Continuous Delivery"]),
+    items: techList(["Clean Code", "Code Reviews", "Refactoring", "Legacy-Modernisierung", "Continuous Integration", "Continuous Delivery"]),
   },
   {
     num: "14",
