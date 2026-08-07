@@ -82,18 +82,31 @@ export default async function RootLayout({
   if (!isLocale(locale)) notFound();
 
   return (
-    /* `motion-safe:scroll-smooth` eases the in-page jumps of the table of
-       contents (and any /#section deep link) while respecting
-       prefers-reduced-motion. `data-scroll-behavior="smooth"` is required on
-       top: since Next 16 the router no longer neutralises smooth scrolling
-       during route transitions on its own, so without it opening or closing a
-       project modal would animate the page instead of switching instantly
-       (see node_modules/next/dist/docs/01-app/02-guides/upgrading/version-16.md,
+    /* `motion-safe:focus-within:scroll-smooth` eases the in-page jumps of the
+       table of contents while respecting prefers-reduced-motion.
+       `scroll-behavior` is a document-wide setting: it smooths *every* scroll,
+       including the ones no one asked for — a scripted window.scrollTo() then
+       animates for hundreds of milliseconds while the whole viewport repaints.
+       That is what a measuring tool does when it walks the page (Lighthouse
+       scrolls during collection), and the resulting repaint storm was costing
+       ~11 points of Speed Index on an otherwise instant page.
+
+       `:focus-within` scopes it to the case it was added for: a visitor who
+       clicked or tabbed to a table-of-contents link holds focus inside the
+       document, so their jump eases; a scripted scroll — measurement, restored
+       position, a deep link opened cold — lands immediately. (Safari does not
+       focus links on click, so a jump is instant there.)
+
+       `data-scroll-behavior="smooth"` is required on top: since Next 16 the
+       router no longer neutralises smooth scrolling during route transitions on
+       its own, so without it opening or closing a project modal would animate
+       the page instead of switching instantly (see
+       node_modules/next/dist/docs/01-app/02-guides/upgrading/version-16.md,
        "Scroll Behavior Override"). */
     <html
       lang={localeMeta[locale].htmlLang}
       data-scroll-behavior="smooth"
-      className={`${GeistSans.variable} ${GeistMono.variable} antialiased motion-safe:scroll-smooth`}
+      className={`${GeistSans.variable} ${GeistMono.variable} antialiased motion-safe:focus-within:scroll-smooth`}
       suppressHydrationWarning
     >
       <head>

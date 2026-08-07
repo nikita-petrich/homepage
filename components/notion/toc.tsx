@@ -14,7 +14,10 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
+    let frame = 0;
+
+    const measure = () => {
+      frame = 0;
       let current = items[0]?.id ?? "";
       for (const item of items) {
         const el = document.getElementById(item.id);
@@ -22,10 +25,20 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
       }
       setActive(current);
     };
-    onScroll();
+
+    /* Coalesced to one measurement per frame. `measure` reads the box of every
+       section, which forces layout, and scroll fires far more often than the
+       page paints — during a smooth or fling scroll that was a full layout pass
+       per event for no extra fidelity. */
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(measure);
+    };
+
+    measure();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
+      if (frame) cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
@@ -58,7 +71,13 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
       </button>
       <nav
         className={cn(
-          "absolute top-1/2 right-2 min-w-[190px] -translate-y-1/2 rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] p-1.5 shadow-[rgba(15,15,15,0.08)_0px_4px_16px] transition-all duration-150",
+          /* Named properties rather than `transition-all`: the panel only ever
+             changes opacity, offset and visibility, and `all` additionally put
+             every inherited colour and its box-shadow on the main thread.
+             The offset is `translate`, not `transform` — Tailwind v4 compiles
+             translate-x-* to the standalone property, which `transform` in a
+             transition list does not cover. */
+          "absolute top-1/2 right-2 min-w-[190px] -translate-y-1/2 rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] p-1.5 shadow-[rgba(15,15,15,0.08)_0px_4px_16px] transition-[opacity,translate,visibility] duration-150",
           open
             ? "visible translate-x-0 opacity-100"
             : "invisible translate-x-1 opacity-0",
@@ -106,11 +125,18 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
         {items.map((item) => (
           <span
             key={item.id}
+            /* One fixed width scaled from the right edge, rather than an
+               animated `width`. Both read identically (15px active, 12px at
+               scale 0.8) but a scale is composited, where a width transition
+               relaid out the whole widget on every frame — twelve of them, on
+               every scroll that moved the active section. The transition names
+               `scale`: Tailwind v4 compiles scale-x-* to the standalone
+               property rather than to `transform`. */
             className={cn(
-              "h-[2px] rounded-full transition-all duration-200",
+              "h-[2px] w-[15px] origin-right rounded-full transition-[scale] duration-200",
               active === item.id
-                ? "w-[15px] bg-notion-text"
-                : "w-3 bg-[var(--border)]",
+                ? "scale-x-100 bg-notion-text"
+                : "scale-x-[0.8] bg-[var(--border)]",
             )}
           />
         ))}
