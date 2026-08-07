@@ -230,9 +230,9 @@ try {
 
     console.log(
       `${slug}\n` +
-        `  Seite:  ${full.width}×${full.height} px, ${full.kb} kB\n` +
-        `  Kachel: ${tile.width}×${tile.height} px, ${tile.kb} kB ` +
-        `(Ausschnitt ${tileBox.w}×${tileBox.h} pt bei ${tileBox.x},${tileBox.y})`,
+        `  page: ${full.width}×${full.height} px, ${full.kb} kB\n` +
+        `  tile: ${tile.width}×${tile.height} px, ${tile.kb} kB ` +
+        `(crop ${tileBox.w}×${tileBox.h} pt at ${tileBox.x},${tileBox.y})`,
     );
   }
 } finally {
