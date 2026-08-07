@@ -86,7 +86,7 @@ export function CvDownload({
               href={f.href}
               download
               data-analytics-event="cv_download"
-              data-analytics-prop-cv-lang={f.href.includes("_DE") ? "de" : "en"}
+              data-analytics-prop-cv-lang={f.lang}
               data-analytics-prop-placement={variant}
             >
               {/* The flag sits on the menu background directly — the hairline is
