@@ -57,8 +57,8 @@ The top bar and the intro callout each expose a **CV herunterladen** /
 **CV download** button that opens a menu to download the CV as a PDF in two
 languages:
 
-- 🇩🇪 `public/cv/CV_Nikita_Petrich_DE.pdf`
-- 🇬🇧 `public/cv/CV_Nikita_Petrich_EN.pdf`
+- 🇩🇪 `public/cv/CV-German.pdf`
+- 🇬🇧 `public/cv/CV-English.pdf`
 
 ## Tech stack
 

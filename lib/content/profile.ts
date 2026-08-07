@@ -31,13 +31,18 @@ export const profile = {
    point — it is a warning — so the line says what the file is instead. */
 export const cvFiles = [
   {
-    href: "/cv/CV_Nikita_Petrich_DE.pdf",
+    /* `lang` rather than reading the language back out of the file name: the
+       menu tags its analytics with it, and a rename should not silently
+       relabel every download. */
+    lang: "de",
+    href: "/cv/CV-German.pdf",
     label: t("CV Deutsch", "CV German"),
     flag: "/assets/flags/de.svg",
     sub: t("PDF · zum Weiterleiten", "PDF · ready to forward"),
   },
   {
-    href: "/cv/CV_Nikita_Petrich_EN.pdf",
+    lang: "en",
+    href: "/cv/CV-English.pdf",
     label: t("CV Englisch", "CV English"),
     flag: "/assets/flags/gb.svg",
     sub: t("PDF · zum Weiterleiten", "PDF · ready to forward"),
