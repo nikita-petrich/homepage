@@ -15,12 +15,25 @@ import { DatabaseToolbar, type GalleryView } from "./database-toolbar";
 import { AccentTag, SkillTag } from "./blocks";
 import { CompanyLine } from "./company-line";
 import { GitCodeMotif, bannerBg } from "./cover-banner";
-import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
+import {
+  CARD_COVER_SIZES,
+  EmptyState,
+  GalleryGrid,
+  TableShell,
+  useGallery,
+} from "./gallery";
 import { IntentLink } from "./intent-link";
 import { ModalLink } from "./modal-nav";
 import { ModalShell } from "./modal-shell";
 
 const stripe = "var(--stripe)";
+
+/* One `sizes` cannot describe both call sites: a gallery card is ~300px wide,
+   the detail banner is full-bleed in a 720px dialog. The old shared value
+   claimed 340px for the card, so every card fetched the variant above the one
+   it needed, and understated the banner by half. Each site now states its own —
+   the card's from GalleryGrid, which owns that geometry. */
+const DETAIL_COVER_SIZES = "(max-width: 768px) 100vw, 720px";
 
 function ProjectCover({
   project,
@@ -28,6 +41,7 @@ function ProjectCover({
   captionClass,
   numBadge = false,
   preload = false,
+  sizes,
 }: {
   project: Project;
   className?: string;
@@ -38,6 +52,7 @@ function ProjectCover({
       deprecated `priority` in favour of `preload`, which only emits the
       <link rel=preload>; the request priority is a separate prop now. */
   preload?: boolean;
+  sizes: string;
 }) {
   return (
     <div
@@ -49,7 +64,7 @@ function ProjectCover({
           src={project.cover}
           alt={project.caption}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px"
+          sizes={sizes}
           preload={preload}
           fetchPriority={preload ? "high" : undefined}
           className="object-cover"
@@ -178,6 +193,7 @@ export function ProjectGallery({ projects }: { projects: Project[] }) {
                 project={p}
                 className="aspect-[16/9]"
                 captionClass="text-[11px] leading-[1.4]"
+                sizes={CARD_COVER_SIZES}
                 numBadge
               />
               <div className="flex flex-col gap-[6px] p-[11px]">
@@ -250,6 +266,12 @@ export function ProjectDetail({
   heading?: "h1" | "h2";
 }) {
   const { locale, ui } = useI18n();
+  /* The section headings below sit one level under the title, so they have to
+     follow it: on the standalone page the project name is the document's h1
+     and these are h2s, inside the dialog the name is an h2 and they stay h3s.
+     They were hardcoded h3, which on the standalone page jumped h1 → h3 and
+     left the sections reading as if a level had been skipped. */
+  const Sub = Heading === "h1" ? "h2" : "h3";
 
   return (
     <>
@@ -258,6 +280,7 @@ export function ProjectDetail({
           project={project}
           className="aspect-[16/8]"
           captionClass="text-[13px]"
+          sizes={DETAIL_COVER_SIZES}
           preload
         />
       ) : (
@@ -329,9 +352,9 @@ export function ProjectDetail({
           ))}
         </div>
 
-        <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+        <Sub className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
           {ui.projects.responsibilities}
-        </h3>
+        </Sub>
         <ul className="flex flex-col gap-[9px]">
           {project.responsibilities.map((a, i) => (
             <li key={i} className="flex gap-2.5 text-[14px] leading-[1.55]">
@@ -342,9 +365,9 @@ export function ProjectDetail({
         </ul>
 
         <div className="mt-[22px] rounded-lg border border-[var(--border-soft)] bg-[var(--accent-soft)] p-4">
-          <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-[var(--accent-text)] uppercase">
+          <Sub className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-[var(--accent-text)] uppercase">
             {ui.projects.results}
-          </h3>
+          </Sub>
           <ul className="flex flex-col gap-2">
             {project.results.map((e, i) => (
               <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
@@ -360,9 +383,9 @@ export function ProjectDetail({
             never borrows the visual weight the measured results carry. */}
         {project.outlook && project.outlook.length > 0 && (
           <div className="mt-3 rounded-lg border border-dashed border-[var(--border-soft)] p-4">
-            <h3 className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+            <Sub className="mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
               {ui.projects.outlook}
-            </h3>
+            </Sub>
             <ul className="flex flex-col gap-2">
               {project.outlook.map((e, i) => (
                 <li key={i} className="flex gap-2.5 text-[14px] leading-[1.5]">
@@ -376,11 +399,11 @@ export function ProjectDetail({
 
         {projectRefs.length > 0 && (
           <>
-            <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+            <Sub className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
               {projectRefs.length > 1
                 ? ui.projects.references
                 : ui.projects.reference}
-            </h3>
+            </Sub>
             <div className="flex flex-wrap gap-2">
               {projectRefs.map((r) => (
                 <ModalLink
@@ -428,9 +451,9 @@ export function ProjectDetail({
           </>
         )}
 
-        <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+        <Sub className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
           {ui.projects.technologies}
-        </h3>
+        </Sub>
         <div className="flex flex-wrap gap-[6px]">
           {project.tech.map((t) => (
             <SkillTag key={t} label={t} />

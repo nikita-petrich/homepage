@@ -51,6 +51,21 @@ export function TableShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+/* What a card cover is actually laid out at, for the `sizes` of every image
+   inside a GalleryGrid. The browser picks the variant it downloads from this
+   string alone — it resolves `sizes` long before it knows the box — so an
+   overstated width costs bytes on every card and an understated one costs
+   sharpness.
+   The grid is repeat(auto-fill, minmax(240px, 1fr)) with a 16px gap, and the
+   column it sits in differs per page: on the home page the galleries are in
+   the right-hand column beside the 210px sidebar (612px at desktop → two
+   columns of 298px), on /certificates the full 980px page (916px → three
+   columns of 295px). Both land near 300px, so one string covers them; the
+   steps below track the points where the column count changes and never
+   understate either layout. */
+export const CARD_COVER_SIZES =
+  "(max-width: 543px) 100vw, (max-width: 767px) 50vw, (max-width: 847px) 60vw, 300px";
+
 export function GalleryGrid({
   wide = false,
   children,

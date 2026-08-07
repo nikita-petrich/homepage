@@ -22,7 +22,13 @@ import { useSearchTracking } from "@/lib/analytics/use-search-tracking";
 import { DatabaseToolbar, type GalleryView } from "./database-toolbar";
 import { AccentTag, SkillTag } from "./blocks";
 import { bannerBg } from "./cover-banner";
-import { EmptyState, GalleryGrid, TableShell, useGallery } from "./gallery";
+import {
+  CARD_COVER_SIZES,
+  EmptyState,
+  GalleryGrid,
+  TableShell,
+  useGallery,
+} from "./gallery";
 import { IntentLink } from "./intent-link";
 import { ModalShell } from "./modal-shell";
 
@@ -119,7 +125,11 @@ function CertificateCover({
             src={tile}
             alt={previewAlt(cert, ui)}
             fill
-            sizes="(max-width: 640px) 100vw, 340px"
+            /* Same grid as the project cards, so the same measured widths —
+               the old "640px then 340px" claimed a card was 340px wide where
+               it is ~298px, which made every tile fetch the variant above the
+               one it needed. */
+            sizes={CARD_COVER_SIZES}
             className="object-cover"
           />
         ) : (
@@ -128,7 +138,9 @@ function CertificateCover({
               src={tile}
               alt={previewAlt(cert, ui)}
               fill
-              sizes="(max-width: 720px) 100vw, 680px"
+              /* Inset by the padding above: 720px dialog − 32px + 20px of
+                 gutter = 668px of image. */
+              sizes="(max-width: 768px) 100vw, 670px"
               className="object-contain drop-shadow-[0_2px_10px_rgba(15,15,15,0.18)]"
             />
           </div>
@@ -332,7 +344,12 @@ export function CertificateGallery({
                     <ArrowUpRight
                       size={13}
                       strokeWidth={2}
-                      className="opacity-70 transition-transform group-hover:translate-x-[1px] group-hover:-translate-y-[1px]"
+                      /* `translate`, not `transform`: Tailwind v4 compiles
+                         translate-x-* to the standalone property, so
+                         `transition-transform` named something this arrow
+                         never changes and the nudge jumped instead of
+                         easing. */
+                      className="opacity-70 transition-[translate] group-hover:translate-x-[1px] group-hover:-translate-y-[1px]"
                     />
                   </span>
                   <DocumentAction
@@ -395,7 +412,10 @@ function CurriculumSection({
         <ChevronRight
           size={15}
           strokeWidth={2.2}
-          className="mt-[3px] shrink-0 text-notion-gray transition-transform group-open:rotate-90"
+          /* `rotate`, not `transform` — same reason as the arrow above:
+             rotate-90 compiles to the standalone `rotate` property, so the
+             chevron snapped to 90° instead of turning. */
+          className="mt-[3px] shrink-0 text-notion-gray transition-[rotate] group-open:rotate-90"
         />
         <span className="min-w-0 flex-1">
           <span className="text-[14px] font-medium">{title}</span>
@@ -430,6 +450,10 @@ export function CertificateDetail({
   const { ui } = useI18n();
   const docHref = certHref(c);
   const verifyUrl = c.verifyUrl ?? c.externalUrl;
+  /* One level under the title, which differs by context — same reason as in
+     ./projects.tsx: hardcoded h3s jumped straight from the standalone page's
+     h1 and skipped a level. */
+  const Sub = Heading === "h1" ? "h2" : "h3";
 
   return (
     <>
@@ -547,9 +571,9 @@ export function CertificateDetail({
 
         {c.outcomes?.length ? (
           <>
-            <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+            <Sub className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
               {ui.certificates.outcomes}
-            </h3>
+            </Sub>
             <ul className="flex flex-col gap-[9px]">
               {c.outcomes.map((o) => (
                 <li key={o} className="flex gap-2.5 text-[14px] leading-[1.55]">
@@ -563,9 +587,9 @@ export function CertificateDetail({
 
         {c.curriculum?.length ? (
           <>
-            <h3 className="mt-6 mb-1 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+            <Sub className="mt-6 mb-1 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
               {ui.certificates.curriculum}
-            </h3>
+            </Sub>
             {c.curriculumNote ? (
               <p className="mb-1.5 text-[12px] leading-[1.5] text-notion-gray">
                 {c.curriculumNote}
@@ -583,9 +607,9 @@ export function CertificateDetail({
           </>
         ) : null}
 
-        <h3 className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
+        <Sub className="mt-6 mb-2.5 text-[12px] font-semibold tracking-[0.04em] text-notion-gray uppercase">
           {ui.certificates.topics}
-        </h3>
+        </Sub>
         <div className="flex flex-wrap gap-[6px]">
           {c.tags.map((t) => (
             <SkillTag key={t} label={t} />

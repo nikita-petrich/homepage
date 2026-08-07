@@ -61,6 +61,42 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      /* Files served straight out of /public. Next fingerprints its own build
+         output and caches it forever, but anything in /public it hands to the
+         static handler with `Cache-Control: public, max-age=0` — so a repeat
+         visitor revalidates the portrait, every flag and both CV PDFs on each
+         visit.
+         These URLs are permanent and their contents are not: /cv/CV-German.pdf
+         keeps its name when the CV is rewritten. So the lifetime is finite and
+         `stale-while-revalidate` carries the refresh — a cached copy is served
+         instantly and replaced in the background, and the worst case is one
+         page view showing yesterday's file rather than a year of a hard-pinned
+         one.
+
+         Scoped by path, not by a blanket rule: /certificates/<slug> without an
+         extension is a page, and proxy.ts answers it with a per-visitor 307 to
+         the matching locale. Caching that publicly would pin the first
+         visitor's language onto everyone. The PDFs under the same prefix carry
+         an extension, which is exactly how proxy.ts's matcher tells the two
+         apart. */
+      {
+        source: "/:dir(assets|cv)/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=604800, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/certificates/:file(.+\\.pdf)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=604800, stale-while-revalidate=86400",
+          },
+        ],
+      },
       {
         source: "/(.*)",
         headers: [

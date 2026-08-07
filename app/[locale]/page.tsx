@@ -73,13 +73,25 @@ export default async function Page({
                 deprecated `priority` in Next 16 and emits the <link rel=preload>;
                 fetchPriority is now a separate prop, and without it neither the
                 preload nor the <img> carries fetchpriority=high — so the browser
-                still queues the page's largest paint at default priority. */}
+                still queues the page's largest paint at default priority.
+
+                The phone width is the content column, not the viewport: <main>
+                takes 3rem of horizontal padding there. Saying so is also what
+                lets the small variants exist at all — next/image builds the
+                srcset from every size at or above `deviceSizes[0] × the
+                smallest vw figure in this string` (see getWidths in
+                node_modules/next/dist/shared/lib/get-img-props.js), so a bare
+                `100vw` floors the ladder at 640w and the 210px sidebar slot had
+                nothing smaller to choose than a 640px file. Inside calc() the
+                figure is no longer read as a bare viewport share, so the 256w
+                and 384w steps come back. Worst case if that ever changes is
+                the 640w file this was already fetching. */}
             <div className="relative aspect-[1/1.1] w-full overflow-hidden rounded-[8px] bg-[var(--surface-chip)]">
               <Image
                 src="/assets/profile.jpg"
                 alt="Nikita Petrich"
                 fill
-                sizes="(max-width: 767px) 100vw, 210px"
+                sizes="(max-width: 767px) calc(100vw - 3rem), 210px"
                 preload
                 fetchPriority="high"
                 className="object-cover object-top"
