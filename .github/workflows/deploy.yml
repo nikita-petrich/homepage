@@ -15,6 +15,13 @@ permissions:
 
 # All secrets/variables live in the GitHub environment "prod".
 # The stack directory on the VPS is fixed: /opt/stacks/homepage.
+#
+# Every secret reaches a `run:` block through `env:`, never through a
+# `${{ … }}` expression inside the script. Expressions are substituted into the
+# shell source *before* the shell parses it, so a secret containing a quote or a
+# `$(…)` would be executed rather than passed along. Read as `"$VAR"` the value
+# stays a value. See
+# https://docs.github.com/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions
 
 jobs:
   build-and-push:
@@ -49,35 +56,54 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     environment: prod
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      STACK_DIR: /opt/stacks/homepage
     steps:
       - uses: actions/checkout@v7
 
+      # VPS_HOST_KEY pins the server's host key. Without it the first SSH
+      # connection of every run trusts whatever answers on that address
+      # (ssh-keyscan is trust-on-first-use, and each runner starts empty), so a
+      # DNS or routing hijack would be handed the deploy key. Leave the secret
+      # unset and the workflow falls back to keyscan with a warning — set it to
+      # the output of `ssh-keyscan -H <host>` run once from a trusted machine.
       - name: Set up SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_HOST_KEY: ${{ secrets.VPS_HOST_KEY }}
         run: |
           install -m 700 -d ~/.ssh
-          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+          if [ -n "$VPS_HOST_KEY" ]; then
+            printf '%s\n' "$VPS_HOST_KEY" > ~/.ssh/known_hosts
+          else
+            echo "::warning::VPS_HOST_KEY is not set — falling back to ssh-keyscan (trust on first use)."
+            ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts
+          fi
+          chmod 600 ~/.ssh/known_hosts
 
       - name: Copy compose file
         run: |
-          ssh -i ~/.ssh/id_ed25519 "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
-            "mkdir -p /opt/stacks/homepage"
+          ssh -i ~/.ssh/id_ed25519 "$VPS_USER@$VPS_HOST" "mkdir -p '$STACK_DIR'"
           scp -i ~/.ssh/id_ed25519 deploy/docker-compose.yml \
-            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/opt/stacks/homepage/docker-compose.yml"
+            "$VPS_USER@$VPS_HOST:$STACK_DIR/docker-compose.yml"
 
       # The compose .env is rendered from GitHub Secrets on every deploy —
-      # nothing secret is maintained by hand on the server.
+      # nothing secret is maintained by hand on the server. It is written with a
+      # 600 umask and piped over the existing SSH connection rather than staged
+      # as a file on the runner, so the values never touch the runner's disk.
       - name: Write server .env from secrets
+        env:
+          UMAMI_DB_PASSWORD: ${{ secrets.UMAMI_DB_PASSWORD }}
+          UMAMI_APP_SECRET: ${{ secrets.UMAMI_APP_SECRET }}
         run: |
           printf 'UMAMI_DB_PASSWORD=%s\nUMAMI_APP_SECRET=%s\n' \
-            '${{ secrets.UMAMI_DB_PASSWORD }}' \
-            '${{ secrets.UMAMI_APP_SECRET }}' > server.env
-          scp -i ~/.ssh/id_ed25519 server.env \
-            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/opt/stacks/homepage/.env"
-          ssh -i ~/.ssh/id_ed25519 "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
-            "chmod 600 /opt/stacks/homepage/.env"
-          rm server.env
+            "$UMAMI_DB_PASSWORD" "$UMAMI_APP_SECRET" \
+            | ssh -i ~/.ssh/id_ed25519 "$VPS_USER@$VPS_HOST" \
+                "umask 077 && cat > '$STACK_DIR/.env'"
 
       # The GHCR package is PUBLIC, so the VPS pulls the image anonymously and
       # must never stay logged in to ghcr.io. `docker logout` first clears any
@@ -87,5 +113,5 @@ jobs:
       # `|| true` keeps the step green when nothing was logged in.
       - name: Pull and restart services
         run: |
-          ssh -i ~/.ssh/id_ed25519 "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
-            "docker logout ghcr.io || true && cd /opt/stacks/homepage && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f"
+          ssh -i ~/.ssh/id_ed25519 "$VPS_USER@$VPS_HOST" \
+            "docker logout ghcr.io || true && cd '$STACK_DIR' && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f"

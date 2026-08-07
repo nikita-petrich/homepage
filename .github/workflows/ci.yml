@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
 
+# Read-only. `pull_request` runs from forks with a read-only token anyway, but
+# an in-repo branch would otherwise inherit whatever the repository default is —
+# and nothing in this workflow writes.
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest

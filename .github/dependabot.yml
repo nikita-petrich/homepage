@@ -22,3 +22,12 @@ updates:
     directory: /
     schedule:
       interval: monthly
+
+  # The Dockerfile's base image is a floating tag (node:22-alpine), so a
+  # rebuild already picks up patched Alpine and Node releases. This entry is
+  # what surfaces the *major* Node bump as a pull request instead of leaving
+  # the runtime to drift silently past the version @types/node is pinned to.
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly
