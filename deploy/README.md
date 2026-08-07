@@ -400,28 +400,45 @@ logging:
   options: { max-size: "10m", max-file: "3" }
 ```
 
-### 2. Umami data: deleted after 14 months at the latest (section 4)
+### 2. Umami data: kept indefinitely, and why that is the promise (section 4)
 
 **Self-hosted Umami has no retention setting and deletes nothing by itself.**
-Left alone, the `website_event` and `session` tables grow without bound and the
-policy's "14 Monate" is simply untrue. Schedule the deletion — e.g. a monthly
-cron on the VPS:
+The policy used to promise deletion after 14 months anyway, which made it a
+statement that nothing in the deployment was keeping. It now says the opposite
+and means it: the measurement data is kept permanently, on the grounds that
+what is stored carries no IP address and no identifier that survives the daily
+salt rotation, so Art. 5 (1) (e) has nothing to bite on.
+
+**There is therefore no retention job to run.** That is the whole point of the
+change. Two things follow from it:
+
+- The `website_event` and `session` tables grow without bound. On this traffic
+  that is megabytes a year, not a problem — but it is the only part of the
+  stack with state, so keep the `pg_dump` from Part C in a real backup rotation.
+- The anonymity argument is what carries the indefinite retention, so it has to
+  keep holding. It rests on: no IP stored, and a visitor hash salted with a
+  value that rotates daily. If a future Umami version changes either, the
+  retention statement in section 4 has to change with it.
+
+The weakest part of that argument is the city. A single `session` row holds
+country, region, city, browser, OS, device, screen resolution and language —
+individually harmless, together a fingerprint, and "singling out" is enough for
+data to still count as personal. Dropping to country/region granularity, if the
+Umami version in use allows it, would strengthen the position materially. Worth
+checking the next time the pinned digest moves.
+
+If you ever do want a retention window back, this is the statement — set the
+interval, `pg_dump` first, and put it in `crontab -e` as `0 4 1 * *`:
 
 ```bash
 docker exec umami-db psql -U umami -d umami -c \
-  "DELETE FROM website_event WHERE created_at < now() - interval '14 months';
+  "DELETE FROM website_event WHERE created_at < now() - interval '24 months';
    DELETE FROM session s WHERE NOT EXISTS (
      SELECT 1 FROM website_event e WHERE e.session_id = s.session_id
    );"
 ```
 
-Run it once by hand first and check the row counts, then put it in `crontab -e`
-(`0 4 1 * *` — 04:00 on the first of every month). Take a `pg_dump` before the
-first run; the statement is not reversible.
-
-If you would rather not run a deletion job, the honest alternative is to change
-the policy — but a portfolio site has no reason to keep three-year-old page
-views, so deleting is the better half of that choice.
+Adding it means section 4 of the policy has to name the period again.
 
 ### 3. Consent and objection: honoured on every visit (section 4)
 
@@ -436,7 +453,10 @@ earlier decisions, so stored decisions are discarded and the banner asks again.
 Worth a look once a year, and after any change to the stack:
 
 - [ ] Proxy access log: IP truncated, rotation ≤ 7 days, actually rotating
-- [ ] Umami retention job present in `crontab -l` and its last run succeeded
+- [ ] Umami's anonymity assumptions still hold after a version bump: no IP
+      stored, visitor hash still salted per day (this is what carries the
+      indefinite retention in section 4)
+- [ ] Analytics database included in a backup rotation — it is the only state
 - [ ] `stats.sequenz.io` not on default credentials, ideally not public at all
 - [ ] Data processing agreement with netcup still on file (Art. 28 GDPR)
 - [ ] Notion Labs still certified under the EU-US Data Privacy Framework

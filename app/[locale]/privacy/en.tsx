@@ -106,8 +106,15 @@ export function PrivacyEn() {
           § 25 (1) TDDDG; whether merely reading the device properties named
           above already falls under that provision is not conclusively settled
           in law. The measurement can therefore be switched off entirely at any
-          time — see the next paragraph. Aggregated statistical data is deleted
-          after 14 months at the latest.
+          time — see the next paragraph.
+        </p>
+        <p>
+          On <strong>storage duration</strong>: what is stored is the anonymous
+          evaluation only — without an IP address and without an identifier that
+          would make you recognisable beyond the day. No deletion period is
+          provided for that data; it is kept permanently as statistics. The
+          storage limitation in Art. 5 (1) (e) GDPR presupposes personal data,
+          which this is not once the random value has rotated.
         </p>
         <p>
           You may object to this measurement at any time with effect for the
