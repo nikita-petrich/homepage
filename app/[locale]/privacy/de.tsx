@@ -4,7 +4,7 @@ import { CookieSettingsButton } from "@/components/notion/cookie-settings-button
 export function PrivacyDe() {
   return (
     <>
-      <p className="text-notion-gray">Stand: Juli 2026</p>
+      <p className="text-notion-gray">Stand: August 2026</p>
 
       <LegalSection title="1. Verantwortlicher">
         <p>
@@ -82,8 +82,9 @@ export function PrivacyDe() {
           <strong>keine Cookies</strong> gesetzt und es wird{" "}
           <strong>nichts auf Ihrem Endgerät gespeichert oder ausgelesen</strong>.
           Ihre IP-Adresse wird ausschließlich flüchtig verarbeitet, um daraus
-          das Herkunftsland und die Region abzuleiten sowie einen Kennwert zu
-          bilden, der Ihren Besuch von anderen unterscheidbar macht; dieser
+          das Herkunftsland, die Region und den ungefähren Ort abzuleiten sowie
+          einen Kennwert zu bilden, der Ihren Besuch von anderen
+          unterscheidbar macht; dieser
           Kennwert wird aus IP-Adresse, Browserkennung und einem{" "}
           <strong>täglich wechselnden Zufallswert</strong> gebildet. Die
           IP-Adresse selbst wird <strong>nicht gespeichert</strong>, und durch
@@ -91,8 +92,8 @@ export function PrivacyDe() {
           hinweg ausgeschlossen.
         </p>
         <p>
-          Erfasst werden aggregierte Angaben wie Seitenaufrufe, Herkunftsland
-          und -region, Browser, Betriebssystem, Gerätetyp und
+          Erfasst werden aggregierte Angaben wie Seitenaufrufe, Herkunftsland,
+          -region und -ort, Browser, Betriebssystem, Gerätetyp und
           Bildschirmauflösung, die verweisende Seite sowie Ereignisse wie
           geklickte Schaltflächen (z.&nbsp;B. CV-Download, Terminbuchung,
           Sprach- oder Designwechsel), Scroll-Tiefe und ungefähre Verweildauer —

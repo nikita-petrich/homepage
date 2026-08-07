@@ -8,7 +8,7 @@ import { CookieSettingsButton } from "@/components/notion/cookie-settings-button
 export function PrivacyEn() {
   return (
     <>
-      <p className="text-notion-gray">Last updated: July 2026</p>
+      <p className="text-notion-gray">Last updated: August 2026</p>
 
       <LegalSection title="1. Controller">
         <p>
@@ -82,16 +82,17 @@ export function PrivacyEn() {
           deliberately data-minimising: <strong>no cookies</strong> are set and{" "}
           <strong>nothing is stored on or read from your device</strong>. Your
           IP address is processed transiently only, in order to derive the
-          country and region of origin from it and to form a value that makes
-          your visit distinguishable from others; that value is derived from the
-          IP address, the browser identification and a{" "}
+          country, region and approximate locality of origin from it and to form
+          a value that makes your visit distinguishable from others; that value
+          is derived from the IP address, the browser identification and a{" "}
           <strong>random value that changes daily</strong>. The IP address
           itself is <strong>not stored</strong>, and because the random value
           changes every day, recognition across several days is impossible.
         </p>
         <p>
-          What is recorded are aggregated details such as page views, country
-          and region of origin, browser, operating system, device type and
+          What is recorded are aggregated details such as page views, country,
+          region and locality of origin, browser, operating system, device type
+          and
           screen resolution, the referring page, as well as events such as
           buttons clicked (e.g. CV download, appointment booking, switching
           language or theme), scroll depth and approximate time on page — with

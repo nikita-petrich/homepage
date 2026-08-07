@@ -31,7 +31,8 @@ website ID has been entered.
 
 1. create `/opt/stacks/homepage` (fixed path, hardcoded in the workflow),
 2. copy `deploy/docker-compose.yml` there,
-3. write the `.env` file **from the GitHub secrets** (`chmod 600`),
+3. write the `.env` file **from the GitHub secrets**, piped straight over SSH
+   under `umask 077` so the values never land on the runner's disk,
 4. run `docker compose pull && docker compose up -d` and clean up old images.
 
 So the server holds no secrets you have to maintain by hand — the single
@@ -51,10 +52,18 @@ only sits in the self-created `internal` network and is therefore unreachable
 from the internet.
 
 Visitor measurement data **never goes to Umami directly**: the browser talks
-exclusively to
-`https://sequenz.io/api/a`, and the Next.js app forwards that server-side to
-`http://umami:3000` — without passing on the visitor's IP address. That is
-precisely what makes the measurement unproblematic under the GDPR.
+exclusively to `https://sequenz.io/api/a`, and the Next.js app forwards that
+server-side to `http://umami:3000`. No request leaves the visitor's browser for
+a third party, and the collect endpoint is never exposed to the internet.
+
+The visitor's IP address **is** forwarded on that internal hop, as a single
+`X-Forwarded-For` value (`app/api/a/[...path]/route.ts`). Umami needs it to
+resolve country/region/city and to compute the daily-rotating visitor hash;
+withholding it would make every visitor share the container's own address.
+Umami does not store the address itself. That is what the privacy policy
+describes under "Anonyme Reichweiten- und Interaktionsmessung", and the two
+have to keep saying the same thing — if this hop ever changes, section 4 of
+`app/[locale]/privacy/{de,en}.tsx` changes with it.
 
 ---
 
@@ -161,6 +170,20 @@ Then at the bottom of that page:
 | `VPS_SSH_KEY` | full contents of `~/.ssh/homepage_deploy` (step 1) |
 | `UMAMI_DB_PASSWORD` | the `openssl rand -hex 16` value (step 2) |
 | `UMAMI_APP_SECRET` | the `openssl rand -hex 32` value (step 2) |
+
+And one optional but recommended sixth:
+
+| Name | Value |
+|---|---|
+| `VPS_HOST_KEY` | output of `ssh-keyscan -H <VPS_HOST>`, run once from a machine you trust |
+
+Why it is worth setting: each workflow run starts on a fresh runner with an
+empty `known_hosts`, so without this secret the deploy trusts whatever answers
+at `VPS_HOST` on the very first connection and then hands it the deploy key.
+Pinning the host key removes that window. Leave it unset and the workflow still
+runs, but logs a warning and falls back to `ssh-keyscan`. Re-run the keyscan and
+update the secret whenever you rebuild the VPS — a changed host key otherwise
+fails the deploy, which is exactly what it is supposed to do.
 
 **"Environment variables" → "Add variable"** — one:
 
@@ -271,7 +294,14 @@ Note:
 
 - **Privacy:** the privacy policy promises that server logs are truncated and
   deleted after 7 days at the latest. Configure the proxy's access logs
-  accordingly (IP truncation, rotation ≤ 7 days).
+  accordingly (IP truncation, rotation ≤ 7 days). See "Part D — What the
+  privacy policy commits the deployment to".
+- **Access to the dashboard:** `stats.sequenz.io` reaches Umami's login page
+  from anywhere on the internet. Step 6.3 changes the default credentials,
+  which is the minimum; restricting the vhost to known addresses, or putting
+  HTTP basic auth in front of it, removes the login page as a target
+  altogether. Nothing on the website needs the dashboard to be public — the
+  measurements travel over the `internal` network.
 
 ### Step 6: First deploy and Umami setup
 
@@ -345,3 +375,72 @@ docker exec umami-db pg_dump -U umami umami > umami-backup-$(date +%F).sql
 | Proxy returns 502 for sequenz.io | Container `homepage` is not running, or the `SITES` entry points at the wrong name/port (`homepage:3000`) |
 | Page loads but no events in Umami | `UMAMI_WEBSITE_ID` set, but no new deploy has run (step 6.6) |
 | Umami container does not start | `UMAMI_DB_PASSWORD` changed after the first start without applying it in Postgres |
+
+---
+
+## Part D — What the privacy policy commits the deployment to
+
+`app/[locale]/privacy/{de,en}.tsx` makes three promises that no code in this
+repository can keep on its own. They are operator duties, and a promise the
+deployment does not keep is worse than no promise at all — under the GDPR a
+stated retention period is a commitment to the data subject, not a goal.
+
+### 1. Server logs: deleted after 7 days at the latest (section 3)
+
+The access log belongs to the reverse proxy
+([nikita-petrich/reverse-proxy](https://github.com/nikita-petrich/reverse-proxy)),
+not to this stack. Configure it to truncate the client IP and to rotate with a
+retention of at most 7 days. Docker's own container logs count too — the
+default `json-file` driver keeps everything until the container is removed:
+
+```yaml
+# in deploy/docker-compose.yml, per service, if the daemon default is not set
+logging:
+  driver: json-file
+  options: { max-size: "10m", max-file: "3" }
+```
+
+### 2. Umami data: deleted after 14 months at the latest (section 4)
+
+**Self-hosted Umami has no retention setting and deletes nothing by itself.**
+Left alone, the `website_event` and `session` tables grow without bound and the
+policy's "14 Monate" is simply untrue. Schedule the deletion — e.g. a monthly
+cron on the VPS:
+
+```bash
+docker exec umami-db psql -U umami -d umami -c \
+  "DELETE FROM website_event WHERE created_at < now() - interval '14 months';
+   DELETE FROM session s WHERE NOT EXISTS (
+     SELECT 1 FROM website_event e WHERE e.session_id = s.session_id
+   );"
+```
+
+Run it once by hand first and check the row counts, then put it in `crontab -e`
+(`0 4 1 * *` — 04:00 on the first of every month). Take a `pg_dump` before the
+first run; the statement is not reversible.
+
+If you would rather not run a deletion job, the honest alternative is to change
+the policy — but a portfolio site has no reason to keep three-year-old page
+views, so deleting is the better half of that choice.
+
+### 3. Consent and objection: honoured on every visit (section 4)
+
+The opt-out lives in the visitor's `localStorage`, so it needs nothing from the
+server. What it does need is that the banner and the policy keep describing the
+same thing: `CONSENT_VERSION` in `lib/analytics/consent.ts` must be bumped
+whenever the categories or the banner wording change in a way that invalidates
+earlier decisions, so stored decisions are discarded and the banner asks again.
+
+### Review checklist
+
+Worth a look once a year, and after any change to the stack:
+
+- [ ] Proxy access log: IP truncated, rotation ≤ 7 days, actually rotating
+- [ ] Umami retention job present in `crontab -l` and its last run succeeded
+- [ ] `stats.sequenz.io` not on default credentials, ideally not public at all
+- [ ] Data processing agreement with netcup still on file (Art. 28 GDPR)
+- [ ] Notion Labs still certified under the EU-US Data Privacy Framework
+      (section 6 of the policy asserts this — it is revocable)
+- [ ] Every person quoted under "Referenzen" still consents, and that consent
+      is documented somewhere you could produce it (Art. 7 (1) GDPR)
+- [ ] `pnpm audit` clean, `pnpm-workspace.yaml` overrides still needed
