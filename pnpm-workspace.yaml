@@ -11,6 +11,10 @@ allowBuilds:
 #
 #   postcss           GHSA-6g55-p6wh-862q and its incomplete-fix follow-up
 #                     GHSA-fxqj-rqcc-2cmp (>=8.5.23)
+#   nanoid            GHSA-2v37-7h3g-55p8, below postcss (which next and geist
+#                     both pull). postcss asks for ^3.3.16, so the floor stays
+#                     inside v3 — see the bound note below; nanoid's own latest
+#                     is a different major line entirely.
 #   sharp             GHSA-f88m-g3jw-g9cj
 #   js-yaml           GHSA-5p4m-2wfm-xmqj, via eslint's @eslint/eslintrc
 #   brace-expansion   GHSA-mh99-v99m-4gvg and its follow-ups, via eslint's
@@ -25,6 +29,7 @@ allowBuilds:
 # earlier attempt this file used to record as "forcing v5 breaks eslint".
 overrides:
   postcss: '>=8.5.23'
+  nanoid: '>=3.3.17 <4'
   sharp: '>=0.35.0'
   js-yaml: '>=4.3.1'
   brace-expansion@^1.0.0: '>=1.1.18 <2'
