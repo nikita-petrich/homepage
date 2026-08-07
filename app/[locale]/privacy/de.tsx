@@ -107,8 +107,16 @@ export function PrivacyDe() {
           ob bereits das Auslesen der oben genannten Geräteeigenschaften unter
           diese Vorschrift fällt, ist rechtlich nicht abschließend geklärt. Die
           Messung lässt sich deshalb jederzeit vollständig abschalten — siehe
-          den nächsten Absatz. Aggregierte Statistikdaten werden nach
-          spätestens 14 Monaten gelöscht.
+          den nächsten Absatz.
+        </p>
+        <p>
+          Zur <strong>Speicherdauer</strong>: Gespeichert wird ausschließlich
+          die anonyme Auswertung — ohne IP-Adresse und ohne Kennung, die Sie
+          über den Tag hinaus wiedererkennbar machen würde. Für diese Daten ist
+          keine Löschfrist vorgesehen; sie werden dauerhaft als Statistik
+          aufbewahrt. Die Speicherbegrenzung des Art. 5 Abs. 1 lit. e DSGVO
+          setzt personenbezogene Daten voraus, an denen es hier nach dem
+          täglichen Wechsel des Zufallswerts fehlt.
         </p>
         <p>
           Sie können dieser Messung jederzeit mit Wirkung für die Zukunft
