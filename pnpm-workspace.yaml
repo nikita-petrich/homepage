@@ -5,12 +5,27 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
 
-# Security floors for vulnerable transitive dependencies pinned by next
-# (postcss: GHSA-6g55-p6wh-862q; sharp: GHSA-f88m-g3jw-g9cj).
-# Known remaining advisory: brace-expansion <=5.0.7 (GHSA-mh99-v99m-4gvg,
-# ReDoS) via eslint's minimatch — dev-tooling only, never shipped to the
-# browser or server runtime. Forcing v5 breaks eslint, so it is accepted
-# until eslint updates its own dependency tree.
+# Security floors for vulnerable transitive dependencies pinned by next and by
+# eslint. `pnpm audit` is the source of truth here — CI runs it with `--prod`,
+# so the dev-only floors below are what keeps the full tree clean too.
+#
+#   postcss           GHSA-6g55-p6wh-862q and its incomplete-fix follow-up
+#                     GHSA-fxqj-rqcc-2cmp (>=8.5.23)
+#   sharp             GHSA-f88m-g3jw-g9cj
+#   js-yaml           GHSA-5p4m-2wfm-xmqj, via eslint's @eslint/eslintrc
+#   brace-expansion   GHSA-mh99-v99m-4gvg and its follow-ups, via eslint's
+#                     minimatch. Both major lines are in the tree (minimatch 3
+#                     wants ^1.1.7, minimatch 10 wants ^5.0.5), so each is
+#                     floored separately on the selector that matches it.
+#
+# The v1 floor carries an upper bound on purpose. An override target is just a
+# range, and pnpm resolves it to the newest version that satisfies it — an
+# unbounded '>=1.1.18' therefore lands minimatch 3 on brace-expansion 5, which
+# is a different major with different behaviour. That is the shape of the
+# earlier attempt this file used to record as "forcing v5 breaks eslint".
 overrides:
-  postcss: '>=8.5.12'
+  postcss: '>=8.5.23'
   sharp: '>=0.35.0'
+  js-yaml: '>=4.3.1'
+  brace-expansion@^1.0.0: '>=1.1.18 <2'
+  brace-expansion@^5.0.0: '>=5.0.9'

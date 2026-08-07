@@ -1,18 +1,17 @@
-/* Berufserfahrung in Jahren — gerechnet statt gepflegt.
+/* Years of professional experience — derived, not maintained by hand.
  *
- * Die Zahl stand an drei Stellen als Literal ("7+ Jahre" in den Eckdaten, "über
- * 7 Jahre" im Intro und in der Seitenbeschreibung) und veraltet dort jedes Jahr
- * still. Sie wird deshalb aus dem Startdatum abgeleitet.
+ * The number used to sit in three places as a literal ("7+ Jahre" in the key
+ * facts, "über 7 Jahre" in the intro and in the page description) and went
+ * quietly stale there every year. It is therefore derived from the start date.
  *
- * Der Wert entsteht beim Build: die Seiten sind statisch, also wandert er mit
- * dem nächsten Deploy weiter. Für eine Angabe, die sich einmal im Jahr um eins
- * erhöht, reicht das — ein Client-Renderer dafür würde nur Layout-Sprünge
- * einhandeln. */
+ * The value is produced at build time: the pages are static, so it moves on
+ * with the next deploy. For a figure that grows by one once a year that is
+ * enough — rendering it on the client would only buy layout shifts. */
 
-/** Beginn der Berufserfahrung: Oktober 2018. */
+/** Start of professional experience: October 2018. */
 export const CAREER_START = { year: 2018, month: 10 } as const;
 
-/** Volle Jahre seit `CAREER_START`, abgerundet. */
+/** Full years since `CAREER_START`, rounded down. */
 export function yearsOfExperience(now: Date = new Date()): number {
   const months =
     (now.getFullYear() - CAREER_START.year) * 12 +
@@ -22,5 +21,5 @@ export function yearsOfExperience(now: Date = new Date()): number {
 
 export const experienceYears = yearsOfExperience();
 
-/** "7+" — die Schreibweise der Eckdaten und der Fließtexte. */
+/** "7+" — the spelling used by the key facts and the running text. */
 export const experienceYearsPlus = `${experienceYears}+`;

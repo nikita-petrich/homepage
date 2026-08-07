@@ -4,7 +4,7 @@
    from public/certificates like every other certificate and gets the same tile
    preview and "open in a new tab" behaviour.
  *
- *   node scripts/certificate-image-to-pdf.mjs <bild.jpg|bild.png> <slug>
+ *   node scripts/certificate-image-to-pdf.mjs <image.jpg|image.png> <slug>
  *   node scripts/certificate-previews.mjs        # then generate the previews
  *
  * The image is embedded unchanged — never re-typeset and never lossily
@@ -37,7 +37,7 @@ const [imagePath, slugArg] = process.argv.slice(2);
 
 if (!imagePath) {
   console.error(
-    "Aufruf: node scripts/certificate-image-to-pdf.mjs <bild.png> [slug]",
+    "Usage: node scripts/certificate-image-to-pdf.mjs <image.png> [slug]",
   );
   process.exit(1);
 }
@@ -45,7 +45,7 @@ if (!imagePath) {
 const slug = slugArg ?? basename(imagePath).replace(/\.[^.]+$/, "");
 if (!/^[a-z0-9-]+$/.test(slug)) {
   console.error(
-    `Slug „${slug}“ ist nicht als Dateiname geeignet — nur a-z, 0-9 und Bindestriche.`,
+    `Slug "${slug}" is not usable as a file name — only a-z, 0-9 and hyphens.`,
   );
   process.exit(1);
 }
@@ -72,8 +72,8 @@ function readJpeg(buf) {
     if (isFrame) {
       if (marker !== 0xc0 && marker !== 0xc1) {
         throw new Error(
-          "nur Baseline-JPEG wird unterstützt (die Datei ist progressiv oder " +
-            "arithmetisch kodiert) — bitte als PNG exportieren",
+          "only baseline JPEG is supported (this file is progressive or " +
+            "arithmetically coded) — please export it as PNG",
         );
       }
       const precision = buf[pos + 4];
@@ -81,8 +81,8 @@ function readJpeg(buf) {
       const space = { 1: "/DeviceGray", 3: "/DeviceRGB" }[components];
       if (precision !== 8 || !space) {
         throw new Error(
-          `unerwartetes JPEG-Format (${precision} bit, ${components} Komponenten)` +
-            " — bitte als PNG exportieren",
+          `unexpected JPEG format (${precision} bit, ${components} components)` +
+            " — please export it as PNG",
         );
       }
       return {
@@ -95,7 +95,7 @@ function readJpeg(buf) {
     }
     pos += 2 + length;
   }
-  throw new Error("kein JPEG-Bildkopf gefunden");
+  throw new Error("no JPEG frame header found");
 }
 
 /* Decodes a PNG and re-deflates its pixels for the PDF. The alpha channel is
@@ -202,4 +202,4 @@ console.log(
   `${basename(imagePath)}: ${width}×${height} px, ${filter.slice(1)} → ${out} ` +
     `(${pageW}×${pageH} pt, ${Math.round(pdf.length / 1024)} kB)`,
 );
-console.log("Danach: node scripts/certificate-previews.mjs");
+console.log("Next: node scripts/certificate-previews.mjs");

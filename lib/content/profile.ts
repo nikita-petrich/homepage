@@ -73,7 +73,7 @@ export const facts: Fact[] = [
   {
     label: t("Erfahrung", "Experience"),
     icon: "briefcase",
-    /* Aus dem Startdatum gerechnet (lib/experience.ts), nicht gepflegt. */
+    /* Derived from the start date (lib/experience.ts), not maintained by hand. */
     value: t(`${experienceYearsPlus} Jahre`, `${experienceYearsPlus} years`),
   },
   {

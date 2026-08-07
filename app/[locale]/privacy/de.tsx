@@ -4,7 +4,7 @@ import { CookieSettingsButton } from "@/components/notion/cookie-settings-button
 export function PrivacyDe() {
   return (
     <>
-      <p className="text-notion-gray">Stand: Juli 2026</p>
+      <p className="text-notion-gray">Stand: August 2026</p>
 
       <LegalSection title="1. Verantwortlicher">
         <p>
@@ -80,28 +80,35 @@ export function PrivacyDe() {
           der Open-Source-Software Umami auf einem Server in der EU. Die Messung
           ist bewusst datensparsam ausgestaltet: Es werden{" "}
           <strong>keine Cookies</strong> gesetzt und es wird{" "}
-          <strong>nichts auf Ihrem Endgerät gespeichert oder ausgelesen</strong>.
+          <strong>nichts auf Ihrem Endgerät gespeichert</strong>. Ausgewertet
+          werden nur Angaben, die Ihr Browser bei jedem Seitenaufruf ohnehin
+          mitsendet oder als Geräteeigenschaft bereitstellt — im Wesentlichen
+          Bildschirmauflösung, Spracheinstellung und die verweisende Seite.
           Ihre IP-Adresse wird ausschließlich flüchtig verarbeitet, um daraus
-          das Herkunftsland und die Region abzuleiten sowie einen Kennwert zu
-          bilden, der Ihren Besuch von anderen unterscheidbar macht; dieser
-          Kennwert wird aus IP-Adresse, Browserkennung und einem{" "}
+          das Herkunftsland, die Region und den ungefähren Ort abzuleiten sowie
+          einen Kennwert zu bilden, der Ihren Besuch von anderen unterscheidbar
+          macht; dieser Kennwert wird aus IP-Adresse, Browserkennung und einem{" "}
           <strong>täglich wechselnden Zufallswert</strong> gebildet. Die
           IP-Adresse selbst wird <strong>nicht gespeichert</strong>, und durch
           den täglichen Wechsel ist eine Wiedererkennung über mehrere Tage
           hinweg ausgeschlossen.
         </p>
         <p>
-          Erfasst werden aggregierte Angaben wie Seitenaufrufe, Herkunftsland
-          und -region, Browser, Betriebssystem, Gerätetyp und
+          Erfasst werden aggregierte Angaben wie Seitenaufrufe, Herkunftsland,
+          -region und -ort, Browser, Betriebssystem, Gerätetyp und
           Bildschirmauflösung, die verweisende Seite sowie Ereignisse wie
           geklickte Schaltflächen (z.&nbsp;B. CV-Download, Terminbuchung,
           Sprach- oder Designwechsel), Scroll-Tiefe und ungefähre Verweildauer —
           ohne Bezug zu Ihrer Person. Suchtexteingaben werden nicht im Klartext
           erfasst. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
-          Interesse an der Reichweitenmessung und Verbesserung des Angebots);
-          § 25 TDDDG findet keine Anwendung, da nicht auf Ihr Endgerät
-          zugegriffen wird. Aggregierte Statistikdaten werden nach spätestens
-          14 Monaten gelöscht.
+          Interesse an der Reichweitenmessung und Verbesserung des Angebots).
+          Für die Messung wird nichts auf Ihrem Endgerät gespeichert, weshalb
+          § 25 Abs. 1 TDDDG nach hiesiger Einschätzung nicht einschlägig ist;
+          ob bereits das Auslesen der oben genannten Geräteeigenschaften unter
+          diese Vorschrift fällt, ist rechtlich nicht abschließend geklärt. Die
+          Messung lässt sich deshalb jederzeit vollständig abschalten — siehe
+          den nächsten Absatz. Aggregierte Statistikdaten werden nach
+          spätestens 14 Monaten gelöscht.
         </p>
         <p>
           Sie können dieser Messung jederzeit mit Wirkung für die Zukunft

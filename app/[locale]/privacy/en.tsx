@@ -8,7 +8,7 @@ import { CookieSettingsButton } from "@/components/notion/cookie-settings-button
 export function PrivacyEn() {
   return (
     <>
-      <p className="text-notion-gray">Last updated: July 2026</p>
+      <p className="text-notion-gray">Last updated: August 2026</p>
 
       <LegalSection title="1. Controller">
         <p>
@@ -80,26 +80,34 @@ export function PrivacyEn() {
           This website measures its usage with a self-hosted instance of the
           open-source software Umami on a server in the EU. The measurement is
           deliberately data-minimising: <strong>no cookies</strong> are set and{" "}
-          <strong>nothing is stored on or read from your device</strong>. Your
+          <strong>nothing is stored on your device</strong>. What is evaluated
+          are only details your browser sends with every page request anyway or
+          exposes as a device property — essentially screen resolution, language
+          setting and the referring page. Your
           IP address is processed transiently only, in order to derive the
-          country and region of origin from it and to form a value that makes
-          your visit distinguishable from others; that value is derived from the
-          IP address, the browser identification and a{" "}
+          country, region and approximate locality of origin from it and to form
+          a value that makes your visit distinguishable from others; that value
+          is derived from the IP address, the browser identification and a{" "}
           <strong>random value that changes daily</strong>. The IP address
           itself is <strong>not stored</strong>, and because the random value
           changes every day, recognition across several days is impossible.
         </p>
         <p>
-          What is recorded are aggregated details such as page views, country
-          and region of origin, browser, operating system, device type and
+          What is recorded are aggregated details such as page views, country,
+          region and locality of origin, browser, operating system, device type
+          and
           screen resolution, the referring page, as well as events such as
           buttons clicked (e.g. CV download, appointment booking, switching
           language or theme), scroll depth and approximate time on page — with
           no link to you as a person. Search input is not recorded in plain
           text. The legal basis is Art. 6 (1) (f) GDPR (legitimate interest in
-          measuring reach and improving the offering); § 25 TDDDG does not apply
-          because your device is not accessed. Aggregated statistical data is
-          deleted after 14 months at the latest.
+          measuring reach and improving the offering). Nothing is stored on your
+          device for the measurement, which in our assessment puts it outside
+          § 25 (1) TDDDG; whether merely reading the device properties named
+          above already falls under that provision is not conclusively settled
+          in law. The measurement can therefore be switched off entirely at any
+          time — see the next paragraph. Aggregated statistical data is deleted
+          after 14 months at the latest.
         </p>
         <p>
           You may object to this measurement at any time with effect for the

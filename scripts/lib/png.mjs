@@ -9,7 +9,7 @@ import { inflateSync } from "node:zlib";
    IHDR, inflate the concatenated IDAT stream and undo the per-scanline
    filters. Returns the raw pixel rows. */
 export function decodePng(buf) {
-  if (buf.readUInt32BE(0) !== 0x89504e47) throw new Error("kein PNG");
+  if (buf.readUInt32BE(0) !== 0x89504e47) throw new Error("not a PNG");
   let pos = 8;
   let width = 0;
   let height = 0;
