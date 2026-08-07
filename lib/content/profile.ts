@@ -1,4 +1,3 @@
-import { cvDocs, cvDocUrl, cvWordPath } from "@/lib/cv";
 import { experienceYears, experienceYearsPlus } from "@/lib/experience";
 import { t } from "@/lib/i18n/text";
 import { accentColor, bookingUrl, profileName } from "@/lib/profile";
@@ -28,30 +27,25 @@ export const profile = {
   ),
 };
 
-/* The CV in both languages. Each one is offered in all three shapes it exists
-   in — see lib/cv.ts, which holds the document ids and file names; only the
-   language labels belong here. The format labels are interface strings and live
-   in lib/i18n/ui.ts with the rest of the menu.
-
-   The German version stays first in both languages: the menu is a list of CVs,
-   not of translations, and the German one is the one most recipients here
-   ask for. */
+/* The page count used to be the subtitle here. Ten pages is not a selling
+   point — it is a warning — so the line says what the file is instead. */
 export const cvFiles = [
   {
+    /* `lang` rather than reading the language back out of the file name: the
+       menu tags its analytics with it, and a rename should not silently
+       relabel every download. */
     lang: "de",
+    href: "/cv/CV-German.pdf",
     label: t("CV Deutsch", "CV German"),
     flag: "/assets/flags/de.svg",
-    pdf: cvDocs.de.pdf,
-    word: cvWordPath(cvDocs.de),
-    doc: cvDocUrl(cvDocs.de),
+    sub: t("PDF · zum Weiterleiten", "PDF · ready to forward"),
   },
   {
     lang: "en",
+    href: "/cv/CV-English.pdf",
     label: t("CV Englisch", "CV English"),
     flag: "/assets/flags/gb.svg",
-    pdf: cvDocs.en.pdf,
-    word: cvWordPath(cvDocs.en),
-    doc: cvDocUrl(cvDocs.en),
+    sub: t("PDF · zum Weiterleiten", "PDF · ready to forward"),
   },
 ];
 
