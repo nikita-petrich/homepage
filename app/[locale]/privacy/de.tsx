@@ -4,7 +4,7 @@ import { CookieSettingsButton } from "@/components/notion/cookie-settings-button
 export function PrivacyDe() {
   return (
     <>
-      <p className="text-notion-gray">Stand: August 2026</p>
+      <p className="text-notion-gray">Stand: Juli 2026</p>
 
       <LegalSection title="1. Verantwortlicher">
         <p>
@@ -149,51 +149,7 @@ export function PrivacyDe() {
         </p>
       </LegalSection>
 
-      <LegalSection title="7. Lebenslauf als PDF, Word-Datei und in Google Docs">
-        <p>
-          Der Lebenslauf wird in Google Docs gepflegt und über das Menü „CV
-          herunterladen“ in drei Formaten angeboten, die sich datenschutzrechtlich
-          unterscheiden:
-        </p>
-        <ul className="flex list-disc flex-col gap-1 pl-5">
-          <li>
-            <strong>PDF</strong> — wird als Datei von dieser Website
-            ausgeliefert. Es entsteht keine Verbindung zu Dritten.
-          </li>
-          <li>
-            <strong>Word (.docx)</strong> — wird beim Klick von meinem Server
-            aus dem Google-Dokument exportiert und Ihnen von dieser Website
-            ausgeliefert. Ihr Browser baut dabei <strong>keine</strong>{" "}
-            Verbindung zu Google auf; Google sieht die Anfrage meines Servers,
-            nicht Ihre IP-Adresse.
-          </li>
-          <li>
-            <strong>„In Google Docs öffnen“</strong> — ein Link zu einem
-            externen Dienst. Erst wenn Sie ihm folgen, rufen Sie das Dokument
-            bei Google ab.
-          </li>
-        </ul>
-        <p>
-          Anbieter von Google Docs ist die Google Ireland Limited, Gordon House,
-          Barrow Street, Dublin 4, Irland. Folgen Sie dem Link, verarbeitet
-          Google Ihre IP-Adresse und weitere Verbindungsdaten in eigener
-          Verantwortung; dabei kann eine Übermittlung an die Google LLC in den
-          USA stattfinden, die nach dem EU-US Data Privacy Framework zertifiziert
-          ist. Einzelheiten entnehmen Sie der{" "}
-          <a
-            href="https://policies.google.com/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium underline underline-offset-2"
-          >
-            Datenschutzerklärung von Google
-          </a>
-          . Die Nutzung dieses Links ist freiwillig — PDF und Word-Datei
-          enthalten denselben Lebenslauf, ohne Verbindung zu Google.
-        </p>
-      </LegalSection>
-
-      <LegalSection title="8. Referenzen und Empfehlungen Dritter">
+      <LegalSection title="7. Referenzen und Empfehlungen Dritter">
         <p>
           Im Bereich „Referenzen“ veröffentliche ich Empfehlungen von Kunden und
           Projektbeteiligten mit Name, Position, Unternehmen und Zitattext.
@@ -210,7 +166,7 @@ export function PrivacyDe() {
         </p>
       </LegalSection>
 
-      <LegalSection title="9. Ihre Rechte">
+      <LegalSection title="8. Ihre Rechte">
         <p>Ihnen stehen nach der DSGVO folgende Rechte zu:</p>
         <ul className="flex list-disc flex-col gap-1 pl-5">
           <li>Auskunft über die verarbeiteten Daten (Art. 15 DSGVO),</li>
@@ -243,14 +199,14 @@ export function PrivacyDe() {
         </p>
       </LegalSection>
 
-      <LegalSection title="10. Keine automatisierte Entscheidungsfindung">
+      <LegalSection title="9. Keine automatisierte Entscheidungsfindung">
         <p>
           Eine automatisierte Entscheidungsfindung einschließlich Profiling im
           Sinne von Art. 22 DSGVO findet nicht statt.
         </p>
       </LegalSection>
 
-      <LegalSection title="11. Änderungen dieser Erklärung">
+      <LegalSection title="10. Änderungen dieser Erklärung">
         <p>
           Diese Datenschutzerklärung wird angepasst, sobald sich die
           Datenverarbeitung auf dieser Website ändert. Es gilt jeweils die hier

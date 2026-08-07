@@ -53,37 +53,12 @@ binding one; the English version says so and links to it.
 
 ## CV download
 
-The top bar, the intro callout and the closing call to action each expose a
-**CV herunterladen** / **CV download** button. Its menu holds both languages,
-each in the three shapes the CV exists in:
+The top bar and the intro callout each expose a **CV herunterladen** /
+**CV download** button that opens a menu to download the CV as a PDF in two
+languages:
 
-| Entry             | Where it comes from                                            |
-| ----------------- | -------------------------------------------------------------- |
-| PDF               | `public/cv/CV_Nikita_Petrich_{DE,EN}.pdf` — the designed original |
-| Word (`.docx`)    | `/cv/word/CV_Nikita_Petrich_{DE,EN}.docx` — exported from the Google Doc on request |
-| Google Docs       | the document itself, opened read-only in a new tab              |
-
-The Word file is **not** committed. `app/cv/word/[file]/route.ts` fetches
-Google's own DOCX export of the document when the visitor clicks, so it can
-never say something different from the document — and it is fetched
-server-side, so the visitor's browser never talks to Google (the privacy page
-spells this out; the "open in Google Docs" link is the one deliberate
-exception, and it takes a click).
-
-Everything language-independent — the two document ids, the file names, the
-Google URLs — lives in `lib/cv.ts`. Publishing a CV from a new document means
-changing `docId` there and nothing else. Both documents must stay in a Drive
-folder shared with *anyone with the link*: that is what lets the export work
-without credentials. If that sharing is revoked the Word entry answers 502 and
-the PDF keeps working.
-
-The PDF and the Google Doc are two renderings of one CV, but they are not
-generated from one another: the PDF comes from the designed layout and is
-committed here (its URL is permanent, so a CV forwarded a year ago still
-resolves), the document carries the same content as a plain, ATS-readable
-document. A new version of the CV therefore has to land in both — replace the
-PDF in `public/cv/`, update the Google Doc, and the Word download follows the
-document on its own.
+- 🇩🇪 `public/cv/CV-German.pdf`
+- 🇬🇧 `public/cv/CV-English.pdf`
 
 ## Tech stack
 
@@ -109,7 +84,6 @@ app/
   global-error.tsx      Error boundary that replaces the root layout
   global-not-found.tsx  404 for URLs that match no route at all
   api/a/[...path]/      First-party Umami proxy (strips client IPs)
-  cv/word/[file]/       CV as Word — Google's DOCX export, fetched server-side
   [locale]/             Everything below exists as /de/… and /en/…
     layout.tsx          Root layout: metadata (OG/Twitter, hreflang), theme
                         script, i18n provider, footer, banner, analytics
@@ -135,7 +109,7 @@ components/
     language-toggle.tsx German/English menu (real links, remembers the choice)
     theme-toggle.tsx    Light/dark switch
     theme-sync.tsx      Re-applies the theme where the inline script cannot run
-    cv-download.tsx     "CV herunterladen" menu — PDF / Word / Google Docs, DE + EN
+    cv-download.tsx     "CV herunterladen" menu (topbar + hero variant)
     projects.tsx        Project gallery + detail dialog
     references.tsx      Testimonials gallery + detail dialog
     certificates.tsx    Certificates gallery + detail dialog (scope, syllabus, PDF)
@@ -150,7 +124,6 @@ components/
 lib/
   data.ts               Content assembled and resolved for one locale
   profile.ts            Name, role, booking URL — language-independent
-  cv.ts                 CV document ids, file names, Google Docs URLs
   theme.ts              Theme storage, the pre-paint script, sync helpers
   i18n/
     config.ts           Locales, cookie, path helpers, Accept-Language match
@@ -168,7 +141,7 @@ lib/
   references.json       Testimonials (shared with the PDF CV)
   analytics/            consent.ts, track.ts, use-search-tracking.ts
 public/
-  cv/                   CV PDFs (DE / EN). The Word files are not here — see "CV download"
+  cv/                   Downloadable CV PDFs (DE / EN)
   certificates/         Certificate PDFs (/certificates/<slug>.pdf, permanent)
   assets/               Photos, flags, project covers
     certificates/       Pre-rendered certificate previews (generated)
@@ -213,9 +186,7 @@ wording next to each other:
 Testimonials live in `lib/references.json` — the file the PDF CV shares — and
 their translations in `lib/content/references.ts`; both are validated at build
 time, including a check that the original wording still matches the JSON. The
-CV PDFs are produced separately and committed under `public/cv/`; the Word and
-Google Docs versions come from the documents named in `lib/cv.ts` (see
-"CV download").
+CV PDFs are generated separately and committed under `public/cv/`.
 
 Technology and skill terms are translated once in `lib/content/terms.ts` and
 reused by the projects, the skills database and the schema.org markup, so a
