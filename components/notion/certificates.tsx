@@ -97,9 +97,12 @@ const previewAlt = (c: Certificate, ui: Ui) =>
 function CertificateCover({
   cert,
   variant,
+  preload = false,
 }: {
   cert: Certificate;
   variant: "card" | "modal";
+  /** Set on the first card of a gallery — see the call site. */
+  preload?: boolean;
 }) {
   const { ui } = useI18n();
   const card = variant === "card";
@@ -130,6 +133,8 @@ function CertificateCover({
                it is ~298px, which made every tile fetch the variant above the
                one it needed. */
             sizes={CARD_COVER_SIZES}
+            preload={preload}
+            fetchPriority={preload ? "high" : undefined}
             className="object-cover"
           />
         ) : (
@@ -278,8 +283,11 @@ function DocumentAction({
 
 export function CertificateGallery({
   certificates,
+  leadsPage = false,
 }: {
   certificates: Certificate[];
+  /** True on /certificates, where the first cover is the page's LCP element. */
+  leadsPage?: boolean;
 }) {
   const { locale, ui } = useI18n();
   const [view, setView] = useState<GalleryView>("gallery");
@@ -306,7 +314,22 @@ export function CertificateGallery({
         <CertificateTable certificates={visible} />
       ) : (
         <GalleryGrid>
-          {visible.map((c) => (
+          {/* On /certificates the first tile is the largest thing above the
+              fold, so it is that page's LCP element — and nothing in the markup
+              said so. Its <img> is built by this client component, so the
+              preload scanner cannot see it while it is still parsing the head;
+              the request only went out once hydration had laid out the grid,
+              and Lighthouse scored LCP request discovery 0 on both form
+              factors.
+
+              `preload` emits the <link rel=preload as=image> carrying the same
+              `sizes`, so the scanner resolves the same srcset entry the layout
+              will use. Only the first tile, and only where the caller says this
+              gallery leads the page: on the home page the same component sits
+              below nine projects and nine testimonials, and preloading a cover
+              from down there would put it in front of the portrait that is
+              actually the LCP element up top. */}
+          {visible.map((c, i) => (
             <IntentLink
               key={c.slug}
               href={localePath(locale, certPageHref(c))}
@@ -316,9 +339,20 @@ export function CertificateGallery({
               data-analytics-prop-issuer={c.issuer}
               data-analytics-prop-source="gallery"
               style={{ boxShadow: "var(--notion-card-shadow)" }}
-              className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-[var(--surface)] text-left transition-colors hover:bg-[var(--surface-hover-soft)]"
+              className={cn(
+                "group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-[var(--surface)] text-left transition-colors hover:bg-[var(--surface-hover-soft)]",
+                /* Every card but the one carrying the LCP image — that one is
+                   on screen from the first frame, so there is nothing to defer,
+                   and it is the last element on the page that should be behind
+                   a "render when it comes near" heuristic. */
+                !(leadsPage && i === 0) && "np-defer-card",
+              )}
             >
-              <CertificateCover cert={c} variant="card" />
+              <CertificateCover
+                cert={c}
+                variant="card"
+                preload={leadsPage && i === 0}
+              />
               <div className="flex flex-1 flex-col gap-[7px] p-[11px]">
                 <div className="text-[15px] leading-[1.3] font-semibold">
                   {c.title}

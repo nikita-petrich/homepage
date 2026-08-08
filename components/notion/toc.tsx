@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -12,6 +12,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
   const ui = useUi();
   const [active, setActive] = useState<string>(items[0]?.id ?? "");
   const [open, setOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -53,7 +54,18 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
       className="fixed top-1/2 right-0 z-40 hidden -translate-y-1/2 lg:pointer-fine:block"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
-      onFocusCapture={() => setOpen(true)}
+      /* Focus anywhere inside opens the panel — except on the toggle itself.
+         Opening there too made the button undo its own purpose: tabbing to it
+         opened the panel, so the Enter that a keyboard visitor presses next
+         toggled it straight back shut. The control announces `aria-expanded`
+         and has to behave like it, so focus lands on a closed panel and the
+         press is what opens it. Everything past the button — the entries
+         themselves — still opens on focus, which is what keeps the panel up
+         while tabbing through them. */
+      onFocusCapture={(e) => {
+        // React types a bubbled focus target as the div it is declared on.
+        if ((e.target as Node) !== toggleRef.current) setOpen(true);
+      }}
       onBlurCapture={(e) => {
         // Close only when focus leaves the whole widget (keyboard access).
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
@@ -62,6 +74,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
       }}
     >
       <button
+        ref={toggleRef}
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
@@ -100,6 +113,10 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
           <Link
             key={item.id}
             href={`#${item.id}`}
+            /* Same as the section headings in ./blocks.tsx: a hash resolves to
+               the tree that is already here, so the prefetch is a request for
+               the current page. */
+            prefetch={false}
             onClick={() => track("toc_navigate", { section_id: item.id })}
             aria-current={active === item.id ? "location" : undefined}
             className={cn(

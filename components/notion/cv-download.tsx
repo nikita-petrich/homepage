@@ -1,111 +1,123 @@
 "use client";
 
-import { ChevronDown, Download, FileText } from "lucide-react";
+import { useCallback, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { getContent } from "@/lib/data";
 import { useI18n } from "@/lib/i18n/provider";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Flag } from "./icons";
+
+import { CvButtonFace, type CvVariant } from "./cv-button-face";
+
+/* The CV button sits in the top bar of every page, and until a visitor asks
+ * for it there is nothing behind it but a two-item menu. Radix's dropdown —
+ * menu, popper, portal, focus scope, dismissable layer — is ~32 KiB of that
+ * page's JavaScript, and Lighthouse measured 99.7% of the chunk unused on
+ * first load. On /imprint, a page of plain text, it was most of what the main
+ * thread had to compile: 920 ms of total blocking time for a button nobody had
+ * pressed yet.
+ *
+ * So the button starts as what it looks like — a <Button> — and the real menu
+ * is fetched on the first sign of intent: hover or keyboard focus start the
+ * import, a press starts it and asks for the menu open.
+ *
+ * Three details make the swap honest, and each was a bug first.
+ *
+ * The import is driven from here and the resolved component is held in state,
+ * rather than going through next/dynamic. Both fetch the same chunk; the
+ * difference is what happens in between. next/dynamic renders its (empty)
+ * loading state as soon as it is asked for, so the button vanished for the
+ * couple of hundred milliseconds the fetch took — and a visitor who had tabbed
+ * onto it lost their focus to <body> along with the element holding it, so the
+ * Enter they pressed next did nothing. Keeping the placeholder until the module
+ * is in hand makes the exchange a single commit: one button, then the other.
+ *
+ * `onPointerDown`, not `onClick`, records a press. Focus arrives between
+ * pointerdown and click, so with focus starting the load, a fast chunk could
+ * swap the button out before the browser dispatched the click; the handler
+ * never ran and the menu needed a second press to open.
+ *
+ * `open` is controlled from here rather than passed as the menu's
+ * `defaultOpen`. A press can land before, during or after the chunk does, and
+ * `defaultOpen` is only read on mount — a controlled prop is read on every
+ * render, so the press lands whenever it happens.
+ *
+ * Nothing here is server-rendered: the placeholder is what the document should
+ * contain. Both render the same <Button> with the same CvButtonFace inside, so
+ * the swap changes no pixels. */
+type CvMenuComponent = typeof import("./cv-menu").CvMenu;
 
 export function CvDownload({
   variant = "hero",
   className,
 }: {
-  /** "closing" is the compact outline button inside the closing CTA card. */
-  variant?: "hero" | "topbar" | "closing";
+  variant?: CvVariant;
   className?: string;
 }) {
-  const { locale, ui } = useI18n();
-  const cvFiles = getContent(locale).cvFiles;
-  const isTopbar = variant === "topbar";
-  const isClosing = variant === "closing";
-  const isCompact = isTopbar || isClosing;
+  const { ui } = useI18n();
+  const [Menu, setMenu] = useState<CvMenuComponent | null>(null);
+  const [open, setOpen] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const started = useRef(false);
+
+  const load = useCallback(() => {
+    if (started.current) return;
+    started.current = true;
+    // Stored through an updater: the value is itself a function component, and
+    // a bare setState would call it instead of storing it.
+    void import("./cv-menu").then((m) => setMenu(() => m.CvMenu));
+  }, []);
+
+  const press = useCallback(() => {
+    setOpen(true);
+    load();
+  }, [load]);
+
+  if (Menu) {
+    return (
+      <Menu
+        variant={variant}
+        className={className}
+        open={open}
+        onOpenChange={setOpen}
+        takeFocus={focused}
+      />
+    );
+  }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant={isCompact ? "outline" : "default"}
-          size={isCompact ? "sm" : "lg"}
-          className={cn(
-            isCompact ? "h-[30px]" : "text-[15px]",
-            /* The button is whitespace-nowrap, so in a narrow container it
-               would otherwise grow past its parent instead of being clipped
-               to it. */
-            "max-w-full",
-            className,
-          )}
-          data-analytics-event="cv_menu_open"
-          data-analytics-prop-placement={variant}
-        >
-          {/* No download glyph in the closing card: a third of that row is
-              144px wide, and the German label only clears it once the icon is
-              gone. Nothing is lost — the card's own heading is "CV als PDF",
-              and the chevron still marks the button as the language chooser
-              its subline promises. */}
-          {!isClosing && <Download strokeWidth={2} />}
-          {isClosing ? (
-            <span className="min-w-0 truncate">{ui.cv.buttonShort}</span>
-          ) : (
-            <>
-              {/* In the topbar the label collapses with the viewport, but it
-                  stays in the accessibility tree rather than being replaced by
-                  an aria-label: a name that reads "CV-Download öffnen" while
-                  the button says "CV herunterladen" is a WCAG 2.5.3 (Label in
-                  Name) failure, and leaves voice control with nothing to
-                  say. */}
-              <span className={isTopbar ? "sr-only sm:not-sr-only" : undefined}>
-                {ui.cv.button}
-              </span>
-              <span className={isTopbar ? "sr-only md:not-sr-only" : undefined}>
-                {ui.cv.buttonSuffix}
-              </span>
-            </>
-          )}
-          <ChevronDown strokeWidth={2} className="opacity-70" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align={isTopbar ? "end" : "start"}
-        className="w-[248px] max-w-[calc(100vw-1.5rem)]"
-      >
-        <DropdownMenuLabel className="text-[11px] font-semibold tracking-[0.04em] text-muted-foreground uppercase">
-          {ui.cv.menuTitle}
-        </DropdownMenuLabel>
-        {cvFiles.map((f) => (
-          <DropdownMenuItem key={f.href} asChild className="gap-2.5 py-2">
-            <a
-              href={f.href}
-              download
-              data-analytics-event="cv_download"
-              data-analytics-prop-cv-lang={f.lang}
-              data-analytics-prop-placement={variant}
-            >
-              {/* The flag sits on the menu background directly — the hairline is
-                  the flag's own edge, not a frame. */}
-              <Flag
-                src={f.flag}
-                className="h-5 w-auto shrink-0 rounded-[3px] shadow-[0_0_0_1px_var(--border)]"
-              />
-              <span className="min-w-0 flex-1">
-                <span className="block text-sm font-semibold">{f.label}</span>
-                <span className="block text-xs text-muted-foreground">
-                  {f.sub}
-                </span>
-              </span>
-              <FileText className="shrink-0 text-muted-foreground" />
-            </a>
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      variant={variant === "hero" ? "default" : "outline"}
+      size={variant === "hero" ? "lg" : "sm"}
+      className={cn(
+        variant === "hero" ? "text-[15px]" : "h-[30px]",
+        /* The button is whitespace-nowrap, so in a narrow container it would
+           otherwise grow past its parent instead of being clipped to it. */
+        "max-w-full",
+        className,
+      )}
+      /* aria-haspopup/expanded say what this button is before Radix is here to
+         say it — a screen reader that reaches it while the chunk is in flight
+         is told it opens a menu, not that it is a plain button. */
+      aria-haspopup="menu"
+      aria-expanded={false}
+      data-analytics-event="cv_menu_open"
+      data-analytics-prop-placement={variant}
+      onPointerEnter={load}
+      onFocus={() => {
+        setFocused(true);
+        load();
+      }}
+      onBlur={() => setFocused(false)}
+      onPointerDown={press}
+      onKeyDown={(e) => {
+        // What Radix's own trigger answers to, so the keyboard path matches.
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          press();
+        }
+      }}
+    >
+      <CvButtonFace variant={variant} ui={ui} />
+    </Button>
   );
 }

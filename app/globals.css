@@ -279,3 +279,35 @@
     transform: none;
   }
 }
+
+/* Below-the-fold card grids: skip layout and paint until they are scrolled
+   near.
+
+   The home page is one document about 12,500px tall — nine project cards, nine
+   testimonials, nine certificates and the skills grid, each a small tree of
+   flex boxes, images and tag pills. All of it is laid out and painted before
+   the first frame, and none of it is on screen: on a 412px viewport the fold
+   falls inside the portrait at the top. Lighthouse measured 594ms of Style &
+   Layout on a mobile CPU for that, which is main-thread time the LCP element
+   is queued behind.
+
+   `content-visibility: auto` leaves the content in the DOM — it is still in
+   the accessibility tree, still found by find-in-page, still crawled, still
+   there for a jump from the table of contents — but the browser skips its
+   layout and paint while it is far off screen, and does the work as it comes
+   near.
+
+   `contain-intrinsic-size: auto <height>` is what keeps that from costing a
+   layout shift: the placeholder height stands in for a card that has not been
+   laid out yet, and `auto` tells the browser to remember each card's real
+   height once measured and use it from then on. The figures are the median
+   rendered heights of the two card shapes. */
+.np-defer-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 420px;
+}
+
+.np-defer-row {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 132px;
+}

@@ -187,7 +187,7 @@ export function ProjectGallery({ projects }: { projects: Project[] }) {
               data-analytics-prop-slug={p.slug}
               data-analytics-prop-source="gallery"
               style={{ boxShadow: "var(--notion-card-shadow)" }}
-              className="h-full cursor-pointer overflow-hidden rounded-lg bg-[var(--surface)] text-left transition-colors hover:bg-[var(--surface-hover-soft)]"
+              className="np-defer-card h-full cursor-pointer overflow-hidden rounded-lg bg-[var(--surface)] text-left transition-colors hover:bg-[var(--surface-hover-soft)]"
             >
               <ProjectCover
                 project={p}
