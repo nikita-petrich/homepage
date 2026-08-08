@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 
 import { InlineScript } from "@/components/inline-script";
 import { defaultLocale, localeMeta, localePath } from "@/lib/i18n/config";
@@ -19,12 +20,6 @@ import "./globals.css";
    one of the languages first. What lands here is a locale-prefixed path with
    nothing behind it, so the page is rendered in the fallback language. */
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 const ui = getUi(defaultLocale);
 
 export const metadata: Metadata = {
@@ -34,9 +29,19 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
+    /* The same two Geist faces the locale layout declares, and declared here
+       for two reasons. globals.css resolves --font-sans to var(--font-geist-sans),
+       so a page that sets any other variable renders in the ui-sans-serif
+       fallback — this page asked for Inter and never used a glyph of it.
+       And next/font hoists its @font-face rules into the CSS bundle of
+       whatever imports it: this file imports globals.css, which every page
+       shares, so the whole Inter family — eight subsets, one of them
+       <link rel=preload>ed at high priority — was downloaded on every page of
+       the site to be rendered on none of them. Reusing Geist ships nothing
+       extra: these faces are already on the critical path. */
     <html
       lang={localeMeta[defaultLocale].htmlLang}
-      className={`${inter.variable} antialiased`}
+      className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>

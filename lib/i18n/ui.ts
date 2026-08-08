@@ -185,9 +185,16 @@ const ui = {
       "View testimonial by {name}",
     ),
     viewAll: t("Alle {count} ansehen", "View all {count}"),
+    /* Accessible name of the link whose visible text is `viewAll`, so it has
+       to *start* with that text verbatim: WCAG 2.5.3 (Label in Name) asks that
+       the visible label be contained in the accessible name, and anyone
+       driving the page by voice says what they can see. The German label used
+       to wrap the visible words around the extra context ("Alle 4 Referenzen
+       zu X ansehen"), which reads well but leaves "Alle 4 ansehen" impossible
+       to match — a spoken "Alle 4 ansehen" hit nothing. */
     viewAllReferences: t(
-      "Alle {count} Referenzen zu {project} ansehen",
-      "View all {count} testimonials for {project}",
+      "Alle {count} ansehen: Referenzen zu {project}",
+      "View all {count}: testimonials for {project}",
     ),
   },
 

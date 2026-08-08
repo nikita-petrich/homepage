@@ -129,8 +129,15 @@ async function proxy(
     headers: {
       "content-type":
         res.headers.get("content-type") ?? "application/octet-stream",
+      /* The tracker is versioned with the Umami instance, not with this build,
+         so the day-long lifetime stays — but `stale-while-revalidate` keeps the
+         expiry off the critical path: the day-old copy is used immediately and
+         refreshed in the background instead of blocking the first hit after
+         midnight on a round trip to the analytics host. */
       "cache-control":
-        target === "script.js" ? "public, max-age=86400" : "no-store",
+        target === "script.js"
+          ? "public, max-age=86400, stale-while-revalidate=604800"
+          : "no-store",
     },
   });
 }
