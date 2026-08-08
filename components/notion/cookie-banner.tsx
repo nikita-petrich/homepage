@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { MoreHorizontal } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import {
   OPEN_CONSENT_EVENT,
   readConsent,
@@ -13,9 +13,12 @@ import {
 import { track } from "@/lib/analytics/track";
 import { localePath } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/provider";
-import type { Ui } from "@/lib/i18n/ui";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+
+/* Loaded when the panel is asked for — see ./consent-panel.tsx. */
+const ConsentPanel = dynamic(
+  () => import("./consent-panel").then((m) => m.ConsentPanel),
+  { ssr: false },
+);
 
 /* Privacy banner. This site tracks cookieless and anonymous (stage 1, no
    consent required — see lib/analytics/consent.ts), so this banner INFORMS
@@ -75,7 +78,7 @@ export function CookieBanner() {
   return (
     <div className="fixed bottom-4 left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-[620px] -translate-x-1/2">
       {customize && (
-        <CustomizePanel
+        <ConsentPanel
           ui={ui}
           statistics={statistics}
           onToggleStatistics={() => setStatistics((v) => !v)}
@@ -91,6 +94,12 @@ export function CookieBanner() {
           {ui.consent.text}{" "}
           <Link
             href={localePath(locale, "/privacy")}
+            /* The banner is on screen during the first load of every page, so
+               a prefetch here fetches the privacy policy alongside the page the
+               visitor actually asked for — for a link most of them will
+               dismiss rather than follow. It is one navigation away either
+               way. */
+            prefetch={false}
             className="underline underline-offset-2 hover:text-background"
           >
             {ui.consent.details}
@@ -121,76 +130,6 @@ export function CookieBanner() {
             <MoreHorizontal size={18} />
           </button>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function CustomizePanel({
-  ui,
-  statistics,
-  onToggleStatistics,
-  onDone,
-}: {
-  ui: Ui;
-  statistics: boolean;
-  onToggleStatistics: () => void;
-  onDone: () => void;
-}) {
-  const rows = [
-    {
-      key: "necessary",
-      title: ui.consent.necessaryTitle,
-      desc: ui.consent.necessaryDesc,
-      on: true,
-      disabled: true,
-      onToggle: undefined as (() => void) | undefined,
-    },
-    {
-      key: "statistics",
-      title: ui.consent.statisticsTitle,
-      desc: ui.consent.statisticsDesc,
-      on: statistics,
-      disabled: false,
-      onToggle: onToggleStatistics,
-    },
-  ];
-
-  return (
-    /* w-full + max-w: a fixed 340px overflowed the banner's own
-       calc(100%-1.5rem) width on a 320px screen and ran off the left edge. */
-    <div className="absolute right-0 bottom-full mb-2 w-full max-w-[340px] overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-lg">
-      <div className="flex items-center justify-between px-4 py-3">
-        <span className="text-[15px] font-medium">{ui.consent.settings}</span>
-        <Button variant="outline" size="sm" onClick={onDone}>
-          {ui.consent.done}
-        </Button>
-      </div>
-
-      <div className="max-h-[320px] overflow-y-auto">
-        {rows.map((row, i) => (
-          <div
-            key={row.key}
-            className={cn(
-              "flex items-start justify-between gap-3 px-4 py-3",
-              i === 0 && "bg-muted",
-            )}
-          >
-            <div className="min-w-0">
-              <div className="text-[14px] font-medium">{row.title}</div>
-              <div className="mt-0.5 text-[13px] leading-[1.4] text-muted-foreground">
-                {row.desc}
-              </div>
-            </div>
-            <Switch
-              checked={row.on}
-              disabled={row.disabled}
-              onCheckedChange={row.onToggle ? () => row.onToggle!() : undefined}
-              aria-label={row.title}
-              className="mt-1"
-            />
-          </div>
-        ))}
       </div>
     </div>
   );

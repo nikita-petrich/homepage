@@ -62,9 +62,19 @@ export function TableShell({ children }: { children: React.ReactNode }) {
    columns of 298px), on /certificates the full 980px page (916px → three
    columns of 295px). Both land near 300px, so one string covers them; the
    steps below track the points where the column count changes and never
-   understate either layout. */
+   understate either layout.
+
+   The narrowest step is the content column, not the viewport, for the same
+   reason the portrait in app/[locale]/page.tsx spells its own out: below `sm`
+   both pages give <main> 24px of padding a side, so a card on a 412px phone is
+   364px wide, not 412. Claiming the full viewport rounded every tile up one
+   srcset step — 750w files for a box that needs 640w — which Lighthouse
+   measured as 70 KiB of overshoot across a certificates gallery. Writing it as
+   calc() also keeps the small variants reachable: next/image floors the ladder
+   at deviceSizes[0] × the smallest bare vw figure in the string, so a plain
+   `100vw` would leave nothing below 640w to choose from either. */
 export const CARD_COVER_SIZES =
-  "(max-width: 543px) 100vw, (max-width: 767px) 50vw, (max-width: 847px) 60vw, 300px";
+  "(max-width: 543px) calc(100vw - 3rem), (max-width: 767px) 50vw, (max-width: 847px) 60vw, 300px";
 
 export function GalleryGrid({
   wide = false,

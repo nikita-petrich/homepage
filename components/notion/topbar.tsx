@@ -28,6 +28,12 @@ export function NotionTopBar() {
           viewport on a 320px phone. The logo alone still links home. */}
       <Link
         href={localePath(locale)}
+        /* On the home page this points at the page it is rendered on, so the
+           prefetch re-fetches the current route — 40 KiB of RSC payload, the
+           single largest request of the load, for a navigation that would be a
+           no-op. Elsewhere it is one link back home, cheap enough to fetch on
+           the click. */
+        prefetch={false}
         className="-mx-1 flex min-h-[24px] shrink-0 items-center gap-2 px-1 text-[14px] font-medium"
       >
         <CodeLogo size={18} className="shrink-0" />

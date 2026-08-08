@@ -174,7 +174,7 @@ function ReferenceCard({ reference: r }: { reference: Reference }) {
       data-analytics-prop-slug={r.slug}
       data-analytics-prop-source="gallery"
       style={{ boxShadow: "var(--notion-card-shadow)" }}
-      className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-[var(--surface)] text-left transition-colors hover:bg-[var(--surface-hover-soft)]"
+      className="np-defer-card group flex h-full cursor-pointer flex-col overflow-hidden rounded-lg bg-[var(--surface)] text-left transition-colors hover:bg-[var(--surface-hover-soft)]"
     >
       <ReferenceCover reference={r} />
       <div className="flex flex-1 flex-col gap-[6px] p-[11px]">

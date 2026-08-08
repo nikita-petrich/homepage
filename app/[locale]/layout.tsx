@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
 import { notFound } from "next/navigation";
 
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
@@ -10,6 +9,7 @@ import { Footer } from "@/components/notion/footer";
 import { PersonJsonLd } from "@/components/notion/json-ld";
 import { ThemeSync } from "@/components/notion/theme-sync";
 import { getContent } from "@/lib/data";
+import { GeistMono } from "@/lib/fonts";
 import { isLocale, localeMeta, localePath, locales } from "@/lib/i18n/config";
 import { I18nProvider } from "@/lib/i18n/provider";
 import { getUi } from "@/lib/i18n/ui";

@@ -83,6 +83,13 @@ export function Section({
         {id ? (
           <Link
             href={`#${id}`}
+            /* A hash is not a route: the tree this link resolves to is the one
+               already rendered, so there is nothing to fetch. Left to itself
+               Link prefetches it anyway — and the home page has eleven of these
+               headings, so eleven observers each asked the server for the page
+               they were sitting on. It arrived as ~65 KiB of RSC payload
+               during the load it was competing with. */
+            prefetch={false}
             className="group/anchor inline-flex items-baseline gap-1.5"
           >
             <span className="underline-offset-[6px] group-hover/anchor:underline">

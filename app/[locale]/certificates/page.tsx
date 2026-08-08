@@ -63,7 +63,7 @@ export default async function CertificatesPage({
         </p>
 
         <div className="mt-7">
-          <CertificateGallery certificates={certificates} />
+          <CertificateGallery certificates={certificates} leadsPage />
         </div>
       </main>
     </div>

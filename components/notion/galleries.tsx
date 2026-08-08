@@ -86,7 +86,7 @@ export function SkillsGallery({ skills }: { skills: SkillCategory[] }) {
                   <div
                     key={cat.num}
                     style={cardShadow}
-                    className="h-full overflow-hidden rounded-lg bg-[var(--surface)]"
+                    className="np-defer-card h-full overflow-hidden rounded-lg bg-[var(--surface)]"
                   >
                     <div className="flex flex-col gap-[11px] p-[13px]">
                       <div className="flex items-center gap-[9px]">

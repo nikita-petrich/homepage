@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
 
 import { InlineScript } from "@/components/inline-script";
+import { GeistMono } from "@/lib/fonts";
 import { defaultLocale, localeMeta, localePath } from "@/lib/i18n/config";
 import { getUi } from "@/lib/i18n/ui";
 import { themeInitScript } from "@/lib/theme";
@@ -38,7 +38,12 @@ export default function GlobalNotFound() {
        shares, so the whole Inter family — eight subsets, one of them
        <link rel=preload>ed at high priority — was downloaded on every page of
        the site to be rendered on none of them. Reusing Geist ships nothing
-       extra: these faces are already on the critical path. */
+       extra: these faces are already on the critical path.
+
+       Mono comes from @/lib/fonts, the same declaration the locale layout uses,
+       for the second of those reasons: `geist/font/mono` preloads, and one
+       import of it anywhere puts that <link rel=preload> back into the shared
+       CSS bundle — on every page of the site, not just this one. */
     <html
       lang={localeMeta[defaultLocale].htmlLang}
       className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
