@@ -164,11 +164,12 @@ export const profileLinks = [
   { label: "Malt", href: "https://www.malt.de/profile/nikitapetrich" },
 ];
 
-/* The "about" block. Five paragraphs: positioning, the guiding principle with
+/* The "about" block. Six paragraphs: positioning, the guiding principle with
    the proof numbers behind it, how that principle applies to the development
-   itself, the way of working, and the track record. Bold marks what a skimming
-   reader should come away with — the role, the principle, the savings and the
-   scale figures. The closing question and the booking button under the callout
+   itself, which half of the stack he works in, the way of working, and the
+   track record. Bold marks what a skimming reader should come away with — the
+   role, the principle, the savings, the two stack halves and the scale
+   figures. The closing question and the booking button under the callout
    carry the CTA, so the text itself stops after the track record. */
 export type IntroLine = { spans: RichLine };
 
@@ -290,6 +291,39 @@ export const intro: IntroLine[] = [
         t: t(
           "Wartbarkeit, Nachvollziehbarkeit und Stabilität",
           "maintainability, traceability and stability",
+        ),
+        b: true,
+      },
+      { t: "." },
+    ],
+  },
+  /* Answers the question a recruiter asks before anything else — which half of
+     the stack is this. The CV lists both halves and then says the role can be
+     cut either way; without that last clause "full-stack" reads as a package
+     deal and a backend-only brief moves on. */
+  {
+    spans: [
+      { t: t("Zuhause bin ich in ", "I'm at home in both ") },
+      {
+        t: t(
+          "Backend (NestJS · Node.js · FastAPI)",
+          "backend (NestJS · Node.js · FastAPI)",
+        ),
+        b: true,
+      },
+      { t: t(" und ", " and ") },
+      {
+        t: t(
+          "Frontend (Next.js · React · Angular)",
+          "frontend (Next.js · React · Angular)",
+        ),
+        b: true,
+      },
+      { t: t(" – offen für ", " – open to ") },
+      {
+        t: t(
+          "Full-Stack-, reine Backend- oder reine Frontend-Aufgaben",
+          "full-stack, backend-only or frontend-only work",
         ),
         b: true,
       },
