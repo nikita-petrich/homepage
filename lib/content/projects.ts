@@ -1002,10 +1002,7 @@ export const projects: ProjectSource[] = [
     meta: [
       { label: label.role, value: t("Full-Stack Engineer", "Full-stack engineer") },
       { label: label.team, value: t("2–4 Personen", "2–4 people") },
-      {
-        label: label.location,
-        value: t("Deutschland · Vor Ort / Hybrid", "Germany · on site / hybrid"),
-      },
+      { label: label.location, value: t("Bremen, DE · Hybrid", "Bremen, DE · hybrid") },
       { label: label.language, value: german },
       {
         label: label.visibility,
