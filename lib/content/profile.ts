@@ -27,14 +27,16 @@ export const profile = {
   ),
 };
 
-/* The page count used to be the subtitle here. Ten pages is not a selling
-   point — it is a warning — so the line says what the file is instead.
+/* The two CVs live in a public Google Drive folder, and app/cv/[file] streams
+   them from there so the CV is maintained in one place rather than committed a
+   second time under public/cv/. The route resolves each file by *name* in this
+   folder (the basename of `href`), so replacing a CV is just dropping a new
+   CV-German.pdf into it — there is no per-file id to keep in sync. The folder is
+   public by design, so its id is not a secret. */
+export const cvDriveFolderId = "1zfW069MqEkocmr8HXvnves4GI9xzXd0y";
 
-   `href` stays a normal same-origin path: it is served by app/cv/[file], which
-   streams the file from the public Google Drive folder so the CV is maintained
-   in one place (Drive) rather than committed a second time under public/cv/.
-   `driveId` is the source file there — public by design, so it is not a secret,
-   and app/cv/[file] reads its allowlist straight from this list. */
+/* The page count used to be the subtitle here. Ten pages is not a selling
+   point — it is a warning — so the line says what the file is instead. */
 export const cvFiles = [
   {
     /* `lang` rather than reading the language back out of the file name: the
@@ -42,7 +44,6 @@ export const cvFiles = [
        relabel every download. */
     lang: "de",
     href: "/cv/CV-German.pdf",
-    driveId: "1Ot8jzyqnr91DVoVPNTYyI20yLuUuWczv",
     label: t("CV Deutsch", "CV German"),
     flag: "/assets/flags/de.svg",
     sub: t("PDF · zum Weiterleiten", "PDF · ready to forward"),
@@ -50,7 +51,6 @@ export const cvFiles = [
   {
     lang: "en",
     href: "/cv/CV-English.pdf",
-    driveId: "1DXFTWEpBKPO4IG-0pVslonc79dsfqzAb",
     label: t("CV Englisch", "CV English"),
     flag: "/assets/flags/gb.svg",
     sub: t("PDF · zum Weiterleiten", "PDF · ready to forward"),
