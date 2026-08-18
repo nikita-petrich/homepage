@@ -62,11 +62,14 @@ languages:
 
 Both URLs are served by the route handler in `app/cv/[file]/route.ts`, which
 streams the file from a public Google Drive folder instead of from a copy in the
-repo — so the CV is maintained in one place and a new version dropped in Drive
-appears on the site without a deploy. The download stays first-party (no visitor
-ever connects to Google, so the site's google-free privacy posture holds), keeps
-its permanent `/cv/…` URL and its filename, and the Drive id of each file sits
-next to its menu entry in `lib/content/profile.ts` (`cvFiles`).
+repo — so the CV is maintained in one place and a new upload appears on the site
+without a deploy. The route matches by **filename**: `/cv/CV-German.pdf` serves
+whichever file is named `CV-German.pdf` in the folder, so replacing a CV is just
+dropping a new file of that name into Drive — no file id to keep in sync. The
+download stays first-party (no visitor ever connects to Google, so the site's
+google-free privacy posture holds) and keeps its permanent `/cv/…` URL and
+filename; the folder is `cvDriveFolderId` in `lib/content/profile.ts`, next to
+the `cvFiles` menu entries.
 
 ## Tech stack
 
