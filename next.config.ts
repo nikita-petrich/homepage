@@ -64,23 +64,19 @@ const nextConfig: NextConfig = {
       /* Files served straight out of /public. Next fingerprints its own build
          output and caches it forever, but anything in /public it hands to the
          static handler with `Cache-Control: public, max-age=0` — so a repeat
-         visitor revalidates the portrait, every flag and both CV PDFs on each
-         visit.
-         These URLs are permanent and their contents are not: /cv/CV-German.pdf
-         keeps its name when the CV is rewritten. So the lifetime is finite and
-         `stale-while-revalidate` carries the refresh — a cached copy is served
-         instantly and replaced in the background, and the worst case is one
-         page view showing yesterday's file rather than a year of a hard-pinned
-         one.
+         visitor would revalidate the portrait and every flag on each visit.
+         These URLs are permanent and their contents are not (the portrait is
+         replaced, a flag redrawn), so the lifetime is finite and
+         `stale-while-revalidate` carries the refresh: a cached copy is served
+         instantly and replaced in the background.
 
-         Scoped by path, not by a blanket rule: /certificates/<slug> without an
-         extension is a page, and proxy.ts answers it with a per-visitor 307 to
-         the matching locale. Caching that publicly would pin the first
-         visitor's language onto everyone. The PDFs under the same prefix carry
-         an extension, which is exactly how proxy.ts's matcher tells the two
-         apart. */
+         The CVs used to be cached here too, under /cv/. They are no longer
+         files in /public — app/cv/[file] streams them from the public Google
+         Drive folder and sets its own Cache-Control (a shorter one, so an edit
+         in Drive reaches visitors without a deploy), so this rule need not — and
+         must not, or the two would fight — cover them. */
       {
-        source: "/:dir(assets|cv)/:path*",
+        source: "/assets/:path*",
         headers: [
           {
             key: "Cache-Control",
@@ -88,6 +84,11 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      /* Scoped to the .pdf extension, not the whole prefix: /certificates/<slug>
+         without one is a page, and proxy.ts answers it with a per-visitor 307 to
+         the matching locale — caching that publicly would pin the first
+         visitor's language onto everyone. The extension is exactly how proxy.ts's
+         matcher tells the certificate files from the pages. */
       {
         source: "/certificates/:file(.+\\.pdf)",
         headers: [
