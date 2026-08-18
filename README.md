@@ -57,8 +57,16 @@ The top bar and the intro callout each expose a **CV herunterladen** /
 **CV download** button that opens a menu to download the CV as a PDF in two
 languages:
 
-- 🇩🇪 `public/cv/CV-German.pdf`
-- 🇬🇧 `public/cv/CV-English.pdf`
+- 🇩🇪 `/cv/CV-German.pdf`
+- 🇬🇧 `/cv/CV-English.pdf`
+
+Both URLs are served by the route handler in `app/cv/[file]/route.ts`, which
+streams the file from a public Google Drive folder instead of from a copy in the
+repo — so the CV is maintained in one place and a new version dropped in Drive
+appears on the site without a deploy. The download stays first-party (no visitor
+ever connects to Google, so the site's google-free privacy posture holds), keeps
+its permanent `/cv/…` URL and its filename, and the Drive id of each file sits
+next to its menu entry in `lib/content/profile.ts` (`cvFiles`).
 
 ## Tech stack
 
@@ -186,7 +194,8 @@ wording next to each other:
 Testimonials live in `lib/references.json` — the file the PDF CV shares — and
 their translations in `lib/content/references.ts`; both are validated at build
 time, including a check that the original wording still matches the JSON. The
-CV PDFs are generated separately and committed under `public/cv/`.
+CV PDFs are generated separately and kept in a public Google Drive folder, from
+where `app/cv/[file]` streams them (see *CV download* above).
 
 Technology and skill terms are translated once in `lib/content/terms.ts` and
 reused by the projects, the skills database and the schema.org markup, so a
