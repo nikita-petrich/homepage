@@ -1,5 +1,7 @@
 import { LegalSection } from "@/components/notion/legal";
 
+import { vatId } from "@/lib/profile";
+
 /* Courtesy translation — the German version is the legally binding one, which
    the note above this content says explicitly. German legal references (DDG,
    MStV, VSBG) are kept as they are: they name the actual statutes. */
@@ -36,7 +38,7 @@ export function ImprintEn() {
         <p>
           VAT identification number pursuant to § 27a of the German VAT Act:
           <br />
-          DE368159064
+          {vatId}
         </p>
       </LegalSection>
 

@@ -1,5 +1,7 @@
 import { LegalSection } from "@/components/notion/legal";
 
+import { vatId } from "@/lib/profile";
+
 export function ImprintDe() {
   return (
     <>
@@ -33,7 +35,7 @@ export function ImprintDe() {
         <p>
           Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:
           <br />
-          DE368159064
+          {vatId}
         </p>
       </LegalSection>
 
