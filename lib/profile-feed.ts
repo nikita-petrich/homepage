@@ -1,3 +1,4 @@
+import { profileLinks } from "./content/profile";
 import {
   getContent,
   type Content,
@@ -270,6 +271,9 @@ export function profileJson() {
     },
     location: profileLocation,
     vat_id: vatId,
+    /* The platform profiles, as pairs rather than as prose: a signature block
+       built from this must not have to find "LinkedIn:" in a paragraph. */
+    profiles: profileLinks.map((link) => ({ label: link.label, href: link.href })),
     sentences: {
       availability: {
         de:
