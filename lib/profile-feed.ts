@@ -49,7 +49,7 @@ const HEADING: Record<Locale, Record<string, string>> = {
     testimonials: "Referenzen",
     certificates: "Zertifikate",
     profiles: "Profile",
-    signature: "Kontakt & Signatur",
+    contactBlock: "Kontakt",
     role: "Rolle",
     period: "Zeitraum",
     client: "Kunde",
@@ -73,7 +73,7 @@ const HEADING: Record<Locale, Record<string, string>> = {
     testimonials: "Testimonials",
     certificates: "Certificates",
     profiles: "Profiles",
-    signature: "Contact & signature",
+    contactBlock: "Contact",
     role: "Role",
     period: "Period",
     client: "Client",
@@ -136,10 +136,13 @@ function projectBlock(project: Project, locale: Locale): string[] {
   return lines;
 }
 
-/* The values an application's signature block is built from. They are the same
-   in both languages except the booking link and the location line, so they are
-   listed as labelled pairs rather than woven into prose: a generator copying
-   them must not have to guess where a value ends. */
+/* How to reach him, as labelled pairs rather than prose, so a reader copying a
+   value does not have to guess where it ends.
+
+   Deliberately headed "Contact" and not "Contact & signature": a consumer
+   assembling a mail signature reads the JSON feed, whose values are exact and
+   complete, and two sections of the same name in one document would leave it
+   reading whichever came first. */
 function signature(locale: Locale): string[] {
   return [
     `- **Name:** ${profileName}`,
@@ -220,7 +223,7 @@ export function profileMarkdown(locale: Locale): string {
     lines.push(`- ${link.label}: ${link.href}`);
   }
 
-  lines.push("", `## ${h.signature}`, "", ...signature(locale), "");
+  lines.push("", `## ${h.contactBlock}`, "", ...signature(locale), "");
 
   return `${lines.join("\n").replace(/\n{3,}/g, "\n\n").trim()}\n`;
 }
