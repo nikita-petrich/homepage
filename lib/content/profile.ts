@@ -1,6 +1,13 @@
 import { experienceYears, experienceYearsPlus } from "@/lib/experience";
 import { t } from "@/lib/i18n/text";
-import { accentColor, bookingUrl, profileName } from "@/lib/profile";
+import {
+  accentColor,
+  bookingUrl,
+  contactEmail,
+  contactPhone,
+  profileName,
+  rate,
+} from "@/lib/profile";
 
 /* Identity, sidebar and hero content. Every visible string carries both
    languages via t(); anything without it (names, URLs, technologies) is
@@ -58,8 +65,12 @@ export const cvFiles = [
 ];
 
 export const contact = [
-  { icon: "phone", text: "+49 15679088678", href: "tel:+4915679088678" },
-  { icon: "mail", text: "n.petrich@sequenz.io", href: "mailto:n.petrich@sequenz.io" },
+  {
+    icon: "phone",
+    text: contactPhone,
+    href: `tel:${contactPhone.replace(/\s/g, "")}`,
+  },
+  { icon: "mail", text: contactEmail, href: `mailto:${contactEmail}` },
   { icon: "globe", text: "https://sequenz.io", href: "https://sequenz.io" },
 ];
 
@@ -90,9 +101,12 @@ export const facts: Fact[] = [
     value: t("ab sofort · Vollzeit", "immediately · full time"),
   },
   {
+    /* Named openly rather than "on request": an enquiry that founders on the
+       rate should founder before either side spends a call on it. "From",
+       because the scope decides the rest. */
     label: t("Stundensatz", "Rate"),
     icon: "wallet",
-    value: t("auf Anfrage", "on request"),
+    value: t(rate.label.de, rate.label.en),
   },
   {
     label: t("Qualifikation", "Qualification"),
