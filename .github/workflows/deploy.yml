@@ -63,6 +63,16 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # The server sits behind a 5G connection with carrier-grade NAT: no inbound
+      # port, no public address. The runner joins the tailnet for the length of
+      # the job and reaches the host over its private name instead.
+      - name: Join the tailnet
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+
       # VPS_HOST_KEY pins the server's host key. Without it the first SSH
       # connection of every run trusts whatever answers on that address
       # (ssh-keyscan is trust-on-first-use, and each runner starts empty), so a
