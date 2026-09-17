@@ -1,7 +1,9 @@
+import { availabilityLabel } from "@/lib/availability";
 import { experienceYears, experienceYearsPlus } from "@/lib/experience";
 import { t } from "@/lib/i18n/text";
 import {
   accentColor,
+  availability,
   bookingUrl,
   contactEmail,
   contactPhone,
@@ -81,6 +83,8 @@ export const contact = [
    other. The type is spelled out rather than inferred so `details` stays
    optional across the array. */
 type Fact = {
+  /** Marks a fact whose value is filled in at render time rather than here. */
+  live?: "availability";
   label: ReturnType<typeof t>;
   /** Key into FACT_ICONS in components/notion/blocks.tsx. */
   icon: string;
@@ -96,9 +100,17 @@ export const facts: Fact[] = [
     value: t(`${experienceYearsPlus} Jahre`, `${experienceYearsPlus} years`),
   },
   {
+    /* Maintained in project-pilot, not here: the page and the markdown twin
+       replace this value with the live one (lib/availability.ts). What stands
+       here is the fallback's wording, for anything reading the content tree
+       directly. */
+    live: "availability",
     label: t("Verfügbar", "Availability"),
     icon: "calendar-check",
-    value: t("ab sofort · Vollzeit", "immediately · full time"),
+    value: t(
+      availabilityLabel(availability.fallback, "de"),
+      availabilityLabel(availability.fallback, "en"),
+    ),
   },
   {
     /* Named openly rather than "on request": an enquiry that founders on the

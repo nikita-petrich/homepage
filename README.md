@@ -135,6 +135,7 @@ components/
 lib/
   data.ts               Content assembled and resolved for one locale
   profile.ts            Name, role, booking URL — language-independent
+  availability.ts       Live availability from project-pilot, with fallback
   theme.ts              Theme storage, the pre-paint script, sync helpers
   i18n/
     config.ts           Locales, cookie, path helpers, Accept-Language match
@@ -203,6 +204,19 @@ where `app/cv/[file]` streams them (see *CV download* above).
 Technology and skill terms are translated once in `lib/content/terms.ts` and
 reused by the projects, the skills database and the schema.org markup, so a
 term reads the same everywhere.
+
+### Availability
+
+The one key fact not maintained here. From when and in what capacity Nik takes
+work is set in project-pilot, which publishes it at
+`https://mcp-project-pilot.sequenz.io/availability` (override with the
+`AVAILABILITY_URL` environment variable). `lib/availability.ts` reads it for the
+sidebar, the markdown twins (`/de.md`, `/en.md`) and `/api/profile.json`; those
+pages are static and re-rendered at most every five minutes. When the endpoint
+cannot be reached, answers with an error, or has nothing set, the site shows
+the fallback in `lib/profile.ts` (`availability.fallback`, "ab sofort ·
+Vollzeit") instead, so a new value there needs a deploy, a new value in
+project-pilot does not.
 
 ### Profile photo
 
