@@ -1,17 +1,21 @@
+import { getAvailability } from "./availability";
 import { profileMarkdown } from "./profile-feed";
 import type { Locale } from "./i18n/config";
 
 /* One response shape for the markdown twins, so /de.md and /en.md cannot drift
    apart in anything but their locale.
 
-   Cached like the page itself: the content is compiled into the build, so a new
-   profile means a new deployment either way. `s-maxage` lets the edge hold it;
-   `stale-while-revalidate` means a reader never waits on a revalidation. */
-export function markdownResponse(locale: Locale): Response {
-  return new Response(profileMarkdown(locale), {
+   Cached like the page itself: most of the content is compiled into the build,
+   but the availability is project-pilot's and revalidates every five minutes,
+   so the edge may hold a copy no longer than that. `stale-while-revalidate`
+   means a reader never waits on a revalidation. */
+export const FEED_CACHE_CONTROL = "public, s-maxage=300, stale-while-revalidate=3600";
+
+export async function markdownResponse(locale: Locale): Promise<Response> {
+  return new Response(profileMarkdown(locale, await getAvailability()), {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
-      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      "Cache-Control": FEED_CACHE_CONTROL,
     },
   });
 }

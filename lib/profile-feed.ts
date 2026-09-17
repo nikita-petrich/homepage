@@ -1,3 +1,9 @@
+import {
+  availabilitySentence,
+  capacityPercent,
+  withLiveAvailability,
+  type Availability,
+} from "./availability";
 import { profileLinks } from "./content/profile";
 import {
   getContent,
@@ -156,9 +162,10 @@ function signature(locale: Locale): string[] {
   ];
 }
 
-export function profileMarkdown(locale: Locale): string {
+export function profileMarkdown(locale: Locale, live: Availability): string {
   const content = getContent(locale);
   const h = HEADING[locale];
+  const facts = withLiveAvailability(content.facts, live, locale);
   const lines: string[] = [
     `# ${content.profile.name} — ${content.profile.role}`,
     "",
@@ -171,7 +178,7 @@ export function profileMarkdown(locale: Locale): string {
     ...intro(content.intro).flatMap((paragraph) => [paragraph, ""]),
     `## ${h.facts}`,
     "",
-    ...factLines(content.facts),
+    ...factLines(facts),
     "",
     `## ${h.languages}`,
     "",
@@ -238,7 +245,7 @@ export function profileMarkdown(locale: Locale): string {
  */
 export type ProfileFeed = ReturnType<typeof profileJson>;
 
-export function profileJson() {
+export function profileJson(live: Availability) {
   return {
     name: profileName,
     role: profileRole,
@@ -248,8 +255,11 @@ export function profileJson() {
       en: `${siteUrl}/en.md`,
     },
     availability: {
-      from: availability.from,
-      capacity_percent: availability.capacityPercent,
+      /* An ISO date, or "immediately" once that date is today or past. */
+      from: live.from ?? "immediately",
+      scope: live.scope,
+      hours_per_week: live.hoursPerWeek,
+      capacity_percent: capacityPercent(live),
       onsite_max_percent: availability.onsiteMaxPercent,
       employee_leasing: availability.employeeLeasing,
     },
@@ -279,13 +289,8 @@ export function profileJson() {
     profiles: profileLinks.map((link) => ({ label: link.label, href: link.href })),
     sentences: {
       availability: {
-        de:
-          `Der Projektstart wäre ab sofort in Vollzeit (${availability.capacityPercent} %, ` +
-          `davon maximal ${availability.onsiteMaxPercent} % vor Ort) möglich.`,
-        en:
-          `I would be available to start immediately, working full-time ` +
-          `(${availability.capacityPercent} %, of which at most ` +
-          `${availability.onsiteMaxPercent} % on-site).`,
+        de: availabilitySentence(live, "de", availability.onsiteMaxPercent),
+        en: availabilitySentence(live, "en", availability.onsiteMaxPercent),
       },
       rate: {
         de:

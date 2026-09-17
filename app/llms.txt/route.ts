@@ -17,7 +17,7 @@ const body = `# ${profileName} — ${profileRole}
 
 - [Profile (German)](${siteUrl}/de.md): positioning, key facts, skills, reference projects, testimonials, contact and signature values.
 - [Profile (English)](${siteUrl}/en.md): the same profile in English.
-- [Facts as JSON](${siteUrl}/api/profile.json): availability, capacity, on-site ceiling, rate, booking links, and ready-made availability and rate sentences.
+- [Facts as JSON](${siteUrl}/api/profile.json): availability (start date, full- or part-time, hours per week; refreshed every five minutes), capacity, on-site ceiling, rate, booking links, and ready-made availability and rate sentences.
 
 ## Pages
 

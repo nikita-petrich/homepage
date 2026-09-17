@@ -24,9 +24,14 @@ import { ProjectGallery } from "@/components/notion/projects";
 import { ReferenceGallery } from "@/components/notion/references";
 import { TableOfContents } from "@/components/notion/toc";
 import { NotionTopBar } from "@/components/notion/topbar";
+import { getAvailability, withLiveAvailability } from "@/lib/availability";
 import { bookingUrlFor, getContent } from "@/lib/data";
 import { isLocale, localePath } from "@/lib/i18n/config";
 import { getUi } from "@/lib/i18n/ui";
+
+/* Static, but re-rendered at most every five minutes: the availability in the
+   key facts is project-pilot's (lib/availability.ts). */
+export const revalidate = 300;
 
 export default async function Page({
   params,
@@ -37,11 +42,12 @@ export default async function Page({
   if (!isLocale(locale)) notFound();
 
   const ui = getUi(locale);
+  const content = getContent(locale);
+  const facts = withLiveAvailability(content.facts, await getAvailability(), locale);
   const {
     approach,
     certificates,
     contact,
-    facts,
     focus,
     intro,
     languages,
@@ -51,7 +57,7 @@ export default async function Page({
     references,
     sections,
     skills,
-  } = getContent(locale);
+  } = content;
 
   return (
     <div className="min-h-screen bg-[var(--notion-bg)]">

@@ -4,6 +4,7 @@
  * page) can use them without pulling the whole content tree — projects,
  * certificates and testimonials — into the browser bundle. */
 
+import type { Availability } from "@/lib/availability";
 import type { Locale } from "@/lib/i18n/config";
 
 export const profileName = "Nikita Petrich";
@@ -53,11 +54,14 @@ export const rate = {
 /* The availability figures as numbers rather than prose. The sidebar renders a
    sentence from them and /api/profile.json publishes them unrounded, because an
    agent filling in a "capacity %" field cannot parse "Vollzeit" reliably and
-   must not have to guess. */
+   must not have to guess.
+
+   From when and in what capacity is project-pilot's to say: lib/availability.ts
+   reads it from there. `fallback` is only what the site shows while that source
+   cannot be reached or has nothing set, so keep it a value that is safe to show
+   for a while. The on-site ceiling and employee leasing stay maintained here. */
 export const availability = {
-  /** ISO date, or "immediately" when there is nothing to wait for. */
-  from: "immediately" as const,
-  capacityPercent: 100,
+  fallback: { from: null, scope: "full_time", hoursPerWeek: null } as Availability,
   /** Ceiling on presence, whatever a listing asks for. */
   onsiteMaxPercent: 30,
   /** Arbeitnehmerüberlassung — asked for often enough to answer up front. */
